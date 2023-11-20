@@ -13,7 +13,7 @@ function App() {
         </p>
 
         <div className="body">
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
+          <button type="button" onClick={() => setCount((prev) => prev + 1)}>
             🪂 Click me : {count}
           </button>
 

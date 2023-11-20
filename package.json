@@ -29,5 +29,12 @@
     "prettier": "3.1.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": "eslint --cache --fix",
+    "src/*.{js,jsx,ts,tsx}": "eslint --cache --fix",
+    "src/**/*.{js,jsx,ts,tsx,css,scss,md}": "prettier --write --ignore-unknown",
+    "src/*.{js,jsx,ts,tsx,css,scss,md}": "prettier --write --ignore-unknown"
+    
   }
 }
