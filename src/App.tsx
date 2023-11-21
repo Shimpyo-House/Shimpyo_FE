@@ -4,9 +4,24 @@ import React, { useState, useEffect } from 'react';
 function App() {
   const [count, setCount] = useState(0);
 
+  // useEffect(() => {
+  //   const fetchData = async ({ name, email, password, passwordConfirm }) => {
+  //     const data = await axiosWithNoToken.post('/api/signup', {
+  //       name,
+  //       email,
+  //       password,
+  //       passwordConfirm,
+  //     });
+  //     data.json().then((jsonData) => {
+  //       console.log(jsonData);
+  //     });
+  //   };
+  //   fetchData();
+  // }, []);
+
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetch('/people');
+      const data = await fetch('/api/products');
       data.json().then((jsonData) => {
         console.log(jsonData);
       });
