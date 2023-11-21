@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
-import './index.css';
+import './style/global.css';
 import worker from './mocks/browser';
+import Router from './Router';
 
 if (process.env.NODE_ENV === 'development') {
   worker.start();
@@ -10,6 +10,6 @@ if (process.env.NODE_ENV === 'development') {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <Router />
   </React.StrictMode>,
 );

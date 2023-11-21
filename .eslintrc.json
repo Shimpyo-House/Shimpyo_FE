@@ -11,7 +11,10 @@
   },
   "plugins": ["react"],
   "rules": {
-    "no-console": "off",
-    "@typescript-eslint/no-var-requires": "off"
+    "no-console": "off" /* console.log 에러 off*/,
+    "@typescript-eslint/no-var-requires": "off",
+    "react/function-component-definition": "off",
+    "arrow-body-style": "off",
+    "react/no-unknown-property": ["error", { "ignore": ["css"] }]
   }
 }
