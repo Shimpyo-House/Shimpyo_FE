@@ -29,6 +29,12 @@ type RequestOrders = {
   totalAmount: number;
 };
 
+type RequestProductDetail = {
+  productId: number;
+  startDate: string;
+  endDate: string;
+};
+
 function App() {
   const [count, setCount] = useState(0);
 
@@ -93,6 +99,26 @@ function App() {
       console.log('orders', data);
     };
 
+    const fetchDataOrdersMemberId = async ({
+      memberId,
+    }: {
+      memberId: number;
+    }) => {
+      const data = await axiosWithAccessToken.get(`/api/orders/${memberId}`);
+      console.log('OrdersMemberId', data);
+    };
+
+    const fetchDataProductDetail = async ({
+      productId,
+      startDate,
+      endDate,
+    }: RequestProductDetail) => {
+      const data = await axiosWithAccessToken.get(
+        `/api/products/${productId}?startDate='${startDate}'?endDate='${endDate}'`,
+      );
+      console.log('ProductDetail', data);
+    };
+
     fetchDataSignup({
       name: '최우혁',
       email: 'abc@gmail.com',
@@ -117,6 +143,13 @@ function App() {
       checkOutTime: '2023-11-22 12:00:00',
       payMethod: 'KAKAO_PAY',
       totalAmount: 95000,
+    });
+    fetchDataOrdersMemberId({ memberId: 12 });
+    // 날짜 타입이 명확하지 않아 일단 string 타입으로 넣어놨습니다 추후 백엔드분과 얘기가 필요해 보입니다
+    fetchDataProductDetail({
+      productId: 123,
+      startDate: '2023-11-20',
+      endDate: '2023-11-23',
     });
   }, []);
 
