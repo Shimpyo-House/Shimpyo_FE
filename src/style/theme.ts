@@ -1,9 +1,5 @@
 const theme = {
   colors: {
-    bg1: '#43618F',
-    bg2: '#3F445C',
-    bg3: '#2A2F4A',
-
     blueBg3: '#2A2F4A',
     blueBg2: '#3F445C',
     blueBg1: '#43618F',
@@ -28,7 +24,6 @@ const theme = {
     gray100: '#F9F9FA',
 
     white: '#FFFFFF',
-    navy: '#161C3A',
     error: '#EE5151',
     success: '#0CBC72',
   },
