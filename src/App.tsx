@@ -1,32 +1,39 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
+import { axiosWithNoToken } from './Axios';
+
+type RequestSignup = {
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+};
 
 function App() {
   const [count, setCount] = useState(0);
 
-  // useEffect(() => {
-  //   const fetchData = async ({ name, email, password, passwordConfirm }) => {
-  //     const data = await axiosWithNoToken.post('/api/signup', {
-  //       name,
-  //       email,
-  //       password,
-  //       passwordConfirm,
-  //     });
-  //     data.json().then((jsonData) => {
-  //       console.log(jsonData);
-  //     });
-  //   };
-  //   fetchData();
-  // }, []);
-
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetch('/api/products');
-      data.json().then((jsonData) => {
-        console.log(jsonData);
+    const fetchDataSignup = async ({
+      name,
+      email,
+      password,
+      passwordConfirm,
+    }: RequestSignup) => {
+      const data = await axiosWithNoToken.post('/api/signup', {
+        name,
+        email,
+        password,
+        passwordConfirm,
       });
+      console.log(data);
     };
-    fetchData();
+
+    fetchDataSignup({
+      name: '최우혁',
+      email: 'abc@gmail.com',
+      password: 'abcabcabc',
+      passwordConfirm: 'abcabcabc',
+    });
   }, []);
 
   return (

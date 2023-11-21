@@ -8,14 +8,26 @@ async function sleep(timeout: number) {
 }
 
 const handlers = [
-  rest.get('/people', async (_, res, ctx) => {
+  rest.get('/api/people', async (_, res, ctx) => {
     await sleep(200);
 
     return res(ctx.status(200), ctx.json('its okay'));
   }),
   rest.post('/api/signup', async (_, res, ctx) => {
     await sleep(500);
-    return res(ctx.status(201), ctx.json({ data: {} }));
+    return res(
+      ctx.status(201),
+      ctx.json({
+        code: 201,
+        message: '성공적으로 회원가입을 완료했습니다.',
+        data: {
+          email: 'abc@gmail.com',
+          name: '최우혁',
+          photoURL:
+            'https://firebasestorage.googleapis.com/v0/b/employee-management-c0a21.appspot.com/o/bigimage%2F%EA%B0%80%EB%A0%8C.jpg?alt=media&token=f5dd05f5-1036-44d3-9787-6abe2a42cc90',
+        },
+      }),
+    );
   }),
   rest.get('api/products', async (_, res, ctx) => {
     await sleep(500);
