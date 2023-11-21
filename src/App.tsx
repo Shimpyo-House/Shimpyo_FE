@@ -1,8 +1,18 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function App() {
   const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetch('/people');
+      data.json().then((jsonData) => {
+        console.log(jsonData);
+      });
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="App">
