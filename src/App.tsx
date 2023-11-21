@@ -21,7 +21,7 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetch('/api/products');
+      const data = await fetch('/api/orders/:memberId');
       data.json().then((jsonData) => {
         console.log(jsonData);
       });
