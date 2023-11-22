@@ -27,14 +27,21 @@ export default function NormalCategory() {
 }
 
 const PageBox = css`
+  width: 100%;
+
   display: flex;
   flex-direction: column;
+  align-items: center;
+
+  padding: 3.125rem 0;
   gap: 3.125rem;
 `;
 const CategoryBox = css`
   width: 68.75rem;
+
   display: flex;
   flex-direction: column;
+
   gap: 0.9375rem;
 `;
 const CategoryName = css`
