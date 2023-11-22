@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { css } from '@emotion/react';
 import React from 'react';
+import Calendar from './Calendar';
 
-import theme from '../../../style/theme';
+// import theme from '../../../style/theme';
 
 export default function ProductsDetail() {
   return (
@@ -18,6 +20,9 @@ export default function ProductsDetail() {
           <div css={ProductsLocation}>부산광역시 해운대구 마린시티1로 51</div>
         </div>
       </div>
+      <div css={DayCalendar}>
+        <Calendar />
+      </div>
     </div>
   );
 }
@@ -31,12 +36,12 @@ const ProductDetailContainer = css`
 
 const ProductDetailImgBox = css`
   width: 100%;
-  max-width: 1000px;
+  //   max-width: 1000px;
 `;
 
 const ProductDetailBox = css`
   width: 100%;
-  max-width: 1000px;
+  //   max-width: 1000px;
   display: flex;
   gap: 20px;
   margin-top: 3rem;
@@ -44,7 +49,7 @@ const ProductDetailBox = css`
 
 const ProductDetailImg = css`
   width: 800;
-  height: 400px;
+  height: 500px;
 
   background-image: url('/public/img1.jpeg');
   background-size: cover;
@@ -93,6 +98,16 @@ const ProductsLocation = css`
 
   font-size: 16px;
   font-weight: 700;
+
+  margin-top: 2rem;
+`;
+
+const DayCalendar = css`
+  width: 100%;
+  //   max-width: 1000px;
+
+  display: flex;
+  justify-content: flex-start;
 
   margin-top: 2rem;
 `;
