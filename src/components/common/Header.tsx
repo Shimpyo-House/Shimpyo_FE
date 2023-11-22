@@ -9,15 +9,17 @@ import rabbit from '../../../public/rabbit.jpg';
 const Header = () => {
   return (
     <nav css={Container}>
-      <h1 css={LogoText}>Shimpyo ,</h1>
-      <div css={IconContainer}>
-        <div css={CartContainer}>
-          <AiOutlineShoppingCart css={CartIcon} />
-          <span css={CartCount}>0</span>
-        </div>
-        <div css={MenuContainer}>
-          <MdMenu css={MenuIcon} />
-          <img src={rabbit} alt="사용자 프로필" css={Profile} />
+      <div css={InnerContainer}>
+        <h1 css={LogoText}>Shimpyo ,</h1>
+        <div css={IconContainer}>
+          <div css={CartContainer}>
+            <AiOutlineShoppingCart css={CartIcon} />
+            <span css={CartCount}>0</span>
+          </div>
+          <div css={MenuContainer}>
+            <MdMenu css={MenuIcon} />
+            <img src={rabbit} alt="사용자 프로필" css={Profile} />
+          </div>
         </div>
       </div>
     </nav>
@@ -27,13 +29,27 @@ const Header = () => {
 export default Header;
 
 const Container = css`
+  display: block;
+  position: fixed;
+
+  width: 100%;
+
+  border-bottom: 1px solid ${theme.colors.gray400};
+`;
+
+const InnerContainer = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  padding: 0.5rem 1rem;
+  height: 75px;
+  width: 100%;
 
-  border-bottom: 1px solid ${theme.colors.gray400};
+  margin: 0 auto;
+
+  max-width: 1280px;
+
+  padding: 0.5rem 1rem;
 `;
 
 const LogoText = css`
