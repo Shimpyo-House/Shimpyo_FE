@@ -6,6 +6,7 @@ import HotList from './HotList';
 export default function NormalCategory() {
   const abc = 1234;
   const abcd = 1234;
+  const abcde = 1234;
   return (
     <div css={PageBox}>
       <div css={CategoryBox}>
