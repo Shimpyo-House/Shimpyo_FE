@@ -6,7 +6,7 @@ type PropsType = {
   resData: ResponseProductsData;
 };
 
-export default function NormalProduct({ resData }: PropsType) {
+const ColumnProduct = ({ resData }: PropsType) => {
   return (
     <div css={ProductBox}>
       <div css={ProductImg} />
@@ -17,7 +17,9 @@ export default function NormalProduct({ resData }: PropsType) {
       </div>
     </div>
   );
-}
+};
+
+export default ColumnProduct;
 
 const ProductBox = css`
   width: 20.625rem;
@@ -42,10 +44,10 @@ const ProductImg = css`
 
   background-color: ${theme.colors.gray700};
 
-  border-radius: 10px;
+  border-radius: 5px;
 `;
 
-export const ProductName = css`
+const ProductName = css`
   width: 100%;
 
   display: flex;
@@ -54,7 +56,7 @@ export const ProductName = css`
   font-size: 1.25rem;
   font-weight: 600;
 `;
-export const ProductScore = css`
+const ProductScore = css`
   width: 100%;
 
   display: flex;
@@ -62,7 +64,7 @@ export const ProductScore = css`
 
   font-size: 0.875rem;
 `;
-export const ProductPrice = css`
+const ProductPrice = css`
   width: 100%;
 
   display: flex;
