@@ -1,10 +1,10 @@
-import React from 'react';
 import { css } from '@emotion/react';
 import NormalList from './NormalList';
 import theme from '../../../style/theme';
 import HotList from './HotList';
 
 export default function NormalCategory() {
+  const abc = 1234;
   return (
     <div css={PageBox}>
       <div css={CategoryBox}>
@@ -13,14 +13,14 @@ export default function NormalCategory() {
         <HotList />
       </div>
       <div css={CategoryBox}>
-        <div css={CategoryName}>호텔, 모텔</div>
+        <div css={CategoryName}>펜션, 풀빌라</div>
         <div css={CategoryDesc}>지금 떠나는 도심 호캉스 !</div>
-        <NormalList />
+        <NormalList category="펜션" />
       </div>
       <div css={CategoryBox}>
         <div css={CategoryName}>호텔, 모텔</div>
         <div css={CategoryDesc}>지금 떠나는 도심 호캉스 !</div>
-        <NormalList />
+        <NormalList category="호텔" />
       </div>
     </div>
   );
