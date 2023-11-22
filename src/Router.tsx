@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
 import Signup from './pages/Signup';
 import Signin from './pages/Signin';
+import Cart from './pages/Cart';
 
 const Router = () => {
   return (
@@ -13,6 +14,7 @@ const Router = () => {
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
             <Route path="product/:id" element={<ProductDetail />} />
+            <Route path="/carts" element={<Cart />} />
           </Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
