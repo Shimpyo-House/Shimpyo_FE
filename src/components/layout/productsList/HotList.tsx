@@ -15,7 +15,9 @@ export default function HotList() {
   return (
     <div css={ProductsBox}>
       {productData &&
-        productData.map((e) => <HotProduct resData={e} key={e.productId} />)}
+        productData.map((e, i) => (
+          <HotProduct resData={e} rank={i + 1} key={e.productId} />
+        ))}
       <div css={CenterLine} />
     </div>
   );

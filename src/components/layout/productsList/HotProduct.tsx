@@ -5,12 +5,15 @@ import { ResponseProductsData } from '../../../types';
 
 type PropsType = {
   resData: ResponseProductsData;
+  rank: number;
 };
 
-export default function HotProduct({ resData }: PropsType) {
+export default function HotProduct({ resData, rank }: PropsType) {
   return (
     <div css={ProductBox}>
-      <div css={ProductImg} />
+      <div css={ProductImg}>
+        <p css={ProductRank}>{rank}</p>
+      </div>
       <div css={ProductData}>
         <div css={NameScoreBox}>
           <div css={ProductName}>{resData.productName}</div>
@@ -41,9 +44,31 @@ const ProductImg = css`
   width: 9.0625rem;
   height: 9.0625rem;
 
+  position: relative;
+
   background-color: ${theme.colors.gray700};
 
   border-radius: 10px;
+`;
+
+const ProductRank = css`
+  width: 2.25rem;
+  height: 2.25rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.6);
+
+  border-radius: 5px 0 5px 0;
+
+  font-size: 16px;
 `;
 
 const ProductData = css`
