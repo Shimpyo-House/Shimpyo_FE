@@ -1,4 +1,6 @@
-const theme = {
+import { createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
   colors: {
     blueBg3: '#2A2F4A',
     blueBg2: '#3F445C',
@@ -46,6 +48,6 @@ const theme = {
     alpha5: 'rgba(0, 0, 0, 0.05)',
     alpha6: 'rgba(0, 0, 0, 0.1)',
   },
-};
+} as any);
 
 export default theme;

@@ -32,7 +32,6 @@ const Container = css`
   align-items: center;
 
   padding: 0.5rem 1rem;
-
   border-bottom: 1px solid ${theme.colors.gray400};
 `;
 
