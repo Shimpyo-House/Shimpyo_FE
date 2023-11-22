@@ -19,24 +19,23 @@ export default function HotProduct() {
 }
 
 const ProductBox = css`
-  width: 485px;
-  height: 185px;
+  width: 30.3125rem;
+  height: 11.5625rem;
 
   display: flex;
-  gap: 20px;
+  gap: 1.25rem;
 
-  padding: 20px 20px;
+  padding: 1.25rem 1.25rem;
 
   border: 1px solid ${theme.colors.gray300};
   border-radius: 10px;
 
-  box-sizing: border-box;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
 const ProductImg = css`
-  width: 145px;
-  height: 145px;
+  width: 9.0625rem;
+  height: 9.0625rem;
 
   background-color: ${theme.colors.gray700};
 
@@ -58,5 +57,5 @@ const NameScoreBox = css`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 10px;
+  gap: 0.625rem;
 `;

@@ -29,20 +29,20 @@ export default function NormalCategory() {
 const PageBox = css`
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 3.125rem;
 `;
 const CategoryBox = css`
-  width: 1100px;
+  width: 68.75rem;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 0.9375rem;
 `;
 const CategoryName = css`
-  font-size: 30px;
+  font-size: 1.875rem;
   font-weight: 700;
 `;
 const CategoryDesc = css`
   color: ${theme.colors.gray700};
 
-  font-size: 16px;
+  font-size: 1rem;
 `;
