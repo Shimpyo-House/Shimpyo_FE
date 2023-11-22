@@ -24,7 +24,7 @@ const theme = {
     gray100: '#F9F9FA',
 
     white: '#FFFFFF',
-    error: '#EE5151',
+    error: '#DE2222',
     success: '#0CBC72',
   },
   shadows: {
