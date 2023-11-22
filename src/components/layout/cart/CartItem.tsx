@@ -4,7 +4,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { RiDeleteBin6Line } from 'react-icons/ri';
-import { Label, CheckBox } from '../../../pages/Cart';
+import { CheckBox } from '../../../pages/Cart';
 import theme from '../../../style/theme';
 import cartimg from './cartimg.png';
 
@@ -84,6 +84,10 @@ const Container = css`
   height: 15rem;
 
   margin: 3rem 0;
+`;
+
+const Label = css`
+  margin: 0 1rem;
 `;
 
 const CartImg = css`
