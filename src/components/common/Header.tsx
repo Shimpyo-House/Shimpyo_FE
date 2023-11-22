@@ -8,8 +8,8 @@ import rabbit from '../../../public/rabbit.jpg';
 
 const Header = () => {
   return (
-    <nav css={Container}>
-      <div css={InnerContainer}>
+    <div css={Container}>
+      <nav css={InnerContainer}>
         <h1 css={LogoText}>Shimpyo ,</h1>
         <div css={IconContainer}>
           <div css={CartContainer}>
@@ -21,8 +21,8 @@ const Header = () => {
             <img src={rabbit} alt="사용자 프로필" css={Profile} />
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 };
 
@@ -31,8 +31,10 @@ export default Header;
 const Container = css`
   display: block;
   position: fixed;
+  top: 0;
 
   width: 100%;
+  height: 4.375rem;
 
   border-bottom: 1px solid ${theme.colors.gray400};
 `;
@@ -42,8 +44,8 @@ const InnerContainer = css`
   justify-content: space-between;
   align-items: center;
 
-  height: 75px;
   width: 100%;
+  height: 4.375rem;
 
   margin: 0 auto;
 
