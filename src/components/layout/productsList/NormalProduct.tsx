@@ -16,26 +16,25 @@ export default function NormalProduct() {
 }
 
 const ProductBox = css`
-  width: 330px;
-  height: 340px;
+  width: 20.625rem;
+  height: 21.25rem;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
 
-  padding: 25px 20px;
+  padding: 1.5625rem 1.25rem;
 
   border: 1px solid ${theme.colors.gray300};
   border-radius: 10px;
 
-  box-sizing: border-box;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
 const ProductImg = css`
   width: 100%;
-  height: 180px;
+  height: 11.25rem;
 
   background-color: ${theme.colors.gray700};
 
@@ -48,7 +47,7 @@ export const ProductName = css`
   display: flex;
   justify-content: flex-start;
 
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 600;
 `;
 export const ProductScore = css`
@@ -57,7 +56,7 @@ export const ProductScore = css`
   display: flex;
   justify-content: flex-start;
 
-  font-size: 14px;
+  font-size: 0.875rem;
 `;
 export const ProductPrice = css`
   width: 100%;
@@ -65,6 +64,6 @@ export const ProductPrice = css`
   display: flex;
   justify-content: flex-end;
 
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
 `;

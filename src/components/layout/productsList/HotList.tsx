@@ -17,7 +17,7 @@ export default function HotList() {
 
 const ProductsBox = css`
   width: 100%;
-  height: 410px;
+  height: 25.625rem;
 
   position: relative;
 
