@@ -21,7 +21,7 @@ const Cart = () => {
 
 export default Cart;
 
-export const Label = css`
+const Label = css`
   display: flex;
   align-items: center;
   gap: 0.8rem;
