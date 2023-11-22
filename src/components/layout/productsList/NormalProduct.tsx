@@ -1,15 +1,19 @@
-import React from 'react';
 import { css } from '@emotion/react';
 import theme from '../../../style/theme';
+import { ResponseProductsData } from '../../../types';
 
-export default function NormalProduct() {
+type PropsType = {
+  resData: ResponseProductsData;
+};
+
+export default function NormalProduct({ resData }: PropsType) {
   return (
     <div css={ProductBox}>
       <div css={ProductImg} />
-      <div css={ProductName}>파크하얏트 부산</div>
-      <div css={ProductScore}>⭐ 4.7</div>
+      <div css={ProductName}>{resData.productName}</div>
+      <div css={ProductScore}>⭐ {resData.starAvg}</div>
       <div css={ProductPrice}>
-        <span>80,000원 ~</span>
+        <span>{resData.price.toLocaleString()}원 ~</span>
       </div>
     </div>
   );
