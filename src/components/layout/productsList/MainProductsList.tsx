@@ -1,19 +1,20 @@
+/* eslint-disable react/jsx-boolean-value */
 import { css } from '@emotion/react';
-import NormalList from './NormalList';
+import NormalList from './RowList';
 import theme from '../../../style/theme';
-import HotList from './HotList';
+import ColumnList from './ColumnList';
 
-export default function NormalCategory() {
+const NormalCategory = () => {
   return (
     <div css={PageBox}>
       <div css={CategoryBox}>
         <div css={CategoryName}>인기 상품</div>
         <div css={CategoryDesc}>가장 잘 나가는 숙소 추천</div>
-        <HotList />
+        <ColumnList category="인기상품" main={true} />
       </div>
       <div css={CategoryBox}>
         <div css={CategoryName}>펜션, 풀빌라</div>
-        <div css={CategoryDesc}>지금 떠나는 도심 호캉스 !</div>
+        <div css={CategoryDesc}>크리스마스 펜션 예약하기</div>
         <NormalList category="펜션" />
       </div>
       <div css={CategoryBox}>
@@ -23,7 +24,9 @@ export default function NormalCategory() {
       </div>
     </div>
   );
-}
+};
+
+export default NormalCategory;
 
 const PageBox = css`
   width: 100%;
