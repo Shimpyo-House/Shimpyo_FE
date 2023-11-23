@@ -10,7 +10,9 @@ type PropsType = {
 const RowProduct = ({ resData, rank }: PropsType) => {
   return (
     <div css={ProductBox}>
-      <div css={ProductImg}>{rank && <p css={ProductRank}>{rank}</p>}</div>
+      <div css={ProductImg}>
+        {rank && rank < 11 && <p css={ProductRank}>{rank}</p>}
+      </div>
       <div css={ProductData}>
         <div css={NameScoreBox}>
           <div css={ProductName}>{resData.productName}</div>
