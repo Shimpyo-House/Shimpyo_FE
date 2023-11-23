@@ -60,7 +60,7 @@ const CheckBooking = () => {
 
 const LoggedIn = css`
   width: 100%;
-  padding: 1.25rem;
+  padding: 2rem;
 
   margin-top: 1rem;
 
@@ -89,7 +89,7 @@ const LoggedInDes = css`
 `;
 
 const Booking = css`
-  padding: 1.25rem;
+  padding: 2rem;
   margin-top: 1rem;
 
   box-shadow: 1px 1px 4px 0px #cacaca;
