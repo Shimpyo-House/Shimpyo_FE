@@ -64,7 +64,7 @@ const handlers = [
     );
   }),
   // 리프레시
-  rest.post('/api/refresh', async (_, res, ctx) => {
+  rest.post('/api/auth/refresh', async (_, res, ctx) => {
     await sleep(500);
     return res(
       ctx.status(200),
@@ -92,7 +92,7 @@ const handlers = [
     );
   }),
   // 회원 정보 수정
-  rest.patch('/api/members', async (_, res, ctx) => {
+  rest.patch('/api/auth/members', async (_, res, ctx) => {
     await sleep(500);
     return res(
       ctx.status(200),

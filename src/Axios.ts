@@ -25,12 +25,13 @@ export const axiosWithNoToken = axios.create({
 
 axiosWithAccessToken.interceptors.request.use(
   (config) => {
-    console.log(config);
+    console.log('변경 이전 config', config);
     const accessToken = getCookie('accessToken');
     if (!accessToken) window.location.href = '/signin';
 
     /* eslint-disable no-param-reassign */
     config.headers.Authorization = `Bearer ${accessToken}`;
+    console.log('변경 이후 config', config);
     return config;
   },
   (error) => {
@@ -40,7 +41,7 @@ axiosWithAccessToken.interceptors.request.use(
 
 axiosWithAccessToken.interceptors.response.use(
   (response) => {
-    console.log(response);
+    console.log('response', response);
     return response;
   },
   async (error) => {
@@ -57,6 +58,7 @@ axiosWithAccessToken.interceptors.response.use(
         prevRefreshToken
       ) {
         await tokenRefresh({ prevAccessToken, prevRefreshToken });
+        console.log('refresh');
         /* eslint-disable no-alert */
         alert('here!');
       } else {
