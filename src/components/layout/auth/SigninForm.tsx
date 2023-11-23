@@ -49,6 +49,11 @@ const LinkStyle = css`
   color: ${theme.colors.blue600};
 `;
 
+export const ErrorStyle = css`
+  padding: 10px 0;
+  color: ${theme.colors.error};
+`;
+
 const SigninForm = () => {
   const {
     register,
