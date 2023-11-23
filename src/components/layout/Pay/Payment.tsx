@@ -117,7 +117,16 @@ const Payment = () => {
         결제하기를 클릭해주세요.
       </div>
 
-      <button css={PaymentButton}>300,000원 결제하기</button>
+      <button
+        css={PaymentButton}
+        style={{
+          backgroundColor: allAgree ? '#3a7bdf' : 'gray',
+          cursor: allAgree ? 'pointer' : 'not-allowed',
+        }}
+        disabled={!allAgree}
+      >
+        300,000원 결제하기
+      </button>
     </div>
   );
 };
