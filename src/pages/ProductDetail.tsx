@@ -4,6 +4,7 @@ import theme from '../style/theme';
 
 import ProductsDetail from '../components/layout/productsDetail/ProductsDetail';
 import Calendar from '../components/layout/productsDetail/Calendar';
+import ProductsRoom from '../components/layout/productsDetail/ProductsRoom';
 
 const ProductDetail = () => {
   return (
@@ -11,6 +12,7 @@ const ProductDetail = () => {
       <>
         <ProductsDetail />
         <Calendar />
+        <ProductsRoom roomData={undefined} />
       </>
     </ThemeProvider>
   );

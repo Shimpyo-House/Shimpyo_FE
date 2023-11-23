@@ -1,7 +1,11 @@
-import React from 'react';
+import NormalCategory from '../components/layout/productsList/NormalCatergory';
 
 const Home = () => {
-  // return <div></div>;
+  return (
+    <div>
+      <NormalCategory />
+    </div>
+  );
 };
 
 export default Home;
