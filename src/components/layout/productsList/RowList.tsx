@@ -16,7 +16,9 @@ const RowList = ({ category }: PropsType) => {
   return (
     <div css={ProdutsBox}>
       {productData &&
-        productData.map((e) => <ColumnProduct resData={e} key={e.productId} />)}
+        productData
+          .slice(0, 3)
+          .map((e) => <ColumnProduct resData={e} key={e.productId} />)}
     </div>
   );
 };
