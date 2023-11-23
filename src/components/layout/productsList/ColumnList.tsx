@@ -28,13 +28,13 @@ const ColumnList = ({ category, main }: PropsType) => {
           ))}
       {productData &&
         !main &&
-        category === '인기상품' &&
+        category === 'hot' &&
         productData.map((e, i) => (
           <RowProduct resData={e} rank={i + 1} key={e.productId} />
         ))}
       {productData &&
         !main &&
-        category !== '인기상품' &&
+        category !== 'hot' &&
         productData.map((e) => (
           <RowProduct resData={e} rank={null} key={e.productId} />
         ))}
