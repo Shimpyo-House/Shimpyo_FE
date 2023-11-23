@@ -3,6 +3,25 @@ import SigninForm from '../components/layout/auth/SigninForm';
 import AuthHeader from '../components/common/AuthHeader';
 import theme from '../style/theme';
 
+const Signin = () => {
+  return (
+    <>
+      <AuthHeader />
+      <div css={SigninContainer}>
+        <div css={SigninInnerContainer}>
+          <div css={LogoContainer}>
+            <h1 css={LogoText}>Shimpyo ,</h1>
+          </div>
+          <div css={FormContainer}>
+            <SigninForm />
+          </div>
+        </div>
+      </div>
+      <div css={BackgroundStyle} />
+    </>
+  );
+};
+
 export const SigninContainer = css`
   display: block;
 
@@ -69,24 +88,5 @@ export const BackgroundStyle = css`
   background-color: ${theme.colors.blue100};
   z-index: -50;
 `;
-
-const Signin = () => {
-  return (
-    <>
-      <AuthHeader />
-      <div css={SigninContainer}>
-        <div css={SigninInnerContainer}>
-          <div css={LogoContainer}>
-            <h1 css={LogoText}>Shimpyo ,</h1>
-          </div>
-          <div css={FormContainer}>
-            <SigninForm />
-          </div>
-        </div>
-      </div>
-      <div css={BackgroundStyle} />
-    </>
-  );
-};
 
 export default Signin;

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import SignupForm from '../components/layout/auth/SignupForm';
 import AuthHeader from '../components/common/AuthHeader';
 import {
@@ -8,8 +9,30 @@ import {
   SigninContainer,
   SigninInnerContainer,
 } from './Signin';
+import { RequestMembers } from '../types';
+import { axiosWithAccessToken } from '../Axios';
 
 const Signup = () => {
+  // useEffect(() => {
+  //   const fetchDataMembers = async ({
+  //     password,
+  //     passwordConfirm,
+  //     photoUrl,
+  //   }: RequestMembers) => {
+  //     const data = await axiosWithAccessToken.patch('/api/auth/members', {
+  //       password,
+  //       passwordConfirm,
+  //       photoUrl,
+  //     });
+  //     console.log('members', data);
+  //   };
+
+  //   fetchDataMembers({
+  //     photoUrl: '',
+  //     password: 'abcabcabc',
+  //     passwordConfirm: 'abcabcabc',
+  //   });
+  // }, []);
   return (
     <>
       <AuthHeader />
