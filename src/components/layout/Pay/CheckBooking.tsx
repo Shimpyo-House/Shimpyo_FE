@@ -97,14 +97,14 @@ const Booking = css`
   transition: height 0.5s ease;
 
   h1 {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: 900;
   }
 `;
 
 const Toggle = css`
-  padding: 0.6rem 1rem;
-  margin-top: 0.8rem;
+  padding: 0.7rem 1rem;
+  margin-top: 1rem;
 
   width: 100%;
 

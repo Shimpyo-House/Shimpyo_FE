@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { MdMenu } from 'react-icons/md';
 import theme from '../../style/theme';
-import rabbit from '../../../public/rabbit.jpg';
+import rabbit from '/rabbit.jpg';
 
 const Header = () => {
   return (
