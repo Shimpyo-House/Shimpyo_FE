@@ -7,12 +7,14 @@ import { axiosWithNoToken } from '../../../Axios';
 import { RequestSignup } from '../../../types';
 import {
   ButtonContainer,
+  ErrorContainer,
   ErrorStyle,
   FormContainer,
   FormInnerContainer,
   FormStyle,
   InputWithLabelContainer,
 } from './SigninForm';
+import { escapeRegExp } from './auth.utils';
 
 type IFormInput = {
   email: string;
@@ -162,11 +164,6 @@ const SignupForm = () => {
   );
 };
 
-const escapeRegExp = (string: string) => {
-  if (!string) return undefined;
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-};
-
 const SignupFormStyle = css`
   ${FormStyle};
   gap: 1rem;
@@ -175,10 +172,6 @@ const SignupFormStyle = css`
 const SignupFormContainer = css`
   ${FormContainer};
   margin: 0 2rem;
-`;
-
-const ErrorContainer = css`
-  height: 30px;
 `;
 
 export default SignupForm;

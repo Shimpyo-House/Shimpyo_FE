@@ -44,12 +44,21 @@ const handlers = [
         code: 200,
         message: '성공적으로 로그인 했습니다.',
         data: {
-          accessToken: import.meta.env.VITE_ACCESS_TOKEN,
-          refreshToken: import.meta.env.VITE_ACCESS_TOKEN,
-          email: 'abc@gmail.com',
-          name: '최우혁',
-          photoUrl:
-            'https://firebasestorage.googleapis.com/v0/b/employee-management-c0a21.appspot.com/o/bigimage%2F%EA%B0%80%EB%A0%8C.jpg?alt=media&token=f5dd05f5-1036-44d3-9787-6abe2a42cc90',
+          member: {
+            memberId: 1,
+            email: 'test@mail.com',
+            name: 'test',
+            photoUrl:
+              'https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI',
+          },
+          token: {
+            grantType: 'Bearer',
+            accessToken:
+              'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTcwMDU4NjkyOH0.lof7WjalCH1gGPy2q7YYi9VTcgn_aoFMwEMQvITtddsUIcJN-YzNODt_RQde5J5dH98NKMXDOvy7YwNlt6BCfg',
+            accessTokenExpiresIn: 1700586928520,
+            refreshToken:
+              'eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE3MDExODk5Mjh9.uZuIAxsnf4Ubz5K9YzysJTu9Gh25XNTsPVAPSElw1lS78gS8S08L97Z4RkfGodegGXZ9UFFNkVXdhRzF9Pr-uA',
+          },
         },
       }),
     );
@@ -61,14 +70,23 @@ const handlers = [
       ctx.status(200),
       ctx.json({
         code: 200,
-        message: '성공적으로 토큰을 발급했습니다.',
+        message: '성공적으로 토큰을 재발급 했습니다.',
         data: {
-          accessToken: import.meta.env.VITE_ACCESS_TOKEN,
-          refreshToken: import.meta.env.VITE_ACCESS_TOKEN,
-          email: 'abc@gmail.com',
-          name: '최우혁',
-          photoUrl:
-            'https://firebasestorage.googleapis.com/v0/b/employee-management-c0a21.appspot.com/o/bigimage%2F%EA%B0%80%EB%A0%8C.jpg?alt=media&token=f5dd05f5-1036-44d3-9787-6abe2a42cc90',
+          member: {
+            memberId: 1,
+            email: 'test@mail.com',
+            name: 'test',
+            photoUrl:
+              'https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI',
+          },
+          token: {
+            grantType: 'Bearer',
+            accessToken:
+              'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTcwMDU4NjkyOH0.lof7WjalCH1gGPy2q7YYi9VTcgn_aoFMwEMQvITtddsUIcJN-YzNODt_RQde5J5dH98NKMXDOvy7YwNlt6BCfg',
+            accessTokenExpiresIn: 1700586928520,
+            refreshToken:
+              'eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE3MDExODk5Mjh9.uZuIAxsnf4Ubz5K9YzysJTu9Gh25XNTsPVAPSElw1lS78gS8S08L97Z4RkfGodegGXZ9UFFNkVXdhRzF9Pr-uA',
+          },
         },
       }),
     );
