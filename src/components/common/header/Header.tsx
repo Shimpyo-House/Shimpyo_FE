@@ -1,6 +1,8 @@
 import { css } from '@emotion/react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+
+import rabbit from '/rabbit.jpg';
 import theme from '../../../style/theme';
 import MenuBtn from './MenuBtn';
 
