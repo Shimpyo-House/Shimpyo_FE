@@ -5,11 +5,8 @@ import ProductDetail from './pages/ProductDetail';
 import Signup from './pages/Signup';
 import Signin from './pages/Signin';
 import Cart from './pages/Cart';
-<<<<<<< HEAD
 import Pay from './pages/Pay';
-=======
 import CategoryProducts from './pages/CategoryProducts';
->>>>>>> shimpyo/main
 
 const Router = () => {
   return (

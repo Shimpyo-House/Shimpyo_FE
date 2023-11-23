@@ -70,7 +70,7 @@ const BookingUserInfo = css`
 
 const ReservationUser = css`
   width: 100%;
-  padding: 1.25rem;
+  padding: 2rem;
 
   margin-top: 1rem;
 
@@ -84,7 +84,7 @@ const ReservationUser = css`
 
 const UsingUser = css`
   width: 100%;
-  padding: 1.25rem;
+  padding: 2rem;
 
   margin-top: 1rem;
 
