@@ -18,10 +18,6 @@ const Header = () => {
               <span css={CartCount}>0</span>
             </Link>
           </div>
-          {/* <div css={MenuContainer}>
-            <MdMenu css={MenuIcon} />
-            <img src={rabbit} alt="사용자 프로필" css={Profile} />
-          </div> */}
           <MenuBtn />
         </div>
       </nav>

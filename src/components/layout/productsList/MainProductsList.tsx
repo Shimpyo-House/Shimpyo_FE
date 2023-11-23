@@ -19,7 +19,7 @@ const NormalCategory = () => {
       </div>
       <div css={CategoryBox}>
         <div css={CategoryName}>
-          <Link to="/category?type=hot">펜션, 풀빌라</Link>
+          <Link to="/category?type=pension">펜션, 풀빌라</Link>
           <IoIosArrowForward className="arrowIcon" />
         </div>
         <div css={CategoryDesc}>크리스마스 펜션 예약하기</div>
@@ -27,7 +27,7 @@ const NormalCategory = () => {
       </div>
       <div css={CategoryBox}>
         <div css={CategoryName}>
-          <Link to="/category?type=hot">호텔, 모텔</Link>
+          <Link to="/category?type=hotel">호텔, 모텔</Link>
           <IoIosArrowForward className="arrowIcon" />
         </div>
         <div css={CategoryDesc}>지금 떠나는 도심 호캉스!</div>
