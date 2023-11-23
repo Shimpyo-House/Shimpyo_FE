@@ -1,15 +1,34 @@
 import { css } from '@emotion/react';
+import { useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import ColumnList from './ColumnList';
 
 const CategoryProductsList = () => {
+  const [searchPrams] = useSearchParams();
+  const [category, setCategory] = useState('');
+  useEffect(() => {
+    const isString = searchPrams.get('type');
+    if (isString) {
+      setCategory(isString);
+    }
+  }, []);
+
   return (
     <div css={PageBox}>
       <div css={ListBox}>
         <div css={CategoryNameBox}>
-          <div css={CategoryName}>인기 상품</div>
-          <div css={CategoryDesc}>가장 잘 나가는 숙소 추천</div>
+          <div css={CategoryName}>
+            {category === 'hot' && '인기 숙소'}
+            {category === 'pension' && '펜션, 풀빌라'}
+            {category === 'hotel' && '호텔, 모텔'}
+          </div>
+          <div css={CategoryDesc}>
+            {category === 'hot' && '가장 잘 나가는 숙소 추천'}
+            {category === 'pension' && '크리스마스 펜션 예약하기'}
+            {category === 'hotel' && '지금 떠나는 도심 호캉스!'}
+          </div>
         </div>
-        <ColumnList category="인기상품" main={false} />
+        {category !== '' && <ColumnList category={category} main={false} />}
       </div>
     </div>
   );
