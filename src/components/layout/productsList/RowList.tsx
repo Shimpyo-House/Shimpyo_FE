@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { css } from '@emotion/react';
+import { Link } from 'react-router-dom';
 import ColumnProduct from './ColumnProduct';
 import useFetchData from './useProductsData';
 import { ResponseProductsData } from '../../../types';
@@ -16,7 +17,12 @@ const RowList = ({ category }: PropsType) => {
   return (
     <div css={ProdutsBox}>
       {productData &&
-        productData.map((e) => <ColumnProduct resData={e} key={e.productId} />)}
+        productData.map((e) => (
+          <Link to={`/products/${e.productId}`} key={e.productId}>
+            {/* 각 상품을 클릭할 때 해당 상품의 ID를 URL에 전달 */}
+            <ColumnProduct resData={e} />
+          </Link>
+        ))}
     </div>
   );
 };
