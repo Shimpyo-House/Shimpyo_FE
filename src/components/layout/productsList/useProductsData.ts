@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Dispatch, useEffect } from 'react';
 import { ResponseProducts, ResponseProductsData } from '../../../types';
 
-const useFetchData = (
+const useProductsData = (
   category: string,
   set: Dispatch<React.SetStateAction<ResponseProductsData[] | null>>,
 ): void => {
@@ -20,4 +20,4 @@ const useFetchData = (
   }, []);
 };
 
-export default useFetchData;
+export default useProductsData;
