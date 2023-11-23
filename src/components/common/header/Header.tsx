@@ -1,9 +1,8 @@
 import { css } from '@emotion/react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
-import { MdMenu } from 'react-icons/md';
 import { Link } from 'react-router-dom';
-import theme from '../../style/theme';
-import rabbit from '../../../public/rabbit.jpg';
+import theme from '../../../style/theme';
+import MenuBtn from './MenuBtn';
 
 const Header = () => {
   return (
@@ -17,10 +16,11 @@ const Header = () => {
             <AiOutlineShoppingCart css={CartIcon} />
             <span css={CartCount}>0</span>
           </div>
-          <div css={MenuContainer}>
+          {/* <div css={MenuContainer}>
             <MdMenu css={MenuIcon} />
             <img src={rabbit} alt="사용자 프로필" css={Profile} />
-          </div>
+          </div> */}
+          <MenuBtn />
         </div>
       </nav>
     </div>
@@ -107,34 +107,4 @@ const CartCount = css`
   color: ${theme.colors.white};
   background-color: ${theme.colors.blue700};
   font-weight: 700;
-`;
-
-const MenuContainer = css`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-
-  padding: 0.2rem 1rem;
-
-  border-radius: 3rem;
-
-  background-color: ${theme.colors.gray200};
-`;
-
-const MenuIcon = css`
-  width: 1.8rem;
-  height: 1.8rem;
-
-  color: ${theme.colors.gray700};
-
-  cursor: pointer;
-`;
-
-const Profile = css`
-  width: 3rem;
-  height: 3rem;
-
-  border-radius: 50%;
-
-  cursor: pointer;
 `;
