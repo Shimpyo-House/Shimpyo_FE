@@ -15,11 +15,10 @@ const RowList = ({ category }: PropsType) => {
   );
   useFetchData(category, setProductData);
   return (
-    <div css={ProdutsBox}>
+    <div css={ProductsBox}>
       {productData &&
         productData.map((e) => (
           <Link to={`/products/${e.productId}`} key={e.productId}>
-            {/* 각 상품을 클릭할 때 해당 상품의 ID를 URL에 전달 */}
             <ColumnProduct resData={e} />
           </Link>
         ))}
@@ -29,7 +28,7 @@ const RowList = ({ category }: PropsType) => {
 
 export default RowList;
 
-const ProdutsBox = css`
+const ProductsBox = css`
   display: flex;
   justify-content: space-between;
 `;

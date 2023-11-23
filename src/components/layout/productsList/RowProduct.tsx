@@ -10,7 +10,9 @@ type PropsType = {
 const RowProduct = ({ resData, rank }: PropsType) => {
   return (
     <div css={ProductBox}>
-      <div css={ProductImg}>{rank && <p css={ProductRank}>{rank}</p>}</div>
+      <div css={ProductImg}>
+        {rank && rank < 11 && <p css={ProductRank}>{rank}</p>}
+      </div>
       <div css={ProductData}>
         <div css={NameScoreBox}>
           <div css={ProductName}>{resData.productName}</div>
@@ -37,6 +39,16 @@ const ProductBox = css`
   border-radius: 10px;
 
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  cursor: pointer;
+
+  transition: 0.2s all;
+  &:hover {
+    scale: 1.015;
+  }
+  &:active {
+    scale: 0.985;
+  }
 `;
 
 const ProductImg = css`
