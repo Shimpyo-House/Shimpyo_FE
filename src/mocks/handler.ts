@@ -84,45 +84,152 @@ const handlers = [
   // 상품 목록 조회
   rest.get('/api/products', async (_, res, ctx) => {
     await sleep(500);
+
+    const url = new URL(_.url);
+    const category = url.searchParams.get('category');
+
+    if (category === '펜션') {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          code: 200,
+          message: '상품 목록을 성공적으로 조회했습니다..',
+          data: [
+            {
+              productId: 1,
+              category: '펜션',
+              productName: '강원도 오션 펜션',
+              address: '강원도 ~~~ 3207-41',
+              favorites: true,
+              starAvg: 1.3,
+              image: '대표 이미지 url',
+              price: 10000,
+            },
+            {
+              productId: 2,
+              category: '펜션',
+              productName: '충남 오션 펜션',
+              address: '강원도 ~~~ 3207-41',
+              favorites: true,
+              starAvg: 1.3,
+              image: '대표 이미지 url',
+              price: 10000,
+            },
+            {
+              productId: 3,
+              category: '펜션',
+              productName: '서산 오션 펜션',
+              address: '강원도 ~~~ 3207-41',
+              favorites: true,
+              starAvg: 1.3,
+              image: '대표 이미지 url',
+              price: 10000,
+            },
+          ],
+        }),
+      );
+    }
+    if (category === '호텔') {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          code: 200,
+          message: '상품 목록을 성공적으로 조회했습니다..',
+          data: [
+            {
+              productId: 1,
+              category: '호텔',
+              productName: '강원도 오션 호텔',
+              address: '강원도 ~~~ 3207-41',
+              favorites: true,
+              starAvg: 1.3,
+              image: '대표 이미지 url',
+              price: 10000,
+            },
+            {
+              productId: 2,
+              category: '호텔',
+              productName: '충남 오션 호텔',
+              address: '강원도 ~~~ 3207-41',
+              favorites: true,
+              starAvg: 1.3,
+              image: '대표 이미지 url',
+              price: 10000,
+            },
+            {
+              productId: 3,
+              category: '호텔',
+              productName: '서산 오션 호텔',
+              address: '강원도 ~~~ 3207-41',
+              favorites: true,
+              starAvg: 1.3,
+              image: '대표 이미지 url',
+              price: 10000,
+            },
+          ],
+        }),
+      );
+    }
+    if (category === '인기상품') {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          code: 200,
+          message: '상품 목록을 성공적으로 조회했습니다..',
+          data: [
+            {
+              productId: 1,
+              category: '호텔',
+              productName: '강원도 마롱 호텔',
+              address: '강원도 ~~~ 3207-41',
+              favorites: true,
+              starAvg: 4.3,
+              image: '대표 이미지 url',
+              price: 10000,
+            },
+            {
+              productId: 2,
+              category: '호텔',
+              productName: '충남 마운틴 호텔',
+              address: '강원도 ~~~ 3207-41',
+              favorites: true,
+              starAvg: 1.3,
+              image: '대표 이미지 url',
+              price: 10000,
+            },
+            {
+              productId: 3,
+              category: '호텔',
+              productName: '서산 와우 호텔',
+              address: '강원도 ~~~ 3207-41',
+              favorites: true,
+              starAvg: 1.3,
+              image: '대표 이미지 url',
+              price: 10000,
+            },
+            {
+              productId: 3,
+              category: '호텔',
+              productName: '서산 오션 호텔',
+              address: '강원도 ~~~ 3207-41',
+              favorites: true,
+              starAvg: 1.3,
+              image: '대표 이미지 url',
+              price: 10000,
+            },
+          ],
+        }),
+      );
+    }
     return res(
-      ctx.status(200),
+      ctx.status(404),
       ctx.json({
-        code: 200,
-        message: '상품 목록을 성공적으로 조회했습니다..',
-        data: [
-          {
-            productId: 1,
-            category: '호텔',
-            productName: '강원도 오션 호텔',
-            address: '강원도 ~~~ 3207-41',
-            favorites: true,
-            starAvg: 1.3,
-            image: '대표 이미지 url',
-          },
-          {
-            productId: 2,
-            category: '호텔',
-            productName: '충남 오션 호텔',
-            address: '강원도 ~~~ 3207-41',
-            favorites: true,
-            starAvg: 1.3,
-            image: '대표 이미지 url',
-            price: 10043,
-          },
-          {
-            productId: 3,
-            category: '호텔',
-            productName: '서산 오션 호텔',
-            address: '강원도 ~~~ 3207-41',
-            favorites: true,
-            starAvg: 1.3,
-            image: '대표 이미지 url',
-            price: 10043,
-          },
-        ],
+        code: 404,
+        message: '해당 카테고리는 존재하지 않습니다.',
       }),
     );
   }),
+
   // 상품 상세 조회
   rest.get('/api/products/:productId', async (req, res, ctx) => {
     const { productId } = req.params;
