@@ -6,6 +6,7 @@ import { axiosWithNoToken } from '../../../Axios';
 import { RequestSignup } from '../../../types';
 import {
   ButtonContainer,
+  ErrorStyle,
   FormContainer,
   FormInnerContainer,
   FormStyle,
@@ -19,15 +20,11 @@ type IFormInput = {
   passwordConfirm: string;
 };
 
-const SignupFormContainer = css`
-  ${FormContainer};
-  margin: 0 2rem;
-`;
-
 const SignupForm = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<IFormInput>();
 
@@ -64,7 +61,7 @@ const SignupForm = () => {
   return (
     <div css={SignupFormContainer}>
       <div css={FormInnerContainer}>
-        <form css={FormStyle} onSubmit={handleSubmit(onSubmit)}>
+        <form css={SignupFormStyle} onSubmit={handleSubmit(onSubmit)}>
           <h1
             css={css`
               text-align: center;
@@ -83,9 +80,11 @@ const SignupForm = () => {
                 required: true,
               })}
             />
-            {errors?.email ? (
-              <p className="error">{errors.email?.message}</p>
-            ) : null}
+            <div css={ErrorContainer}>
+              {errors?.email ? (
+                <p css={ErrorStyle}>{errors.email?.message}</p>
+              ) : null}
+            </div>
           </div>
           <div css={InputWithLabelContainer}>
             <InputLabel>이름</InputLabel>
@@ -96,11 +95,17 @@ const SignupForm = () => {
               type="text"
               {...register('name', {
                 required: true,
+                pattern: {
+                  value: /^[A-Za-z가-힣]{2,30}$/,
+                  message: '한글, 영어(대,소문자)이 가능합니다(2~30자)',
+                },
               })}
             />
-            {errors?.name ? (
-              <p className="error">{errors.name?.message}</p>
-            ) : null}
+            <div css={ErrorContainer}>
+              {errors?.name ? (
+                <p css={ErrorStyle}>{errors.name?.message}</p>
+              ) : null}
+            </div>
           </div>
           <div css={InputWithLabelContainer}>
             <InputLabel>비밀번호</InputLabel>
@@ -109,12 +114,22 @@ const SignupForm = () => {
               fullWidth
               placeholder="비밀번호를 입력해주세요"
               type="password"
-              {...(register('password'),
-              {
+              {...register('password', {
                 required: true,
+                pattern: {
+                  value:
+                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#^()!%*?&])[A-Za-z\d@$!#^()%*?&]{8,30}$/,
+                  message: '특수문자, 문자, 숫자를 1개씩 넣어주세요(8~30자)',
+                },
               })}
             />
+            <div css={ErrorContainer}>
+              {errors?.password ? (
+                <p css={ErrorStyle}>{errors.password?.message}</p>
+              ) : null}
+            </div>
           </div>
+
           <div css={InputWithLabelContainer}>
             <InputLabel>비밀번호 확인</InputLabel>
             <TextField
@@ -122,12 +137,19 @@ const SignupForm = () => {
               fullWidth
               placeholder="비밀번호를 입력해주세요"
               type="password"
-              {...(register('passwordConfirm'),
-              {
+              {...register('passwordConfirm', {
                 required: true,
+                pattern: {
+                  value: new RegExp(escapeRegExp(watch('password')) || ''),
+                  message: 'password와 다릅니다',
+                },
               })}
             />
+            {errors?.passwordConfirm ? (
+              <p css={ErrorStyle}>{errors.passwordConfirm?.message}</p>
+            ) : null}
           </div>
+
           <div css={ButtonContainer}>
             <Button
               style={{ width: '100%', height: '4rem' }}
@@ -142,4 +164,24 @@ const SignupForm = () => {
     </div>
   );
 };
+
+const escapeRegExp = (string: string) => {
+  if (!string) return undefined;
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};
+
+const SignupFormStyle = css`
+  ${FormStyle};
+  gap: 1rem;
+`;
+
+const SignupFormContainer = css`
+  ${FormContainer};
+  margin: 0 2rem;
+`;
+
+const ErrorContainer = css`
+  height: 30px;
+`;
+
 export default SignupForm;
