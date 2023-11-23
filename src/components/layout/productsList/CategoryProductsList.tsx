@@ -17,16 +17,16 @@ const CategoryProductsList = () => {
     <div css={PageBox}>
       <div css={ListBox}>
         <div css={CategoryNameBox}>
-          <div css={CategoryName}>
+          <p css={CategoryName}>
             {category === 'hot' && '인기 숙소'}
             {category === 'pension' && '펜션, 풀빌라'}
             {category === 'hotel' && '호텔, 모텔'}
-          </div>
-          <div css={CategoryDesc}>
+          </p>
+          <p css={CategoryDesc}>
             {category === 'hot' && '가장 잘 나가는 숙소 추천'}
             {category === 'pension' && '크리스마스 펜션 예약하기'}
             {category === 'hotel' && '지금 떠나는 도심 호캉스!'}
-          </div>
+          </p>
         </div>
         {category !== '' && <ColumnList category={category} main={false} />}
       </div>
