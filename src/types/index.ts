@@ -16,6 +16,22 @@ export type RequestMembers = {
   photoURL?: string;
 };
 
+export type ResponseProductsData = {
+  productId: string;
+  category: string;
+  productName: string;
+  address: string;
+  favorites: boolean;
+  starAvg: number;
+  image: string;
+  price: number;
+};
+export type ResponseProducts = {
+  code: number;
+  message: string;
+  data: ResponseProductsData[];
+};
+
 export type RequestOrders = {
   memberId: string;
   productId: string;
