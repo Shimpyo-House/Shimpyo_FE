@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
-import React from 'react';
 import { css } from '@emotion/react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { MdMenu } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 import theme from '../../style/theme';
 import rabbit from '/rabbit.jpg';
 
@@ -10,7 +9,9 @@ const Header = () => {
   return (
     <div css={Container}>
       <nav css={InnerContainer}>
-        <h1 css={LogoText}>Shimpyo ,</h1>
+        <Link to="/" css={LogoText}>
+          Shimpyo ,
+        </Link>
         <div css={IconContainer}>
           <div css={CartContainer}>
             <AiOutlineShoppingCart css={CartIcon} />
@@ -60,6 +61,7 @@ const InnerContainer = css`
 const LogoText = css`
   color: ${theme.colors.blue700};
   font-size: 2rem;
+  font-weight: 700;
 
   cursor: pointer;
 `;

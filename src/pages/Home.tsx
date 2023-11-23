@@ -1,11 +1,7 @@
-import NormalCategory from '../components/layout/productsList/NormalCatergory';
+import MainProductsList from '../components/layout/productsList/MainProductsList';
 
 const Home = () => {
-  return (
-    <div>
-      <NormalCategory />
-    </div>
-  );
+  return <MainProductsList />;
 };
 
 export default Home;
