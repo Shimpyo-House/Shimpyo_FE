@@ -5,7 +5,6 @@ import ProductDetail from './pages/ProductDetail';
 import Signup from './pages/Signup';
 import Signin from './pages/Signin';
 import Cart from './pages/Cart';
-import CategoryProducts from './pages/CategoryProducts';
 
 const Router = () => {
   return (
@@ -14,8 +13,7 @@ const Router = () => {
         <Routes>
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
-            <Route path="category" element={<CategoryProducts />} />
-            <Route path="product/:id" element={<ProductDetail />} />
+            <Route path="products/:productId" element={<ProductDetail />} />
             <Route path="/carts" element={<Cart />} />
           </Route>
           <Route path="/signup" element={<Signup />} />
