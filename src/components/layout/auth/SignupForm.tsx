@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
+import { useCallback } from 'react';
 import { Button, css, InputLabel, TextField } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { axiosWithNoToken } from '../../../Axios';
@@ -28,35 +29,31 @@ const SignupForm = () => {
     formState: { errors },
   } = useForm<IFormInput>();
 
-  const handlerSignup = async ({
-    name,
-    email,
-    password,
-    passwordConfirm,
-  }: RequestSignup) => {
-    const data = await axiosWithNoToken.post('/api/auth/signup', {
-      name,
-      email,
-      password,
-      passwordConfirm,
-    });
-    console.log('Signup', data);
-  };
+  const handlerSignup = useCallback(
+    async ({ name, email, password, passwordConfirm }: RequestSignup) => {
+      const data = await axiosWithNoToken.post('/api/auth/signup', {
+        name,
+        email,
+        password,
+        passwordConfirm,
+      });
+      console.log('Signup', data);
+    },
+    [],
+  );
 
-  const onSubmit: SubmitHandler<IFormInput> = async ({
-    name,
-    email,
-    password,
-    passwordConfirm,
-  }) => {
-    handlerSignup({
-      name,
-      email,
-      password,
-      passwordConfirm,
-    });
-    console.log('submit', email, password);
-  };
+  const onSubmit: SubmitHandler<IFormInput> = useCallback(
+    async ({ name, email, password, passwordConfirm }) => {
+      handlerSignup({
+        name,
+        email,
+        password,
+        passwordConfirm,
+      });
+      console.log('submit', name, email, password, passwordConfirm);
+    },
+    [],
+  );
 
   return (
     <div css={SignupFormContainer}>
