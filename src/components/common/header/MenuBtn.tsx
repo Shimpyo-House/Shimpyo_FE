@@ -16,7 +16,7 @@ function useMenuAnimation(isOpen: boolean) {
       {
         clipPath: isOpen
           ? 'inset(0% 0% 0% 0% round 10px)'
-          : 'inset(0% 5% 100% 50% round 10px)',
+          : 'inset(0% 0% 100% 50% round 10px)',
       },
       {
         type: 'spring',
@@ -60,8 +60,9 @@ const MenuBtn = () => {
           clipPath: 'inset(10% 50% 90% 50% round 10px)',
         }}
       >
+        {/* 추후에 여기다가 링크나 모달 연결해서 쓰시면 됩니다! */}
         <li>내 정보</li>
-        <li>결재 내역 </li>
+        <li>결제 내역 </li>
         <li>로그아웃</li>
       </ul>{' '}
     </nav>
@@ -88,6 +89,8 @@ const MenuContainer = css`
   border-radius: 3rem;
 
   background-color: ${theme.colors.gray200};
+
+  cursor: pointer;
 `;
 
 const MenuIcon = css`
@@ -95,8 +98,6 @@ const MenuIcon = css`
   height: 1.8rem;
 
   color: ${theme.colors.gray700};
-
-  cursor: pointer;
 `;
 
 const Profile = css`
@@ -104,22 +105,26 @@ const Profile = css`
   height: 3rem;
 
   border-radius: 50%;
-
-  cursor: pointer;
 `;
 
 const ListBox = css`
   width: 14rem;
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-  background: ${theme.colors.gray200};
-  list-style: none;
-  margin: 0;
-  padding: 2rem 1.5rem;
+
   position: absolute;
   top: 3.8rem;
   right: 0;
-  font-weight: 700;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3rem;
+  padding: 2rem 1.5rem;
+  margin: 0;
+
   color: ${theme.colors.gray700};
+  background: ${theme.colors.gray200};
+
+  font-weight: 700;
+
+  list-style: none;
 `;
