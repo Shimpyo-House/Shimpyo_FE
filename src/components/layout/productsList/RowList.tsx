@@ -1,24 +1,29 @@
 import { useState } from 'react';
 import { css } from '@emotion/react';
-import NormalProduct from './NormalProduct';
-import useFetchData from './useFetchData';
+import ColumnProduct from './ColumnProduct';
+import useFetchData from './useProductsData';
 import { ResponseProductsData } from '../../../types';
 
 type PropsType = {
   category: string;
 };
 
-export default function NormalList({ category }: PropsType) {
+const RowList = ({ category }: PropsType) => {
   const [productData, setProductData] = useState<ResponseProductsData[] | null>(
     null,
   );
   useFetchData(category, setProductData);
   return (
     <div css={ProdutsBox}>
-      {productData && productData.map((e) => <NormalProduct resData={e} />)}
+      {productData &&
+        productData
+          .slice(0, 3)
+          .map((e) => <ColumnProduct resData={e} key={e.productId} />)}
     </div>
   );
-}
+};
+
+export default RowList;
 
 const ProdutsBox = css`
   display: flex;

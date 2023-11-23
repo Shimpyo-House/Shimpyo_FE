@@ -1,18 +1,17 @@
 import { css } from '@emotion/react';
-import { ProductName, ProductPrice, ProductScore } from './NormalProduct';
 import theme from '../../../style/theme';
 import { ResponseProductsData } from '../../../types';
 
 type PropsType = {
   resData: ResponseProductsData;
-  rank: number;
+  rank: number | null;
 };
 
-export default function HotProduct({ resData, rank }: PropsType) {
+const RowProduct = ({ resData, rank }: PropsType) => {
   return (
     <div css={ProductBox}>
       <div css={ProductImg}>
-        <p css={ProductRank}>{rank}</p>
+        {rank && rank < 11 && <p css={ProductRank}>{rank}</p>}
       </div>
       <div css={ProductData}>
         <div css={NameScoreBox}>
@@ -23,32 +22,44 @@ export default function HotProduct({ resData, rank }: PropsType) {
       </div>
     </div>
   );
-}
+};
+
+export default RowProduct;
 
 const ProductBox = css`
-  width: 30.3125rem;
-  height: 11.5625rem;
+  width: 32.5rem;
+  height: 15.625rem;
 
   display: flex;
   gap: 1.25rem;
 
-  padding: 1.25rem 1.25rem;
+  padding: 1.5rem;
 
   border: 1px solid ${theme.colors.gray300};
   border-radius: 10px;
 
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  cursor: pointer;
+
+  transition: 0.2s all;
+  &:hover {
+    scale: 1.015;
+  }
+  &:active {
+    scale: 0.985;
+  }
 `;
 
 const ProductImg = css`
-  width: 9.0625rem;
-  height: 9.0625rem;
+  width: 12.5rem;
+  height: 12.5rem;
 
   position: relative;
 
   background-color: ${theme.colors.gray700};
 
-  border-radius: 10px;
+  border-radius: 5px;
 `;
 
 const ProductRank = css`
@@ -87,4 +98,31 @@ const NameScoreBox = css`
   flex-direction: column;
   justify-content: flex-start;
   gap: 0.625rem;
+`;
+
+const ProductName = css`
+  width: 100%;
+
+  display: flex;
+  justify-content: flex-start;
+
+  font-size: 1.5rem;
+  font-weight: 600;
+`;
+const ProductScore = css`
+  width: 100%;
+
+  display: flex;
+  justify-content: flex-start;
+
+  font-size: 1rem;
+`;
+const ProductPrice = css`
+  width: 100%;
+
+  display: flex;
+  justify-content: flex-end;
+
+  font-size: 1.25rem;
+  font-weight: 700;
 `;

@@ -5,7 +5,11 @@ import ProductDetail from './pages/ProductDetail';
 import Signup from './pages/Signup';
 import Signin from './pages/Signin';
 import Cart from './pages/Cart';
+<<<<<<< HEAD
 import Pay from './pages/Pay';
+=======
+import CategoryProducts from './pages/CategoryProducts';
+>>>>>>> shimpyo/main
 
 const Router = () => {
   return (
@@ -14,6 +18,7 @@ const Router = () => {
         <Routes>
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
+            <Route path="category" element={<CategoryProducts />} />
             <Route path="product/:id" element={<ProductDetail />} />
             <Route path="/carts" element={<Cart />} />
             <Route path="/pay" element={<Pay />} />
