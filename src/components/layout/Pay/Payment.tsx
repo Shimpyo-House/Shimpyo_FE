@@ -1,6 +1,7 @@
 // 결제 부분 - 필수 약관 동의 후 결제 가능
 import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
+import { useNavigate } from 'react-router-dom';
 
 const Payment = () => {
   const [allAgree, setAllAgree] = useState(false);
@@ -9,6 +10,8 @@ const Payment = () => {
   const [thirdPartyAgree, setThirdPartyAgree] = useState(false);
   const [eventAgree, setEventAgree] = useState(false);
   const [eventInfoAgree, setEventInfoAgree] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (ageAgree && infoAgree && thirdPartyAgree) {
@@ -124,6 +127,7 @@ const Payment = () => {
           cursor: allAgree ? 'pointer' : 'not-allowed',
         }}
         disabled={!allAgree}
+        onClick={() => navigate('/ordered')}
       >
         300,000원 결제하기
       </button>
