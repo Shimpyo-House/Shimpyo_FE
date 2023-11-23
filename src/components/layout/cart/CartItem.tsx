@@ -37,7 +37,7 @@ const CartItem = (carts: CartsDataProps) => {
                 <div css={RightContainer}>
                   <RiDeleteBin6Line css={DeleteIcon} />
                   <div css={PriceContainer}>
-                    <p css={Price}>{room.price}</p>
+                    <p css={Price}>{room.price}원</p>
                     <p css={PriceText}>취소 및 환불 불가</p>
                   </div>
                 </div>
