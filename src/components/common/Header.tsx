@@ -14,8 +14,10 @@ const Header = () => {
         </Link>
         <div css={IconContainer}>
           <div css={CartContainer}>
-            <AiOutlineShoppingCart css={CartIcon} />
-            <span css={CartCount}>0</span>
+            <Link to="/carts">
+              <AiOutlineShoppingCart css={CartIcon} />
+              <span css={CartCount}>0</span>
+            </Link>
           </div>
           <div css={MenuContainer}>
             <MdMenu css={MenuIcon} />
