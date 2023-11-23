@@ -1,19 +1,35 @@
 /* eslint-disable import/no-cycle */
-/* eslint-disable @typescript-eslint/no-use-before-define */
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
+import { ResponseCartsData } from '../types';
+import cartAxios from '../api/cart';
 import theme from '../style/theme';
 import CartItem from '../components/layout/cart/CartItem';
 import CartTotal from '../components/layout/cart/CartTotal';
 
 const Cart = () => {
+  const [carts, setCarts] = useState<ResponseCartsData[] | null>(null);
+
+  useEffect(() => {
+    const cartData = async () => {
+      try {
+        const data = await cartAxios();
+        setCarts(data);
+      } catch (error) {
+        console.error('장바구니 error: ', error);
+      }
+    };
+
+    cartData();
+  }, []);
+
   return (
     <>
       <label htmlFor="box" css={Label}>
         <input id="box" type="checkbox" css={CheckBox} />
         <p css={AllSelect}>전체 선택</p>
       </label>
-      <CartItem />
+      <CartItem carts={carts} />
       <CartTotal />
     </>
   );
