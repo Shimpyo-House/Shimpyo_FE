@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
+import { useCallback } from 'react';
 import { Button, InputLabel, css, TextField } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -12,48 +13,6 @@ export type IFormInput = {
   password: string;
 };
 
-export const FormContainer = css`
-  height: 100%;
-
-  margin: 4rem 2rem;
-`;
-
-export const FormInnerContainer = css`
-  width: 100%;
-  height: 100%;
-
-  margin: 1rem 1rem;
-`;
-
-export const FormStyle = css`
-  display: flex;
-
-  flex-direction: column;
-  gap: 2rem;
-
-  width: 40%;
-  min-width: 30rem;
-
-  padding: 3rem 0;
-`;
-
-export const InputWithLabelContainer = css``;
-
-export const ButtonContainer = css`
-  margin-top: 2rem;
-  padding: 0 2rem;
-`;
-
-const LinkStyle = css`
-  padding: 0 2rem;
-  color: ${theme.colors.blue600};
-`;
-
-export const ErrorStyle = css`
-  padding: 10px 0;
-  color: ${theme.colors.error};
-`;
-
 const SigninForm = () => {
   const {
     register,
@@ -61,18 +20,24 @@ const SigninForm = () => {
     formState: { errors },
   } = useForm<IFormInput>();
 
-  const handlerSignin = async ({ email, password }: RequestSignin) => {
-    const data = await axiosWithNoToken.post('/api/auth/signin', {
-      email,
-      password,
-    });
-    console.log('Signin', data);
-  };
+  const handlerSignin = useCallback(
+    async ({ email, password }: RequestSignin) => {
+      const data = await axiosWithNoToken.post('/api/auth/signin', {
+        email,
+        password,
+      });
+      console.log('Signin', data);
+    },
+    [],
+  );
 
-  const onSubmit: SubmitHandler<IFormInput> = async ({ email, password }) => {
-    handlerSignin({ email, password });
-    console.log('submit', email, password);
-  };
+  const onSubmit: SubmitHandler<IFormInput> = useCallback(
+    async ({ email, password }) => {
+      handlerSignin({ email, password });
+      console.log('submit', email, password);
+    },
+    [],
+  );
 
   return (
     <div css={FormContainer}>
@@ -130,5 +95,47 @@ const SigninForm = () => {
     </div>
   );
 };
+
+export const FormContainer = css`
+  height: 100%;
+
+  margin: 4rem 2rem;
+`;
+
+export const FormInnerContainer = css`
+  width: 100%;
+  height: 100%;
+
+  margin: 1rem 1rem;
+`;
+
+export const FormStyle = css`
+  display: flex;
+
+  flex-direction: column;
+  gap: 2rem;
+
+  width: 40%;
+  min-width: 30rem;
+
+  padding: 3rem 0;
+`;
+
+export const InputWithLabelContainer = css``;
+
+export const ButtonContainer = css`
+  margin-top: 2rem;
+  padding: 0 2rem;
+`;
+
+const LinkStyle = css`
+  padding: 0 2rem;
+  color: ${theme.colors.blue600};
+`;
+
+export const ErrorStyle = css`
+  padding: 10px 0;
+  color: ${theme.colors.error};
+`;
 
 export default SigninForm;
