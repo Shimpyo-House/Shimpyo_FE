@@ -1,4 +1,6 @@
-const theme = {
+import { createTheme } from '@mui/material/styles';
+
+const customtheme = {
   colors: {
     blueBg3: '#2A2F4A',
     blueBg2: '#3F445C',
@@ -47,5 +49,7 @@ const theme = {
     alpha6: 'rgba(0, 0, 0, 0.1)',
   },
 };
+
+const theme = Object.assign(createTheme(), customtheme);
 
 export default theme;
