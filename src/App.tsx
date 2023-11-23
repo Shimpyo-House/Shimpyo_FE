@@ -1,16 +1,28 @@
-// import { ThemeProvider } from '@mui/material/styles';
-import React from 'react';
+import { css } from '@emotion/react';
 import { Outlet } from 'react-router-dom';
 import Header from './components/common/Header';
-import ProductsDetail from './components/layout/productsDetail/ProductsDetail';
+
+const ContainerStyle = css`
+  position: relative;
+
+  top: 75px;
+
+  height: 100%;
+  width: 100%;
+  max-width: 1280px;
+
+  margin: 0 auto;
+`;
 
 function App() {
   return (
     <div>
       <Header />
-      <Outlet />
-      <ProductsDetail />
+      <div css={ContainerStyle}>
+        <Outlet />
+      </div>
     </div>
   );
 }
+
 export default App;

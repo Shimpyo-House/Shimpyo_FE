@@ -19,12 +19,26 @@ export default function Calendar() {
   const tomorrow = today.add(1, 'day');
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={['DateRangePicker']}>
-        <DemoItem label="날짜 선택" component="DateRangePicker">
-          <DateRangePicker defaultValue={[today, tomorrow]} />
-        </DemoItem>
-      </DemoContainer>
-    </LocalizationProvider>
+    <div css={DayCalendar}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DemoContainer
+          components={['DateRangePicker', 'StaticDateRangePicker']}
+        >
+          <DemoItem label="날짜 선택" component="DateRangePicker">
+            <DateRangePicker defaultValue={[today, tomorrow]} />
+          </DemoItem>
+        </DemoContainer>
+      </LocalizationProvider>
+    </div>
   );
 }
+
+const DayCalendar = css`
+  width: 100%;
+  //   max-width: 1000px;
+
+  display: flex;
+  justify-content: flex-start;
+
+  margin-top: 2.5rem;
+`;

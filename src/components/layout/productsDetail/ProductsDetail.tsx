@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { css } from '@emotion/react';
 import React from 'react';
-import Calendar from './Calendar';
 
 // import theme from '../../../style/theme';
 
@@ -19,9 +18,6 @@ export default function ProductsDetail() {
           </div>
           <div css={ProductsLocation}>부산광역시 해운대구 마린시티1로 51</div>
         </div>
-      </div>
-      <div css={DayCalendar}>
-        <Calendar />
       </div>
     </div>
   );
@@ -75,9 +71,9 @@ const NameScoreContainer = css`
 
 const ProductScore = css`
   margin-left: auto;
-  font-size: 18px;
+  font-size: 1.875rem;
   font-weight: bold;
-  width: 50px;
+  width: 6.25rem;
 `;
 
 export const ProductName = css`
@@ -86,7 +82,7 @@ export const ProductName = css`
   display: flex;
   justify-content: flex-start;
 
-  font-size: 24px;
+  font-size: 3rem;
   font-weight: 600;
 `;
 
@@ -96,18 +92,8 @@ const ProductsLocation = css`
   display: flex;
   justify-content: flex-start;
 
-  font-size: 16px;
-  font-weight: 700;
-
-  margin-top: 2rem;
-`;
-
-const DayCalendar = css`
-  width: 100%;
-  //   max-width: 1000px;
-
-  display: flex;
-  justify-content: flex-start;
+  font-size: 2.25rem;
+  font-weight: 600;
 
   margin-top: 2rem;
 `;
