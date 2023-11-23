@@ -4,9 +4,11 @@ import { useCallback } from 'react';
 import { Button, InputLabel, css, TextField } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { RequestSignin } from '../../../types';
+import { useSetRecoilState } from 'recoil';
 import { axiosWithNoToken } from '../../../Axios';
 import theme from '../../../style/theme';
+import { userData } from '../../../atoms/user';
+import { setCookie } from './auth.utils';
 
 export type IFormInput = {
   email: string;
@@ -20,21 +22,29 @@ const SigninForm = () => {
     formState: { errors },
   } = useForm<IFormInput>();
 
-  const handlerSignin = useCallback(
-    async ({ email, password }: RequestSignin) => {
-      const data = await axiosWithNoToken.post('/api/auth/signin', {
-        email,
-        password,
-      });
-      console.log('Signin', data);
-    },
-    [],
-  );
+  const setUserData = useSetRecoilState(userData);
 
   const onSubmit: SubmitHandler<IFormInput> = useCallback(
     async ({ email, password }) => {
-      handlerSignin({ email, password });
-      console.log('submit', email, password);
+      try {
+        const res = await axiosWithNoToken.post('/api/auth/signin', {
+          email,
+          password,
+        });
+        console.log(res);
+        const userObj = res.data.data.member;
+        const { accessToken, refreshToken, accessTokenExpiresIn } =
+          res.data.data.token;
+        /* 전역상태 관리 => 유저정보 */
+        setUserData(userObj);
+
+        /* 쿠키 => Access, Refresh */
+        setCookie('accessToken', accessToken);
+        setCookie('accessTokenExpiresIn', accessTokenExpiresIn);
+        setCookie('refreshToken', refreshToken);
+      } catch (e) {
+        console.log(e);
+      }
     },
     [],
   );
@@ -61,9 +71,11 @@ const SigninForm = () => {
                 required: true,
               })}
             />
-            {errors?.email ? (
-              <p className="error">{errors.email?.message}</p>
-            ) : null}
+            <div css={ErrorContainer}>
+              {errors?.email ? (
+                <p css={ErrorStyle}>{errors.email?.message}</p>
+              ) : null}
+            </div>
           </div>
           <div css={InputWithLabelContainer}>
             <InputLabel>비밀번호</InputLabel>
@@ -72,12 +84,12 @@ const SigninForm = () => {
               fullWidth
               placeholder="비밀번호를 입력해주세요"
               type="password"
-              {...(register('password'),
-              {
+              {...register('password', {
                 required: true,
               })}
             />
           </div>
+
           <div css={ButtonContainer}>
             <Button
               style={{ width: '100%', height: '4rem' }}
@@ -136,6 +148,10 @@ const LinkStyle = css`
 export const ErrorStyle = css`
   padding: 10px 0;
   color: ${theme.colors.error};
+`;
+
+export const ErrorContainer = css`
+  height: 30px;
 `;
 
 export default SigninForm;

@@ -13,7 +13,7 @@ export type RequestSignin = {
 export type RequestMembers = {
   password?: string;
   passwordConfirm?: string;
-  photoURL?: string;
+  photoUrl?: string;
 };
 
 export type ResponseProductsData = {
