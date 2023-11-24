@@ -1,10 +1,11 @@
-/* eslint-disable react/button-has-type */
-/* eslint-disable import/extensions */
 import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ResponseProductsData } from '../../../types';
+
+// import 'react-date-range/dist/styles.css'; // main style file
+// import 'react-date-range/dist/theme/default.css'; // theme css file
 import Calendar from './Calendar';
 
 const ProductsDetail = () => {

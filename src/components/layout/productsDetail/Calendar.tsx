@@ -42,3 +42,15 @@ const DayCalendar = css`
 
   margin-top: 2.5rem;
 `;
+
+// import { Calendar } from 'react-date-range';
+// import { Component } from 'react';
+// class CalendarComponent extends Component {
+//   handleSelect(date: any) {
+//     console.log(date); // native Date object
+//   }
+//   render(){
+//     return (<Calendar date= onChange= /> );
+//   }
+// }
+// export default CalendarComponent;
