@@ -2,15 +2,15 @@ import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { ResponseProductsData } from '../../../types';
+import { RequestProductDetail } from '../../../types';
 
 // import 'react-date-range/dist/styles.css'; // main style file
 // import 'react-date-range/dist/theme/default.css'; // theme css file
-import Calendar from './Calendar';
+// import Calendar from './Calendar';
 
 const ProductsDetail = () => {
   const [productDetail, setProductDetail] =
-    useState<ResponseProductsData | null>(null);
+    useState<RequestProductDetail | null>(null);
 
   const { productId } = useParams();
 
@@ -58,7 +58,7 @@ const ProductsDetail = () => {
         </div>
       </div>
       <div css={DayCalendar}>
-        <Calendar onChange={undefined} value={undefined} />
+        {/* <Calendar onChange={undefined} value={undefined} /> */}
       </div>
       <div css={RoomContainer}>
         {productDetail.rooms.map((room) => (
@@ -69,10 +69,8 @@ const ProductsDetail = () => {
             />
             <div css={RoomInfo}>
               <div css={RoomName}>{room.roomName}</div>
-              <div>{`기준 ${room.standard}인 / 최대 ${
-                room['capacity '] || '정보없음'
-              }인`}</div>
-              <div>{room.desc}</div>
+              <div>{`기준 ${room.standard}인 / 최대 ${room.capacity}인`}</div>
+              <div>{room.description}</div>
               <div css={checkTime}>체크인 15:00 ~ 체크아웃 11:00</div>
             </div>
             <div css={RoomAction}>
