@@ -17,11 +17,11 @@ const CategoryProductsList = () => {
     <div css={PageBox}>
       <div css={ListBox}>
         <div css={CategoryNameBox}>
-          <p css={CategoryName}>
+          <h2 css={CategoryName}>
             {category === 'hot' && '인기 숙소'}
             {category === 'pension' && '펜션, 풀빌라'}
             {category === 'hotel' && '호텔, 모텔'}
-          </p>
+          </h2>
           <p css={CategoryDesc}>
             {category === 'hot' && '가장 잘 나가는 숙소 추천'}
             {category === 'pension' && '크리스마스 펜션 예약하기'}

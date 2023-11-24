@@ -10,26 +10,26 @@ const NormalCategory = () => {
   return (
     <div css={PageBox}>
       <div css={CategoryBox}>
-        <p css={CategoryName}>
+        <h2 css={CategoryName}>
           <Link to="/category?type=hot">인기 숙소</Link>
           <IoIosArrowForward className="arrowIcon" />
-        </p>
+        </h2>
         <p css={CategoryDesc}>가장 잘 나가는 숙소 추천</p>
         <ColumnList category="hot" main={true} />
       </div>
       <div css={CategoryBox}>
-        <p css={CategoryName}>
+        <h2 css={CategoryName}>
           <Link to="/category?type=pension">펜션, 풀빌라</Link>
           <IoIosArrowForward className="arrowIcon" />
-        </p>
+        </h2>
         <p css={CategoryDesc}>크리스마스 펜션 예약하기</p>
         <NormalList category="pension" />
       </div>
       <div css={CategoryBox}>
-        <p css={CategoryName}>
+        <h2 css={CategoryName}>
           <Link to="/category?type=hotel">호텔, 모텔</Link>
           <IoIosArrowForward className="arrowIcon" />
-        </p>
+        </h2>
         <p css={CategoryDesc}>지금 떠나는 도심 호캉스!</p>
         <NormalList category="hotel" />
       </div>
