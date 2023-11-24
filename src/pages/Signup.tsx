@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import SignupForm from '../components/layout/auth/SignupForm';
 import AuthHeader from '../components/common/AuthHeader';
 import {
@@ -9,8 +8,6 @@ import {
   SigninContainer,
   SigninInnerContainer,
 } from './Signin';
-import { RequestMembers } from '../types';
-import { axiosWithAccessToken } from '../Axios';
 
 const Signup = () => {
   // useEffect(() => {
