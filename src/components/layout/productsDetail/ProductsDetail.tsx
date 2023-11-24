@@ -62,7 +62,7 @@ const ProductsDetail = () => {
       </div>
       <div css={RoomContainer}>
         {productDetail.rooms.map((room) => (
-          <div key={room.roomId} css={RoomItem}>
+          <div key={`room ${room.roomId}`} css={RoomItem}>
             <div
               css={RoomImg}
               style={{ backgroundImage: `url('${productDetail.images[0]}')` }}
@@ -76,8 +76,8 @@ const ProductsDetail = () => {
             <div css={RoomAction}>
               <div css={priceStyle}>{room.price}</div>
               <div css={buyBtn}>
-                <button>장바구니</button>
-                <button>예약하기</button>
+                <button type="button">장바구니</button>
+                <button type="button">예약하기</button>
               </div>
             </div>
           </div>
