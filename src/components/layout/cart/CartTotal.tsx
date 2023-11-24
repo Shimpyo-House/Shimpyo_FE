@@ -1,6 +1,5 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React from 'react';
 import { css } from '@emotion/react';
 import theme from '../../../style/theme';
 

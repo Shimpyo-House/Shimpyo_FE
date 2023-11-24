@@ -6,7 +6,6 @@ import Signup from './pages/Signup';
 import Signin from './pages/Signin';
 import Cart from './pages/Cart';
 import Pay from './pages/Pay';
-import CategoryProducts from './pages/CategoryProducts';
 import OrderedList from './pages/OrderedList';
 
 const Router = () => {
@@ -21,8 +20,8 @@ const Router = () => {
             <Route path="pay" element={<Pay />} />
             <Route path="ordered" element={<OrderedList />} />
           </Route>
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/signin" element={<Signin />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="signin" element={<Signin />} />
         </Routes>
       </BrowserRouter>
     </main>
