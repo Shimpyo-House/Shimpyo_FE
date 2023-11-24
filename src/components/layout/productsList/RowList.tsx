@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { css } from '@emotion/react';
+import { Link } from 'react-router-dom';
 import ColumnProduct from './ColumnProduct';
 import useFetchData from './useProductsData';
 import { ResponseProductsData } from '../../../types';
@@ -14,18 +15,20 @@ const RowList = ({ category }: PropsType) => {
   );
   useFetchData(category, setProductData);
   return (
-    <div css={ProdutsBox}>
+    <div css={ProductsBox}>
       {productData &&
-        productData
-          .slice(0, 3)
-          .map((e) => <ColumnProduct resData={e} key={e.productId} />)}
+        productData.map((e) => (
+          <Link to={`/products/${e.productId}`} key={e.productId}>
+            <ColumnProduct resData={e} />
+          </Link>
+        ))}
     </div>
   );
 };
 
 export default RowList;
 
-const ProdutsBox = css`
+const ProductsBox = css`
   display: flex;
   justify-content: space-between;
 `;
