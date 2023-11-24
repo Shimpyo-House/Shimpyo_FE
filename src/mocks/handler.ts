@@ -599,7 +599,7 @@ const handlers = [
   }),
 
   // 임시 장바구니
-  rest.get('/api/carts', async (req, res, ctx) => {
+  rest.get('/api/carts', async (_, res, ctx) => {
     await sleep(500);
     return res(
       ctx.status(200),
