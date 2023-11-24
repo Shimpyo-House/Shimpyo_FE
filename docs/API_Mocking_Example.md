@@ -6,6 +6,9 @@
 4. Request의 Type의 경우 type/index.ts 파일에 저장을 해놨습니다. 역할대로 API 명세서에 변경에 따른 타입 동기화를 부탁드립니다.
 5. axiosWithNoToken과 axiosWithAccessToken은 header에 인증정보가 필요한가 아닌가에 따라서 다르게 호출하시면 됩니다.
 
+- 실제 배포 환경과 데이터 형식의 차이가 존재할 것 같습니다.
+  API Mocking에서 `data.data.name`으로 참조가능한 속성은 실제 백엔드팀 API에서 `data.name`으로 참조가능한 것으로 보입니다! ..
+
 ### 회원가입
 
 ```
