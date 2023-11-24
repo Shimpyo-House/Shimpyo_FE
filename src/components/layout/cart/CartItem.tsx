@@ -1,10 +1,11 @@
-/* eslint-disable react/jsx-no-useless-fragment */
-/* eslint-disable import/no-cycle */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable no-unneeded-ternary */
+/* eslint-disable import/order */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { css } from '@emotion/react';
 import { RiDeleteBin6Line } from 'react-icons/ri';
-import { CheckBox } from '../../../pages/Cart';
-import { ResponseCartsData } from '../../../types';
+import { ResponseCartsData, ResponseCartRoomData } from '../../../types';
+import { useState } from 'react';
 import theme from '../../../style/theme';
 
 interface CartsDataProps {
@@ -12,13 +13,69 @@ interface CartsDataProps {
 }
 
 const CartItem = (carts: CartsDataProps) => {
+  const cartsData = carts.carts;
+  // const rooms: ResponseCartRoomData[] = [];
+  const [checkedList, setCheckedList] = useState<number[]>([]);
+
+  // if (cartsData) {
+  //   cartsData.forEach((cart) => {
+  //     if (cart.rooms) {
+  //       rooms.push(...cart.rooms);
+  //     }
+  //   });
+  // }
+
+  const handleCheckbox = (productId: number) => {
+    const isChecked = checkedList.includes(productId);
+    if (isChecked) {
+      setCheckedList(checkedList.filter((id) => id !== productId));
+    } else {
+      setCheckedList([...checkedList, productId]);
+    }
+  };
+
+  const handleAllCheckbox = () => {
+    const allChecked = carts?.carts?.every((cart) =>
+      checkedList.includes(cart.productId),
+    );
+
+    if (allChecked) {
+      setCheckedList([]);
+    } else {
+      const allProductIds = carts?.carts?.map((cart) => cart.productId) || [];
+      setCheckedList(allProductIds);
+    }
+  };
+
   return (
     <>
-      {carts?.carts &&
-        carts?.carts.map((cart) => (
+      <label htmlFor="allCheckBox" css={AllLabel}>
+        <input
+          id="allCheckBox"
+          type="checkbox"
+          css={AllCheckBox}
+          onChange={handleAllCheckbox}
+          checked={
+            carts?.carts &&
+            carts.carts.length > 0 &&
+            carts.carts.every((cart) => checkedList.includes(cart.productId))
+              ? true
+              : false
+          }
+        />
+        <p css={AllSelect}>전체 선택</p>
+      </label>
+      {cartsData &&
+        cartsData.map((cart) => (
           <div css={Container} key={cart.productId}>
             <label htmlFor="box" css={Label}>
-              <input id="box" type="checkbox" css={CheckBox} />
+              <input
+                id="box"
+                type="checkbox"
+                css={CheckBox}
+                onChange={() => handleCheckbox(cart.productId)}
+                checked={checkedList.includes(cart.productId)}
+              />
             </label>
             <img css={CartImg} src={cart.images} alt="장바구니 상품 이미지" />
             {cart.rooms?.map((room) => (
@@ -51,6 +108,39 @@ const CartItem = (carts: CartsDataProps) => {
 
 export default CartItem;
 
+const AllLabel = css`
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+
+  margin: 1rem;
+`;
+
+const AllCheckBox = css`
+  width: 1.5rem;
+  height: 1.5rem;
+
+  border: 1.5px solid ${theme.colors.gray600};
+  border-radius: 0.35rem;
+
+  cursor: pointer;
+  appearance: none;
+
+  &:checked {
+    border-color: transparent;
+
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
+    background-size: 100% 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-color: ${theme.colors.blue700};
+  }
+`;
+
+const AllSelect = css`
+  font-weight: 700;
+`;
+
 const Container = css`
   display: flex;
   align-items: flex-start;
@@ -62,6 +152,27 @@ const Container = css`
 
 const Label = css`
   margin: 0 1rem;
+`;
+
+const CheckBox = css`
+  width: 1.5rem;
+  height: 1.5rem;
+
+  border: 1.5px solid ${theme.colors.gray600};
+  border-radius: 0.35rem;
+
+  cursor: pointer;
+  appearance: none;
+
+  &:checked {
+    border-color: transparent;
+
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
+    background-size: 100% 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-color: ${theme.colors.blue700};
+  }
 `;
 
 const CartImg = css`
