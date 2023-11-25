@@ -7,45 +7,45 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import { ResponseCartsData, ResponseCartRoomData } from '../../../types';
 import { useState } from 'react';
 import theme from '../../../style/theme';
+import CartTotal from './CartTotal';
 
-interface CartsDataProps {
+interface CartDataProps {
   carts: ResponseCartsData[] | null;
 }
 
-const CartItem = (carts: CartsDataProps) => {
+const CartItem = (carts: CartDataProps) => {
   const cartsData = carts.carts;
-  // const rooms: ResponseCartRoomData[] = [];
+  const rooms: ResponseCartRoomData[] = [];
   const [checkedList, setCheckedList] = useState<number[]>([]);
 
-  // if (cartsData) {
-  //   cartsData.forEach((cart) => {
-  //     if (cart.rooms) {
-  //       rooms.push(...cart.rooms);
-  //     }
-  //   });
-  // }
+  if (cartsData) {
+    cartsData.forEach((cart) => {
+      if (cart.rooms) {
+        rooms.push(...cart.rooms);
+      }
+    });
+  }
 
-  const handleCheckbox = (productId: number) => {
-    const isChecked = checkedList.includes(productId);
+  const handleCheckbox = (roomPrice: number) => {
+    const isChecked = checkedList.includes(roomPrice);
     if (isChecked) {
-      setCheckedList(checkedList.filter((id) => id !== productId));
+      setCheckedList(checkedList.filter((id) => id !== roomPrice));
     } else {
-      setCheckedList([...checkedList, productId]);
+      setCheckedList([...checkedList, roomPrice]);
     }
   };
 
   const handleAllCheckbox = () => {
-    const allChecked = carts?.carts?.every((cart) =>
-      checkedList.includes(cart.productId),
-    );
-
+    const allChecked = rooms.every((room) => checkedList.includes(room.price));
     if (allChecked) {
       setCheckedList([]);
     } else {
-      const allProductIds = carts?.carts?.map((cart) => cart.productId) || [];
-      setCheckedList(allProductIds);
+      const allRoomIds = rooms.map((room) => room.price) || [];
+      setCheckedList(allRoomIds);
     }
   };
+
+  const totalPrice = checkedList.reduce((acc, cur) => acc + cur, 0);
 
   return (
     <>
@@ -56,9 +56,9 @@ const CartItem = (carts: CartsDataProps) => {
           css={AllCheckBox}
           onChange={handleAllCheckbox}
           checked={
-            carts?.carts &&
-            carts.carts.length > 0 &&
-            carts.carts.every((cart) => checkedList.includes(cart.productId))
+            rooms &&
+            rooms.length > 0 &&
+            rooms.every((room) => checkedList.includes(room.price))
               ? true
               : false
           }
@@ -68,18 +68,22 @@ const CartItem = (carts: CartsDataProps) => {
       {cartsData &&
         cartsData.map((cart) => (
           <div css={Container} key={cart.productId}>
-            <label htmlFor="box" css={Label}>
-              <input
-                id="box"
-                type="checkbox"
-                css={CheckBox}
-                onChange={() => handleCheckbox(cart.productId)}
-                checked={checkedList.includes(cart.productId)}
-              />
-            </label>
-            <img css={CartImg} src={cart.images} alt="장바구니 상품 이미지" />
             {cart.rooms?.map((room) => (
               <>
+                <label htmlFor="box" css={Label}>
+                  <input
+                    id="box"
+                    type="checkbox"
+                    css={CheckBox}
+                    onChange={() => handleCheckbox(room.price)}
+                    checked={checkedList.includes(room.price)}
+                  />
+                </label>
+                <img
+                  css={CartImg}
+                  src={cart.images}
+                  alt="장바구니 상품 이미지"
+                />
                 <div css={DescriptionContainer} key={room.roomId}>
                   <h3 css={RoomName}>{cart.productName}</h3>
                   <p css={RoomPeriod}>
@@ -102,6 +106,7 @@ const CartItem = (carts: CartsDataProps) => {
             ))}
           </div>
         ))}
+      <CartTotal totalPrice={totalPrice} checkedList={checkedList} />
     </>
   );
 };

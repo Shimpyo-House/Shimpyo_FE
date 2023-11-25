@@ -1,19 +1,23 @@
 /* eslint-disable react/button-has-type */
-/* eslint-disable @typescript-eslint/no-use-before-define */
 import { css } from '@emotion/react';
 import theme from '../../../style/theme';
 
-const CartTotal = () => {
+interface CartTotalProps {
+  totalPrice: number;
+  checkedList: number[];
+}
+
+const CartTotal = ({ totalPrice, checkedList }: CartTotalProps) => {
   return (
     <div css={Container}>
       <h2>전체 주문 합계</h2>
       <div css={Total}>
         <p>상품 금액</p>
-        <p>20,000원</p>
+        <p>{totalPrice}원</p>
       </div>
       <div css={Total}>
         <p>주문 상품 개수</p>
-        <p>2개</p>
+        <p>{checkedList.length}개</p>
       </div>
       <button css={OrderButton}>주문하기</button>
     </div>
