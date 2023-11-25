@@ -1,15 +1,16 @@
-/* eslint-disable react/button-has-type */
-/* eslint-disable import/extensions */
 import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { ResponseProductsData } from '../../../types';
-import Calendar from './Calendar';
+import { RequestProductDetail } from '../../../types';
+
+// import 'react-date-range/dist/styles.css'; // main style file
+// import 'react-date-range/dist/theme/default.css'; // theme css file
+// import Calendar from './Calendar';
 
 const ProductsDetail = () => {
   const [productDetail, setProductDetail] =
-    useState<ResponseProductsData | null>(null);
+    useState<RequestProductDetail | null>(null);
 
   const { productId } = useParams();
 
@@ -57,28 +58,26 @@ const ProductsDetail = () => {
         </div>
       </div>
       <div css={DayCalendar}>
-        <Calendar onChange={undefined} value={undefined} />
+        {/* <Calendar onChange={undefined} value={undefined} /> */}
       </div>
       <div css={RoomContainer}>
         {productDetail.rooms.map((room) => (
-          <div key={room.roomId} css={RoomItem}>
+          <div key={`room ${room.roomId}`} css={RoomItem}>
             <div
               css={RoomImg}
               style={{ backgroundImage: `url('${productDetail.images[0]}')` }}
             />
             <div css={RoomInfo}>
               <div css={RoomName}>{room.roomName}</div>
-              <div>{`기준 ${room.standard}인 / 최대 ${
-                room['capacity '] || '정보없음'
-              }인`}</div>
-              <div>{room.desc}</div>
+              <div>{`기준 ${room.standard}인 / 최대 ${room.capacity}인`}</div>
+              <div>{room.description}</div>
               <div css={checkTime}>체크인 15:00 ~ 체크아웃 11:00</div>
             </div>
             <div css={RoomAction}>
               <div css={priceStyle}>{room.price}</div>
               <div css={buyBtn}>
-                <button>장바구니</button>
-                <button>예약하기</button>
+                <button type="button">장바구니</button>
+                <button type="button">예약하기</button>
               </div>
             </div>
           </div>
