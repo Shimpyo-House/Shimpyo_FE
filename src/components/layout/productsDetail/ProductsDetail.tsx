@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { RequestProductDetail } from '../../../types';
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
+import CalendarComponent from './Calendar';
 
 // import 'react-date-range/dist/styles.css'; // main style file
 // import 'react-date-range/dist/theme/default.css'; // theme css file
@@ -58,7 +61,7 @@ const ProductsDetail = () => {
         </div>
       </div>
       <div css={DayCalendar}>
-        {/* <Calendar onChange={undefined} value={undefined} /> */}
+        <CalendarComponent />
       </div>
       <div css={RoomContainer}>
         {productDetail.rooms.map((room) => (
