@@ -1,5 +1,5 @@
 // 결제 부분 - 필수 약관 동의 후 결제 가능
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { useNavigate } from 'react-router-dom';
 
@@ -121,6 +121,7 @@ const Payment = () => {
       </div>
 
       <button
+        type="button"
         css={PaymentButton}
         style={{
           backgroundColor: allAgree ? '#3a7bdf' : 'gray',

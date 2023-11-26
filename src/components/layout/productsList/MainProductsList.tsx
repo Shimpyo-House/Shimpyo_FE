@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 /* eslint-disable react/jsx-boolean-value */
 
 import { css } from '@emotion/react';

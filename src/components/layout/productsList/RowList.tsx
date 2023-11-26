@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { Link } from 'react-router-dom';
 import ColumnProduct from './ColumnProduct';
 import { ResponseProductsData } from '../../../types';
 
@@ -19,7 +20,7 @@ const RowList = ({ data }: PropsType) => {
 
 export default RowList;
 
-const ProdutsBox = css`
+const ProductsBox = css`
   display: flex;
   justify-content: space-between;
 `;

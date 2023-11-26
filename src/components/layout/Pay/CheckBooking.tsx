@@ -2,13 +2,13 @@
 // 숙소 예약 완료 후 무료 취소 안내 토글
 // BookingInfo.tsx 컴포넌트가 여기서 쓰일거임
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { css } from '@emotion/react';
 import BookingInfo from './BookingInfo';
 
 const CheckBooking = () => {
   // login은 값을 받아올 것 같음 코드 변경 예상
-  const [login, setLogin] = useState(false);
+  const [login] = useState(false);
   const [toggled, setToggled] = useState(false);
 
   return (
@@ -30,7 +30,7 @@ const CheckBooking = () => {
       <div css={Booking}>
         <h1>숙소</h1>
         <div css={Toggle}>
-          <button onClick={() => setToggled(!toggled)}>
+          <button type="button" onClick={() => setToggled(!toggled)}>
             예약 완료 후 무료취소 안내
           </button>
           {toggled && (
