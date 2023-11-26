@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unused-state */
 /* eslint-disable import/no-extraneous-dependencies */
 /** @jsxImportSource @emotion/react */
+import React, { Component } from 'react';
 import { css } from '@emotion/react';
-import { Component } from 'react';
 import { DateRange } from 'react-date-range';
-import { addDays } from 'date-fns';
+import { addDays, differenceInDays, format } from 'date-fns';
 
 interface CalendarState {
   startDate: Date;
@@ -19,7 +19,7 @@ class CalendarComponent extends Component<{}, CalendarState> {
     const today = new Date();
     this.state = {
       startDate: today,
-      endDate: new Date(today.getTime() + 24 * 60 * 60 * 1000),
+      endDate: addDays(today, 1),
       key: 'selection',
       showCalendar: false,
     };
@@ -50,6 +50,12 @@ class CalendarComponent extends Component<{}, CalendarState> {
       key: 'selection',
     };
 
+    const nights = differenceInDays(endDate, startDate);
+    const formattedEndDate = addDays(startDate, nights);
+
+    const formattedStartDate = format(startDate, 'MM월 dd일');
+    const formattedEndDateString = format(formattedEndDate, 'MM월 dd일');
+
     const modalStyle = css`
       position: fixed;
       top: 50%;
@@ -74,6 +80,26 @@ class CalendarComponent extends Component<{}, CalendarState> {
       position: relative;
     `;
 
+    const selectButtonStyle = css`
+      padding: 10px 20px;
+      background-color: #3d91ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 16px;
+      outline: none;
+
+      &:hover {
+        background-color: #2565cb;
+      }
+
+      &:active {
+        transform: translateY(1px);
+      }
+    `;
+
     const closeButtonStyle = css`
       bottom: 0;
       background-color: #3d91ff;
@@ -86,11 +112,15 @@ class CalendarComponent extends Component<{}, CalendarState> {
 
     return (
       <div>
-        <button type="button" onClick={this.openCalendar}>
-          날짜 선택하기
+        <button
+          type="button"
+          css={selectButtonStyle}
+          onClick={this.openCalendar}
+        >
+          {`${formattedStartDate} ~ ${formattedEndDateString} (${nights}박)`}
         </button>
-        {showCalendar && (
-          <div css={modalStyle}>
+        <div css={modalStyle}>
+          {showCalendar && (
             <div css={modalContentStyle}>
               <DateRange
                 editableDateInputs
@@ -102,18 +132,14 @@ class CalendarComponent extends Component<{}, CalendarState> {
               />
               <button
                 type="button"
-                onClick={this.closeCalendar}
                 css={closeButtonStyle}
+                onClick={this.closeCalendar}
               >
                 닫기
               </button>
             </div>
-          </div>
-        )}
-        <br />
-        <div>Start Date : {startDate.toString()}</div>
-        <br />
-        <div>End Date : {endDate.toString()}</div>
+          )}
+        </div>
       </div>
     );
   }
