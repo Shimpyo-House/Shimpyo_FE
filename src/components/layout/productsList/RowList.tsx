@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import { Link } from 'react-router-dom';
 import ColumnProduct from './ColumnProduct';
 import { ResponseProductsData } from '../../../types';
 
@@ -9,7 +8,7 @@ type PropsType = {
 
 const RowList = ({ data }: PropsType) => {
   return (
-    <div css={ProdutsBox}>
+    <div css={ProductsBox}>
       {data &&
         data
           .slice(0, 3)
