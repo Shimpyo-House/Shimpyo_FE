@@ -1,7 +1,8 @@
+/* eslint-disable no-alert */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable import/no-extraneous-dependencies */
 /** @jsxImportSource @emotion/react */
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { css } from '@emotion/react';
 import { DateRange } from 'react-date-range';
 import { addDays, differenceInDays, format } from 'date-fns';
@@ -39,7 +40,14 @@ class CalendarComponent extends Component<{}, CalendarState> {
   };
 
   closeCalendar = () => {
-    this.setState({ showCalendar: false });
+    const { startDate, endDate } = this.state;
+    if (startDate.toDateString() === endDate.toDateString()) {
+      alert(
+        '입실날짜와 퇴실날짜가 같을 수 없습니다. 최소 1박 이상 선택해주세요.',
+      );
+    } else {
+      this.setState({ showCalendar: false });
+    }
   };
 
   render() {
@@ -135,7 +143,7 @@ class CalendarComponent extends Component<{}, CalendarState> {
                 css={closeButtonStyle}
                 onClick={this.closeCalendar}
               >
-                닫기
+                선택
               </button>
             </div>
           )}
