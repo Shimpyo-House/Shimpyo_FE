@@ -1,12 +1,29 @@
 /* eslint-disable react/jsx-boolean-value */
+
 import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
 import { IoIosArrowForward } from 'react-icons/io';
-import NormalList from './RowList';
+import RowList from './RowList';
 import theme from '../../../style/theme';
 import ColumnList from './ColumnList';
+import { ResponseProductsData } from '../../../types';
 
-const NormalCategory = () => {
+type PropsType = {
+  data: ResponseProductsData[][] | undefined;
+};
+
+const NormalCategory = ({ data }: PropsType) => {
+  let hotData: ResponseProductsData[] = [];
+  let pensionData: ResponseProductsData[] = [];
+  let hotelData: ResponseProductsData[] = [];
+  if (data) {
+    [hotData, pensionData, hotelData] = data;
+  }
+
+  // console.log(hotData);
+  // console.log(pensionData);
+  // console.log(hotelData);
+
   return (
     <div css={PageBox}>
       <div css={CategoryBox}>
@@ -15,7 +32,7 @@ const NormalCategory = () => {
           <IoIosArrowForward className="arrowIcon" />
         </h2>
         <p css={CategoryDesc}>가장 잘 나가는 숙소 추천</p>
-        <ColumnList category="hot" main={true} />
+        <ColumnList category="hot" main={true} data={hotData} />
       </div>
       <div css={CategoryBox}>
         <h2 css={CategoryName}>
@@ -23,7 +40,7 @@ const NormalCategory = () => {
           <IoIosArrowForward className="arrowIcon" />
         </h2>
         <p css={CategoryDesc}>크리스마스 펜션 예약하기</p>
-        <NormalList category="pension" />
+        <RowList data={pensionData} />
       </div>
       <div css={CategoryBox}>
         <h2 css={CategoryName}>
@@ -31,7 +48,7 @@ const NormalCategory = () => {
           <IoIosArrowForward className="arrowIcon" />
         </h2>
         <p css={CategoryDesc}>지금 떠나는 도심 호캉스!</p>
-        <NormalList category="hotel" />
+        <RowList data={hotelData} />
       </div>
     </div>
   );

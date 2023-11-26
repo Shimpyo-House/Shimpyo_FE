@@ -3,29 +3,29 @@ import { css } from '@emotion/react';
 import RowProduct from './RowProduct';
 import theme from '../../../style/theme';
 import { ResponseProductsData } from '../../../types';
-import useFetchData from './useProductsData';
+import { useSetProductsData } from './useProductsData';
 
 type PropsType = {
   category: string;
   main: boolean;
+  data: ResponseProductsData[];
 };
 
-const ColumnList = ({ category, main }: PropsType) => {
+const ColumnList = ({ category, main, data }: PropsType) => {
   const [productData, setProductData] = useState<ResponseProductsData[] | null>(
     null,
   );
 
-  useFetchData(category, setProductData);
+  if (!main) {
+    useSetProductsData(category, setProductData);
+  }
 
   return (
     <div css={ProductsBox}>
-      {productData &&
-        main &&
-        productData
-          .slice(0, 4)
-          .map((e, i) => (
-            <RowProduct resData={e} rank={i + 1} key={e.productId} />
-          ))}
+      {main &&
+        data.map((e, i) => (
+          <RowProduct resData={e} rank={i + 1} key={e.productId} />
+        ))}
       {productData &&
         !main &&
         category === 'hot' &&
