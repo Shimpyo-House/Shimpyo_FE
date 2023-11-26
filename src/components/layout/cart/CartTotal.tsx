@@ -13,7 +13,7 @@ const CartTotal = ({ totalPrice, checkedList }: CartTotalProps) => {
       <h2>전체 주문 합계</h2>
       <div css={Total}>
         <p>상품 금액</p>
-        <p>{totalPrice}원</p>
+        <p>{new Intl.NumberFormat().format(totalPrice)}원</p>
       </div>
       <div css={Total}>
         <p>주문 상품 개수</p>
