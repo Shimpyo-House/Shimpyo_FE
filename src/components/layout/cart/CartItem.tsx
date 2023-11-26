@@ -1,10 +1,9 @@
 /* eslint-disable react/destructuring-assignment */
-/* eslint-disable import/order */
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { useCallback, useMemo, useState } from 'react';
 import { css } from '@emotion/react';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { ResponseCartsData, ResponseCartRoomData } from '../../../types';
-import React, { useCallback, useMemo, useState } from 'react';
 import theme from '../../../style/theme';
 import CartTotal from './CartTotal';
 
@@ -70,9 +69,9 @@ const CartItem = (carts: CartDataProps) => {
       </label>
       {cartsData &&
         cartsData.map((cart) => (
-          <div css={Container} key={cart.productId}>
+          <div css={Container} key={`${cart.productId}_${cart.productName}`}>
             {cart.rooms?.map((room) => (
-              <React.Fragment key={room.roomId}>
+              <React.Fragment key={`${room.roomId}_${room.roomName}`}>
                 <label htmlFor="box" css={Label}>
                   <input
                     id="box"
@@ -87,7 +86,10 @@ const CartItem = (carts: CartDataProps) => {
                   src={cart.images}
                   alt="장바구니 상품 이미지"
                 />
-                <div css={DescriptionContainer} key={room.roomId}>
+                <div
+                  css={DescriptionContainer}
+                  key={`${room.roomId}_${room.roomName}`}
+                >
                   <h3 css={RoomName}>{cart.productName}</h3>
                   <p css={RoomPeriod}>
                     {room.checkIn} ~ {room.checkOut}
