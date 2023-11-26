@@ -1,15 +1,16 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { getCookie, setCookie } from './components/layout/auth/auth.utils';
 import { axiosWithAccessToken, axiosWithNoToken } from './Axios';
-// import { userData } from './atoms/user';
+import { userData } from './atoms/user';
 
-const ACCESS_TOKEN_EXPIRED_MESSAGE = 'A';
-const REFRESH_TOKEN_EXPIRED_MESSAGE = 'B';
+const ACCESS_TOKEN_EXPIRED_MESSAGE = '';
+const REFRESH_TOKEN_EXPIRED_MESSAGE = '토큰의 회원 정보가 일치하지 않습니다.';
 
 const TokenRefresher = () => {
-  // const setUserData = useSetRecoilState(userData);
+  const setUserData = useSetRecoilState(userData);
   const navigate = useNavigate();
   const tokenRefresh = useCallback(
     async ({
@@ -23,13 +24,25 @@ const TokenRefresher = () => {
         prevAccessToken,
         prevRefreshToken,
       });
+
       const { accessToken, accessTokenExpiresIn, refreshToken } =
         res.data.data.token;
       console.log('token이 Refresh됐습니다.');
-      const option = { secure: true, Expires: accessTokenExpiresIn };
-      setCookie('accessToken', accessToken, option);
-      setCookie('accessTokenExpiresIn', accessTokenExpiresIn, option);
-      setCookie('refreshToken', refreshToken, option);
+
+      const expireDate = new Date(accessTokenExpiresIn);
+      console.log(expireDate);
+      console.log(expireDate.toUTCString());
+
+      setCookie('accessToken', accessToken, {
+        secure: true,
+        Expires: expireDate.toUTCString(),
+      });
+      setCookie('refreshToken', refreshToken, {
+        secure: true,
+        maxAge: 60 * 24 * 7,
+      });
+
+      setUserData(res.data.data.member);
     },
     [],
   );
@@ -77,6 +90,7 @@ const TokenRefresher = () => {
       },
     );
   }, []);
+  return <></>;
 };
 
 export default TokenRefresher;
