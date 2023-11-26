@@ -39,9 +39,15 @@ const SigninForm = () => {
         setUserData(userObj);
 
         /* 쿠키 => Access, Refresh */
-        setCookie('accessToken', accessToken);
-        setCookie('accessTokenExpiresIn', accessTokenExpiresIn);
-        setCookie('refreshToken', refreshToken);
+        const expireDate = new Date(accessTokenExpiresIn);
+        setCookie('accessToken', accessToken, {
+          secure: true,
+          Expires: expireDate.toUTCString(),
+        });
+        setCookie('refreshToken', refreshToken, {
+          secure: true,
+          maxAge: 60 * 24 * 7,
+        });
       } catch (e) {
         console.log(e);
       }
