@@ -8,7 +8,7 @@ import { useSetProductsData } from './useProductsData';
 type PropsType = {
   category: string;
   main: boolean;
-  data: ResponseProductsData[];
+  data: ResponseProductsData[] | undefined;
 };
 
 const ColumnList = ({ category, main, data }: PropsType) => {
@@ -23,6 +23,7 @@ const ColumnList = ({ category, main, data }: PropsType) => {
   return (
     <div css={ProductsBox}>
       {main &&
+        data &&
         data.map((e, i) => (
           <RowProduct resData={e} rank={i + 1} key={e.productId} />
         ))}

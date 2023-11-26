@@ -28,7 +28,9 @@ const CategoryProductsList = () => {
             {category === 'hotel' && '지금 떠나는 도심 호캉스!'}
           </p>
         </div>
-        {category !== '' && <ColumnList category={category} main={false} />}
+        {category !== '' && (
+          <ColumnList category={category} main={false} data={undefined} />
+        )}
       </div>
     </div>
   );
