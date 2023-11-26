@@ -8,7 +8,7 @@ import Cart from './pages/Cart';
 import Pay from './pages/Pay';
 import OrderedList from './pages/OrderedList';
 import TokenProvider from './TokenProvider';
-import Mypage from './pages/Mypage';
+import MyPage from './pages/MyPage';
 
 const Router = () => {
   return (
@@ -22,7 +22,7 @@ const Router = () => {
               <Route path="carts" element={<Cart />} />
               <Route path="pay" element={<Pay />} />
               <Route path="ordered" element={<OrderedList />} />
-              <Route path="mypage" element={<Mypage />} />
+              <Route path="mypage" element={<MyPage />} />
             </Route>
             <Route path="signup" element={<Signup />} />
             <Route path="signin" element={<Signin />} />
