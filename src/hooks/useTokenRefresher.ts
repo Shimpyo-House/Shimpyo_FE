@@ -49,6 +49,7 @@ const useTokenRefresher = () => {
 
   useEffect(() => {
     console.log('useTokenRefresh 시작');
+    setUserData({ name: '가상인물', email: 'hello', id: 123, photoUrl: '' });
     axiosWithAccessToken.interceptors.request.use(
       (config) => {
         const accessToken = getCookie('accessToken');
@@ -90,6 +91,9 @@ const useTokenRefresher = () => {
         return Promise.reject(error);
       },
     );
+    return () => {
+      console.log('refresh token unmount');
+    };
   }, []);
 };
 

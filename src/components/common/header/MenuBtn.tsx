@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAnimate, stagger, motion } from 'framer-motion';
 import { css } from '@emotion/react';
 import { MdMenu } from 'react-icons/md';
@@ -61,7 +62,9 @@ const MenuBtn = () => {
         }}
       >
         {/* 추후에 여기다가 링크나 모달 연결해서 쓰시면 됩니다! */}
-        <li>내 정보</li>
+        <li>
+          <Link to="/mypage">내 정보</Link>
+        </li>
         <li>결제 내역 </li>
         <li>로그아웃</li>
       </ul>{' '}
