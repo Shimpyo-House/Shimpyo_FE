@@ -1,13 +1,9 @@
 import { Outlet } from 'react-router-dom';
-import TokenRefresher from './TokenRefresher';
+import useTokenRefresher from './hooks/useTokenRefresher';
 
-const Layout = () => {
-  return (
-    <div>
-      <TokenRefresher />
-      <Outlet />
-    </div>
-  );
+const TokenProvider = () => {
+  useTokenRefresher();
+  return <Outlet />;
 };
 
-export default Layout;
+export default TokenProvider;

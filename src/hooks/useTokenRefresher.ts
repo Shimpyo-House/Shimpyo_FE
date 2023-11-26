@@ -2,14 +2,14 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { getCookie, setCookie } from './components/layout/auth/auth.utils';
-import { axiosWithAccessToken, axiosWithNoToken } from './Axios';
-import { userData } from './atoms/user';
+import { userData } from '../atoms/user';
+import { axiosWithAccessToken, axiosWithNoToken } from '../Axios';
+import { getCookie, setCookie } from '../components/layout/auth/auth.utils';
 
 const ACCESS_TOKEN_EXPIRED_MESSAGE = '';
 const REFRESH_TOKEN_EXPIRED_MESSAGE = '토큰의 회원 정보가 일치하지 않습니다.';
 
-const TokenRefresher = () => {
+const useTokenRefresher = () => {
   const setUserData = useSetRecoilState(userData);
   const navigate = useNavigate();
   const tokenRefresh = useCallback(
@@ -48,6 +48,7 @@ const TokenRefresher = () => {
   );
 
   useEffect(() => {
+    console.log('useTokenRefresh 시작');
     axiosWithAccessToken.interceptors.request.use(
       (config) => {
         const accessToken = getCookie('accessToken');
@@ -90,7 +91,6 @@ const TokenRefresher = () => {
       },
     );
   }, []);
-  return <></>;
 };
 
-export default TokenRefresher;
+export default useTokenRefresher;

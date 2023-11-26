@@ -14,7 +14,7 @@ const Router = () => {
     <main>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<TokenProvider />}>
+          <Route element={<TokenProvider />}>
             <Route element={<App />}>
               <Route index element={<Home />} />
               <Route path="products/:productId" element={<ProductDetail />} />
