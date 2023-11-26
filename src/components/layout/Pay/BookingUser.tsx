@@ -14,7 +14,7 @@ const BookingUser = () => {
     const inputNumber = event.target.value.replace(/[^0-9]/g, '');
     let formattedNumber = '';
 
-    for (let i = 0; i < inputNumber.length; i++) {
+    for (let i = 0; i < inputNumber.length; i += 1) {
       if (i === 3 || i === 7) {
         formattedNumber += '-';
       }
