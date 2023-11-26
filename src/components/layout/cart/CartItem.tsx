@@ -1,11 +1,10 @@
 /* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-unneeded-ternary */
 /* eslint-disable import/order */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { css } from '@emotion/react';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { ResponseCartsData, ResponseCartRoomData } from '../../../types';
-import { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import theme from '../../../style/theme';
 import CartTotal from './CartTotal';
 
@@ -26,16 +25,19 @@ const CartItem = (carts: CartDataProps) => {
     });
   }
 
-  const handleCheckbox = (roomPrice: number) => {
-    const isChecked = checkedList.includes(roomPrice);
-    if (isChecked) {
-      setCheckedList(checkedList.filter((id) => id !== roomPrice));
-    } else {
-      setCheckedList([...checkedList, roomPrice]);
-    }
-  };
+  const handleCheckbox = useCallback(
+    (roomPrice: number) => {
+      const isChecked = checkedList.includes(roomPrice);
+      if (isChecked) {
+        setCheckedList(checkedList.filter((id) => id !== roomPrice));
+      } else {
+        setCheckedList([...checkedList, roomPrice]);
+      }
+    },
+    [checkedList],
+  );
 
-  const handleAllCheckbox = () => {
+  const handleAllCheckbox = useCallback(() => {
     const allChecked = rooms.every((room) => checkedList.includes(room.price));
     if (allChecked) {
       setCheckedList([]);
@@ -43,9 +45,12 @@ const CartItem = (carts: CartDataProps) => {
       const allRoomIds = rooms.map((room) => room.price) || [];
       setCheckedList(allRoomIds);
     }
-  };
+  }, [checkedList]);
 
-  const totalPrice = checkedList.reduce((acc, cur) => acc + cur, 0);
+  const totalPrice = useMemo(
+    () => checkedList.reduce((acc, cur) => acc + cur, 0),
+    [checkedList],
+  );
 
   return (
     <>
@@ -59,8 +64,6 @@ const CartItem = (carts: CartDataProps) => {
             rooms &&
             rooms.length > 0 &&
             rooms.every((room) => checkedList.includes(room.price))
-              ? true
-              : false
           }
         />
         <p css={AllSelect}>전체 선택</p>
@@ -69,7 +72,7 @@ const CartItem = (carts: CartDataProps) => {
         cartsData.map((cart) => (
           <div css={Container} key={cart.productId}>
             {cart.rooms?.map((room) => (
-              <>
+              <React.Fragment key={room.roomId}>
                 <label htmlFor="box" css={Label}>
                   <input
                     id="box"
@@ -98,11 +101,13 @@ const CartItem = (carts: CartDataProps) => {
                 <div css={RightContainer}>
                   <RiDeleteBin6Line css={DeleteIcon} />
                   <div css={PriceContainer}>
-                    <p css={Price}>{room.price}원</p>
+                    <p css={Price}>
+                      {new Intl.NumberFormat().format(room.price)}원
+                    </p>
                     <p css={PriceText}>취소 및 환불 불가</p>
                   </div>
                 </div>
-              </>
+              </React.Fragment>
             ))}
           </div>
         ))}
