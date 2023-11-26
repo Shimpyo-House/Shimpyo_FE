@@ -6,7 +6,6 @@ import Signup from './pages/Signup';
 import Signin from './pages/Signin';
 import Cart from './pages/Cart';
 import Pay from './pages/Pay';
-import CategoryProducts from './pages/CategoryProducts';
 import OrderedList from './pages/OrderedList';
 
 const Router = () => {
@@ -16,14 +15,13 @@ const Router = () => {
         <Routes>
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
-            <Route path="category" element={<CategoryProducts />} />
-            <Route path="product/:id" element={<ProductDetail />} />
+            <Route path="products/:productId" element={<ProductDetail />} />
             <Route path="/carts" element={<Cart />} />
             <Route path="pay" element={<Pay />} />
             <Route path="ordered" element={<OrderedList />} />
           </Route>
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/signin" element={<Signin />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="signin" element={<Signin />} />
         </Routes>
       </BrowserRouter>
     </main>
