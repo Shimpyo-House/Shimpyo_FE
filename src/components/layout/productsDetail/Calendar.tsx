@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unused-state */
 /* eslint-disable import/no-extraneous-dependencies */
+import { addDays } from 'date-fns';
 import { Component } from 'react';
 import { DateRange } from 'react-date-range';
 
@@ -44,6 +45,8 @@ class CalendarComponent extends Component<{}, CalendarState> {
           onChange={this.onRangeChange}
           moveRangeOnFirstSelection={false}
           ranges={[ranges]}
+          minDate={addDays(new Date(), 0)}
+          maxDate={addDays(new Date(), 14)}
         />
         <br />
         <div>Start Date : {startDate.toString()}</div>
