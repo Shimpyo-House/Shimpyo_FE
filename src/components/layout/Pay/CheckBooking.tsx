@@ -91,11 +91,10 @@ const CheckBooking = () => {
 // `;
 
 const OrderTitle = css`
-  margin: 4rem 0 2rem;
+  margin: 3rem 0 2rem;
 
   display: flex;
   justify-content: center;
-
   font-size: 2rem;
 `;
 
