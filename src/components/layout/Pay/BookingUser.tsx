@@ -38,6 +38,7 @@ const BookingUser = () => {
           css={InputEl}
           onChange={(event) => setReserveInfo(event.target.value)}
           value={reserveInfo}
+          type="string"
         />
       </div>
 
@@ -63,6 +64,7 @@ const BookingUser = () => {
           css={InputEl}
           value={checked ? reserveInfo : userInfo}
           onChange={(event) => setUserInfo(event.target.value)}
+          type="string"
         />
         <p>휴대폰 번호</p>
         <input
