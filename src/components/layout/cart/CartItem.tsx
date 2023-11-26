@@ -1,29 +1,95 @@
-/* eslint-disable react/jsx-no-useless-fragment */
-/* eslint-disable import/no-cycle */
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { useCallback, useMemo, useState } from 'react';
 import { css } from '@emotion/react';
 import { RiDeleteBin6Line } from 'react-icons/ri';
-import { CheckBox } from '../../../pages/Cart';
-import { ResponseCartsData } from '../../../types';
+import { ResponseCartsData, ResponseCartRoomData } from '../../../types';
 import theme from '../../../style/theme';
+import CartTotal from './CartTotal';
 
-interface CartsDataProps {
+interface CartDataProps {
   carts: ResponseCartsData[] | null;
 }
 
-const CartItem = (carts: CartsDataProps) => {
+const CartItem = (carts: CartDataProps) => {
+  const cartsData = carts.carts;
+  const rooms: ResponseCartRoomData[] = [];
+  const [checkedList, setCheckedList] = useState<number[]>([]);
+
+  if (cartsData) {
+    cartsData.forEach((cart) => {
+      if (cart.rooms) {
+        rooms.push(...cart.rooms);
+      }
+    });
+  }
+
+  const handleCheckbox = useCallback(
+    (roomPrice: number) => {
+      const isChecked = checkedList.includes(roomPrice);
+      if (isChecked) {
+        setCheckedList(checkedList.filter((id) => id !== roomPrice));
+      } else {
+        setCheckedList([...checkedList, roomPrice]);
+      }
+    },
+    [checkedList],
+  );
+
+  const handleAllCheckbox = useCallback(() => {
+    const allChecked = rooms.every((room) => checkedList.includes(room.price));
+    if (allChecked) {
+      setCheckedList([]);
+    } else {
+      const allRoomIds = rooms.map((room) => room.price) || [];
+      setCheckedList(allRoomIds);
+    }
+  }, [checkedList]);
+
+  const totalPrice = useMemo(
+    () => checkedList.reduce((acc, cur) => acc + cur, 0),
+    [checkedList],
+  );
+
   return (
     <>
-      {carts?.carts &&
-        carts?.carts.map((cart) => (
-          <div css={Container} key={cart.productId}>
-            <label htmlFor="box" css={Label}>
-              <input id="box" type="checkbox" css={CheckBox} />
-            </label>
-            <img css={CartImg} src={cart.images} alt="장바구니 상품 이미지" />
+      <label htmlFor="allCheckBox" css={AllLabel}>
+        <input
+          id="allCheckBox"
+          type="checkbox"
+          css={AllCheckBox}
+          onChange={handleAllCheckbox}
+          checked={
+            rooms &&
+            rooms.length > 0 &&
+            rooms.every((room) => checkedList.includes(room.price))
+          }
+        />
+        <p css={AllSelect}>전체 선택</p>
+      </label>
+      {cartsData &&
+        cartsData.map((cart) => (
+          <div css={Container} key={`${cart.productId}_${cart.productName}`}>
             {cart.rooms?.map((room) => (
-              <>
-                <div css={DescriptionContainer} key={room.roomId}>
+              <React.Fragment key={`${room.roomId}_${room.roomName}`}>
+                <label htmlFor="box" css={Label}>
+                  <input
+                    id="box"
+                    type="checkbox"
+                    css={CheckBox}
+                    onChange={() => handleCheckbox(room.price)}
+                    checked={checkedList.includes(room.price)}
+                  />
+                </label>
+                <img
+                  css={CartImg}
+                  src={cart.images}
+                  alt="장바구니 상품 이미지"
+                />
+                <div
+                  css={DescriptionContainer}
+                  key={`${room.roomId}_${room.roomName}`}
+                >
                   <h3 css={RoomName}>{cart.productName}</h3>
                   <p css={RoomPeriod}>
                     {room.checkIn} ~ {room.checkOut}
@@ -37,19 +103,55 @@ const CartItem = (carts: CartsDataProps) => {
                 <div css={RightContainer}>
                   <RiDeleteBin6Line css={DeleteIcon} />
                   <div css={PriceContainer}>
-                    <p css={Price}>{room.price}원</p>
+                    <p css={Price}>
+                      {new Intl.NumberFormat().format(room.price)}원
+                    </p>
                     <p css={PriceText}>취소 및 환불 불가</p>
                   </div>
                 </div>
-              </>
+              </React.Fragment>
             ))}
           </div>
         ))}
+      <CartTotal totalPrice={totalPrice} checkedList={checkedList} />
     </>
   );
 };
 
 export default CartItem;
+
+const AllLabel = css`
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+
+  margin: 1rem;
+`;
+
+const AllCheckBox = css`
+  width: 1.5rem;
+  height: 1.5rem;
+
+  border: 1.5px solid ${theme.colors.gray600};
+  border-radius: 0.35rem;
+
+  cursor: pointer;
+  appearance: none;
+
+  &:checked {
+    border-color: transparent;
+
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
+    background-size: 100% 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-color: ${theme.colors.blue700};
+  }
+`;
+
+const AllSelect = css`
+  font-weight: 700;
+`;
 
 const Container = css`
   display: flex;
@@ -62,6 +164,27 @@ const Container = css`
 
 const Label = css`
   margin: 0 1rem;
+`;
+
+const CheckBox = css`
+  width: 1.5rem;
+  height: 1.5rem;
+
+  border: 1.5px solid ${theme.colors.gray600};
+  border-radius: 0.35rem;
+
+  cursor: pointer;
+  appearance: none;
+
+  &:checked {
+    border-color: transparent;
+
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
+    background-size: 100% 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-color: ${theme.colors.blue700};
+  }
 `;
 
 const CartImg = css`
