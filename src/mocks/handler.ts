@@ -570,7 +570,7 @@ const handlers = [
           desc: '호텔 내 수영장이 있어요.',
           favorites: true,
           starAvg: 1.3,
-          images: ['/public/img1.jpeg', '/public/img1.jpeg'],
+          images: ['/public/img1.jpeg', '/public/img2.jpeg'],
           rooms: [
             {
               roomId: 1,
