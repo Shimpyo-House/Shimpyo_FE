@@ -1,12 +1,17 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/jsx-props-no-spreading */
 import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import Slider from 'react-slick';
 import { RequestProductDetail } from '../../../types';
-
-// import 'react-date-range/dist/styles.css'; // main style file
-// import 'react-date-range/dist/theme/default.css'; // theme css file
-// import Calendar from './Calendar';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
+import CalendarComponent from './Calendar';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const ProductsDetail = () => {
   const [productDetail, setProductDetail] =
@@ -19,6 +24,7 @@ const ProductsDetail = () => {
     console.log(productDetail);
     console.log(productId);
     console.log(productDetail?.productName);
+    console.log(productDetail?.images);
 
     const fetchProductDetail = async () => {
       try {
@@ -40,48 +46,63 @@ const ProductsDetail = () => {
     return <div>Loading...</div>;
   }
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    autoplay: true,
+    slidesToShow: 1,
+    autoplaySpeed: 2000,
+  };
+
   return (
-    <div css={ProductDetailContainer}>
-      <div css={ProductDetailImgBox}>
-        <div
-          css={ProductDetailImg}
-          style={{ backgroundImage: `url('${productDetail.images[0]}')` }}
-        />
-      </div>
-      <div css={ProductDetailBox}>
-        <div css={ProductData}>
-          <div css={NameScoreContainer}>
-            <div css={ProductName}>{productDetail.productName}</div>
-            <div css={ProductScore}>⭐ {productDetail.starAvg}</div>
-          </div>
-          <div css={ProductsLocation}>{productDetail.address}</div>
-        </div>
-      </div>
-      <div css={DayCalendar}>
-        {/* <Calendar onChange={undefined} value={undefined} /> */}
-      </div>
-      <div css={RoomContainer}>
-        {productDetail.rooms.map((room) => (
-          <div key={`room ${room.roomId}`} css={RoomItem}>
-            <div
-              css={RoomImg}
-              style={{ backgroundImage: `url('${productDetail.images[0]}')` }}
-            />
-            <div css={RoomInfo}>
-              <div css={RoomName}>{room.roomName}</div>
-              <div>{`기준 ${room.standard}인 / 최대 ${room.capacity}인`}</div>
-              <div>{room.description}</div>
-              <div css={checkTime}>체크인 15:00 ~ 체크아웃 11:00</div>
+    <div>
+      <div css={ProductDetailContainer}>
+        <Slider {...settings} css={SliderStyle}>
+          {productDetail.images.map((image, index) => (
+            <div key={index} css={SlideItem}>
+              <div
+                css={ProductDetailImg}
+                style={{ backgroundImage: `url(${image})` }}
+              />
             </div>
-            <div css={RoomAction}>
-              <div css={priceStyle}>{room.price}</div>
-              <div css={buyBtn}>
-                <button type="button">장바구니</button>
-                <button type="button">예약하기</button>
+          ))}
+        </Slider>
+        <div css={ProductDetailBox}>
+          <div css={ProductData}>
+            <div css={NameScoreContainer}>
+              <div css={ProductName}>{productDetail.productName}</div>
+              <div css={ProductScore}>⭐ {productDetail.starAvg}</div>
+            </div>
+            <div css={ProductsLocation}>{productDetail.address}</div>
+          </div>
+        </div>
+        <div css={DayCalendar}>
+          <CalendarComponent />
+        </div>
+        <div css={RoomContainer}>
+          {productDetail.rooms.map((room) => (
+            <div key={`room ${room.roomId}`} css={RoomItem}>
+              <div
+                css={RoomImg}
+                style={{ backgroundImage: `url('${productDetail.images[0]}')` }}
+              />
+              <div css={RoomInfo}>
+                <div css={RoomName}>{room.roomName}</div>
+                <div>{`기준 ${room.standard}인 / 최대 ${room.capacity}인`}</div>
+                <div>{room.description}</div>
+                <div css={checkTime}>체크인 15:00 ~ 체크아웃 11:00</div>
+              </div>
+              <div css={RoomAction}>
+                <div css={priceStyle}>{room.price}</div>
+                <div css={buyBtn}>
+                  <button type="button">장바구니</button>
+                  <button type="button">예약하기</button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -96,9 +117,24 @@ const ProductDetailContainer = css`
   margin-top: 4rem;
 `;
 
-const ProductDetailImgBox = css`
+const SliderStyle = css`
   width: 100%;
-  //   max-width: 1000px;
+  height: 500px; /* 원하는 높이 설정 */
+  overflow: hidden; /* 슬라이드 넘침 방지 */
+`;
+
+const SlideItem = css`
+  width: 100%;
+  height: 100%;
+`;
+
+const ProductDetailImg = css`
+  width: 100%;
+  height: 500px;
+  background-size: cover;
+  border-radius: 10px;
+  display: block;
+  object-fit: cover;
 `;
 
 const ProductDetailBox = css`
@@ -107,16 +143,6 @@ const ProductDetailBox = css`
   display: flex;
   gap: 20px;
   margin-top: 3rem;
-`;
-
-const ProductDetailImg = css`
-  width: 800;
-  height: 500px;
-
-  background-image: url('/public/img1.jpeg');
-  background-size: cover;
-
-  border-radius: 10px;
 `;
 
 const ProductData = css`
