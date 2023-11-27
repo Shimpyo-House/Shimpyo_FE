@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { Link } from 'react-router-dom';
 import theme from '../../../style/theme';
 import { ResponseProductsData } from '../../../types';
 
@@ -7,13 +8,18 @@ type PropsType = {
 };
 
 const ColumnProduct = ({ resData }: PropsType) => {
+  console.log(resData.productName);
   return (
-    <div css={ProductBox}>
-      <div css={ProductImg} />
-      <p css={ProductName}>{resData.productName}</p>
-      <p css={ProductScore}>⭐ {resData.starAvg}</p>
-      <p css={ProductPrice}>{resData.price.toLocaleString()}원 ~</p>
-    </div>
+    <Link to={`/products/${resData.productId}`}>
+      <div css={ProductBox}>
+        <div css={ProductImg} />
+        <div css={ProductName}>{resData.productName}</div>
+        <div css={ProductScore}>⭐ {resData.starAvg}</div>
+        <div css={ProductPrice}>
+          <span>{resData.price.toLocaleString()}원 ~</span>
+        </div>
+      </div>
+    </Link>
   );
 };
 
@@ -34,16 +40,6 @@ const ProductBox = css`
   border-radius: 10px;
 
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
-  cursor: pointer;
-
-  transition: 0.2s all;
-  &:hover {
-    scale: 1.015;
-  }
-  &:active {
-    scale: 0.985;
-  }
 `;
 
 const ProductImg = css`
