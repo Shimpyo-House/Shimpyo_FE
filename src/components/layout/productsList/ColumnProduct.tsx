@@ -9,9 +9,9 @@ type PropsType = {
 const ColumnProduct = ({ resData }: PropsType) => {
   return (
     <div css={ProductBox}>
-      <div css={ProductImg} />
+      <img css={ProductImg} src={resData.image} alt="숙소 대표 사진" />
       <p css={ProductName}>{resData.productName}</p>
-      <p css={ProductScore}>⭐ {resData.starAvg}</p>
+      <p css={ProductScore}>⭐ {resData.starAvg.toFixed(1)}</p>
       <p css={ProductPrice}>{resData.price.toLocaleString()}원 ~</p>
     </div>
   );
