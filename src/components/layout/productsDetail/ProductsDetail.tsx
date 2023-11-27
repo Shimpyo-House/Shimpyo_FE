@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Slider from 'react-slick';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
+import theme from '../../../style/theme';
 import { RequestProductDetail } from '../../../types';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
@@ -102,8 +104,10 @@ const ProductsDetail = () => {
               <div css={RoomAction}>
                 <div css={priceStyle}>{room.price}</div>
                 <div css={buyBtn}>
-                  <button type="button">장바구니</button>
-                  <button type="button">예약하기</button>
+                  <AiOutlineShoppingCart css={CartIcon} />
+                  <button type="button" css={reservationButton}>
+                    예약하기
+                  </button>
                 </div>
               </div>
             </div>
@@ -276,4 +280,40 @@ const buyBtn = css`
   flex-direction: row;
   align-items: flex-end;
   margin-top: auto;
+`;
+
+const CartIcon = css`
+  width: 2.5rem;
+  height: 2.5rem;
+
+  color: ${theme.colors.blue500};
+
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    color: ${theme.colors.blue700};
+  }
+
+  margin-right: 2rem;
+`;
+
+const reservationButton = css`
+  padding: 10px 20px;
+  background-color: #3d91ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+  outline: none;
+
+  &:hover {
+    background-color: #2565cb;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
 `;
