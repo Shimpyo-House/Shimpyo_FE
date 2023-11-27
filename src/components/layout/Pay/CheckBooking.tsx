@@ -2,18 +2,18 @@
 // 숙소 예약 완료 후 무료 취소 안내 토글
 // BookingInfo.tsx 컴포넌트가 여기서 쓰일거임
 
+// 로그인하시겠어요? 부분 주석 처리
+
 import { useState } from 'react';
 import { css } from '@emotion/react';
 import BookingInfo from './BookingInfo';
 
 const CheckBooking = () => {
-  // login은 값을 받아올 것 같음 코드 변경 예상
-  const [login] = useState(false);
+  // const [login] = useState(false);
   const [toggled, setToggled] = useState(false);
-
   return (
     <nav>
-      <div css={LoggedIn}>
+      {/* <div css={LoggedIn}>
         {login ? (
           <div css={LoggedInTo}>
             안녕하세요, <span>소유나</span> 님
@@ -26,7 +26,8 @@ const CheckBooking = () => {
             </div>
           </>
         )}
-      </div>
+      </div> */}
+      <h1 css={OrderTitle}>주문 및 결제</h1>
       <div css={Booking}>
         <h1>숙소</h1>
         <div css={Toggle}>
@@ -58,34 +59,42 @@ const CheckBooking = () => {
   );
 };
 
-const LoggedIn = css`
-  width: 100%;
-  padding: 2rem;
+// const LoggedIn = css`
+//   width: 100%;
+//   padding: 2rem;
 
-  margin-top: 1rem;
+//   margin-top: 1rem;
 
-  box-shadow: 1px 1px 4px 0px #cacaca;
-  border-radius: 5px;
-`;
+//   box-shadow: 1px 1px 4px 0px #cacaca;
+//   border-radius: 5px;
+// `;
 
-const LoggedInTo = css`
-  color: #3a7bdf;
-  font-weight: 900;
+// const LoggedInTo = css`
+//   color: #3a7bdf;
+//   font-weight: 900;
 
-  &:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
-`;
+//   &:hover {
+//     text-decoration: underline;
+//     cursor: pointer;
+//   }
+// `;
 
-const LoggedInDes = css`
-  margin-top: 0.7rem;
+// const LoggedInDes = css`
+//   margin-top: 0.7rem;
 
-  font-size: 0.75rem;
+//   font-size: 0.75rem;
 
-  span {
-    font-weight: 900;
-  }
+//   span {
+//     font-weight: 900;
+//   }
+// `;
+
+const OrderTitle = css`
+  margin: 3rem 0 2rem;
+
+  display: flex;
+  justify-content: center;
+  font-size: 2rem;
 `;
 
 const Booking = css`

@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { useNavigate } from 'react-router-dom';
+import theme from '../../../style/theme';
 
 const Payment = () => {
   const [allAgree, setAllAgree] = useState(false);
@@ -48,69 +49,77 @@ const Payment = () => {
 
       <div css={Agreement}>
         <div css={AllAgree}>
-          <label htmlFor="allAgree">
+          <label htmlFor="allAgree" css={AlignCheckBox}>
             <input
               id="allAgree"
               type="checkbox"
               checked={allAgree}
+              css={BigCheckBtn}
               onChange={handleAllAgreeClick}
             />{' '}
-            필수 약관 전체 동의
+            <div>필수 약관 전체 동의</div>
           </label>
         </div>
         <div css={Agree}>
-          <label htmlFor="ageAgree">
+          <label htmlFor="ageAgree" css={AlignCheckBox}>
             <input
               id="ageAgree"
               type="checkbox"
               checked={ageAgree}
+              css={CheckBtn}
               onChange={() => setAgeAgree(!ageAgree)}
             />{' '}
-            [필수] 만 14세 이상 이용 동의
+            <div>[필수] 만 14세 이상 이용 동의</div>
           </label>
         </div>
         <div css={Agree}>
-          <label htmlFor="infoAgree">
+          <label htmlFor="infoAgree" css={AlignCheckBox}>
             <input
               id="infoAgree"
               type="checkbox"
               checked={infoAgree}
+              css={CheckBtn}
               onChange={() => setInfoAgree(!infoAgree)}
             />{' '}
-            [필수] 개인정보 수집 및 이용
+            <div>[필수] 개인정보 수집 및 이용</div>
           </label>
         </div>
         <div css={Agree}>
-          <label htmlFor="thirdPartyAgree">
+          <label htmlFor="thirdPartyAgree" css={AlignCheckBox}>
             <input
               id="thirdPartyAgree"
               type="checkbox"
               checked={thirdPartyAgree}
+              css={CheckBtn}
               onChange={() => setThirdPartyAgree(!thirdPartyAgree)}
             />{' '}
-            [필수] 개인정보 제 3자 제공
+            <div>[필수] 개인정보 제 3자 제공</div>
           </label>
         </div>
         <div css={Agree}>
-          <label htmlFor="eventAgree">
+          <label htmlFor="eventAgree" css={AlignCheckBox}>
             <input
               id="eventAgree"
               type="checkbox"
               checked={eventAgree}
+              css={CheckBtn}
               onChange={() => setEventAgree(!eventAgree)}
             />{' '}
-            [선택] 이벤트, 혜택 정보 수신 동의
+            <div>[선택] 이벤트, 혜택 정보 수신 동의</div>
           </label>
         </div>
         <div css={Agree}>
-          <label htmlFor="eventInfoAgree">
+          <label htmlFor="eventInfoAgree" css={AlignCheckBox}>
             <input
               id="eventInfoAgree"
               type="checkbox"
               checked={eventInfoAgree}
+              css={CheckBtn}
               onChange={() => setEventInfoAgree(!eventInfoAgree)}
             />{' '}
-            [선택] 이벤트, 혜택 정보 전송을 위한 개인정보 수집 및 이용 동의
+            <div>
+              [선택] 이벤트, 혜택 정보 전송을 위한 개인정보 수집 및 이용 동의
+            </div>
           </label>
         </div>
       </div>
@@ -163,7 +172,7 @@ const TotalPrice = css`
   font-weight: 900;
 
   p {
-    color: #3a7bdf;
+    color: ${theme.colors.blue700};
   }
 `;
 
@@ -193,7 +202,7 @@ const AgreeInfo = css`
 
   span {
     font-weight: 900;
-    color: #3a7bdf;
+    color: ${theme.colors.blue700};
     text-decoration: underline;
     cursor: pointer;
   }
@@ -208,7 +217,7 @@ const PaymentButton = css`
   font-size: 1.2rem;
 
   border-radius: 5px;
-  background-color: #3a7bdf;
+  background-color: ${theme.colors.blue700};
   color: #fff;
   text-align: center;
   cursor: pointer;
@@ -216,8 +225,149 @@ const PaymentButton = css`
   transition: 0.2s;
 
   &:hover {
-    background-color: #2565c8;
+    background-color: ${theme.colors.blue800};
   }
+`;
+
+const BigCheckBtn = css`
+  width: 1.3rem;
+  height: 1.3rem;
+
+  position: relative;
+
+  border: 1px solid ${theme.colors.gray600};
+  border-radius: 5px;
+
+  cursor: pointer;
+  appearance: none;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  transition: all 0.3s;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: 0 0 0 calc(20px / 2.5) ${theme.colors.blue700};
+    border-radius: inherit;
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.12, 0.4, 0.29, 1.46);
+  }
+
+  &:before {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    content: '';
+
+    width: 0.25rem;
+    height: 0.45rem;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: translate(-50%, -50%) rotate(45deg) scale(0);
+    opacity: 0;
+    transition:
+      all 0.1s cubic-bezier(0.71, -0.46, 0.88, 0.6),
+      opacity 0.1s;
+  }
+
+  &:hover {
+    border-color: ${theme.colors.blue700};
+  }
+
+  &:checked {
+    background: ${theme.colors.blue700};
+    border-color: transparent;
+
+    &:before {
+      opacity: 1;
+
+      transform: translate(-50%, -50%) rotate(45deg) scale(1.2);
+      transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
+    }
+  }
+
+  &:active:not(:checked)::after {
+    transition: none;
+    box-shadow: none;
+    opacity: 1;
+  }
+`;
+
+const CheckBtn = css`
+  width: 1rem;
+  height: 1rem;
+
+  position: relative;
+
+  border: 1px solid ${theme.colors.gray600};
+  border-radius: 5px;
+
+  cursor: pointer;
+  appearance: none;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  transition: all 0.3s;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: 0 0 0 calc(20px / 3.5) ${theme.colors.blue700};
+    border-radius: inherit;
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.12, 0.4, 0.29, 1.46);
+  }
+
+  &:before {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    content: '';
+
+    width: 0.2rem;
+    height: 0.3rem;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: translate(-50%, -50%) rotate(45deg) scale(0);
+    opacity: 0;
+    transition:
+      all 0.1s cubic-bezier(0.71, -0.46, 0.88, 0.6),
+      opacity 0.1s;
+  }
+
+  &:hover {
+    border-color: ${theme.colors.blue700};
+  }
+
+  &:checked {
+    background: ${theme.colors.blue700};
+    border-color: transparent;
+
+    &:before {
+      opacity: 1;
+
+      transform: translate(-50%, -50%) rotate(45deg) scale(1.1);
+      transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
+    }
+  }
+
+  &:active:not(:checked)::after {
+    transition: none;
+    box-shadow: none;
+    opacity: 1;
+  }
+`;
+
+const AlignCheckBox = css`
+  display: flex;
+  gap: 10px;
 `;
 
 export default Payment;

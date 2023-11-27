@@ -8,107 +8,6 @@ async function sleep(timeout: number) {
 }
 
 const handlers = [
-  // 회원가입
-  rest.post('/api/auth/signup', async (_, res, ctx) => {
-    await sleep(500);
-    return res(
-      ctx.status(201),
-      ctx.json({
-        code: 200,
-        message: '성공적으로 로그인 했습니다.',
-        data: {
-          member: {
-            memberId: 1,
-            email: 'test@mail.com',
-            name: 'test',
-            photoUrl:
-              'https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI',
-          },
-          token: {
-            grantType: 'Bearer',
-            accessToken:
-              'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTcwMDU4NjkyOH0.lof7WjalCH1gGPy2q7YYi9VTcgn_aoFMwEMQvITtddsUIcJN-YzNODt_RQde5J5dH98NKMXDOvy7YwNlt6BCfg',
-            accessTokenExpiresIn: 1700586928520,
-            refreshToken:
-              'eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE3MDExODk5Mjh9.uZuIAxsnf4Ubz5K9YzysJTu9Gh25XNTsPVAPSElw1lS78gS8S08L97Z4RkfGodegGXZ9UFFNkVXdhRzF9Pr-uA',
-          },
-        },
-      }),
-    );
-  }),
-  // 로그인
-  rest.post('/api/auth/signin', async (_, res, ctx) => {
-    await sleep(500);
-    return res(
-      ctx.json({
-        code: 200,
-        message: '성공적으로 로그인 했습니다.',
-        data: {
-          member: {
-            memberId: 1,
-            email: 'test@mail.com',
-            name: 'test',
-            photoUrl:
-              'https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI',
-          },
-          token: {
-            grantType: 'Bearer',
-            accessToken:
-              'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTcwMDU4NjkyOH0.lof7WjalCH1gGPy2q7YYi9VTcgn_aoFMwEMQvITtddsUIcJN-YzNODt_RQde5J5dH98NKMXDOvy7YwNlt6BCfg',
-            accessTokenExpiresIn: 1700586928520,
-            refreshToken:
-              'eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE3MDExODk5Mjh9.uZuIAxsnf4Ubz5K9YzysJTu9Gh25XNTsPVAPSElw1lS78gS8S08L97Z4RkfGodegGXZ9UFFNkVXdhRzF9Pr-uA',
-          },
-        },
-      }),
-    );
-  }),
-  // 리프레시
-  rest.post('/api/auth/refresh', async (_, res, ctx) => {
-    await sleep(500);
-    return res(
-      ctx.status(200),
-      ctx.json({
-        code: 200,
-        message: '성공적으로 토큰을 재발급 했습니다.',
-        data: {
-          member: {
-            memberId: 1,
-            email: 'test@mail.com',
-            name: 'test',
-            photoUrl:
-              'https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI',
-          },
-          token: {
-            grantType: 'Bearer',
-            accessToken:
-              'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTcwMDU4NjkyOH0.lof7WjalCH1gGPy2q7YYi9VTcgn_aoFMwEMQvITtddsUIcJN-YzNODt_RQde5J5dH98NKMXDOvy7YwNlt6BCfg',
-            accessTokenExpiresIn: 1700586928520,
-            refreshToken:
-              'eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE3MDExODk5Mjh9.uZuIAxsnf4Ubz5K9YzysJTu9Gh25XNTsPVAPSElw1lS78gS8S08L97Z4RkfGodegGXZ9UFFNkVXdhRzF9Pr-uA',
-          },
-        },
-      }),
-    );
-  }),
-  // 회원 정보 수정
-  rest.patch('/api/auth/members', async (_, res, ctx) => {
-    await sleep(500);
-    return res(
-      ctx.status(200),
-      ctx.json({
-        code: 200,
-        message: '성공적으로 회원 정보를 수정했습니다.',
-        data: {
-          memberId: 1,
-          email: 'abc@gmail.com',
-          name: '최우혁',
-          photoUrl:
-            'https://firebasestorage.googleapis.com/v0/b/employee-management-c0a21.appspot.com/o/bigimage%2F%EA%B0%80%EB%A0%8C.jpg?alt=media&token=f5dd05f5-1036-44d3-9787-6abe2a42cc90',
-        },
-      }),
-    );
-  }),
   // 상품 목록 조회
   rest.get('/api/products', async (_, res, ctx) => {
     await sleep(500);
@@ -154,7 +53,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 1,
+              productId: 4,
               category: '펜션',
               productName: '강원도 오션 펜션',
               address: '강원도 ~~~ 3207-41',
@@ -164,7 +63,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 2,
+              productId: 5,
               category: '펜션',
               productName: '충남 오션 펜션',
               address: '강원도 ~~~ 3207-41',
@@ -174,7 +73,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 3,
+              productId: 6,
               category: '펜션',
               productName: '서산 오션 펜션',
               address: '강원도 ~~~ 3207-41',
@@ -184,7 +83,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 1,
+              productId: 7,
               category: '펜션',
               productName: '강원도 오션 펜션',
               address: '강원도 ~~~ 3207-41',
@@ -194,7 +93,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 2,
+              productId: 8,
               category: '펜션',
               productName: '충남 오션 펜션',
               address: '강원도 ~~~ 3207-41',
@@ -204,7 +103,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 3,
+              productId: 9,
               category: '펜션',
               productName: '서산 오션 펜션',
               address: '강원도 ~~~ 3207-41',
@@ -214,7 +113,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 1,
+              productId: 10,
               category: '펜션',
               productName: '강원도 오션 펜션',
               address: '강원도 ~~~ 3207-41',
@@ -224,7 +123,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 2,
+              productId: 11,
               category: '펜션',
               productName: '충남 오션 펜션',
               address: '강원도 ~~~ 3207-41',
@@ -234,7 +133,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 3,
+              productId: 12,
               category: '펜션',
               productName: '서산 오션 펜션',
               address: '강원도 ~~~ 3207-41',
@@ -244,7 +143,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 1,
+              productId: 13,
               category: '펜션',
               productName: '강원도 오션 펜션',
               address: '강원도 ~~~ 3207-41',
@@ -254,7 +153,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 2,
+              productId: 14,
               category: '펜션',
               productName: '충남 오션 펜션',
               address: '강원도 ~~~ 3207-41',
@@ -264,7 +163,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 3,
+              productId: 15,
               category: '펜션',
               productName: '서산 오션 펜션',
               address: '강원도 ~~~ 3207-41',
@@ -285,7 +184,7 @@ const handlers = [
           message: '상품 목록을 성공적으로 조회했습니다..',
           data: [
             {
-              productId: 1,
+              productId: 16,
               category: '호텔',
               productName: '강원도 오션 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -295,7 +194,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 2,
+              productId: 17,
               category: '호텔',
               productName: '충남 오션 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -305,7 +204,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 3,
+              productId: 18,
               category: '호텔',
               productName: '서산 오션 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -315,7 +214,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 1,
+              productId: 19,
               category: '호텔',
               productName: '강원도 오션 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -325,7 +224,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 2,
+              productId: 20,
               category: '호텔',
               productName: '충남 오션 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -335,7 +234,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 3,
+              productId: 21,
               category: '호텔',
               productName: '서산 오션 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -345,7 +244,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 1,
+              productId: 22,
               category: '호텔',
               productName: '강원도 오션 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -355,7 +254,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 2,
+              productId: 23,
               category: '호텔',
               productName: '충남 오션 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -365,7 +264,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 3,
+              productId: 24,
               category: '호텔',
               productName: '서산 오션 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -375,7 +274,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 1,
+              productId: 25,
               category: '호텔',
               productName: '강원도 오션 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -385,7 +284,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 2,
+              productId: 26,
               category: '호텔',
               productName: '충남 오션 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -395,7 +294,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 3,
+              productId: 27,
               category: '호텔',
               productName: '서산 오션 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -416,7 +315,7 @@ const handlers = [
           message: '상품 목록을 성공적으로 조회했습니다..',
           data: [
             {
-              productId: 1,
+              productId: 28,
               category: '호텔',
               productName: '강원도 마롱 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -426,7 +325,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 2,
+              productId: 29,
               category: '호텔',
               productName: '충남 마운틴 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -436,7 +335,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 3,
+              productId: 30,
               category: '호텔',
               productName: '서산 와우 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -446,7 +345,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 3,
+              productId: 31,
               category: '호텔',
               productName: '서산 오션 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -456,7 +355,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 1,
+              productId: 32,
               category: '호텔',
               productName: '강원도 마롱 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -466,7 +365,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 2,
+              productId: 33,
               category: '호텔',
               productName: '충남 마운틴 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -476,7 +375,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 3,
+              productId: 34,
               category: '호텔',
               productName: '서산 와우 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -486,7 +385,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 3,
+              productId: 35,
               category: '호텔',
               productName: '서산 오션 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -496,7 +395,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 1,
+              productId: 36,
               category: '호텔',
               productName: '강원도 마롱 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -506,7 +405,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 2,
+              productId: 37,
               category: '호텔',
               productName: '충남 마운틴 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -516,7 +415,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 3,
+              productId: 38,
               category: '호텔',
               productName: '서산 와우 호텔',
               address: '강원도 ~~~ 3207-41',
@@ -526,7 +425,7 @@ const handlers = [
               price: 10000,
             },
             {
-              productId: 3,
+              productId: 39,
               category: '호텔',
               productName: '서산 오션 호텔',
               address: '강원도 ~~~ 3207-41',
