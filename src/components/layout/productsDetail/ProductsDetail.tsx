@@ -101,7 +101,9 @@ const ProductsDetail = () => {
                 <div css={RoomName}>{room.roomName}</div>
                 <div>{`기준 ${room.standard}인 / 최대 ${room.capacity}인`}</div>
                 <div>{room.description}</div>
-                <div css={checkTime}>체크인 15:00 ~ 체크아웃 11:00</div>
+                <div css={checkTime}>
+                  {`${room.checkIn} ~ ${room.checkOut}`}
+                </div>
               </div>
               <div css={RoomAction}>
                 <div css={priceStyle}>{room.price}</div>
