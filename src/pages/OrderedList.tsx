@@ -35,7 +35,21 @@ const OrderedList = () => {
       <div css={OrderComplete}>{orderCom}</div>
       <OrderedProduct />
       <OrderedProduct />
-      <div css={OrderedAmount}>총 결제 금액 : 156, 000원</div>
+
+      <div css={OrderedWrap}>
+        <div css={OrderedWrapEl}>
+          <h3>이용자 정보</h3>
+          <div>소유나 (010-0000-0000)</div>
+        </div>
+        <div css={OrderedWrapEl}>
+          <h3>결제 수단</h3>
+          <div>토스페이</div>
+        </div>
+        <div css={OrderedWrapEl}>
+          <h3>총 결제 금액</h3>
+          <div>156,000원</div>
+        </div>
+      </div>
     </nav>
   );
 };
@@ -51,16 +65,28 @@ const OrderComplete = css`
   font-weight: 900;
 `;
 
-const OrderedAmount = css`
-  margin-top: 2rem;
-  margin-right: 1rem;
-  margin-bottom: 150px;
+const OrderedWrap = css`
+  margin-top: 1.5rem;
+  padding: 1rem;
 
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+
+  gap: 1rem;
+
+  font-size: 1.2rem;
+`;
+
+const OrderedWrapEl = css`
   display: flex;
   justify-content: flex-end;
 
-  font-size: 1.4rem;
-  font-weight: 700;
+  div {
+    width: 16rem;
+
+    text-align: end;
+  }
 `;
 
 export default OrderedList;
