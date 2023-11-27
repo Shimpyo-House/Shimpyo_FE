@@ -1,55 +1,64 @@
-/* eslint-disable react/destructuring-assignment */
+/* eslint-disable no-unneeded-ternary */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { css } from '@emotion/react';
 import { RiDeleteBin6Line } from 'react-icons/ri';
-import { ResponseCartsData, ResponseCartRoomData } from '../../../types';
+import { ResponseCartData } from '../../../types';
+import { cartDeleteItem } from '../../../api/cart';
 import theme from '../../../style/theme';
 import CartTotal from './CartTotal';
 
 interface CartDataProps {
-  carts: ResponseCartsData[] | null;
+  carts: ResponseCartData[] | null;
 }
 
 const CartItem = (carts: CartDataProps) => {
-  const cartsData = carts.carts;
-  const rooms: ResponseCartRoomData[] = [];
-  const [checkedList, setCheckedList] = useState<number[]>([]);
-
-  if (cartsData) {
-    cartsData.forEach((cart) => {
-      if (cart.rooms) {
-        rooms.push(...cart.rooms);
-      }
-    });
-  }
+  const cartsData = carts?.carts;
+  const [checkedRoomList, setCheckedRoomList] = useState<ResponseCartData[]>(
+    [],
+  );
 
   const handleCheckbox = useCallback(
-    (roomPrice: number) => {
-      const isChecked = checkedList.includes(roomPrice);
+    (room: ResponseCartData) => {
+      const isChecked = checkedRoomList.includes(room);
       if (isChecked) {
-        setCheckedList(checkedList.filter((id) => id !== roomPrice));
+        setCheckedRoomList(checkedRoomList.filter((id) => id !== room));
       } else {
-        setCheckedList([...checkedList, roomPrice]);
+        setCheckedRoomList([...checkedRoomList, room]);
       }
     },
-    [checkedList],
+    [checkedRoomList],
   );
 
   const handleAllCheckbox = useCallback(() => {
-    const allChecked = rooms.every((room) => checkedList.includes(room.price));
+    const allChecked = cartsData?.every((cart) =>
+      checkedRoomList.includes(cart),
+    );
     if (allChecked) {
-      setCheckedList([]);
+      setCheckedRoomList([]);
     } else {
-      const allRoomIds = rooms.map((room) => room.price) || [];
-      setCheckedList(allRoomIds);
+      const allRoomIds = cartsData?.map((cart) => cart) || [];
+      setCheckedRoomList(allRoomIds);
     }
-  }, [checkedList]);
+  }, [checkedRoomList]);
 
-  const totalPrice = useMemo(
-    () => checkedList.reduce((acc, cur) => acc + cur, 0),
-    [checkedList],
-  );
+  const totalPrice = useMemo(() => {
+    const roomPrices = checkedRoomList.map((room) => room.price);
+    return roomPrices.reduce((acc, cur) => acc + cur, 0);
+  }, [checkedRoomList]);
+
+  const handleDeleteCartItem = async (cartId: number, productName: string) => {
+    try {
+      const confirm = window.confirm(
+        `[${productName}]을 장바구니에서 제거하시겠습니까?`,
+      );
+      if (confirm) {
+        await cartDeleteItem(cartId);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -60,60 +69,61 @@ const CartItem = (carts: CartDataProps) => {
           css={AllCheckBox}
           onChange={handleAllCheckbox}
           checked={
-            rooms &&
-            rooms.length > 0 &&
-            rooms.every((room) => checkedList.includes(room.price))
+            cartsData &&
+            cartsData.every((cart) => checkedRoomList.includes(cart))
+              ? true
+              : false
           }
         />
         <p css={AllSelect}>전체 선택</p>
       </label>
       {cartsData &&
         cartsData.map((cart) => (
-          <div css={Container} key={`${cart.productId}_${cart.productName}`}>
-            {cart.rooms?.map((room) => (
-              <React.Fragment key={`${room.roomId}_${room.roomName}`}>
-                <label htmlFor="box" css={Label}>
-                  <input
-                    id="box"
-                    type="checkbox"
-                    css={CheckBox}
-                    onChange={() => handleCheckbox(room.price)}
-                    checked={checkedList.includes(room.price)}
-                  />
-                </label>
-                <img
-                  css={CartImg}
-                  src={cart.images}
-                  alt="장바구니 상품 이미지"
-                />
-                <div
-                  css={DescriptionContainer}
-                  key={`${room.roomId}_${room.roomName}`}
-                >
-                  <h3 css={RoomName}>{cart.productName}</h3>
-                  <p css={RoomPeriod}>
-                    {room.checkIn} ~ {room.checkOut}
-                  </p>
-                  <p css={RooType}>{room.roomName}</p>
-                  <p css={RoomPerson}>
-                    기준 {room.standard}명 / 최대 {room.capacity}명
-                  </p>
-                  <p css={RoomDescription}>{room.desc}</p>
-                </div>
-                <div css={RightContainer}>
-                  <RiDeleteBin6Line css={DeleteIcon} />
-                  <div css={PriceContainer}>
-                    <p css={Price}>
-                      {new Intl.NumberFormat().format(room.price)}원
-                    </p>
-                    <p css={PriceText}>취소 및 환불 불가</p>
-                  </div>
-                </div>
-              </React.Fragment>
-            ))}
+          <div css={Container} key={`${cart.cartId}_${cart.productName}`}>
+            <label htmlFor="box" css={Label}>
+              <input
+                id="box"
+                type="checkbox"
+                css={CheckBox}
+                onChange={() => handleCheckbox(cart)}
+                checked={checkedRoomList.includes(cart)}
+              />
+            </label>
+            <img css={CartImg} src={cart.images} alt="장바구니 상품 이미지" />
+            <div
+              css={DescriptionContainer}
+              key={`${cart.roomId}_${cart.roomName}`}
+            >
+              <h3 css={RoomName}>{cart.productName}</h3>
+              <p css={RoomPeriod}>
+                {cart.startDate} ~ {cart.endDate}
+              </p>
+              <p css={RoomPeriod}>
+                {cart.checkIn} ~ {cart.checkOut}
+              </p>
+              <p css={RooType}>{cart.roomName}</p>
+              <p css={RoomPerson}>
+                기준 {cart.standard}명 / 최대 {cart.capacity}명
+              </p>
+              <p css={RoomDescription}>{cart.desc}</p>
+            </div>
+            <div css={RightContainer}>
+              <RiDeleteBin6Line
+                onClick={() =>
+                  handleDeleteCartItem(cart.cartId, cart.productName)
+                }
+                css={DeleteIcon}
+              />
+              <div css={PriceContainer}>
+                <p css={Price}>
+                  {new Intl.NumberFormat().format(cart.price)}원
+                </p>
+                <p css={PriceText}>취소 및 환불 불가</p>
+              </div>
+            </div>
           </div>
         ))}
-      <CartTotal totalPrice={totalPrice} checkedList={checkedList} />
+      <CartTotal totalPrice={totalPrice} checkedRoomList={checkedRoomList} />
     </>
   );
 };
