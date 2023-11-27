@@ -10,6 +10,7 @@ import { RequestProductDetail } from '../../../types';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import CalendarComponent from './Calendar';
+import PeopleSelector from './PeopleSelector';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -77,8 +78,13 @@ const ProductsDetail = () => {
             <div css={ProductsLocation}>{productDetail.address}</div>
           </div>
         </div>
-        <div css={DayCalendar}>
-          <CalendarComponent />
+        <div css={OptionSelector}>
+          <div css={DayCalendar}>
+            <CalendarComponent />
+          </div>
+          <div css={PeopleCount}>
+            <PeopleSelector />
+          </div>
         </div>
         <div css={RoomContainer}>
           {productDetail.rooms.map((room) => (
@@ -119,8 +125,8 @@ const ProductDetailContainer = css`
 
 const SliderStyle = css`
   width: 100%;
-  height: 500px; /* 원하는 높이 설정 */
-  overflow: hidden; /* 슬라이드 넘침 방지 */
+  height: 500px;
+  overflow: hidden;
 `;
 
 const SlideItem = css`
@@ -190,14 +196,24 @@ const ProductsLocation = css`
   margin-top: 2rem;
 `;
 
-const DayCalendar = css`
-  width: 100%;
-  //   max-width: 1000px;
-
+const OptionSelector = css`
   display: flex;
-  justify-content: flex-start;
+  align-items: center;
+  margin-top: 3rem;
+  margin-right: auto;
+`;
 
-  margin-top: 2.5rem;
+const DayCalendar = css`
+  flex: 1;
+  white-space: nowrap;
+  text-align: center;
+  margin-right: 1rem;
+`;
+
+const PeopleCount = css`
+  flex: 1;
+  white-space: nowrap;
+  text-align: center;
 `;
 
 const RoomContainer = css`
