@@ -20,6 +20,8 @@ const ProductsDetail = () => {
   const [productDetail, setProductDetail] =
     useState<RequestProductDetail | null>(null);
 
+  const [count, setCount] = useState(2);
+
   const { productId } = useParams();
 
   useEffect(() => {
@@ -85,7 +87,7 @@ const ProductsDetail = () => {
             <CalendarComponent />
           </div>
           <div css={PeopleCount}>
-            <PeopleSelector />
+            <PeopleSelector count={count} setCount={setCount} />
           </div>
         </div>
         <div css={RoomContainer}>
@@ -105,9 +107,19 @@ const ProductsDetail = () => {
                 <div css={priceStyle}>{room.price}</div>
                 <div css={buyBtn}>
                   <AiOutlineShoppingCart css={CartIcon} />
-                  <button type="button" css={reservationButton}>
-                    예약하기
-                  </button>
+                  {count <= room.capacity ? (
+                    <button
+                      type="button"
+                      css={reservationButton}
+                      onClick={() => {}}
+                    >
+                      예약하기
+                    </button>
+                  ) : (
+                    <button type="button" css={exceedText}>
+                      인원초과
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -316,4 +328,16 @@ const reservationButton = css`
   &:active {
     transform: translateY(1px);
   }
+`;
+
+const exceedText = css`
+  padding: 10px 20px;
+  background-color: #cccccc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: not-allowed;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+  outline: none;
 `;

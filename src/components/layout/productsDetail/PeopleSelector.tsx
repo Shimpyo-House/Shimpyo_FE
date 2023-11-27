@@ -1,9 +1,12 @@
-import { useState } from 'react';
 import { css } from '@emotion/react';
+import { Dispatch, SetStateAction } from 'react';
 
-const PeopleSelector = () => {
-  const [count, setCount] = useState(2);
+interface PeopleSelectorProps {
+  count: number;
+  setCount: Dispatch<SetStateAction<number>>;
+}
 
+const PeopleSelector = ({ count, setCount }: PeopleSelectorProps) => {
   const increment = () => {
     if (count < 30) {
       setCount(count + 1);
