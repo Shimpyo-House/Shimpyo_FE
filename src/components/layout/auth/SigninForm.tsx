@@ -3,7 +3,7 @@
 import { useCallback } from 'react';
 import { Button, InputLabel, css, TextField } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { axiosWithNoToken } from '../../../Axios';
 import theme from '../../../style/theme';
@@ -23,6 +23,7 @@ const SigninForm = () => {
   } = useForm<IFormInput>();
 
   const setUserData = useSetRecoilState(userData);
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<IFormInput> = useCallback(
     async ({ email, password }) => {
@@ -31,7 +32,7 @@ const SigninForm = () => {
           email,
           password,
         });
-        console.log(res);
+        console.log('signin ', res);
         const userObj = res.data.data.member;
         const { accessToken, refreshToken, accessTokenExpiresIn } =
           res.data.data.token;
@@ -39,9 +40,17 @@ const SigninForm = () => {
         setUserData(userObj);
 
         /* 쿠키 => Access, Refresh */
-        setCookie('accessToken', accessToken);
-        setCookie('accessTokenExpiresIn', accessTokenExpiresIn);
-        setCookie('refreshToken', refreshToken);
+        const expireDate = new Date(accessTokenExpiresIn);
+        setCookie('accessToken', accessToken, {
+          secure: true,
+          Expires: expireDate.toUTCString(),
+        });
+        setCookie('refreshToken', refreshToken, {
+          secure: true,
+          maxAge: 60 * 24 * 7,
+        });
+
+        navigate('/');
       } catch (e) {
         console.log(e);
       }
