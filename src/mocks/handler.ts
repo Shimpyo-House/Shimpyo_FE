@@ -569,7 +569,56 @@ const handlers = [
             checkIn: '15:00',
             checkOut: '11:00',
           },
+          {
+            cartId: 4,
+            productId: 4,
+            productName: '파크하얏트 부산',
+            images: '',
+            roomId: 3,
+            roomName: '디럭스 킹 요트 경기장 뷰',
+            price: 30000,
+            desc: '실내 취식 금지',
+            standard: 2,
+            capacity: 3,
+            startDate: '2024-01-01',
+            endDate: '2023-01-21',
+            checkIn: '15:00',
+            checkOut: '11:00',
+          },
         ],
+      }),
+    );
+  }),
+
+  // 장바구니에서 주문하기 전 품절 여부 판단을 위한 post
+  rest.post('/api/carts', async (req, res, ctx) => {
+    console.log('POST request to /api/carts:', req.body);
+    await sleep(500);
+    return res(
+      ctx.status(200),
+      ctx.json({
+        code: 201,
+        message: '주문 가능한 상품인지 확인 완료',
+        data: [
+          {
+            roomId: 1,
+            startDate: 'string',
+            endDate: 'string',
+          },
+        ],
+      }),
+    );
+  }),
+
+  // 장바구니 삭제
+  rest.delete('/api/carts/:cartId', async (req, res, ctx) => {
+    const { cartId } = req.params;
+    await sleep(500);
+    return res(
+      ctx.status(200),
+      ctx.json({
+        code: 201,
+        message: `${cartId}: 삭제 완료`,
       }),
     );
   }),
