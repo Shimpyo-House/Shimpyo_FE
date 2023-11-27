@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAnimate, stagger, motion } from 'framer-motion';
 import { css } from '@emotion/react';
+import { Link } from 'react-router-dom';
 import { MdMenu } from 'react-icons/md';
 import theme from '../../../style/theme';
 import rabbit from '../../../../public/rabbit.jpg';
@@ -62,7 +63,15 @@ const MenuBtn = () => {
       >
         {/* 추후에 여기다가 링크나 모달 연결해서 쓰시면 됩니다! */}
         <li>내 정보</li>
-        <li>결제 내역 </li>
+        <li>
+          <Link to="/ordered">결제 내역</Link>
+        </li>
+        <li>
+          <Link to="/signin">로그인</Link>
+        </li>
+        <li>
+          <Link to="/signup">회원가입</Link>
+        </li>
         <li>로그아웃</li>
       </ul>{' '}
     </nav>

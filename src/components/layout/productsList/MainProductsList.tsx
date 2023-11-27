@@ -21,10 +21,6 @@ const NormalCategory = ({ data }: PropsType) => {
     [hotData, pensionData, hotelData] = data;
   }
 
-  // console.log(hotData);
-  // console.log(pensionData);
-  // console.log(hotelData);
-
   return (
     <div css={PageBox}>
       <div css={CategoryBox}>
