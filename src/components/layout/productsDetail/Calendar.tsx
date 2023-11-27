@@ -1,44 +1,156 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-alert */
+/* eslint-disable react/no-unused-state */
 /* eslint-disable import/no-extraneous-dependencies */
-// import * as React from 'react';
-import dayjs from 'dayjs';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
-// import { MobileDateRangePicker } from '@mui/x-date-pickers-pro/MobileDateRangePicker';
-// import { DesktopDateRangePicker } from '@mui/x-date-pickers-pro/DesktopDateRangePicker';
-// import { StaticDateRangePicker } from '@mui/x-date-pickers-pro/StaticDateRangePicker';
-// import { pickersLayoutClasses } from '@mui/x-date-pickers/PickersLayout';
+/** @jsxImportSource @emotion/react */
+import { Component } from 'react';
 import { css } from '@emotion/react';
+import { DateRange } from 'react-date-range';
+import { addDays, differenceInDays, format } from 'date-fns';
 
-export default function Calendar() {
-  // const [value, setValue] = React.useState<Day | null>(null);
-  const today = dayjs();
-  const tomorrow = today.add(1, 'day');
-
-  return (
-    <div css={DayCalendar}>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DemoContainer
-          components={['DateRangePicker', 'StaticDateRangePicker']}
-        >
-          <DemoItem label="날짜 선택" component="DateRangePicker">
-            <DateRangePicker defaultValue={[today, tomorrow]} />
-          </DemoItem>
-        </DemoContainer>
-      </LocalizationProvider>
-    </div>
-  );
+interface CalendarState {
+  startDate: Date;
+  endDate: Date;
+  key: string;
+  showCalendar: boolean;
 }
 
-const DayCalendar = css`
-  width: 100%;
-  //   max-width: 1000px;
+class CalendarComponent extends Component<{}, CalendarState> {
+  constructor(props: any) {
+    super(props);
+    const today = new Date();
+    this.state = {
+      startDate: today,
+      endDate: addDays(today, 1),
+      key: 'selection',
+      showCalendar: false,
+    };
+  }
 
-  display: flex;
-  justify-content: flex-start;
+  onRangeChange = (ranges: any) => {
+    const { selection } = ranges;
+    this.setState({
+      startDate: selection.startDate,
+      endDate: selection.endDate,
+      key: selection.key,
+    });
+  };
 
-  margin-top: 2.5rem;
-`;
+  openCalendar = () => {
+    this.setState({ showCalendar: true });
+  };
+
+  closeCalendar = () => {
+    const { startDate, endDate } = this.state;
+    if (startDate.toDateString() === endDate.toDateString()) {
+      alert(
+        '입실날짜와 퇴실날짜가 같을 수 없습니다. 최소 1박 이상 선택해주세요.',
+      );
+    } else {
+      this.setState({ showCalendar: false });
+    }
+  };
+
+  render() {
+    const { startDate, endDate, showCalendar } = this.state;
+    const ranges = {
+      startDate,
+      endDate,
+      key: 'selection',
+    };
+
+    const nights = differenceInDays(endDate, startDate);
+    const formattedEndDate = addDays(startDate, nights);
+
+    const formattedStartDate = format(startDate, 'MM월 dd일');
+    const formattedEndDateString = format(formattedEndDate, 'MM월 dd일');
+
+    const modalStyle = css`
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      display: ${showCalendar ? 'flex' : 'none'};
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      width: 100%;
+      height: 100%;
+    `;
+
+    const modalContentStyle = css`
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    `;
+
+    const selectButtonStyle = css`
+      padding: 10px 20px;
+      background-color: #3d91ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 16px;
+      outline: none;
+
+      &:hover {
+        background-color: #2565cb;
+      }
+
+      &:active {
+        transform: translateY(1px);
+      }
+    `;
+
+    const closeButtonStyle = css`
+      bottom: 0;
+      background-color: #3d91ff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    `;
+
+    return (
+      <div>
+        <button
+          type="button"
+          css={selectButtonStyle}
+          onClick={this.openCalendar}
+        >
+          {`${formattedStartDate} ~ ${formattedEndDateString} (${nights}박)`}
+        </button>
+        <div css={modalStyle}>
+          {showCalendar && (
+            <div css={modalContentStyle}>
+              <DateRange
+                editableDateInputs
+                onChange={this.onRangeChange}
+                moveRangeOnFirstSelection={false}
+                ranges={[ranges]}
+                minDate={addDays(new Date(), 0)}
+                maxDate={addDays(new Date(), 14)}
+              />
+              <button
+                type="button"
+                css={closeButtonStyle}
+                onClick={this.closeCalendar}
+              >
+                선택
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+}
+
+export default CalendarComponent;

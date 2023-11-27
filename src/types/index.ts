@@ -17,6 +17,7 @@ export type RequestMembers = {
 };
 
 export type ResponseProductsData = {
+  images: any;
   productId: string;
   category: string;
   productName: string;
@@ -26,6 +27,7 @@ export type ResponseProductsData = {
   image: string;
   price: number;
 };
+
 export type ResponseProducts = {
   code: number;
   message: string;
@@ -41,8 +43,28 @@ export type RequestOrders = {
   totalAmount: number;
 };
 
+export type Room = {
+  roomId: number;
+  roomName: string;
+  price: string;
+  description: string;
+  standard: number;
+  capacity: number;
+  checkIn: string;
+  checkOut: string;
+  reserved: boolean;
+};
+
 export type RequestProductDetail = {
-  productId: number;
+  productId: string;
+  category: string;
+  address: string;
+  productName: string;
+  description: string;
+  favorites: boolean;
+  starAvg: number;
+  images: string[];
+  rooms: Room[];
   startDate: string;
   endDate: string;
 };
