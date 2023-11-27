@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-
 import theme from '../../../style/theme';
 import MenuBtn from './MenuBtn';
 
@@ -46,6 +45,8 @@ const InnerContainer = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  border-bottom: 1px solid ${theme.colors.gray400};
 
   width: 100%;
   height: 4.375rem;

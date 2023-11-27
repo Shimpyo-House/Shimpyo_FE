@@ -69,6 +69,12 @@ const MenuBtn = () => {
           <Link to="/mypage">내 정보</Link>
         </li>
         <li>결제 내역 </li>
+        <li>
+          <Link to="/signin">로그인</Link>
+        </li>
+        <li>
+          <Link to="/signup">회원가입</Link>
+        </li>
         <li>로그아웃</li>
       </ul>{' '}
     </nav>
