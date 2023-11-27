@@ -1,3 +1,7 @@
+#### 📚 패치
+
+23/11/27 : 백엔드 API 연결에 따라 각자 사용하는 Mocking Handler를 제거해주세요!
+
 ## useEffect 방식의 Mockup data fetching 방식 예시입니다.
 
 1. 실시간으로 변동되는 API 명세서는 각자 분담한 역할에 따라 동기화시키면 됩니다

@@ -47,7 +47,9 @@ const InnerContainer = css`
   justify-content: space-between;
   align-items: center;
 
+
   border-bottom: 1px solid ${theme.colors.gray400};
+
   width: 100%;
   height: 4.375rem;
 

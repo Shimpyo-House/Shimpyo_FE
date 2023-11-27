@@ -8,22 +8,27 @@ import Cart from './pages/Cart';
 import Pay from './pages/Pay';
 import OrderedList from './pages/OrderedList';
 import CategoryProducts from './pages/CategoryProducts';
+import TokenProvider from './TokenProvider';
+import MyPage from './pages/MyPage';
 
 const Router = () => {
   return (
     <main>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<App />}>
-            <Route index element={<Home />} />
-            <Route path="/category" element={<CategoryProducts />} />
-            <Route path="products/:productId" element={<ProductDetail />} />
-            <Route path="/carts" element={<Cart />} />
-            <Route path="pay" element={<Pay />} />
-            <Route path="/ordered" element={<OrderedList />} />
+          <Route element={<TokenProvider />}>
+            <Route element={<App />}>
+              <Route index element={<Home />} />
+              <Route path="category" element={<CategoryProducts />} />
+              <Route path="products/:productId" element={<ProductDetail />} />
+              <Route path="carts" element={<Cart />} />
+              <Route path="pay" element={<Pay />} />
+              <Route path="ordered" element={<OrderedList />} />
+              <Route path="mypage" element={<MyPage />} />
+            </Route>
+            <Route path="signup" element={<Signup />} />
+            <Route path="signin" element={<Signin />} />
           </Route>
-          <Route path="signup" element={<Signup />} />
-          <Route path="signin" element={<Signin />} />
         </Routes>
       </BrowserRouter>
     </main>
