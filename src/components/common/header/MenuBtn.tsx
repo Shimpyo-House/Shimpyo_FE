@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAnimate, stagger, motion } from 'framer-motion';
 import { css } from '@emotion/react';
-import { Link } from 'react-router-dom';
 import { MdMenu } from 'react-icons/md';
 import { useRecoilValue } from 'recoil';
 import theme from '../../../style/theme';

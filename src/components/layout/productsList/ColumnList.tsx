@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import RowProduct from './RowProduct';
 import theme from '../../../style/theme';
 import { ResponseProductsData } from '../../../types';
-import { useSetProductsData } from './useProductsData';
+import { useSetProductsData } from '../../../hooks/useProductsData';
 
 type PropsType = {
   category: string;
