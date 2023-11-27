@@ -5,7 +5,7 @@ import { css } from '@emotion/react';
 import { MdMenu } from 'react-icons/md';
 import { useRecoilValue } from 'recoil';
 import theme from '../../../style/theme';
-import rabbit from '../../../../public/rabbit.jpg';
+import rabbit from '/rabbit.jpg';
 import { userData } from '../../../atoms/user';
 
 const staggerMenuItems = stagger(0.1, { startDelay: 0.15 });
