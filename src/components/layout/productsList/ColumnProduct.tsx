@@ -7,7 +7,6 @@ type PropsType = {
 };
 
 const ColumnProduct = ({ resData }: PropsType) => {
-  console.log(resData.productName);
   return (
     <div css={ProductBox}>
       <div css={ProductImg} />

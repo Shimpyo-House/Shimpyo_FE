@@ -47,10 +47,7 @@ const InnerContainer = css`
   justify-content: space-between;
   align-items: center;
 
-<<<<<<< HEAD
-  padding: 0.5rem 1rem;
   border-bottom: 1px solid ${theme.colors.gray400};
-=======
   width: 100%;
   height: 4.375rem;
 
@@ -59,7 +56,6 @@ const InnerContainer = css`
   max-width: 1280px;
 
   padding: 0.5rem 1rem;
->>>>>>> ba8710e889bf165b2b3aea4d6bb628f3226cf6b1
 `;
 
 const LogoText = css`
