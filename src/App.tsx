@@ -2,6 +2,17 @@ import { css } from '@emotion/react';
 import { Outlet } from 'react-router-dom';
 import Header from './components/common/header/Header';
 
+function App() {
+  return (
+    <div>
+      <Header />
+      <div css={ContainerStyle}>
+        <Outlet />
+      </div>
+    </div>
+  );
+}
+
 const ContainerStyle = css`
   position: relative;
 
@@ -13,16 +24,5 @@ const ContainerStyle = css`
 
   margin: 0 auto;
 `;
-
-function App() {
-  return (
-    <div>
-      <Header />
-      <div css={ContainerStyle}>
-        <Outlet />
-      </div>
-    </div>
-  );
-}
 
 export default App;

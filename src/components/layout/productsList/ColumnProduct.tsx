@@ -7,15 +7,12 @@ type PropsType = {
 };
 
 const ColumnProduct = ({ resData }: PropsType) => {
-  console.log(resData.productName);
   return (
     <div css={ProductBox}>
       <div css={ProductImg} />
-      <div css={ProductName}>{resData.productName}</div>
-      <div css={ProductScore}>⭐ {resData.starAvg}</div>
-      <div css={ProductPrice}>
-        <span>{resData.price.toLocaleString()}원 ~</span>
-      </div>
+      <p css={ProductName}>{resData.productName}</p>
+      <p css={ProductScore}>⭐ {resData.starAvg}</p>
+      <p css={ProductPrice}>{resData.price.toLocaleString()}원 ~</p>
     </div>
   );
 };

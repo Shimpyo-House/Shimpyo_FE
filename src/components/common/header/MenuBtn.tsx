@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAnimate, stagger, motion } from 'framer-motion';
 import { css } from '@emotion/react';
 import { MdMenu } from 'react-icons/md';
+import { useRecoilValue } from 'recoil';
 import theme from '../../../style/theme';
 import rabbit from '../../../../public/rabbit.jpg';
+import { userData } from '../../../atoms/user';
 
 const staggerMenuItems = stagger(0.1, { startDelay: 0.15 });
 
@@ -43,6 +46,7 @@ function useMenuAnimation(isOpen: boolean) {
 const MenuBtn = () => {
   const [isOpen, setIsOpen] = useState(false);
   const scope = useMenuAnimation(isOpen);
+  const user = useRecoilValue(userData);
   return (
     <nav css={MenuPosition} ref={scope}>
       <motion.button
@@ -51,7 +55,7 @@ const MenuBtn = () => {
         css={MenuContainer}
       >
         <MdMenu css={MenuIcon} />
-        <img src={rabbit} alt="사용자 프로필" css={Profile} />
+        <img src={user?.photoUrl || rabbit} alt="사용자 프로필" css={Profile} />
       </motion.button>
       <ul
         css={ListBox}
@@ -61,8 +65,16 @@ const MenuBtn = () => {
         }}
       >
         {/* 추후에 여기다가 링크나 모달 연결해서 쓰시면 됩니다! */}
-        <li>내 정보</li>
+        <li>
+          <Link to="/mypage">내 정보</Link>
+        </li>
         <li>결제 내역 </li>
+        <li>
+          <Link to="/signin">로그인</Link>
+        </li>
+        <li>
+          <Link to="/signup">회원가입</Link>
+        </li>
         <li>로그아웃</li>
       </ul>{' '}
     </nav>
