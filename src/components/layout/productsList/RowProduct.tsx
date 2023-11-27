@@ -15,10 +15,10 @@ const RowProduct = ({ resData, rank }: PropsType) => {
       </div>
       <div css={ProductData}>
         <div css={NameScoreBox}>
-          <div css={ProductName}>{resData.productName}</div>
-          <div css={ProductScore}>⭐ {resData.starAvg}</div>
+          <p css={ProductName}>{resData.productName}</p>
+          <p css={ProductScore}>⭐ {resData.starAvg}</p>
         </div>
-        <div css={ProductPrice}>{resData.price.toLocaleString()}원 ~</div>
+        <p css={ProductPrice}>{resData.price.toLocaleString()}원 ~</p>
       </div>
     </div>
   );
