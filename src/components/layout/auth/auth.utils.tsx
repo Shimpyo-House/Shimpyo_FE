@@ -1,6 +1,6 @@
 import { Cookies } from 'react-cookie';
 
-type CookieNameType = 'accessToken' | 'refreshToken' | 'accessTokenExpiresIn';
+type CookieNameType = 'accessToken' | 'refreshToken';
 
 const cookies = new Cookies();
 

@@ -1,15 +1,16 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useSetRecoilState } from 'recoil';
-import { getCookie, setCookie } from './components/layout/auth/auth.utils';
-import { axiosWithAccessToken, axiosWithNoToken } from './Axios';
-// import { userData } from './atoms/user';
+import { useSetRecoilState } from 'recoil';
+import { userData } from '../atoms/user';
+import { axiosWithAccessToken, axiosWithNoToken } from '../Axios';
+import { getCookie, setCookie } from '../components/layout/auth/auth.utils';
 
-const ACCESS_TOKEN_EXPIRED_MESSAGE = 'A';
-const REFRESH_TOKEN_EXPIRED_MESSAGE = 'B';
+const ACCESS_TOKEN_EXPIRED_MESSAGE = '';
+const REFRESH_TOKEN_EXPIRED_MESSAGE = '토큰의 회원 정보가 일치하지 않습니다.';
 
-const TokenRefresher = () => {
-  // const setUserData = useSetRecoilState(userData);
+const useTokenRefresher = () => {
+  const setUserData = useSetRecoilState(userData);
   const navigate = useNavigate();
   const tokenRefresh = useCallback(
     async ({
@@ -23,18 +24,32 @@ const TokenRefresher = () => {
         prevAccessToken,
         prevRefreshToken,
       });
+
       const { accessToken, accessTokenExpiresIn, refreshToken } =
         res.data.data.token;
+
+      const expireDate = new Date(accessTokenExpiresIn);
+      console.log(expireDate);
+      console.log(expireDate.toUTCString());
+
+      setCookie('accessToken', accessToken, {
+        secure: true,
+        Expires: expireDate.toUTCString(),
+      });
+      setCookie('refreshToken', refreshToken, {
+        secure: true,
+        maxAge: 60 * 24 * 7,
+      });
+      setUserData(res.data.data.member);
+
       console.log('token이 Refresh됐습니다.');
-      const option = { secure: true, Expires: accessTokenExpiresIn };
-      setCookie('accessToken', accessToken, option);
-      setCookie('accessTokenExpiresIn', accessTokenExpiresIn, option);
-      setCookie('refreshToken', refreshToken, option);
     },
     [],
   );
 
   useEffect(() => {
+    console.log('useTokenRefresh 시작');
+    // setUserData({ name: '가상인물', email: 'hello', id: 123, photoUrl: '' });
     axiosWithAccessToken.interceptors.request.use(
       (config) => {
         const accessToken = getCookie('accessToken');
@@ -76,7 +91,10 @@ const TokenRefresher = () => {
         return Promise.reject(error);
       },
     );
+    return () => {
+      console.log('refresh token unmount');
+    };
   }, []);
 };
 
-export default TokenRefresher;
+export default useTokenRefresher;
