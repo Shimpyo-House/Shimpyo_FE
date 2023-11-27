@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { useAnimate, stagger, motion } from 'framer-motion';
 import { css } from '@emotion/react';
 import { MdMenu } from 'react-icons/md';
+import { useRecoilValue } from 'recoil';
 import theme from '../../../style/theme';
 import rabbit from '../../../../public/rabbit.jpg';
+import { userData } from '../../../atoms/user';
 
 const staggerMenuItems = stagger(0.1, { startDelay: 0.15 });
 
@@ -44,6 +46,7 @@ function useMenuAnimation(isOpen: boolean) {
 const MenuBtn = () => {
   const [isOpen, setIsOpen] = useState(false);
   const scope = useMenuAnimation(isOpen);
+  const user = useRecoilValue(userData);
   return (
     <nav css={MenuPosition} ref={scope}>
       <motion.button
@@ -52,7 +55,7 @@ const MenuBtn = () => {
         css={MenuContainer}
       >
         <MdMenu css={MenuIcon} />
-        <img src={rabbit} alt="사용자 프로필" css={Profile} />
+        <img src={user?.photoUrl || rabbit} alt="사용자 프로필" css={Profile} />
       </motion.button>
       <ul
         css={ListBox}

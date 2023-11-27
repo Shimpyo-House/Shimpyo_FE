@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import { useRecoilState } from 'recoil';
-import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { css } from '@emotion/react';
 import { Button, InputLabel, TextField } from '@mui/material';
 import { userData } from '../../../atoms/user';
@@ -21,38 +21,83 @@ type UserPatchForm = {
 /* USER_DATA는 내 정보 보기, CHK_PASSWORD는 회원정보 변경 전 비밀번호 일치 확인, "PATCH_DATA는 회원정보 변경 */
 type MyPageStateType = 'USER_DATA' | 'CHK_PASSWORD' | 'PATCH_DATA';
 
-const ButtonContent = {
-  USER_DATA: {
-    content: '정보 수정',
-    handlerOnClick: () => {},
-  },
-  CHK_PASSWORD: {
-    content: '비밀번호 확인',
-    handlerOnClick: () => {},
-  },
-  PATCH_DATA: {
-    content: '수정 완료',
-    handlerOnClick: () => {},
-  },
-};
-
-const MypageForm = () => {
+const MyPageForm = () => {
   const [user, setUser] = useRecoilState(userData);
-  const [myPage, setMyPageState] = useState<MyPageStateType>('USER_DATA');
-  setMyPageState('USER_DATA');
+  const [myPage, setMyPage] = useState<MyPageStateType>('USER_DATA');
   /* password 확인 form */
   const {
     register: registerPasswordConfirm,
-    // handleSubmit: handleSubmitPasswordConfirm,
+    handleSubmit: handleSubmitPasswordConfirm,
     formState: { errors: errorsPasswordConfirm },
   } = useForm<PasswordConfirmForm>();
 
   /* userData 변경 form */
   const {
     register: registerUserPatch,
-    // handleSubmit: handleSubmitUserPatch,
+    handleSubmit: handleSubmitUserPatch,
     formState: { errors: errorsUserPatch },
   } = useForm<UserPatchForm>();
+
+  const onSubmitPasswordConfirm: SubmitHandler<PasswordConfirmForm> =
+    useCallback(async ({ password, passwordConfirm }) => {
+      try {
+        // const res = await axiosWithNoToken.post('/api/auth/signin', {
+        //   email,
+        //   password,
+        // });
+        console.log('passwordConfirm : ', password, passwordConfirm);
+      } catch (e) {
+        console.log(e);
+      }
+    }, []);
+
+  const onSubmitUserPatch: SubmitHandler<UserPatchForm> = useCallback(
+    async ({ photoUrl, name }) => {
+      try {
+        // const res = await axiosWithNoToken.post('/api/auth/signin', {
+        //   email,
+        //   password,
+        // });
+        console.log('patchForm : ', photoUrl, name);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [],
+  );
+
+  /* 상태에 따른 Button 내용 및 핸들러 */
+  const ContentAndHandlerByState = useMemo(() => {
+    return {
+      USER_DATA: {
+        buttonContent: '정보 수정',
+        handlerOnClick: () => {
+          setMyPage('CHK_PASSWORD');
+        },
+        handlerOnSubmit: () => {},
+      },
+      CHK_PASSWORD: {
+        buttonContent: '비밀번호 확인',
+        handlerOnClick: () => {
+          /* 비밀번호 확인 후 맞을 경우 진행 */
+          setMyPage('PATCH_DATA');
+        },
+        handlerOnSubmit: () => {
+          handleSubmitPasswordConfirm(onSubmitPasswordConfirm);
+        },
+      },
+      PATCH_DATA: {
+        buttonContent: '수정 완료',
+        handlerOnClick: async () => {
+          /* userData 수정 및 변경 + Cloudinary 파일 업로드 */
+          setMyPage('USER_DATA');
+        },
+        handlerOnSubmit: () => {
+          handleSubmitUserPatch(onSubmitUserPatch);
+        },
+      },
+    };
+  }, []);
 
   /* userData 전역 상태가 비어있을 경우 새 정보 받아오기 */
   useEffect(() => {
@@ -87,14 +132,14 @@ const MypageForm = () => {
         />
       </div>
       <div css={FormContainer}>
-        <form>
+        <form onSubmit={ContentAndHandlerByState[myPage].handlerOnSubmit}>
           <InputLabel>이메일</InputLabel>
           <TextField
             variant="outlined"
             fullWidth
             placeholder="이메일을 입력해주세요"
             type="email"
-            value={user?.email}
+            defaultValue={user?.email}
             disabled
           />
           <div css={ErrorContainer}>{null}</div>
@@ -105,7 +150,7 @@ const MypageForm = () => {
             fullWidth
             placeholder="이름을 입력해주세요"
             type="text"
-            value={user?.name}
+            defaultValue={user?.name}
             {...registerUserPatch('name', {
               required: true,
             })}
@@ -158,8 +203,13 @@ const MypageForm = () => {
               </div>
             </>
           )}
-          <Button onClick={ButtonContent[myPage].handlerOnClick} type="submit">
-            {ButtonContent[myPage].content}
+          <Button
+            onClick={ContentAndHandlerByState[myPage].handlerOnClick}
+            type="button"
+            variant="contained"
+            fullWidth
+          >
+            {ContentAndHandlerByState[myPage].buttonContent}
           </Button>
         </form>
       </div>
@@ -189,4 +239,4 @@ const userPhotoUrlStyle = css`
   object-position: center center;
 `;
 
-export default MypageForm;
+export default MyPageForm;

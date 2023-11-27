@@ -27,7 +27,6 @@ const useTokenRefresher = () => {
 
       const { accessToken, accessTokenExpiresIn, refreshToken } =
         res.data.data.token;
-      console.log('token이 Refresh됐습니다.');
 
       const expireDate = new Date(accessTokenExpiresIn);
       console.log(expireDate);
@@ -41,8 +40,9 @@ const useTokenRefresher = () => {
         secure: true,
         maxAge: 60 * 24 * 7,
       });
-
       setUserData(res.data.data.member);
+
+      console.log('token이 Refresh됐습니다.');
     },
     [],
   );

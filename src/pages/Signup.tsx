@@ -10,26 +10,6 @@ import {
 } from './Signin';
 
 const Signup = () => {
-  // useEffect(() => {
-  //   const fetchDataMembers = async ({
-  //     password,
-  //     passwordConfirm,
-  //     photoUrl,
-  //   }: RequestMembers) => {
-  //     const data = await axiosWithAccessToken.patch('/api/auth/members', {
-  //       password,
-  //       passwordConfirm,
-  //       photoUrl,
-  //     });
-  //     console.log('members', data);
-  //   };
-
-  //   fetchDataMembers({
-  //     photoUrl: '',
-  //     password: 'abcabcabc',
-  //     passwordConfirm: 'abcabcabc',
-  //   });
-  // }, []);
   return (
     <>
       <AuthHeader />

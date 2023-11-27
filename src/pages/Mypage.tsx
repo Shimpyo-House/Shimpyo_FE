@@ -1,11 +1,7 @@
-import MyPageForm from '../components/layout/auth/MypageForm';
+import MyPageForm from '../components/layout/auth/MyPageForm';
 
-const Mypage = () => {
-  return (
-    <section>
-      <MyPageForm />
-    </section>
-  );
+const MyPage = () => {
+  return <MyPageForm />;
 };
 
-export default Mypage;
+export default MyPage;
