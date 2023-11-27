@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { Link } from 'react-router-dom';
 import theme from '../../../style/theme';
 import { ResponseProductsData } from '../../../types';
 
@@ -9,18 +10,20 @@ type PropsType = {
 
 const RowProduct = ({ resData, rank }: PropsType) => {
   return (
-    <div css={ProductBox}>
-      <div css={ProductImg}>
-        {rank && rank < 11 && <p css={ProductRank}>{rank}</p>}
-      </div>
-      <div css={ProductData}>
-        <div css={NameScoreBox}>
-          <p css={ProductName}>{resData.productName}</p>
-          <p css={ProductScore}>⭐ {resData.starAvg}</p>
+    <Link to={`/products/${resData.productId}`}>
+      <div css={ProductBox}>
+        <div css={ProductImg}>
+          {rank && rank < 11 && <p css={ProductRank}>{rank}</p>}
         </div>
-        <p css={ProductPrice}>{resData.price.toLocaleString()}원 ~</p>
+        <div css={ProductData}>
+          <div css={NameScoreBox}>
+            <p css={ProductName}>{resData.productName}</p>
+            <p css={ProductScore}>⭐ {resData.starAvg}</p>
+          </div>
+          <p css={ProductPrice}>{resData.price.toLocaleString()}원 ~</p>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

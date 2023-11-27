@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import { Link } from 'react-router-dom';
 import ColumnProduct from './ColumnProduct';
 import { ResponseProductsData } from '../../../types';
 
@@ -11,11 +10,9 @@ const RowList = ({ data }: PropsType) => {
   return (
     <div css={ProductsBox}>
       {data &&
-        data.slice(0, 3).map((e) => (
-          <Link to={`/products/${e.productId}`} key={e.productId}>
-            <ColumnProduct resData={e} />
-          </Link>
-        ))}
+        data
+          .slice(0, 3)
+          .map((e) => <ColumnProduct resData={e} key={e.productId} />)}
     </div>
   );
 };
