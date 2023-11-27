@@ -7,6 +7,9 @@ import theme from '../style/theme';
 const OrderedList = () => {
   const [orderCom, setOrderCom] = useState('');
   const [loading, setLoading] = useState(true);
+  const paymentMethod = localStorage.getItem('PaymentMethod');
+  const userName = localStorage.getItem('UserName');
+  const userPhoneNum = localStorage.getItem('UserPhoneNum');
 
   useEffect(() => {
     const orderedData = async () => {
@@ -24,7 +27,7 @@ const OrderedList = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 4000);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -60,11 +63,13 @@ const OrderedList = () => {
           <div css={OrderedWrap}>
             <div css={OrderedWrapEl}>
               <h3>이용자 정보</h3>
-              <div>소유나 (010-0000-0000)</div>
+              <div>
+                {userName} ({userPhoneNum})
+              </div>
             </div>
             <div css={OrderedWrapEl}>
               <h3>결제 수단</h3>
-              <div>토스페이</div>
+              <div>{paymentMethod} 결제</div>
             </div>
             <div css={OrderedWrapEl}>
               <h3>총 결제 금액</h3>
@@ -153,6 +158,7 @@ const OrderComplete = css`
 
 const OrderedWrap = css`
   margin-top: 1.5rem;
+  margin-bottom: 150px;
   padding: 1rem;
 
   display: flex;

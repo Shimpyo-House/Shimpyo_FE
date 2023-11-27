@@ -1,6 +1,6 @@
 // 결제 수단 컴포넌트
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import theme from '../../../style/theme';
 import kakaopay from '/kakaopay.png';
@@ -62,6 +62,13 @@ const PayMethod = () => {
     },
   };
 
+  useEffect(() => {
+    const storedPaymentMethod = localStorage.getItem('selectedPaymentMethod');
+
+    if (storedPaymentMethod) {
+      handleButtonClick(storedPaymentMethod);
+    }
+  }, []);
   const handleButtonClick = (method: any) => {
     setSelected(method);
 
@@ -90,6 +97,8 @@ const PayMethod = () => {
       default:
         break;
     }
+
+    localStorage.setItem('PaymentMethod', method);
   };
 
   return (
