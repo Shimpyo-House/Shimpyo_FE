@@ -9,9 +9,9 @@ const getData = async () => {
   const hotData: ResponseProductsData[] | undefined =
     await useQueryProductsData(4, 'hot');
   const pensionData: ResponseProductsData[] | undefined =
-    await useQueryProductsData(3, 'pension');
+    await useQueryProductsData(3, '펜션,풀빌라');
   const hotelData: ResponseProductsData[] | undefined =
-    await useQueryProductsData(3, 'hotel');
+    await useQueryProductsData(3, '호텔,모텔');
   if (hotData && pensionData && hotelData) {
     const data = [[...hotData], [...pensionData], [...hotelData]];
     return data;
@@ -35,7 +35,6 @@ const Home = () => {
   if (isError) {
     return <div>Error!</div>;
   }
-  // console.log(data);
 
   return <MainProductsList data={data} />;
 };
