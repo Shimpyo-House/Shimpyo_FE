@@ -1,13 +1,17 @@
 /* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-else-return */
+
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { userData } from '../atoms/user';
 import { axiosWithAccessToken, axiosWithNoToken } from '../Axios';
 import { getCookie, setCookie } from '../components/layout/auth/auth.utils';
-
-const ACCESS_TOKEN_EXPIRED_MESSAGE = '';
-const REFRESH_TOKEN_EXPIRED_MESSAGE = '토큰의 회원 정보가 일치하지 않습니다.';
+import {
+  REFRESH_TOKEN_EXPIRED_MESSAGE,
+  WRONG_PASSWORD_MESSAGE,
+} from '../components/layout/auth/auth.constant';
 
 const useTokenRefresher = () => {
   const setUserData = useSetRecoilState(userData);
@@ -21,41 +25,49 @@ const useTokenRefresher = () => {
       prevRefreshToken: string;
     }) => {
       const res = await axiosWithNoToken.post('/api/auth/refresh', {
-        prevAccessToken,
-        prevRefreshToken,
+        accessToken: prevAccessToken,
+        refreshToken: prevRefreshToken,
       });
 
       const { accessToken, accessTokenExpiresIn, refreshToken } =
         res.data.data.token;
 
-      const expireDate = new Date(accessTokenExpiresIn);
-      console.log(expireDate);
-      console.log(expireDate.toUTCString());
-
-      setCookie('accessToken', accessToken, {
-        secure: true,
-        Expires: expireDate.toUTCString(),
-      });
-      setCookie('refreshToken', refreshToken, {
+      const option = {
         secure: true,
         maxAge: 60 * 24 * 7,
-      });
+        // httpOnly: true,
+      };
+
+      /* 쿠키 => Access, Refresh */
+      setCookie('accessToken', accessToken, option);
+      setCookie('refreshToken', refreshToken, option);
+      setCookie('accessTokenExpiresIn', accessTokenExpiresIn, option);
+
       setUserData(res.data.data.member);
 
-      console.log('token이 Refresh됐습니다.');
+      alert('token이 Refresh됐습니다.');
     },
     [],
   );
 
   useEffect(() => {
-    console.log('useTokenRefresh 시작');
-    // setUserData({ name: '가상인물', email: 'hello', id: 123, photoUrl: '' });
+    console.log('useTokenRefresh mount');
+    console.log(Date.now());
     axiosWithAccessToken.interceptors.request.use(
       (config) => {
         const accessToken = getCookie('accessToken');
-        if (!accessToken) navigate('/signin');
+        const refreshToken = getCookie('refreshToken');
+        const accessTokenExpiresIn = getCookie('accessTokenExpiresIn');
 
-        /* eslint-disable no-param-reassign */
+        if (!accessToken) {
+          navigate('/');
+          return config;
+        } else if (Date.now() > accessTokenExpiresIn) {
+          tokenRefresh({
+            prevAccessToken: accessToken,
+            prevRefreshToken: refreshToken,
+          });
+        }
         config.headers.Authorization = `Bearer ${accessToken}`;
         return config;
       },
@@ -71,21 +83,24 @@ const useTokenRefresher = () => {
       },
       async (error) => {
         console.log('error', error);
-        if (error.response?.code === 401) {
-          // const expiresTime = getCookie('accessTokenExpiresIn');
+        if (error.response?.data.code === 401) {
           const prevAccessToken = getCookie('accessToken');
           const prevRefreshToken = getCookie('refreshToken');
 
-          if (error.response?.message === ACCESS_TOKEN_EXPIRED_MESSAGE) {
-            await tokenRefresh({ prevAccessToken, prevRefreshToken });
-            window.location.reload();
-          } else if (
-            error.response?.message === REFRESH_TOKEN_EXPIRED_MESSAGE
-          ) {
+          /* Refresh Token 만료시 */
+          if (error.response?.data.message === REFRESH_TOKEN_EXPIRED_MESSAGE) {
+            console.log(error.response?.data.message);
             navigate('/signin');
             /* eslint-disable no-alert */
             alert('토큰이 만료되어 재로그인이 필요합니다');
             console.log('토큰이 만료되어 재로그인이 필요합니다');
+            /* Access Token 만료 및 로그인 정보 없을 시 */
+          } else if (!prevAccessToken) {
+            await tokenRefresh({ prevAccessToken, prevRefreshToken });
+          } else if (error.response?.data.message === WRONG_PASSWORD_MESSAGE) {
+            return Promise.reject(error);
+          } else {
+            console.log('이게 뭐지');
           }
         }
         return Promise.reject(error);

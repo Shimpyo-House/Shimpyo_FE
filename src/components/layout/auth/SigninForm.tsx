@@ -39,16 +39,16 @@ const SigninForm = () => {
         /* 전역상태 관리 => 유저정보 */
         setUserData(userObj);
 
-        /* 쿠키 => Access, Refresh */
-        const expireDate = new Date(accessTokenExpiresIn);
-        setCookie('accessToken', accessToken, {
-          secure: true,
-          Expires: expireDate.toUTCString(),
-        });
-        setCookie('refreshToken', refreshToken, {
+        const option = {
           secure: true,
           maxAge: 60 * 24 * 7,
-        });
+          // httpOnly: true,
+        };
+
+        /* 쿠키 => Access, Refresh */
+        setCookie('accessToken', accessToken, option);
+        setCookie('refreshToken', refreshToken, option);
+        setCookie('accessTokenExpiresIn', accessTokenExpiresIn, option);
 
         navigate('/');
       } catch (e) {
