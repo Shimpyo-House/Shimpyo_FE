@@ -4,11 +4,15 @@ import { css } from '@emotion/react';
 import { DateRange } from 'react-date-range';
 import { addDays, differenceInDays, format } from 'date-fns';
 
+interface CalendarProps {
+  setNights: React.Dispatch<SetStateAction<number>>;
+  onEnterExitDatesChange: (enterDate: string, exitDate: string) => void;
+}
+
 const CalendarComponent = ({
   setNights,
-}: {
-  setNights: React.Dispatch<SetStateAction<number>>;
-}) => {
+  onEnterExitDatesChange,
+}: CalendarProps) => {
   const today = new Date();
   const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(addDays(today, 1));
@@ -33,8 +37,16 @@ const CalendarComponent = ({
       );
     } else {
       setShowCalendar(false);
+
+      // 선택한 날짜에 따른 nights 값을 부모 컴포넌트로 전달
       const selectedNights = differenceInDays(endDate, startDate);
-      setNights(selectedNights); // 선택한 날짜에 따른 nights 값을 부모 컴포넌트로 전달
+      setNights(selectedNights);
+
+      // 변경된 날짜 정보 부모 컴포넌트로 전달
+      const enterDate = format(startDate, 'yyyy-MM-dd');
+      const exitDate = format(endDate, 'yyyy-MM-dd');
+      console.log(enterDate, exitDate);
+      onEnterExitDatesChange(enterDate, exitDate);
     }
   };
 
@@ -49,12 +61,6 @@ const CalendarComponent = ({
 
   const formattedStartDate = format(startDate, 'MM월 dd일');
   const formattedEndDateString = format(formattedEndDate, 'MM월 dd일');
-
-  const enterDate = format(startDate, 'yyyy-MM-dd');
-  const exitDate = format(formattedEndDate, 'yyyy-MM-dd');
-
-  console.log(enterDate);
-  console.log(exitDate);
 
   const modalStyle = css`
     position: fixed;

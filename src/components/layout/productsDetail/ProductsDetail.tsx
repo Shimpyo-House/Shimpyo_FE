@@ -34,28 +34,37 @@ const ProductsDetail = () => {
     setNights(selectedNights);
   };
 
+  const [enterDate, setEnterDate] = useState('');
+  const [exitDate, setExitDate] = useState('');
+
+  const handleEnterExitDatesChange = (enterDate: string, exitDate: string) => {
+    setEnterDate(enterDate);
+    setExitDate(exitDate);
+  };
+
   useEffect(() => {
     const fetchDataProductDetail = async ({
       startDate,
       endDate,
     }: Pick<RequestProductDetail, 'startDate' | 'endDate'>) => {
       try {
+        // 유효하지 않은 날짜의 경우 요청 x
+        if (!startDate || !endDate) return;
         const response = await axiosWithNoToken.get(
           `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
         );
         console.log('ProductDetail', response);
         setProductDetail(response.data.data);
-        console.log(setProductDetail(response.data.data));
       } catch (error) {
         console.error('Error fetching product detail:', error);
       }
     };
 
     fetchDataProductDetail({
-      startDate: '2023-11-22',
-      endDate: '2023-11-23',
+      startDate: enterDate,
+      endDate: exitDate,
     });
-  }, []);
+  }, [enterDate, exitDate, productId]);
 
   if (!productDetail) {
     return <div>Loading...</div>;
@@ -69,12 +78,6 @@ const ProductsDetail = () => {
     slidesToShow: 1,
     autoplaySpeed: 2000,
   };
-
-  console.log(nights);
-
-  const realPrice = productDetail.rooms[0].price;
-
-  console.log(realPrice);
 
   if (!productDetail || !productDetail.images) {
     console.log('ProductDetail or images are undefined:', productDetail);
@@ -108,7 +111,10 @@ const ProductsDetail = () => {
         </div>
         <div css={OptionSelector}>
           <div css={DayCalendar}>
-            <CalendarComponent setNights={handleSetNights} />
+            <CalendarComponent
+              setNights={handleSetNights}
+              onEnterExitDatesChange={handleEnterExitDatesChange}
+            />
           </div>
           <div css={PeopleCount}>
             <PeopleSelector count={count} setCount={setCount} />
