@@ -7,6 +7,7 @@ import Signin from './pages/Signin';
 import Cart from './pages/Cart';
 import Pay from './pages/Pay';
 import OrderedList from './pages/OrderedList';
+import CategoryProducts from './pages/CategoryProducts';
 import TokenProvider from './TokenProvider';
 import MyPage from './pages/MyPage';
 
@@ -18,6 +19,7 @@ const Router = () => {
           <Route element={<TokenProvider />}>
             <Route element={<App />}>
               <Route index element={<Home />} />
+              <Route path="category" element={<CategoryProducts />} />
               <Route path="products/:productId" element={<ProductDetail />} />
               <Route path="carts" element={<Cart />} />
               <Route path="pay" element={<Pay />} />

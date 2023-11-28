@@ -69,20 +69,25 @@ export type RequestProductDetail = {
   endDate: string;
 };
 
-export type ResponseCartsData = {
+export type ResponseCartData = {
+  cartId: number;
   productId: number;
   productName: string;
   images: string;
-  rooms: ResponseCartRoomData[];
-};
-
-export type ResponseCartRoomData = {
   roomId: number;
   roomName: string;
   price: number;
   desc: string;
   standard: number;
   capacity: number;
+  startDate: string;
+  endDate: string;
   checkIn: string;
   checkOut: string;
+};
+
+export type SoldOutJudgment = {
+  roomId: number;
+  startDate: string;
+  endDate: string;
 };

@@ -2,7 +2,7 @@
 
 import { useQuery } from 'react-query';
 import MainProductsList from '../components/layout/productsList/MainProductsList';
-import { useQueryProductsData } from '../components/layout/productsList/useProductsData';
+import { useQueryProductsData } from '../hooks/useProductsData';
 import { ResponseProductsData } from '../types';
 
 const getData = async () => {

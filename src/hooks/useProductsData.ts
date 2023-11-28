@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Dispatch, useEffect } from 'react';
-import { ResponseProducts, ResponseProductsData } from '../../../types';
+import { ResponseProducts, ResponseProductsData } from '../types';
 
 const useSetProductsData = (
   category: string,
