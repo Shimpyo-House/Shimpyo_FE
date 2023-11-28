@@ -61,9 +61,9 @@ const ProductImgBox = css`
 
   position: relative;
 
-  background-color: ${theme.colors.gray700};
-
   border-radius: 5px;
+
+  background-color: ${theme.colors.gray700};
 `;
 
 const ProductImg = css`
@@ -73,6 +73,8 @@ const ProductImg = css`
   position: absolute;
   top: 0;
   left: 0;
+
+  border-radius: 5px;
 
   z-index: 5;
 `;
