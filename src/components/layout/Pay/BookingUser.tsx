@@ -1,6 +1,6 @@
 // 고객 예약 정보 - 예약자 정보, 이용자 정보 부분
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import theme from '../../../style/theme';
 
@@ -9,6 +9,17 @@ const BookingUser = () => {
   const [userInfo, setUserInfo] = useState('');
   const [checked, setChecked] = useState(false);
   const [phoneNum, setPhoneNum] = useState('');
+
+  useEffect(() => {
+    if (checked) {
+      setUserInfo(reserveInfo);
+    }
+  }, [checked, reserveInfo]);
+
+  useEffect(() => {
+    localStorage.setItem('UserName', userInfo);
+    localStorage.setItem('UserPhoneNum', phoneNum);
+  }, [userInfo, phoneNum]);
 
   const handlePhoneNum = (event: ChangeEvent<HTMLInputElement>) => {
     const inputNumber = event.target.value.replace(/[^0-9]/g, '');
