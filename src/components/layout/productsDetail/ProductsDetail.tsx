@@ -85,7 +85,9 @@ const ProductsDetail = () => {
           <div css={ProductData}>
             <div css={NameScoreContainer}>
               <div css={ProductName}>{productDetail.productName}</div>
-              <div css={ProductScore}>⭐ {productDetail.starAvg}</div>
+              <div css={ProductScore}>
+                ⭐ {productDetail.starAvg.toFixed(1)}
+              </div>
             </div>
             <div css={ProductsLocation}>{productDetail.address}</div>
           </div>
