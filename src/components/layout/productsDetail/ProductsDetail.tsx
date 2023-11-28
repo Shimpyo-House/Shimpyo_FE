@@ -1,15 +1,20 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-props-no-spreading */
 import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 import Slider from 'react-slick';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { axiosWithNoToken } from '../../../Axios';
+import theme from '../../../style/theme';
 import { RequestProductDetail } from '../../../types';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import CalendarComponent from './Calendar';
+import PeopleSelector from './PeopleSelector';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -17,30 +22,32 @@ const ProductsDetail = () => {
   const [productDetail, setProductDetail] =
     useState<RequestProductDetail | null>(null);
 
+  const [count, setCount] = useState(2);
+
   const { productId } = useParams();
 
   useEffect(() => {
-    console.log(ProductName);
-    console.log(productDetail);
-    console.log(productId);
-    console.log(productDetail?.productName);
-    console.log(productDetail?.images);
-
-    const fetchProductDetail = async () => {
+    const fetchDataProductDetail = async ({
+      startDate,
+      endDate,
+    }: Pick<RequestProductDetail, 'startDate' | 'endDate'>) => {
       try {
-        if (productId) {
-          const response = await axios.get(`/api/products/${productId}`);
-          console.log(response.data.data);
-          console.log(response.data);
-          setProductDetail(response.data.data);
-        }
+        const response = await axiosWithNoToken.get(
+          `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
+        );
+        console.log('ProductDetail', response);
+        setProductDetail(response.data.data);
+        console.log(setProductDetail(response.data.data));
       } catch (error) {
-        console.error('Error fetching product details:', error);
+        console.error('Error fetching product detail:', error);
       }
     };
 
-    fetchProductDetail();
-  }, [productId]);
+    fetchDataProductDetail({
+      startDate: '2023-11-20',
+      endDate: '2023-11-23',
+    });
+  }, []);
 
   if (!productDetail) {
     return <div>Loading...</div>;
@@ -55,11 +62,17 @@ const ProductsDetail = () => {
     autoplaySpeed: 2000,
   };
 
+  if (!productDetail || !productDetail.images) {
+    console.log('ProductDetail or images are undefined:', productDetail);
+    console.log(productDetail.images);
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <div css={ProductDetailContainer}>
         <Slider {...settings} css={SliderStyle}>
-          {productDetail.images.map((image, index) => (
+          {productDetail?.images.map((image, index) => (
             <div key={index} css={SlideItem}>
               <div
                 css={ProductDetailImg}
@@ -77,8 +90,13 @@ const ProductsDetail = () => {
             <div css={ProductsLocation}>{productDetail.address}</div>
           </div>
         </div>
-        <div css={DayCalendar}>
-          <CalendarComponent />
+        <div css={OptionSelector}>
+          <div css={DayCalendar}>
+            <CalendarComponent />
+          </div>
+          <div css={PeopleCount}>
+            <PeopleSelector count={count} setCount={setCount} />
+          </div>
         </div>
         <div css={RoomContainer}>
           {productDetail.rooms.map((room) => (
@@ -91,13 +109,27 @@ const ProductsDetail = () => {
                 <div css={RoomName}>{room.roomName}</div>
                 <div>{`기준 ${room.standard}인 / 최대 ${room.capacity}인`}</div>
                 <div>{room.description}</div>
-                <div css={checkTime}>체크인 15:00 ~ 체크아웃 11:00</div>
+                <div css={checkTime}>
+                  {`${room.checkIn} ~ ${room.checkOut}`}
+                </div>
               </div>
               <div css={RoomAction}>
-                <div css={priceStyle}>{room.price}</div>
+                <div css={priceStyle}>{parseFloat(`${room.price}`)}원</div>
                 <div css={buyBtn}>
-                  <button type="button">장바구니</button>
-                  <button type="button">예약하기</button>
+                  <AiOutlineShoppingCart css={CartIcon} />
+                  {count <= room.capacity ? (
+                    <button
+                      type="button"
+                      css={reservationButton}
+                      onClick={() => {}}
+                    >
+                      예약하기
+                    </button>
+                  ) : (
+                    <button type="button" css={exceedText}>
+                      인원초과
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -119,8 +151,8 @@ const ProductDetailContainer = css`
 
 const SliderStyle = css`
   width: 100%;
-  height: 500px; /* 원하는 높이 설정 */
-  overflow: hidden; /* 슬라이드 넘침 방지 */
+  height: 500px;
+  overflow: hidden;
 `;
 
 const SlideItem = css`
@@ -190,14 +222,24 @@ const ProductsLocation = css`
   margin-top: 2rem;
 `;
 
-const DayCalendar = css`
-  width: 100%;
-  //   max-width: 1000px;
-
+const OptionSelector = css`
   display: flex;
-  justify-content: flex-start;
+  align-items: center;
+  margin-top: 3rem;
+  margin-right: auto;
+`;
 
-  margin-top: 2.5rem;
+const DayCalendar = css`
+  flex: 1;
+  white-space: nowrap;
+  text-align: center;
+  margin-right: 1rem;
+`;
+
+const PeopleCount = css`
+  flex: 1;
+  white-space: nowrap;
+  text-align: center;
 `;
 
 const RoomContainer = css`
@@ -260,4 +302,52 @@ const buyBtn = css`
   flex-direction: row;
   align-items: flex-end;
   margin-top: auto;
+`;
+
+const CartIcon = css`
+  width: 2.5rem;
+  height: 2.5rem;
+
+  color: ${theme.colors.blue500};
+
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    color: ${theme.colors.blue700};
+  }
+
+  margin-right: 2rem;
+`;
+
+const reservationButton = css`
+  padding: 10px 20px;
+  background-color: #3d91ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+  outline: none;
+
+  &:hover {
+    background-color: #2565cb;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+`;
+
+const exceedText = css`
+  padding: 10px 20px;
+  background-color: #cccccc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: not-allowed;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+  outline: none;
 `;

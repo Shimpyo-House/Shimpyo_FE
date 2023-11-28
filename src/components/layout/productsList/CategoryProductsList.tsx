@@ -19,13 +19,13 @@ const CategoryProductsList = () => {
         <div css={CategoryNameBox}>
           <h2 css={CategoryName}>
             {category === 'hot' && '인기 숙소'}
-            {category === 'pension' && '펜션, 풀빌라'}
-            {category === 'hotel' && '호텔, 모텔'}
+            {category === '펜션,풀빌라' && '펜션, 풀빌라'}
+            {category === '호텔,모텔' && '호텔, 모텔'}
           </h2>
           <p css={CategoryDesc}>
             {category === 'hot' && '가장 잘 나가는 숙소 추천'}
-            {category === 'pension' && '크리스마스 펜션 예약하기'}
-            {category === 'hotel' && '지금 떠나는 도심 호캉스!'}
+            {category === '펜션,풀빌라' && '크리스마스 펜션 예약하기'}
+            {category === '호텔,모텔' && '지금 떠나는 도심 호캉스!'}
           </p>
         </div>
         {category !== '' && (
