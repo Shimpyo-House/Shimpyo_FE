@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-props-no-spreading */
 import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 import Slider from 'react-slick';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { axiosWithNoToken } from '../../../Axios';
 import theme from '../../../style/theme';
 import { RequestProductDetail } from '../../../types';
 import 'react-date-range/dist/styles.css';
@@ -25,27 +27,27 @@ const ProductsDetail = () => {
   const { productId } = useParams();
 
   useEffect(() => {
-    console.log(ProductName);
-    console.log(productDetail);
-    console.log(productId);
-    console.log(productDetail?.productName);
-    console.log(productDetail?.images);
-
-    const fetchProductDetail = async () => {
+    const fetchDataProductDetail = async ({
+      startDate,
+      endDate,
+    }: Pick<RequestProductDetail, 'startDate' | 'endDate'>) => {
       try {
-        if (productId) {
-          const response = await axios.get(`/api/products/${productId}`);
-          console.log(response.data.data);
-          console.log(response.data);
-          setProductDetail(response.data.data);
-        }
+        const response = await axiosWithNoToken.get(
+          `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
+        );
+        console.log('ProductDetail', response);
+        setProductDetail(response.data.data);
+        console.log(setProductDetail(response.data.data));
       } catch (error) {
-        console.error('Error fetching product details:', error);
+        console.error('Error fetching product detail:', error);
       }
     };
 
-    fetchProductDetail();
-  }, [productId]);
+    fetchDataProductDetail({
+      startDate: '2023-11-20',
+      endDate: '2023-11-23',
+    });
+  }, []);
 
   if (!productDetail) {
     return <div>Loading...</div>;
@@ -60,11 +62,17 @@ const ProductsDetail = () => {
     autoplaySpeed: 2000,
   };
 
+  if (!productDetail || !productDetail.images) {
+    console.log('ProductDetail or images are undefined:', productDetail);
+    console.log(productDetail.images);
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <div css={ProductDetailContainer}>
         <Slider {...settings} css={SliderStyle}>
-          {productDetail.images.map((image, index) => (
+          {productDetail?.images.map((image, index) => (
             <div key={index} css={SlideItem}>
               <div
                 css={ProductDetailImg}
@@ -106,7 +114,7 @@ const ProductsDetail = () => {
                 </div>
               </div>
               <div css={RoomAction}>
-                <div css={priceStyle}>{room.price}</div>
+                <div css={priceStyle}>{parseFloat(`${room.price}`)}원</div>
                 <div css={buyBtn}>
                   <AiOutlineShoppingCart css={CartIcon} />
                   {count <= room.capacity ? (

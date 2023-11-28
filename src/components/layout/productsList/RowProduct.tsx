@@ -12,13 +12,14 @@ const RowProduct = ({ resData, rank }: PropsType) => {
   return (
     <Link to={`/products/${resData.productId}`}>
       <div css={ProductBox}>
-        <div css={ProductImg}>
+        <div css={ProductImgBox}>
+          <img css={ProductImg} src={resData.image} alt="숙소 대표 사진" />
           {rank && rank < 11 && <p css={ProductRank}>{rank}</p>}
         </div>
         <div css={ProductData}>
           <div css={NameScoreBox}>
             <p css={ProductName}>{resData.productName}</p>
-            <p css={ProductScore}>⭐ {resData.starAvg}</p>
+            <p css={ProductScore}>⭐ {resData.starAvg.toFixed(1)}</p>
           </div>
           <p css={ProductPrice}>{resData.price.toLocaleString()}원 ~</p>
         </div>
@@ -54,7 +55,7 @@ const ProductBox = css`
   }
 `;
 
-const ProductImg = css`
+const ProductImgBox = css`
   width: 12.5rem;
   height: 12.5rem;
 
@@ -63,6 +64,17 @@ const ProductImg = css`
   background-color: ${theme.colors.gray700};
 
   border-radius: 5px;
+`;
+
+const ProductImg = css`
+  width: 100%;
+  height: 100%;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  z-index: 5;
 `;
 
 const ProductRank = css`
@@ -83,6 +95,8 @@ const ProductRank = css`
   border-radius: 5px 0 5px 0;
 
   font-size: 16px;
+
+  z-index: 10;
 `;
 
 const ProductData = css`
