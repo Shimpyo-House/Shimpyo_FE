@@ -86,8 +86,9 @@ export type ResponseCartData = {
   checkOut: string;
 };
 
-export type SoldOutJudgment = {
+export interface PostRoomData {
   roomId: number;
   startDate: string;
   endDate: string;
-};
+  isAvailable?: boolean;
+}

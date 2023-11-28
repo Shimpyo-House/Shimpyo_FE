@@ -1,5 +1,6 @@
 /* eslint-disable consistent-return */
 import axios from 'axios';
+import { PostRoomData } from '../types';
 
 const cartGetAxios = async () => {
   try {
@@ -10,15 +11,9 @@ const cartGetAxios = async () => {
   }
 };
 
-interface PostRoomData {
-  roomId: number;
-  startDate: string;
-  endDate: string;
-}
-
-const cartPostToPay = async (roomData: PostRoomData[]) => {
+const cartPostToJudgment = async (roomData: PostRoomData[]) => {
   try {
-    const response = await axios.post('/api/carts', {
+    const response = await axios.post('/api/reservations/preoccupy', {
       roomData,
     });
     return response.data.data;
@@ -36,4 +31,4 @@ const cartDeleteItem = async (cartId: number) => {
   }
 };
 
-export { cartGetAxios, cartPostToPay, cartDeleteItem };
+export { cartGetAxios, cartPostToJudgment, cartDeleteItem };
