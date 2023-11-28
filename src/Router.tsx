@@ -10,6 +10,7 @@ import OrderedList from './pages/OrderedList';
 import CategoryProducts from './pages/CategoryProducts';
 import TokenProvider from './TokenProvider';
 import MyPage from './pages/MyPage';
+import MyReservation from './pages/MyReservation';
 
 const Router = () => {
   return (
@@ -24,6 +25,7 @@ const Router = () => {
               <Route path="carts" element={<Cart />} />
               <Route path="pay" element={<Pay />} />
               <Route path="ordered" element={<OrderedList />} />
+              <Route path="reservation" element={<MyReservation />} />
               <Route path="mypage" element={<MyPage />} />
             </Route>
             <Route path="signup" element={<Signup />} />
