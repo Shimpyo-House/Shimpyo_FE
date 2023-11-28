@@ -1,3 +1,5 @@
+// 주문 완료 후 결제 완료 화면
+
 import { css } from '@emotion/react';
 
 const OrderedProduct = () => {
