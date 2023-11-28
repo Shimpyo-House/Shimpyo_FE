@@ -159,7 +159,7 @@ useEffect(() => {
     startDate,
     endDate,
   }: RequestProductDetail) => {
-    const data = await axiosWithAccessToken.get(
+    const data = await axiosWithNoToken.get(
       `/api/products/${productId}?startDate='${startDate}'?endDate='${endDate}'`,
     );
     console.log('ProductDetail', data);
