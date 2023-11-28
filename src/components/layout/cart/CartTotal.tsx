@@ -1,13 +1,35 @@
 /* eslint-disable react/button-has-type */
 import { css } from '@emotion/react';
+import { cartPostToPay } from '../../../api/cart';
+import { ResponseCartData } from '../../../types';
 import theme from '../../../style/theme';
 
 interface CartTotalProps {
   totalPrice: number;
-  checkedList: number[];
+  checkedRoomList: ResponseCartData[];
 }
 
-const CartTotal = ({ totalPrice, checkedList }: CartTotalProps) => {
+const CartTotal = ({ totalPrice, checkedRoomList }: CartTotalProps) => {
+  const handlePostClick = async () => {
+    try {
+      if (checkedRoomList.length > 3) {
+        alert('3개 이상의 상품을 주문할 수 없습니다.');
+      } else if (checkedRoomList.length === 0) {
+        alert('선택한 상품이 없습니다.');
+      } else {
+        const roomData = checkedRoomList.map(
+          ({ roomId, startDate, endDate }) => ({
+            roomId,
+            startDate,
+            endDate,
+          }),
+        );
+        await cartPostToPay(roomData);
+      }
+    } catch (error) {
+      alert('⚠️ 상품을 주문할 수 없습니다.');
+    }
+  };
   return (
     <div css={Container}>
       <h2>전체 주문 합계</h2>
@@ -17,9 +39,11 @@ const CartTotal = ({ totalPrice, checkedList }: CartTotalProps) => {
       </div>
       <div css={Total}>
         <p>주문 상품 개수</p>
-        <p>{checkedList.length}개</p>
+        <p>{checkedRoomList.length}개</p>
       </div>
-      <button css={OrderButton}>주문하기</button>
+      <button onClick={handlePostClick} css={OrderButton}>
+        주문하기
+      </button>
     </div>
   );
 };
