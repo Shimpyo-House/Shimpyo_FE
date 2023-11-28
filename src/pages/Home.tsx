@@ -2,16 +2,25 @@
 
 import { useQuery } from 'react-query';
 import MainProductsList from '../components/layout/productsList/MainProductsList';
-import { useQueryProductsData } from '../hooks/useProductsData';
+import useProductsData from '../hooks/useProductsData';
 import { ResponseProductsData } from '../types';
 
 const getData = async () => {
-  const hotData: ResponseProductsData[] | undefined =
-    await useQueryProductsData(4, 'hot');
-  const pensionData: ResponseProductsData[] | undefined =
-    await useQueryProductsData(3, '펜션,풀빌라');
-  const hotelData: ResponseProductsData[] | undefined =
-    await useQueryProductsData(3, '호텔,모텔');
+  const hotData: ResponseProductsData[] | undefined = await useProductsData(
+    0,
+    4,
+    'hot',
+  );
+  const pensionData: ResponseProductsData[] | undefined = await useProductsData(
+    0,
+    3,
+    '펜션,풀빌라',
+  );
+  const hotelData: ResponseProductsData[] | undefined = await useProductsData(
+    0,
+    3,
+    '호텔,모텔',
+  );
   if (hotData && pensionData && hotelData) {
     const data = [[...hotData], [...pensionData], [...hotelData]];
     return data;
