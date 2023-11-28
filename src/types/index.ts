@@ -31,7 +31,7 @@ export type ResponseProductsData = {
 export type ResponseProducts = {
   code: number;
   message: string;
-  data: ResponseProductsData[];
+  data: ResponseProductsData[] | [];
 };
 
 export type RequestOrders = {

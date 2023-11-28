@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAnimate, stagger, motion } from 'framer-motion';
@@ -47,11 +49,27 @@ const MenuBtn = () => {
   const [isOpen, setIsOpen] = useState(false);
   const scope = useMenuAnimation(isOpen);
   const user = useRecoilValue(userData);
+
+  useEffect(() => {
+    const handleOutsideClick = () => {
+      setIsOpen(false);
+    };
+    if (isOpen) {
+      document.addEventListener('click', handleOutsideClick);
+    }
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, [isOpen]);
+
   return (
     <nav css={MenuPosition} ref={scope}>
       <motion.button
         whileTap={{ scale: 0.97 }}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsOpen(!isOpen);
+        }}
         css={MenuContainer}
       >
         <MdMenu css={MenuIcon} />
@@ -59,6 +77,9 @@ const MenuBtn = () => {
       </motion.button>
       <ul
         css={ListBox}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
         style={{
           pointerEvents: isOpen ? 'auto' : 'none',
           clipPath: 'inset(10% 50% 90% 50% round 10px)',
@@ -139,4 +160,6 @@ const ListBox = css`
   font-weight: 700;
 
   list-style: none;
+
+  z-index: 10;
 `;
