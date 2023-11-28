@@ -6,7 +6,7 @@ import { MdMenu } from 'react-icons/md';
 import { useRecoilValue } from 'recoil';
 import theme from '../../../style/theme';
 import rabbit from '/rabbit.jpg';
-import { userData } from '../../../atoms/user';
+import { userAtom } from '../../../atoms/user';
 
 const staggerMenuItems = stagger(0.1, { startDelay: 0.15 });
 
@@ -46,7 +46,7 @@ function useMenuAnimation(isOpen: boolean) {
 const MenuBtn = () => {
   const [isOpen, setIsOpen] = useState(false);
   const scope = useMenuAnimation(isOpen);
-  const user = useRecoilValue(userData);
+  const user = useRecoilValue(userAtom);
   return (
     <nav css={MenuPosition} ref={scope}>
       <motion.button

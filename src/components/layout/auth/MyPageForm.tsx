@@ -1,17 +1,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable no-alert */
 
 import { useRecoilState } from 'recoil';
 import axios from 'axios';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import { Button, InputLabel, TextField } from '@mui/material';
-import { userData } from '../../../atoms/user';
+import { userAtom } from '../../../atoms/user';
 import { ErrorContainer, ErrorStyle } from './SigninForm';
 import { escapeRegExp } from './auth.utils';
 import { axiosWithAccessToken } from '../../../Axios';
 import { RequestMembers } from '../../../types';
 import { WRONG_PASSWORD_MESSAGE } from './auth.constant';
+import useGetUserData from '../../../hooks/useGetUserData';
 
 type UserPatchForm = {
   password?: string;
@@ -44,7 +46,7 @@ export const getImageUrl = async (file: File) => {
 };
 
 const MyPageForm = () => {
-  const [user, setUser] = useRecoilState(userData);
+  const [user, setUser] = useRecoilState(userAtom);
   const [myPage, setMyPage] = useState<MyPageStateType>('CHK_PASSWORD');
   const [passwordValue, setPasswordValue] = useState<string>('');
   const [userImageUrl, setUserImageUrl] = useState<string>('');
@@ -143,27 +145,7 @@ const MyPageForm = () => {
   }, [user, passwordValue]);
 
   /* userData 전역 상태가 비어있을 경우 새 정보 받아오기 */
-  useEffect(() => {
-    const getUserData = async () => {
-      setTimeout(() => {
-        setUser({
-          name: '최우혁',
-          photoUrl:
-            'https://firebasestorage.googleapis.com/v0/b/employee-management-c0a21.appspot.com/o/bigimage%2F%EA%B0%80%EB%A0%8C.jpg?alt=media&token=f5dd05f5-1036-44d3-9787-6abe2a42cc90',
-          id: 12,
-          email: 'abc@gmail.com',
-        });
-      }, 500);
-    };
-
-    (async () => {
-      if (user === null) {
-        await getUserData();
-      }
-    })();
-  }, [user]);
-
-  console.log('MyPage : 현재 접속 유저', user);
+  useGetUserData();
 
   return (
     <div css={MyPageFormContainer}>

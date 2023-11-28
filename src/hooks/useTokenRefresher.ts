@@ -5,7 +5,7 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { userData } from '../atoms/user';
+import { userAtom } from '../atoms/user';
 import { axiosWithAccessToken, axiosWithNoToken } from '../Axios';
 import { getCookie, setCookie } from '../components/layout/auth/auth.utils';
 import {
@@ -14,7 +14,7 @@ import {
 } from '../components/layout/auth/auth.constant';
 
 const useTokenRefresher = () => {
-  const setUserData = useSetRecoilState(userData);
+  const setUserData = useSetRecoilState(userAtom);
   const navigate = useNavigate();
   const tokenRefresh = useCallback(
     async ({
