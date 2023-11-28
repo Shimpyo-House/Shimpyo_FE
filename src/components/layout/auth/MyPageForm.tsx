@@ -1,70 +1,112 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import { useRecoilState } from 'recoil';
+import axios from 'axios';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import { Button, InputLabel, TextField } from '@mui/material';
 import { userData } from '../../../atoms/user';
 import { ErrorContainer, ErrorStyle } from './SigninForm';
-
-type PasswordConfirmForm = {
-  password: string;
-  passwordConfirm: string;
-};
+import { escapeRegExp } from './auth.utils';
+import { axiosWithAccessToken } from '../../../Axios';
+import { RequestMembers } from '../../../types';
+import { WRONG_PASSWORD_MESSAGE } from './auth.constant';
 
 type UserPatchForm = {
-  photoUrl?: string;
-  name?: string;
+  password?: string;
+  passwordConfirm?: string;
 };
 
 /* USER_DATA는 내 정보 보기, CHK_PASSWORD는 회원정보 변경 전 비밀번호 일치 확인, "PATCH_DATA는 회원정보 변경 */
 type MyPageStateType = 'USER_DATA' | 'CHK_PASSWORD' | 'PATCH_DATA';
 
+export const getImageUrl = async (file: File) => {
+  /* 서버에 파일 업로드 */
+  const formData = new FormData();
+
+  formData.append('api_key', import.meta.env.VITE_CLOUDINARY_API_KEY);
+  formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_PRESET);
+  formData.append('timestamp', String(Date.now() / 1000 || 0));
+  formData.append('file', file);
+
+  const config = {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  };
+
+  const { data } = await axios.post(
+    `${import.meta.env.VITE_API_BASE_URL}/image/upload`,
+    formData,
+    config,
+  );
+
+  return data.url;
+};
+
 const MyPageForm = () => {
   const [user, setUser] = useRecoilState(userData);
-  const [myPage, setMyPage] = useState<MyPageStateType>('USER_DATA');
-  /* password 확인 form */
+  const [myPage, setMyPage] = useState<MyPageStateType>('CHK_PASSWORD');
+  const [passwordValue, setPasswordValue] = useState<string>('');
+  const [userImageUrl, setUserImageUrl] = useState<string>('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const {
-    register: registerPasswordConfirm,
-    handleSubmit: handleSubmitPasswordConfirm,
-    formState: { errors: errorsPasswordConfirm },
-  } = useForm<PasswordConfirmForm>();
-
-  /* userData 변경 form */
-  const {
-    register: registerUserPatch,
-    handleSubmit: handleSubmitUserPatch,
-    formState: { errors: errorsUserPatch },
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
   } = useForm<UserPatchForm>();
 
-  const onSubmitPasswordConfirm: SubmitHandler<PasswordConfirmForm> =
-    useCallback(async ({ password, passwordConfirm }) => {
-      try {
-        // const res = await axiosWithNoToken.post('/api/auth/signin', {
-        //   email,
-        //   password,
-        // });
-        console.log('passwordConfirm : ', password, passwordConfirm);
-      } catch (e) {
-        console.log(e);
-      }
-    }, []);
-
   const onSubmitUserPatch: SubmitHandler<UserPatchForm> = useCallback(
-    async ({ photoUrl, name }) => {
+    async ({ password, passwordConfirm }) => {
       try {
-        // const res = await axiosWithNoToken.post('/api/auth/signin', {
-        //   email,
-        //   password,
-        // });
-        console.log('patchForm : ', photoUrl, name);
+        /* userData 수정 및 변경 + Cloudinary 파일 업로드 */
+        let request: RequestMembers = {};
+        if (userImageUrl) {
+          if (fileInputRef.current?.files?.length) {
+            const imageUrl = await getImageUrl(fileInputRef.current?.files[0]);
+            request.photoUrl = imageUrl;
+            console.log(imageUrl);
+          }
+        }
+
+        if (password && passwordConfirm) {
+          request = { ...request, password, passwordConfirm };
+        }
+
+        const res = await axiosWithAccessToken.patch('/api/members', request);
+        console.log(res);
+        setUser(res.data);
+        setMyPage('USER_DATA');
       } catch (e) {
         console.log(e);
       }
     },
     [],
   );
+
+  const handlerOnChangeInput: React.ChangeEventHandler<HTMLInputElement> = (
+    e,
+  ) => {
+    setPasswordValue(e.target.value);
+  };
+
+  const handlerImageButtonClick = () => {
+    console.log(fileInputRef);
+    if (fileInputRef?.current) fileInputRef.current.click();
+  };
+
+  const handlerImageFileChange = async () => {
+    /* base64 이미지 업로드 */
+    const reader = new FileReader();
+    if (fileInputRef.current?.files) {
+      const [file] = fileInputRef.current.files;
+      reader.onload = (e) => {
+        const base64DataUrl = e.target!.result as string;
+        setUserImageUrl(base64DataUrl);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   /* 상태에 따른 Button 내용 및 핸들러 */
   const ContentAndHandlerByState = useMemo(() => {
@@ -74,30 +116,31 @@ const MyPageForm = () => {
         handlerOnClick: () => {
           setMyPage('CHK_PASSWORD');
         },
-        handlerOnSubmit: () => {},
       },
       CHK_PASSWORD: {
         buttonContent: '비밀번호 확인',
-        handlerOnClick: () => {
+        handlerOnClick: async () => {
           /* 비밀번호 확인 후 맞을 경우 진행 */
-          setMyPage('PATCH_DATA');
-        },
-        handlerOnSubmit: () => {
-          handleSubmitPasswordConfirm(onSubmitPasswordConfirm);
+          try {
+            const res = await axiosWithAccessToken.post('api/members', {
+              password: passwordValue,
+            });
+            console.log(res);
+            setMyPage('PATCH_DATA');
+          } catch (e: any) {
+            console.log(e);
+            if (e.response?.data.message === WRONG_PASSWORD_MESSAGE) {
+              alert('비밀번호를 확인해주세요');
+            }
+          }
         },
       },
       PATCH_DATA: {
         buttonContent: '수정 완료',
-        handlerOnClick: async () => {
-          /* userData 수정 및 변경 + Cloudinary 파일 업로드 */
-          setMyPage('USER_DATA');
-        },
-        handlerOnSubmit: () => {
-          handleSubmitUserPatch(onSubmitUserPatch);
-        },
+        handlerOnClick: () => {},
       },
     };
-  }, []);
+  }, [user, passwordValue]);
 
   /* userData 전역 상태가 비어있을 경우 새 정보 받아오기 */
   useEffect(() => {
@@ -126,20 +169,34 @@ const MyPageForm = () => {
     <div css={MyPageFormContainer}>
       <div css={ImageContainer}>
         <img
-          src={user?.photoUrl || '/rabbit.jpg'}
+          src={userImageUrl || user?.photoUrl || '/rabbit.jpg'}
           alt={user?.name}
           css={userPhotoUrlStyle}
         />
+        {myPage === 'PATCH_DATA' && (
+          <Button onClick={handlerImageButtonClick} variant="text">
+            이미지 변경
+          </Button>
+        )}
+
+        <input
+          type="file"
+          ref={fileInputRef}
+          css={css`
+            display: none;
+          `}
+          accept="image/*"
+          onChange={handlerImageFileChange}
+        />
       </div>
       <div css={FormContainer}>
-        <form onSubmit={ContentAndHandlerByState[myPage].handlerOnSubmit}>
+        <form onSubmit={handleSubmit(onSubmitUserPatch)}>
           <InputLabel>이메일</InputLabel>
           <TextField
             variant="outlined"
             fullWidth
-            placeholder="이메일을 입력해주세요"
             type="email"
-            defaultValue={user?.email}
+            value={user?.email}
             disabled
           />
           <div css={ErrorContainer}>{null}</div>
@@ -148,19 +205,11 @@ const MyPageForm = () => {
           <TextField
             variant="outlined"
             fullWidth
-            placeholder="이름을 입력해주세요"
             type="text"
-            defaultValue={user?.name}
-            {...registerUserPatch('name', {
-              required: true,
-            })}
-            disabled={myPage !== 'PATCH_DATA'}
+            value={user?.name}
+            disabled
           />
-          <div css={ErrorContainer}>
-            {errorsUserPatch?.name ? (
-              <p css={ErrorStyle}>{errorsUserPatch.name?.message}</p>
-            ) : null}
-          </div>
+          <div css={ErrorContainer}>{null}</div>
 
           {myPage === 'CHK_PASSWORD' && (
             <>
@@ -168,18 +217,35 @@ const MyPageForm = () => {
               <TextField
                 variant="outlined"
                 fullWidth
-                placeholder="이메일을 입력해주세요"
-                type="email"
-                {...registerPasswordConfirm('password', {
+                value={passwordValue}
+                onInput={handlerOnChangeInput}
+                placeholder="비밀번호를 입력해주세요"
+                type="password"
+              />
+              <div css={ErrorContainer}>{null}</div>
+            </>
+          )}
+
+          {myPage === 'PATCH_DATA' && (
+            <>
+              <InputLabel>변경할 비밀번호</InputLabel>
+              <TextField
+                variant="outlined"
+                fullWidth
+                placeholder="변경할 비밀번호를 입력해주세요"
+                type="password"
+                {...register('password', {
                   required: true,
+                  pattern: {
+                    value:
+                      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#^()!%*?&])[A-Za-z\d@$!#^()%*?&]{8,30}$/,
+                    message: '특수문자, 문자, 숫자를 1개씩 넣어주세요(8~30자)',
+                  },
                 })}
-                disabled={myPage !== 'CHK_PASSWORD'}
               />
               <div css={ErrorContainer}>
-                {errorsPasswordConfirm?.password ? (
-                  <p css={ErrorStyle}>
-                    {errorsPasswordConfirm.password?.message}
-                  </p>
+                {errors?.password ? (
+                  <p css={ErrorStyle}>{errors.password?.message}</p>
                 ) : null}
               </div>
 
@@ -187,25 +253,28 @@ const MyPageForm = () => {
               <TextField
                 variant="outlined"
                 fullWidth
-                placeholder="이메일을 입력해주세요"
-                type="email"
-                {...registerPasswordConfirm('passwordConfirm', {
+                placeholder="비밀번호를 다시 입력해주세요"
+                type="password"
+                {...register('passwordConfirm', {
                   required: true,
+                  pattern: {
+                    value: new RegExp(
+                      escapeRegExp(watch('password') || '') || '',
+                    ),
+                    message: 'password와 다릅니다',
+                  },
                 })}
-                disabled={myPage !== 'CHK_PASSWORD'}
               />
               <div css={ErrorContainer}>
-                {errorsPasswordConfirm?.passwordConfirm ? (
-                  <p css={ErrorStyle}>
-                    {errorsPasswordConfirm.passwordConfirm?.message}
-                  </p>
+                {errors?.passwordConfirm ? (
+                  <p css={ErrorStyle}>{errors.passwordConfirm?.message}</p>
                 ) : null}
               </div>
             </>
           )}
           <Button
             onClick={ContentAndHandlerByState[myPage].handlerOnClick}
-            type="button"
+            type={`${myPage === 'PATCH_DATA' ? 'submit' : 'button'}`}
             variant="contained"
             fullWidth
           >
