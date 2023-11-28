@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 // import axios from 'axios';
 import Slider from 'react-slick';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { format } from 'date-fns';
 import { axiosWithNoToken } from '../../../Axios';
 import theme from '../../../style/theme';
 import { RequestProductDetail } from '../../../types';
@@ -42,14 +43,21 @@ const ProductsDetail = () => {
     setExitDate(exitDate);
   };
 
+  const today = new Date();
+  const tomorrow = new Date(today.getTime() + 86400000);
+
+  console.log(today, tomorrow);
+
+  const defaultDate = format(today, 'yyyy-MM-dd');
+  const defaultDatePlusDay = format(tomorrow, 'yyyy-MM-dd');
+
   useEffect(() => {
     const fetchDataProductDetail = async ({
       startDate,
       endDate,
     }: Pick<RequestProductDetail, 'startDate' | 'endDate'>) => {
       try {
-        // 유효하지 않은 날짜의 경우 요청 x
-        if (!startDate || !endDate) return;
+        // if (!startDate || !endDate) return; // 유효하지 않은 날짜인 경우, 요청을 보내지 않음
         const response = await axiosWithNoToken.get(
           `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
         );
@@ -61,10 +69,10 @@ const ProductsDetail = () => {
     };
 
     fetchDataProductDetail({
-      startDate: enterDate,
-      endDate: exitDate,
+      startDate: enterDate || defaultDate,
+      endDate: exitDate || defaultDatePlusDay,
     });
-  }, [enterDate, exitDate, productId]);
+  }, [enterDate, exitDate]);
 
   if (!productDetail) {
     return <div>Loading...</div>;
@@ -78,6 +86,12 @@ const ProductsDetail = () => {
     slidesToShow: 1,
     autoplaySpeed: 2000,
   };
+
+  console.log(nights);
+
+  const realPrice = productDetail.rooms[0].price;
+
+  console.log(realPrice);
 
   if (!productDetail || !productDetail.images) {
     console.log('ProductDetail or images are undefined:', productDetail);
