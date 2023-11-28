@@ -1,8 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable import/no-extraneous-dependencies */
-// ProductDetailImgSlider 컴포넌트
-import React from 'react';
 import Slider from 'react-slick';
 import { css } from '@emotion/react';
 
