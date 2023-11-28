@@ -1,19 +1,21 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-alert */
+/* eslint-disable @typescript-eslint/indent */
 
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import axios from 'axios';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import { Button, InputLabel, TextField } from '@mui/material';
 import { userAtom } from '../../../atoms/user';
-import { ErrorContainer, ErrorStyle } from './SigninForm';
+import { ErrorStyle } from './SigninForm';
 import { escapeRegExp } from './auth.utils';
 import { axiosWithAccessToken } from '../../../Axios';
 import { RequestMembers } from '../../../types';
 import { WRONG_PASSWORD_MESSAGE } from './auth.constant';
 import useGetUserData from '../../../hooks/useGetUserData';
+import { loadingAtom } from '../../../atoms/loading';
 
 type UserPatchForm = {
   password?: string;
@@ -47,6 +49,7 @@ export const getImageUrl = async (file: File) => {
 
 const MyPageForm = () => {
   const [user, setUser] = useRecoilState(userAtom);
+  const setLoading = useSetRecoilState(loadingAtom);
   const [myPage, setMyPage] = useState<MyPageStateType>('CHK_PASSWORD');
   const [passwordValue, setPasswordValue] = useState<string>('');
   const [userImageUrl, setUserImageUrl] = useState<string>('');
@@ -61,13 +64,13 @@ const MyPageForm = () => {
   const onSubmitUserPatch: SubmitHandler<UserPatchForm> = useCallback(
     async ({ password, passwordConfirm }) => {
       try {
+        setLoading({ isLoading: true, message: '유저를 변경중입니다.' });
         /* userData 수정 및 변경 + Cloudinary 파일 업로드 */
         let request: RequestMembers = {};
         if (userImageUrl) {
           if (fileInputRef.current?.files?.length) {
             const imageUrl = await getImageUrl(fileInputRef.current?.files[0]);
             request.photoUrl = imageUrl;
-            console.log(imageUrl);
           }
         }
 
@@ -76,14 +79,16 @@ const MyPageForm = () => {
         }
 
         const res = await axiosWithAccessToken.patch('/api/members', request);
-        console.log(res);
-        setUser(res.data);
+        console.log(request, res);
+        setUser(res.data.data);
         setMyPage('USER_DATA');
       } catch (e) {
         console.log(e);
+      } finally {
+        setLoading({ isLoading: false, message: '' });
       }
     },
-    [],
+    [fileInputRef.current?.files],
   );
 
   const handlerOnChangeInput: React.ChangeEventHandler<HTMLInputElement> = (
@@ -93,7 +98,6 @@ const MyPageForm = () => {
   };
 
   const handlerImageButtonClick = () => {
-    console.log(fileInputRef);
     if (fileInputRef?.current) fileInputRef.current.click();
   };
 
@@ -115,13 +119,15 @@ const MyPageForm = () => {
     return {
       USER_DATA: {
         buttonContent: '정보 수정',
-        handlerOnClick: () => {
+        handlerOnSubmit: (event: React.FormEvent) => {
+          event.preventDefault();
           setMyPage('CHK_PASSWORD');
         },
       },
       CHK_PASSWORD: {
         buttonContent: '비밀번호 확인',
-        handlerOnClick: async () => {
+        handlerOnSubmit: async (event: React.FormEvent) => {
+          event.preventDefault();
           /* 비밀번호 확인 후 맞을 경우 진행 */
           try {
             const res = await axiosWithAccessToken.post('api/members', {
@@ -139,7 +145,7 @@ const MyPageForm = () => {
       },
       PATCH_DATA: {
         buttonContent: '수정 완료',
-        handlerOnClick: () => {},
+        handlerOnSubmit: () => {},
       },
     };
   }, [user, passwordValue]);
@@ -156,7 +162,7 @@ const MyPageForm = () => {
           css={userPhotoUrlStyle}
         />
         {myPage === 'PATCH_DATA' && (
-          <Button onClick={handlerImageButtonClick} variant="text">
+          <Button fullWidth onClick={handlerImageButtonClick} variant="text">
             이미지 변경
           </Button>
         )}
@@ -172,81 +178,106 @@ const MyPageForm = () => {
         />
       </div>
       <div css={FormContainer}>
-        <form onSubmit={handleSubmit(onSubmitUserPatch)}>
-          <InputLabel>이메일</InputLabel>
-          <TextField
-            variant="outlined"
-            fullWidth
-            type="email"
-            value={user?.email}
-            disabled
-          />
+        <form
+          onSubmit={
+            myPage === 'PATCH_DATA'
+              ? handleSubmit(onSubmitUserPatch)
+              : (event) => {
+                  ContentAndHandlerByState[myPage].handlerOnSubmit(event);
+                }
+          }
+        >
+          <div css={InputContainer}>
+            <InputLabel css={InputLabelStyle}>이메일</InputLabel>
+            <TextField
+              variant="outlined"
+              fullWidth
+              type="email"
+              value={user?.email}
+              disabled
+              css={TextFieldStyle}
+            />
+          </div>
           <div css={ErrorContainer}>{null}</div>
 
-          <InputLabel>이름</InputLabel>
-          <TextField
-            variant="outlined"
-            fullWidth
-            type="text"
-            value={user?.name}
-            disabled
-          />
+          <div css={InputContainer}>
+            <InputLabel css={InputLabelStyle}>이름</InputLabel>
+            <TextField
+              variant="outlined"
+              fullWidth
+              type="text"
+              value={user?.name}
+              disabled
+              css={TextFieldStyle}
+            />
+          </div>
           <div css={ErrorContainer}>{null}</div>
 
           {myPage === 'CHK_PASSWORD' && (
             <>
-              <InputLabel>비밀번호</InputLabel>
-              <TextField
-                variant="outlined"
-                fullWidth
-                value={passwordValue}
-                onInput={handlerOnChangeInput}
-                placeholder="비밀번호를 입력해주세요"
-                type="password"
-              />
+              <div css={InputContainer}>
+                <InputLabel css={InputLabelStyle}>비밀번호</InputLabel>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  value={passwordValue}
+                  onInput={handlerOnChangeInput}
+                  placeholder="비밀번호를 입력해주세요"
+                  type="password"
+                  css={TextFieldStyle}
+                />
+              </div>
               <div css={ErrorContainer}>{null}</div>
             </>
           )}
 
           {myPage === 'PATCH_DATA' && (
             <>
-              <InputLabel>변경할 비밀번호</InputLabel>
-              <TextField
-                variant="outlined"
-                fullWidth
-                placeholder="변경할 비밀번호를 입력해주세요"
-                type="password"
-                {...register('password', {
-                  required: true,
-                  pattern: {
-                    value:
-                      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#^()!%*?&])[A-Za-z\d@$!#^()%*?&]{8,30}$/,
-                    message: '특수문자, 문자, 숫자를 1개씩 넣어주세요(8~30자)',
-                  },
-                })}
-              />
+              <div css={InputContainer}>
+                <InputLabel css={InputLabelStyle}>
+                  변경할
+                  <br /> 비밀번호
+                </InputLabel>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  placeholder="변경할 비밀번호를 입력해주세요"
+                  type="password"
+                  css={TextFieldStyle}
+                  {...register('password', {
+                    pattern: {
+                      value:
+                        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#^()!%*?&])[A-Za-z\d@$!#^()%*?&]{8,30}$/,
+                      message:
+                        '특수문자, 문자, 숫자를 1개씩 넣어주세요(8~30자)',
+                    },
+                  })}
+                />
+              </div>
               <div css={ErrorContainer}>
                 {errors?.password ? (
                   <p css={ErrorStyle}>{errors.password?.message}</p>
                 ) : null}
               </div>
 
-              <InputLabel>비밀번호 확인</InputLabel>
-              <TextField
-                variant="outlined"
-                fullWidth
-                placeholder="비밀번호를 다시 입력해주세요"
-                type="password"
-                {...register('passwordConfirm', {
-                  required: true,
-                  pattern: {
-                    value: new RegExp(
-                      escapeRegExp(watch('password') || '') || '',
-                    ),
-                    message: 'password와 다릅니다',
-                  },
-                })}
-              />
+              <div css={InputContainer}>
+                <InputLabel css={InputLabelStyle}>비밀번호 확인</InputLabel>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  placeholder="비밀번호를 다시 입력해주세요"
+                  type="password"
+                  css={TextFieldStyle}
+                  {...register('passwordConfirm', {
+                    pattern: {
+                      value: new RegExp(
+                        escapeRegExp(watch('password') || '') || '',
+                      ),
+                      message: 'password와 다릅니다',
+                    },
+                  })}
+                />
+              </div>
               <div css={ErrorContainer}>
                 {errors?.passwordConfirm ? (
                   <p css={ErrorStyle}>{errors.passwordConfirm?.message}</p>
@@ -254,12 +285,7 @@ const MyPageForm = () => {
               </div>
             </>
           )}
-          <Button
-            onClick={ContentAndHandlerByState[myPage].handlerOnClick}
-            type={`${myPage === 'PATCH_DATA' ? 'submit' : 'button'}`}
-            variant="contained"
-            fullWidth
-          >
+          <Button type="submit" variant="contained" fullWidth css={ButtonStyle}>
             {ContentAndHandlerByState[myPage].buttonContent}
           </Button>
         </form>
@@ -271,23 +297,58 @@ const MyPageFormContainer = css`
   display: flex;
 
   flex-direction: row;
+
+  margin: 2rem 4rem 0 4rem;
 `;
 
 const ImageContainer = css`
-  width: 31.25rem;
-  height: 31.25rem;
-`;
-
-const FormContainer = css`
   width: 100%;
+  height: 100%;
+
+  margin: 1rem 4rem 0.25rem 4rem;
 `;
 
 const userPhotoUrlStyle = css`
-  width: 100%;
-  height: 100%;
+  width: 30rem;
+  height: 30rem;
 
   object-fit: cover;
   object-position: center center;
 `;
 
+const FormContainer = css`
+  width: 100%;
+  padding: 1rem 0.5rem;
+`;
+
+const InputContainer = css`
+  display: flex;
+  align-items: center;
+`;
+const InputLabelStyle = css`
+  flex: 1 5rem;
+
+  margin-right: 0.5rem;
+
+  text-align: center;
+  font-weight: bold;
+`;
+
+const TextFieldStyle = css`
+  flex: 3 20rem;
+`;
+
+const ErrorContainer = css`
+  height: 2.5rem;
+
+  margin: 0 0 0 7rem;
+`;
+
+const ButtonStyle = css`
+  height: 3.5rem;
+
+  margin: 0 auto;
+
+  font-size: 1.125rem;
+`;
 export default MyPageForm;
