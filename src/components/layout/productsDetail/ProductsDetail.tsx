@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 import Slider from 'react-slick';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { format } from 'date-fns';
-import { axiosWithNoToken } from '../../../Axios';
+import { axiosWithNoToken, axiosWithAccessToken } from '../../../Axios';
 import theme from '../../../style/theme';
 import { RequestProductDetail } from '../../../types';
 import 'react-date-range/dist/styles.css';
@@ -50,6 +50,27 @@ const ProductsDetail = () => {
 
   const defaultDate = format(today, 'yyyy-MM-dd');
   const defaultDatePlusDay = format(tomorrow, 'yyyy-MM-dd');
+
+  const addToCart = async (product: RequestProductDetail) => {
+    try {
+      const response = await axiosWithAccessToken.post('/api/carts', {
+        // 상품 정보 추가
+      });
+      console.log('Added to cart:', response);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
+  };
+
+  const handleAddToCart = async (selectedProduct: RequestProductDetail) => {
+    try {
+      await addToCart(selectedProduct);
+      // 장바구니에 성공적으로 추가되었을 때 할 작업들을 추가할 수 있습니다.
+      // 예: 알림 메시지 표시, 다른 동작 수행 등
+    } catch (error) {
+      console.error('Error while adding to cart:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchDataProductDetail = async ({
@@ -159,7 +180,7 @@ const ProductsDetail = () => {
                     <button
                       type="button"
                       css={reservationButton}
-                      onClick={() => {}}
+                      onClick={() => handleAddToCart(productDetail)}
                     >
                       예약하기
                     </button>
