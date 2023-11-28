@@ -5,7 +5,7 @@ const useProductsData = async (
   page: number,
   productsVolume: number,
   category: string,
-): Promise<ResponseProductsData[] | undefined> => {
+): Promise<ResponseProductsData[] | [] | undefined> => {
   try {
     if (category === 'hot') {
       const fetchData = await axiosWithNoToken.get<ResponseProducts>(

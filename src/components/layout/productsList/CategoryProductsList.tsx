@@ -9,38 +9,53 @@ type PropsType = {
 };
 
 const CategoryProductsList = ({ category }: PropsType) => {
-  const trigger = useRef(null);
   const [page, setPage] = useState(0);
   const [productsData, setPropductsData] = useState<ResponseProductsData[]>([]);
-
-  const io = new IntersectionObserver(() => {
-    setPage((prev) => prev + 1);
-    // console.log(page);
-  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [isEnd, setIsEnd] = useState(false);
+  const obsRef = useRef(null);
 
   useEffect(() => {
-    if (trigger.current) {
-      io.observe(trigger.current);
+    const io = new IntersectionObserver(obsHandler, {
+      threshold: 1,
+    });
+    if (obsRef.current) {
+      io.observe(obsRef.current);
     }
+    return () => {
+      io.disconnect();
+    };
   }, []);
+
+  const obsHandler = async (entries: IntersectionObserverEntry[]) => {
+    const target = entries[0];
+    if (target.isIntersecting && !isLoading && !isEnd) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  // page > 0을 함으로써 첫 렌더링 시 옵저버의 페이지 증가로 인한 중복 렌더링을 방지
   useEffect(() => {
     const getData = async () => {
       try {
-        console.log(page);
-
-        const data = await useProductsData(page, 8, category);
-
-        if (data) {
-          const currentData: ResponseProductsData[] = [
-            ...productsData,
-            ...data,
-          ];
-          console.log(currentData);
-
-          setPropductsData(currentData);
+        setIsLoading(true);
+        if (page > 0) {
+          const data = await useProductsData(page - 1, 8, category);
+          if (data) {
+            if (data.length < 8) {
+              setIsEnd(true);
+            }
+            const currentData: ResponseProductsData[] = [
+              ...productsData,
+              ...data,
+            ];
+            setPropductsData(currentData);
+          }
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     getData();
@@ -62,7 +77,7 @@ const CategoryProductsList = ({ category }: PropsType) => {
           </p>
         </div>
         {productsData && <ColumnList category={category} data={productsData} />}
-        <div ref={trigger} css={spinner} />
+        {!isEnd && <div ref={obsRef} css={spinner} />}
       </div>
     </div>
   );
@@ -104,8 +119,7 @@ const CategoryDesc = css`
 `;
 
 const spinner = css`
-  width: 50px;
-  height: 50px;
+  height: 0;
 
   background-color: aqua;
 `;
