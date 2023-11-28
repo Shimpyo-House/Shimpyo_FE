@@ -1,42 +1,24 @@
-import { useState } from 'react';
 import { css } from '@emotion/react';
 import RowProduct from './RowProduct';
 import theme from '../../../style/theme';
 import { ResponseProductsData } from '../../../types';
-import { useSetProductsData } from '../../../hooks/useProductsData';
 
 type PropsType = {
   category: string;
-  main: boolean;
-  data: ResponseProductsData[] | undefined;
+  data: ResponseProductsData[];
 };
 
-const ColumnList = ({ category, main, data }: PropsType) => {
-  const [productData, setProductData] = useState<ResponseProductsData[] | null>(
-    null,
-  );
-
-  if (!main) {
-    useSetProductsData(category, setProductData);
-  }
-
+const ColumnList = ({ category, data }: PropsType) => {
   return (
     <div css={ProductsBox}>
-      {main &&
-        data &&
+      {data &&
+        category === 'hot' &&
         data.map((e, i) => (
           <RowProduct resData={e} rank={i + 1} key={e.productId} />
         ))}
-      {productData &&
-        !main &&
-        category === 'hot' &&
-        productData.map((e, i) => (
-          <RowProduct resData={e} rank={i + 1} key={e.productId} />
-        ))}
-      {productData &&
-        !main &&
+      {data &&
         category !== 'hot' &&
-        productData.map((e) => (
+        data.map((e) => (
           <RowProduct resData={e} rank={null} key={e.productId} />
         ))}
       <div css={CenterLine} />

@@ -1,17 +1,50 @@
 import { css } from '@emotion/react';
-import { useSearchParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ColumnList from './ColumnList';
+import useProductsData from '../../../hooks/useProductsData';
+import { ResponseProductsData } from '../../../types';
 
-const CategoryProductsList = () => {
-  const [searchPrams] = useSearchParams();
-  const [category, setCategory] = useState('');
+type PropsType = {
+  category: string;
+};
+
+const CategoryProductsList = ({ category }: PropsType) => {
+  const trigger = useRef(null);
+  const [page, setPage] = useState(0);
+  const [productsData, setPropductsData] = useState<ResponseProductsData[]>([]);
+
+  const io = new IntersectionObserver(() => {
+    setPage((prev) => prev + 1);
+    // console.log(page);
+  });
+
   useEffect(() => {
-    const isString = searchPrams.get('type');
-    if (isString) {
-      setCategory(isString);
+    if (trigger.current) {
+      io.observe(trigger.current);
     }
   }, []);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        console.log(page);
+
+        const data = await useProductsData(page, 8, category);
+
+        if (data) {
+          const currentData: ResponseProductsData[] = [
+            ...productsData,
+            ...data,
+          ];
+          console.log(currentData);
+
+          setPropductsData(currentData);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getData();
+  }, [page]);
 
   return (
     <div css={PageBox}>
@@ -28,9 +61,8 @@ const CategoryProductsList = () => {
             {category === '호텔,모텔' && '지금 떠나는 도심 호캉스!'}
           </p>
         </div>
-        {category !== '' && (
-          <ColumnList category={category} main={false} data={undefined} />
-        )}
+        {productsData && <ColumnList category={category} data={productsData} />}
+        <div ref={trigger} css={spinner} />
       </div>
     </div>
   );
@@ -69,4 +101,11 @@ const CategoryName = css`
 const CategoryDesc = css`
   font-size: 1.5rem;
   font-weight: 400;
+`;
+
+const spinner = css`
+  width: 50px;
+  height: 50px;
+
+  background-color: aqua;
 `;
