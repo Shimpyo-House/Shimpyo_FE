@@ -29,7 +29,7 @@ const NormalCategory = ({ data }: PropsType) => {
           <IoIosArrowForward className="arrowIcon" />
         </h2>
         <p css={CategoryDesc}>가장 잘 나가는 숙소 추천</p>
-        <ColumnList category="hot" main={true} data={hotData} />
+        <ColumnList category="hot" data={hotData} />
       </div>
       <div css={CategoryBox}>
         <h2 css={CategoryName}>
