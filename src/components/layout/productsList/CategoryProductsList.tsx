@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { useInfiniteQuery } from 'react-query';
 import { useEffect, useRef, useState } from 'react';
 import ColumnList from './ColumnList';
 import useProductsData from '../../../hooks/useProductsData';
@@ -9,11 +10,29 @@ type PropsType = {
 };
 
 const CategoryProductsList = ({ category }: PropsType) => {
-  const [page, setPage] = useState(0);
-  const [productsData, setPropductsData] = useState<ResponseProductsData[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
   const obsRef = useRef(null);
+
+  const { data, fetchNextPage } = useInfiniteQuery<
+  unknown,
+  unknown,
+  ResponseProductsData[]
+  >(
+    category,
+    ({ pageParam = 0 }) => {
+      return getData(pageParam);
+    },
+    {
+      refetchOnWindowFocus: false,
+      staleTime: 100000,
+      getNextPageParam: (pageParam, allPage) => {
+        if (!allPage) {
+          return pageParam;
+        }
+        return allPage.length;
+      },
+    },
+  );
 
   useEffect(() => {
     const io = new IntersectionObserver(obsHandler, {
@@ -29,37 +48,26 @@ const CategoryProductsList = ({ category }: PropsType) => {
 
   const obsHandler = async (entries: IntersectionObserverEntry[]) => {
     const target = entries[0];
-    if (target.isIntersecting && !isLoading && !isEnd) {
-      setPage((prev) => prev + 1);
+    console.log(1);
+    if (target.isIntersecting && !isEnd) {
+      fetchNextPage();
     }
   };
 
-  // page > 0을 함으로써 첫 렌더링 시 옵저버의 페이지 증가로 인한 중복 렌더링을 방지
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        setIsLoading(true);
-        if (page > 0) {
-          const data = await useProductsData(page - 1, 8, category);
-          if (data) {
-            if (data.length < 8) {
-              setIsEnd(true);
-            }
-            const currentData: ResponseProductsData[] = [
-              ...productsData,
-              ...data,
-            ];
-            setPropductsData(currentData);
-          }
+  const getData = async (pageParam: number) => {
+    try {
+      const fetchData = await useProductsData(pageParam, 8, category);
+      if (fetchData) {
+        if (fetchData.length < 8) {
+          setIsEnd(true);
         }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
+        return fetchData;
       }
-    };
-    getData();
-  }, [page]);
+    } catch (error) {
+      console.log(error);
+    }
+    return undefined;
+  };
 
   return (
     <div css={PageBox}>
@@ -76,7 +84,9 @@ const CategoryProductsList = ({ category }: PropsType) => {
             {category === '호텔,모텔' && '지금 떠나는 도심 호캉스!'}
           </p>
         </div>
-        {productsData && <ColumnList category={category} data={productsData} />}
+        {data && data.pages && (
+          <ColumnList category={category} data={data.pages.flat()} />
+        )}
         {!isEnd && <div ref={obsRef} css={spinner} />}
       </div>
     </div>
