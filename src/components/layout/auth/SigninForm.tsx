@@ -7,8 +7,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { axiosWithNoToken } from '../../../Axios';
 import theme from '../../../style/theme';
-import { userData } from '../../../atoms/user';
+import { userAtom } from '../../../atoms/user';
 import { setCookie } from './auth.utils';
+import { loadingAtom } from '../../../atoms/loading';
 
 export type IFormInput = {
   email: string;
@@ -22,12 +23,14 @@ const SigninForm = () => {
     formState: { errors },
   } = useForm<IFormInput>();
 
-  const setUserData = useSetRecoilState(userData);
+  const setUserData = useSetRecoilState(userAtom);
   const navigate = useNavigate();
+  const setLoading = useSetRecoilState(loadingAtom);
 
   const onSubmit: SubmitHandler<IFormInput> = useCallback(
     async ({ email, password }) => {
       try {
+        setLoading({ isLoading: true, message: '로그인 진행중입니다.' });
         const res = await axiosWithNoToken.post('/api/auth/signin', {
           email,
           password,
@@ -53,6 +56,8 @@ const SigninForm = () => {
         navigate('/');
       } catch (e) {
         console.log(e);
+      } finally {
+        setLoading({ isLoading: false, message: '' });
       }
     },
     [],

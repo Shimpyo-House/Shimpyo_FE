@@ -3,8 +3,10 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import theme from '../../../style/theme';
 import MenuBtn from './MenuBtn';
+import useGetUserData from '../../../hooks/useGetUserData';
 
 const Header = () => {
+  useGetUserData();
   return (
     <div css={Container}>
       <nav css={InnerContainer}>

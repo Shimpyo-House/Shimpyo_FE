@@ -1,14 +1,14 @@
 import { atom } from 'recoil';
 
 export type UserDataType = {
-  id: number;
+  memberId: number;
   email: string;
   name: string;
   photoUrl: string;
 } | null;
 
 /* eslint-disable import/prefer-default-export */
-export const userData = atom<UserDataType>({
-  key: 'userData',
+export const userAtom = atom<UserDataType>({
+  key: 'userAtom',
   default: null,
 });
