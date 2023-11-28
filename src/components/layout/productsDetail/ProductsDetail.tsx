@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-props-no-spreading */
 import { css } from '@emotion/react';
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 // import axios from 'axios';
 import Slider from 'react-slick';
@@ -26,6 +27,13 @@ const ProductsDetail = () => {
 
   const { productId } = useParams();
 
+  const [nights, setNights] = useState(1);
+
+  // 선택한 숙박일 수 부모 컴포넌트 상태에 업데이트
+  const handleSetNights = (selectedNights: SetStateAction<number>) => {
+    setNights(selectedNights);
+  };
+
   useEffect(() => {
     const fetchDataProductDetail = async ({
       startDate,
@@ -44,7 +52,7 @@ const ProductsDetail = () => {
     };
 
     fetchDataProductDetail({
-      startDate: '2023-11-20',
+      startDate: '2023-11-22',
       endDate: '2023-11-23',
     });
   }, []);
@@ -61,6 +69,12 @@ const ProductsDetail = () => {
     slidesToShow: 1,
     autoplaySpeed: 2000,
   };
+
+  console.log(nights);
+
+  const realPrice = productDetail.rooms[0].price;
+
+  console.log(realPrice);
 
   if (!productDetail || !productDetail.images) {
     console.log('ProductDetail or images are undefined:', productDetail);
@@ -94,7 +108,7 @@ const ProductsDetail = () => {
         </div>
         <div css={OptionSelector}>
           <div css={DayCalendar}>
-            <CalendarComponent />
+            <CalendarComponent setNights={handleSetNights} />
           </div>
           <div css={PeopleCount}>
             <PeopleSelector count={count} setCount={setCount} />
@@ -116,7 +130,9 @@ const ProductsDetail = () => {
                 </div>
               </div>
               <div css={RoomAction}>
-                <div css={priceStyle}>{parseFloat(`${room.price}`)}원</div>
+                <div css={priceStyle}>
+                  {parseFloat(`${room.price}`) * nights}원
+                </div>
                 <div css={buyBtn}>
                   <AiOutlineShoppingCart css={CartIcon} />
                   {count <= room.capacity ? (
