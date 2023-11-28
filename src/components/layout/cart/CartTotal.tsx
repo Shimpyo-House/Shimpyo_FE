@@ -4,8 +4,8 @@
 import { css } from '@emotion/react';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { cartPostToJudgment } from '../../../api/cart';
-import { ResponseCartData, PostRoomData } from '../../../types';
+// import { cartPostToJudgment } from '../../../api/cart';
+import { ResponseCartData } from '../../../types';
 import { cartDataState } from '../../../atoms/cartAtom';
 import theme from '../../../style/theme';
 
@@ -17,6 +17,7 @@ interface CartTotalProps {
 const CartTotal = ({ totalPrice, checkedRoomList }: CartTotalProps) => {
   const navigate = useNavigate();
   const [cartData, setCartData] = useRecoilState(cartDataState);
+  console.log(cartData);
 
   const handlePostClick = async () => {
     try {
@@ -30,13 +31,13 @@ const CartTotal = ({ totalPrice, checkedRoomList }: CartTotalProps) => {
         return;
       }
 
-      const roomData = checkedRoomList.map(
-        ({ roomId, startDate, endDate }) => ({
-          roomId,
-          startDate,
-          endDate,
-        }),
-      );
+      // const roomData = checkedRoomList.map(
+      //   ({ roomId, startDate, endDate }) => ({
+      //     roomId,
+      //     startDate,
+      //     endDate,
+      //   }),
+      // );
 
       // const response = await cartPostToJudgment(roomData);
       // const soldOutRooms = response.filter(
