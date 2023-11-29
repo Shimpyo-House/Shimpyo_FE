@@ -3,7 +3,9 @@ import { cartGetAxios, cartDeleteItem } from '../api/cart';
 
 const useCart = () => {
   const queryClient = useQueryClient();
-  const cartQuery = useQuery('cart', cartGetAxios);
+  const cartQuery = useQuery(['cart'], cartGetAxios, {
+    refetchOnWindowFocus: false,
+  });
 
   const deleteCartItemMutation = useMutation(
     async (cartId: number) => {
