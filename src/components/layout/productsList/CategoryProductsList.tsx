@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { useInfiniteQuery } from 'react-query';
 import { useEffect, useRef, useState } from 'react';
 import ColumnList from './ColumnList';
 import useProductsData from '../../../hooks/useProductsData';
@@ -9,42 +10,64 @@ type PropsType = {
 };
 
 const CategoryProductsList = ({ category }: PropsType) => {
-  const trigger = useRef(null);
-  const [page, setPage] = useState(0);
-  const [productsData, setPropductsData] = useState<ResponseProductsData[]>([]);
+  const [isEnd, setIsEnd] = useState(false);
+  const obsRef = useRef(null);
 
-  const io = new IntersectionObserver(() => {
-    setPage((prev) => prev + 1);
-    // console.log(page);
-  });
-
-  useEffect(() => {
-    if (trigger.current) {
-      io.observe(trigger.current);
-    }
-  }, []);
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        console.log(page);
-
-        const data = await useProductsData(page, 8, category);
-
-        if (data) {
-          const currentData: ResponseProductsData[] = [
-            ...productsData,
-            ...data,
-          ];
-          console.log(currentData);
-
-          setPropductsData(currentData);
+  const { data, fetchNextPage } = useInfiniteQuery<
+  unknown,
+  unknown,
+  ResponseProductsData[]
+  >(
+    category,
+    ({ pageParam = 0 }) => {
+      return getData(pageParam);
+    },
+    {
+      refetchOnWindowFocus: false,
+      staleTime: 100000,
+      getNextPageParam: (pageParam, allPage) => {
+        if (!allPage) {
+          return pageParam;
         }
-      } catch (error) {
-        console.log(error);
-      }
+        return allPage.length;
+      },
+    },
+  );
+
+  useEffect(() => {
+    const io = new IntersectionObserver(obsHandler, {
+      threshold: 1,
+    });
+    if (obsRef.current) {
+      io.observe(obsRef.current);
+    }
+    return () => {
+      io.disconnect();
     };
-    getData();
-  }, [page]);
+  }, []);
+
+  const obsHandler = async (entries: IntersectionObserverEntry[]) => {
+    const target = entries[0];
+    console.log(1);
+    if (target.isIntersecting && !isEnd) {
+      fetchNextPage();
+    }
+  };
+
+  const getData = async (pageParam: number) => {
+    try {
+      const fetchData = await useProductsData(pageParam, 8, category);
+      if (fetchData) {
+        if (fetchData.length < 8) {
+          setIsEnd(true);
+        }
+        return fetchData;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return undefined;
+  };
 
   return (
     <div css={PageBox}>
@@ -61,8 +84,10 @@ const CategoryProductsList = ({ category }: PropsType) => {
             {category === '호텔,모텔' && '지금 떠나는 도심 호캉스!'}
           </p>
         </div>
-        {productsData && <ColumnList category={category} data={productsData} />}
-        <div ref={trigger} css={spinner} />
+        {data && data.pages && (
+          <ColumnList category={category} data={data.pages.flat()} />
+        )}
+        {!isEnd && <div ref={obsRef} css={spinner} />}
       </div>
     </div>
   );
@@ -104,8 +129,7 @@ const CategoryDesc = css`
 `;
 
 const spinner = css`
-  width: 50px;
-  height: 50px;
+  height: 0;
 
   background-color: aqua;
 `;

@@ -25,24 +25,30 @@ const NormalCategory = ({ data }: PropsType) => {
     <div css={PageBox}>
       <div css={CategoryBox}>
         <h2 css={CategoryName}>
-          <Link to="/category?type=hot">인기 숙소</Link>
-          <IoIosArrowForward className="arrowIcon" />
+          <Link css={LinkBox} to="/category?type=hot">
+            인기 숙소
+            <IoIosArrowForward className="arrowIcon" />
+          </Link>
         </h2>
         <p css={CategoryDesc}>가장 잘 나가는 숙소 추천</p>
         <ColumnList category="hot" data={hotData} />
       </div>
       <div css={CategoryBox}>
         <h2 css={CategoryName}>
-          <Link to="/category?type=펜션,풀빌라">펜션, 풀빌라</Link>
-          <IoIosArrowForward className="arrowIcon" />
+          <Link css={LinkBox} to="/category?type=펜션,풀빌라">
+            펜션, 풀빌라
+            <IoIosArrowForward className="arrowIcon" />
+          </Link>
         </h2>
         <p css={CategoryDesc}>크리스마스 펜션 예약하기</p>
         <RowList data={pensionData} />
       </div>
       <div css={CategoryBox}>
         <h2 css={CategoryName}>
-          <Link to="/category?type=호텔,모텔">호텔, 모텔</Link>
-          <IoIosArrowForward className="arrowIcon" />
+          <Link css={LinkBox} to="/category?type=호텔,모텔">
+            호텔, 모텔
+            <IoIosArrowForward className="arrowIcon" />
+          </Link>
         </h2>
         <p css={CategoryDesc}>지금 떠나는 도심 호캉스!</p>
         <RowList data={hotelData} />
@@ -81,6 +87,10 @@ const CategoryName = css`
   .arrowIcon {
     color: ${theme.colors.blue800};
   }
+`;
+const LinkBox = css`
+  display: flex;
+  align-items: center;
 `;
 const CategoryDesc = css`
   color: ${theme.colors.gray700};
