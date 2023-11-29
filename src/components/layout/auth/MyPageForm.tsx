@@ -298,26 +298,24 @@ const MyPageFormContainer = css`
   display: flex;
 
   flex-direction: row;
+  justify-content: center;
 
-  margin: 2rem 4rem 0 4rem;
+  margin: 2rem 4rem 0 0;
 `;
 
 const ImageContainer = css`
-  width: 100%;
+  width: 80%;
   height: 100%;
 
-  margin: 1rem 4rem 0.25rem 4rem;
+  margin: 1rem 4rem 0.25rem 7rem;
 `;
 
 const userPhotoUrlStyle = css`
-  width: 30rem;
+  width: 26rem;
   height: 30rem;
 
-  object-fit: contain;
+  object-fit: cover;
   object-position: center center;
-
-  image-rendering: crisp-edges;
-  image-rendering: -o-crisp-edges;
 `;
 
 const FormContainer = css`
