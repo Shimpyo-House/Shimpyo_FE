@@ -116,23 +116,6 @@ const ProductsDetail = () => {
     }
   };
 
-  // 예약 가능 여부 체크 로직
-  const checkAvailability = async (
-    roomId: number,
-    startDate: string,
-    endDate: string,
-  ) => {
-    try {
-      const response = await axiosWithNoToken.get(
-        `/api/products/amounts/${roomId}?startDate=${startDate}&endDate=${endDate}`,
-      );
-      return response.data.message === '예약 가능한 방입니다.';
-    } catch (error) {
-      console.error('Error checking availability:', error);
-      return false; // 예약 불가능으로 처리
-    }
-  };
-
   if (!productDetail) {
     return <div>Loading...</div>;
   }
