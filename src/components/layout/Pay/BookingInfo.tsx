@@ -1,48 +1,63 @@
 // 예약한 객실 (숙소명, 옵션, 체크인/체크아웃, 금액, 방문시간 radio등) 컴포넌트화
 
 import { css } from '@emotion/react';
+import { useRecoilValue } from 'recoil';
+import { cartDataState } from '../../../atoms/cartAtom';
 
 const BookingInfo = () => {
+  const cartData = useRecoilValue(cartDataState);
+  console.log(useRecoilValue(cartDataState));
+
   return (
     <div css={BookingInfoCss}>
-      <div css={BookHeader}>
-        <span>최저가보상</span>
-        <h1>마리나베이 속초</h1>
-        <p>[God딜] 슈페리어 더블 레이크뷰</p>
-      </div>
+      {cartData.length > 0 ? (
+        cartData.map((cartItem) => (
+          <>
+            <div css={BookHeader}>
+              <span>최저가보상</span>
+              <h1>{cartItem.roomName}</h1>
+              <p>{cartItem.productName}</p>
+            </div>
 
-      <div css={CheckInOut}>
-        <div>
-          <span>체크인</span>
-          <h3>2023.11.23(목)</h3>
-          <p>15:00</p>
-        </div>
-        <div>
-          <span>체크아웃</span>
-          <h3>2023.11.24(금)</h3>
-          <p>11:00</p>
-        </div>
-      </div>
+            <div css={CheckInOut}>
+              <div>
+                <span>체크인</span>
+                <h3>{cartItem.startDate}</h3>
+                <p>{cartItem.checkIn}</p>
+              </div>
+              <div>
+                <span>체크아웃</span>
+                <h3>{cartItem.endDate}</h3>
+                <p>{cartItem.checkOut}</p>
+              </div>
+            </div>
 
-      <div css={RefPeople}>기준 2명 / 최대 2명</div>
+            <div css={RefPeople}>
+              기준 {cartItem.standard}명 / 최대 {cartItem.capacity}명
+            </div>
 
-      <div css={BookingPrice}>
-        숙박 / 1박 <span>72,800원</span>
-      </div>
+            <div css={BookingPrice}>
+              숙박 / 1박 <span>{cartItem.price}원</span>
+            </div>
 
-      <div css={VisitWay}>
-        <div>방문수단 선택</div>
-        <form>
-          <label htmlFor="walk">
-            <input id="walk" type="radio" name="button" />
-            도보
-          </label>
-          <label htmlFor="car">
-            <input id="car" type="radio" name="button" />
-            차량
-          </label>
-        </form>
-      </div>
+            <div css={VisitWay}>
+              <div>방문수단 선택</div>
+              <form>
+                <label htmlFor="walk">
+                  <input id="walk" type="radio" name="button" />
+                  도보
+                </label>
+                <label htmlFor="car">
+                  <input id="car" type="radio" name="button" />
+                  차량
+                </label>
+              </form>
+            </div>
+          </>
+        ))
+      ) : (
+        <p>장바구니가 비어있습니다.</p>
+      )}
     </div>
   );
 };
@@ -115,6 +130,7 @@ const VisitWay = css`
 
   padding: 1rem 1.5rem;
   margin-top: 1.5rem;
+  margin-bottom: 1rem;
 
   border: 1px solid #c8deff;
   border-radius: 5px;
