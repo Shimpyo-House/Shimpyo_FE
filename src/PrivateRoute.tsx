@@ -12,7 +12,7 @@ const PrivateRoute = ({
     return <RouteComponent />;
   }
   alert('로그인이 필요합니다.');
-  return <Navigate to="/signin" />;
+  return <Navigate to="/" />;
 };
 
 export default PrivateRoute;
