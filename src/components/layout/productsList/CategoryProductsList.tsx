@@ -1,7 +1,7 @@
 /* eslint-disable  @typescript-eslint/indent */
 import { css } from '@emotion/react';
 import { useInfiniteQuery } from 'react-query';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ColumnList from './ColumnList';
 import { useObs, useProductsData } from '../../../hooks/useProductsData';
 import { ResponseProductsData } from '../../../types';
@@ -13,6 +13,7 @@ type PropsType = {
 const CategoryProductsList = ({ category }: PropsType) => {
   const [isEnd, setIsEnd] = useState(false);
   const obsRef = useRef(null);
+  const pageVolume = 8;
 
   const { data, fetchNextPage } = useInfiniteQuery<
     unknown,
@@ -35,6 +36,16 @@ const CategoryProductsList = ({ category }: PropsType) => {
     },
   );
 
+  // 페이지에 다시 돌아왔을 때 더 로딩할 페이지가 있는지 확인 로직
+  useEffect(() => {
+    if (data)
+      if (
+        data?.pages[data.pages.length - 1] < data?.pages[data.pages.length - 2]
+      ) {
+        setIsEnd(true);
+      }
+  }, []);
+
   const obsHandler = async (entries: IntersectionObserverEntry[]) => {
     const target = entries[0];
     if (target.isIntersecting && !isEnd) {
@@ -46,9 +57,9 @@ const CategoryProductsList = ({ category }: PropsType) => {
 
   const getData = async (pageParam: number) => {
     try {
-      const fetchData = await useProductsData(pageParam, 8, category);
+      const fetchData = await useProductsData(pageParam, pageVolume, category);
       if (fetchData) {
-        if (fetchData.length < 8) {
+        if (fetchData.length < pageVolume) {
           setIsEnd(true);
         }
         return fetchData;
