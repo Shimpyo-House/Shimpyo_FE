@@ -6,7 +6,6 @@ import { cartDataState } from '../../../atoms/cartAtom';
 
 const BookingInfo = () => {
   const cartData = useRecoilValue(cartDataState);
-  console.log(useRecoilValue(cartDataState));
 
   return (
     <div css={BookingInfoCss}>
