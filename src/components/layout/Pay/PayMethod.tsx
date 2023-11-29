@@ -15,11 +15,11 @@ type PaymentMethodType = {
 };
 
 type PaymentMethodsType = {
-  kakao: PaymentMethodType;
-  toss: PaymentMethodType;
-  naver: PaymentMethodType;
-  card: PaymentMethodType;
-  paypal: PaymentMethodType;
+  KAKAO_PAY: PaymentMethodType;
+  TOSS_PAY: PaymentMethodType;
+  NAVER_PAY: PaymentMethodType;
+  CREDIT_CARD: PaymentMethodType;
+  PAYPAL: PaymentMethodType;
 };
 
 const PayMethod = () => {
@@ -34,28 +34,28 @@ const PayMethod = () => {
   );
 
   const paymentMethods: PaymentMethodsType = {
-    kakao: {
+    KAKAO_PAY: {
       img: kakaopay,
       title: '2만원 이상 결제 시 2천원 즉시할인',
       subtitle: '매일 오전 10시/일 선착순 1500명/기간 내 1회 적용',
     },
-    toss: {
+    TOSS_PAY: {
       img: tosspay,
       title: '3만원 이상 10% 할인 (최대 1만원)',
       subtitle: '매일 오전 10시/일 선착순 200명 대상/기간 내 1회 적용',
     },
-    naver: {
+    NAVER_PAY: {
       img: naverpay,
       title: '5만원 이상 결제 시 5천P 적립',
       subtitle:
         '12월 29일 적립 예정 (12월 27일까지 취소되지 않은 경우, 기간 내 1회 적용)',
     },
-    card: {
+    CREDIT_CARD: {
       img: '',
       title: '',
       subtitle: '',
     },
-    paypal: {
+    PAYPAL: {
       img: '',
       title: '',
       subtitle: '',
@@ -79,19 +79,19 @@ const PayMethod = () => {
     setPaypal(false);
 
     switch (method) {
-      case 'kakao':
+      case 'KAKAO_PAY':
         setKakao(true);
         break;
-      case 'toss':
+      case 'TOSS_PAY':
         setToss(true);
         break;
-      case 'naver':
+      case 'NAVER_PAY':
         setNaver(true);
         break;
-      case 'card':
+      case 'CREDIT_CARD':
         setCard(true);
         break;
-      case 'paypal':
+      case 'PAYPAL':
         setPaypal(true);
         break;
       default:
@@ -108,35 +108,35 @@ const PayMethod = () => {
         <button
           type="button"
           css={[PaymentWay, kakao && ActiveStyle]}
-          onClick={() => handleButtonClick('kakao')}
+          onClick={() => handleButtonClick('KAKAO_PAY')}
         >
           <img src={kakaopay} alt="카카오페이" />
         </button>
         <button
           type="button"
           css={[PaymentWay, toss && ActiveStyle]}
-          onClick={() => handleButtonClick('toss')}
+          onClick={() => handleButtonClick('TOSS_PAY')}
         >
           <img src={tosspay} alt="토스페이" />
         </button>
         <button
           type="button"
           css={[PaymentWay, naver && ActiveStyle]}
-          onClick={() => handleButtonClick('naver')}
+          onClick={() => handleButtonClick('NAVER_PAY')}
         >
           <img src={naverpay} alt="네이버페이" />
         </button>
         <button
           type="button"
           css={[PaymentWay, card && ActiveStyle]}
-          onClick={() => handleButtonClick('card')}
+          onClick={() => handleButtonClick('CREDIT_CARD')}
         >
           카드
         </button>
         <button
           type="button"
           css={[PaymentWay, paypal && ActiveStyle]}
-          onClick={() => handleButtonClick('paypal')}
+          onClick={() => handleButtonClick('PAYPAL')}
         >
           <img src={paypalImg} alt="제작자: Roundicons - Flaticon" />
         </button>
