@@ -88,7 +88,7 @@ const CategoryProductsList = ({ category }: PropsType) => {
         {data && data.pages && (
           <ColumnList category={category} data={data.pages.flat()} />
         )}
-        {!isEnd && <div ref={obsRef} css={spinner} />}
+        {!isEnd && <div ref={obsRef} />}
       </div>
     </div>
   );
@@ -135,10 +135,4 @@ const CategoryName = css`
 const CategoryDesc = css`
   font-size: 1.5rem;
   font-weight: 400;
-`;
-
-const spinner = css`
-  height: 0;
-
-  background-color: aqua;
 `;
