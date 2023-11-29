@@ -66,7 +66,7 @@ const PageBox = css`
   flex-direction: column;
   align-items: center;
 
-  width: 100%;
+  background-color: rgba(255, 2555, 255, 0.8);
 
   padding: 3.125rem 0;
   gap: 3.125rem;

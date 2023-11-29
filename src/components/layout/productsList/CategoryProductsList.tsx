@@ -97,8 +97,14 @@ const CategoryProductsList = ({ category }: PropsType) => {
 export default CategoryProductsList;
 
 const PageBox = css`
+  position: relative;
+
+  min-height: calc(100vh - 70px);
+
   display: flex;
   justify-content: center;
+
+  background-color: rgba(255, 2555, 255, 0.8);
 `;
 
 const ListBox = css`

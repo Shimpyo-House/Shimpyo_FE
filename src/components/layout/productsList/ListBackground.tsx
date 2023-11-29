@@ -1,4 +1,6 @@
 import { css, keyframes } from '@emotion/react';
+import { motion } from 'framer-motion';
+import { HiSun } from 'react-icons/hi';
 import theme from '../../../style/theme';
 
 const ListBackground = () => {
@@ -8,6 +10,9 @@ const ListBackground = () => {
       <div css={ThirdWave} />
       <div css={FirstWave} />
       <div css={Blur} />
+      <motion.div css={Sun} drag>
+        <HiSun />
+      </motion.div>
     </div>
   );
 };
@@ -43,7 +48,7 @@ const FirstWave = css`
 
   background-color: ${theme.colors.blue200};
 
-  animation: ${WaveMove} 17s infinite linear;
+  animation: ${WaveMove} 30s infinite linear;
 `;
 
 const SecondWave = css`
@@ -58,7 +63,7 @@ const SecondWave = css`
 
   background-color: ${theme.colors.blue700};
 
-  animation: ${WaveMove} 12s infinite linear;
+  animation: ${WaveMove} 25s infinite linear;
 `;
 
 const ThirdWave = css`
@@ -73,7 +78,19 @@ const ThirdWave = css`
 
   background-color: ${theme.colors.blue800};
 
-  animation: ${WaveMove} 15s infinite linear;
+  animation: ${WaveMove} 28s infinite linear;
+`;
+
+const Sun = css`
+  position: fixed;
+  top: 10%;
+  left: 5%;
+
+  font-size: 10rem;
+
+  color: #ff8c20;
+
+  cursor: grab;
 `;
 
 const Blur = css`

@@ -21,7 +21,7 @@ const RowProduct = ({ resData, rank }: PropsType) => {
             <p css={ProductName}>{resData.productName}</p>
             <p css={ProductScore}>⭐ {resData.starAvg.toFixed(1)}</p>
           </div>
-          <p css={ProductPrice}>{resData.price.toLocaleString()}원 ~</p>
+          <p css={ProductPrice}>{resData.price.toLocaleString()}원</p>
         </div>
       </div>
     </Link>
@@ -144,6 +144,6 @@ const ProductPrice = css`
   display: flex;
   justify-content: flex-end;
 
-  font-size: 1.25rem;
+  font-size: 1.7rem;
   font-weight: 700;
 `;
