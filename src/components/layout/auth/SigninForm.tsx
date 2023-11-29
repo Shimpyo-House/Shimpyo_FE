@@ -53,7 +53,7 @@ const SigninForm = () => {
         setCookie('refreshToken', refreshToken, option);
         setCookie('accessTokenExpiresIn', accessTokenExpiresIn, option);
 
-        navigate('/');
+        navigate(-1);
       } catch (e) {
         console.log(e);
       } finally {
