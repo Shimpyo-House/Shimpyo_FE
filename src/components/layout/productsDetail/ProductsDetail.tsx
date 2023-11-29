@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable import/no-extraneous-dependencies */
@@ -216,7 +217,11 @@ const ProductsDetail = () => {
                     css={CartIcon}
                     onClick={() => addToCart(productDetail, room)}
                   />
-                  {count <= room.capacity ? (
+                  {room.reserved ? (
+                    <button type="button" css={exceedText}>
+                      예약불가
+                    </button>
+                  ) : count < room.capacity ? (
                     <button type="button" css={reservationButton}>
                       예약하기
                     </button>
