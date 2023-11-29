@@ -14,7 +14,6 @@ import { escapeRegExp } from './auth.utils';
 import { axiosWithAccessToken } from '../../../Axios';
 import { RequestMembers } from '../../../types';
 import { WRONG_PASSWORD_MESSAGE } from './auth.constant';
-import useGetUserData from '../../../hooks/useGetUserData';
 import { loadingAtom } from '../../../atoms/loading';
 import userImg from '/user_default.svg';
 
@@ -151,9 +150,6 @@ const MyPageForm = () => {
     };
   }, [user, passwordValue]);
 
-  /* userData 전역 상태가 비어있을 경우 새 정보 받아오기 */
-  useGetUserData();
-
   return (
     <div css={MyPageFormContainer}>
       <div css={ImageContainer}>
@@ -194,7 +190,7 @@ const MyPageForm = () => {
               variant="outlined"
               fullWidth
               type="email"
-              value={user?.email}
+              value={user?.email || ''}
               disabled
               css={TextFieldStyle}
             />
@@ -207,7 +203,7 @@ const MyPageForm = () => {
               variant="outlined"
               fullWidth
               type="text"
-              value={user?.name}
+              value={user?.name || ''}
               disabled
               css={TextFieldStyle}
             />
