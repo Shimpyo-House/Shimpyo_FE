@@ -12,9 +12,10 @@ import { useParams } from 'react-router-dom';
 import Slider from 'react-slick';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { format } from 'date-fns';
+import Modal from 'react-modal';
 import { axiosWithNoToken, axiosWithAccessToken } from '../../../Axios';
 import theme from '../../../style/theme';
-import { RequestProductDetail, Room } from '../../../types';
+import { CartItem, RequestProductDetail, Room } from '../../../types';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import CalendarComponent from './Calendar';
@@ -85,6 +86,15 @@ const ProductsDetail = () => {
     });
   }, [enterDate, exitDate]);
 
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const openModal = () => {
+    Modal.setAppElement('#root');
+    setModalIsOpen(true);
+  };
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
   const addToCart = async (product: RequestProductDetail, room: Room) => {
     if (!product || !room) {
       console.error('Product or room information is missing');
@@ -107,11 +117,34 @@ const ProductsDetail = () => {
     };
 
     try {
-      const response = await axiosWithAccessToken.post(
-        '/api/carts',
-        requestData,
+      // 로컬스토리지에 상품 담기
+      const existingCartItems = localStorage.getItem('cartItems');
+      const cartItems = existingCartItems ? JSON.parse(existingCartItems) : [];
+
+      // 아이템이 장바구니에 있는지 확인
+      const existingItemIndex = cartItems.findIndex(
+        (item: CartItem) =>
+          item.roomId === room.roomId &&
+          item.startDate === defaultDate &&
+          item.endDate === defaultDatePlusDay,
       );
-      console.log('Added to cart:', response);
+
+      // 장바구니에 아이템 X
+      if (existingItemIndex === -1) {
+        cartItems.push(requestData);
+
+        // 로컬스토리지에 저장
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+        const response = await axiosWithAccessToken.post(
+          '/api/carts',
+          requestData,
+        );
+        console.log('Added to cart:', response);
+      } else {
+        openModal();
+        console.log('Item already exists in the cart');
+      }
     } catch (error) {
       console.error('Error adding to cart:', error);
     }
@@ -214,7 +247,6 @@ const ProductsDetail = () => {
                       ) : (
                         <>
                           <AiOutlineShoppingCart css={NoCartIcon} />{' '}
-                          {/* 인원 초과 아이콘 */}
                           <button type="button" css={exceedText}>
                             인원초과
                           </button>
@@ -227,6 +259,24 @@ const ProductsDetail = () => {
             </div>
           ))}
         </div>
+        <Modal
+          css={modalStyle}
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          contentLabel="장바구니 안내"
+          shouldCloseOnOverlayClick={false}
+        >
+          <div css={modalText1}>장바구니 안내</div>
+          <div css={modalTextContainer}>
+            <div css={modalText2}>
+              이미 같은 날짜에 장바구니에 상품이 담겨있습니다.
+            </div>
+            <div css={modalText3}>장바구니를 확인해주세요.</div>
+          </div>
+          <button css={modalBtn} type="button" onClick={closeModal}>
+            닫기
+          </button>
+        </Modal>
       </div>
     </div>
   );
@@ -460,4 +510,59 @@ const exceedText = css`
   transition: background-color 0.3s ease;
   font-size: 16px;
   outline: none;
+`;
+
+const modalStyle = css`
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 250px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: white;
+`;
+
+const modalTextContainer = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+`;
+
+const modalText1 = css`
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 10px;
+`;
+
+const modalText2 = css`
+  text-align: center;
+  margin-bottom: 10px;
+`;
+
+const modalText3 = css`
+  text-align: center;
+  margin-top: 10px;
+`;
+
+const modalBtn = css`
+  padding: 8px 16px;
+  background-color: ${theme.colors.blue600};
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: ${theme.colors.blue800};
+  }
 `;
