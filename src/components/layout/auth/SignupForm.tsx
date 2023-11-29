@@ -41,14 +41,12 @@ const SignupForm = () => {
     async ({ name, email, password, passwordConfirm }) => {
       try {
         setLoading({ isLoading: true, message: '회원가입 중입니다' });
-        const data = await axiosWithNoToken.post('/api/auth/signup', {
+        await axiosWithNoToken.post('/api/auth/signup', {
           name,
           email,
           password,
           passwordConfirm,
         });
-        console.log(data);
-        console.log('submit', name, email, password, passwordConfirm);
         navigate('/signin');
       } catch (e: any) {
         alert(e.response.data.message);
