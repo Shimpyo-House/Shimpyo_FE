@@ -61,7 +61,8 @@ const ProductsDetail = () => {
     setDefaultDatePlusDay(endDateFormatted);
   };
 
-  console.log(today, tomorrow);
+  // 선택 객실 정보 저장
+  const [selectedRoom, setSelectedRoom] = useState(null);
 
   useEffect(() => {
     const fetchDataProductDetail = async ({
@@ -86,6 +87,7 @@ const ProductsDetail = () => {
     });
   }, [enterDate, exitDate]);
 
+  // 장바구니에 같은 객체 있을 때 렌더링하는 모달
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const openModal = () => {
     Modal.setAppElement('#root');
@@ -95,6 +97,7 @@ const ProductsDetail = () => {
     setModalIsOpen(false);
   };
 
+  // 장바구니 로직
   const addToCart = async (product: RequestProductDetail, room: Room) => {
     if (!product || !room) {
       console.error('Product or room information is missing');
@@ -150,10 +153,45 @@ const ProductsDetail = () => {
     }
   };
 
+  const makeReservation = async (product: RequestProductDetail, room: Room) => {
+    const reservationData = {
+      roomId: room.roomId,
+      productName: product.productName,
+      roomName: room.roomName,
+      standard: room.standard,
+      max: room.capacity,
+      startDate: defaultDate,
+      endDate: defaultDatePlusDay,
+      checkIn: room.checkIn,
+      checkOut: room.checkOut,
+      visitorName: '방문자명',
+      visitorPhone: '010-1111-1111',
+      price: parseFloat(`${room.price}`) * nights,
+    };
+
+    try {
+      const response = await axiosWithAccessToken.post(
+        '/api/reservations/preoccupy',
+        reservationData,
+      );
+      if (response.data.code === 201) {
+        console.log('Reservation success:', response.data.data);
+        console.log(reservationData);
+      } else {
+        console.error('Reservation failed:', response.data.message);
+        console.log(reservationData);
+      }
+    } catch (error) {
+      console.error('Error making reservation:', error);
+      console.log(reservationData);
+    }
+  };
+
   if (!productDetail) {
     return <div>Loading...</div>;
   }
 
+  // slick
   const settings = {
     dots: true,
     infinite: true,
@@ -221,13 +259,15 @@ const ProductsDetail = () => {
               </div>
               <div css={RoomAction}>
                 <div css={priceStyle}>
-                  {parseFloat(`${room.price}`) * nights}원
+                  {parseFloat(room.price) === 0
+                    ? 100000 * nights
+                    : parseFloat(room.price) * nights}
+                  원
                 </div>
                 <div css={buyBtn}>
                   {room.reserved ? (
                     <>
                       <AiOutlineShoppingCart css={NoCartIcon} />{' '}
-                      {/* 예약 불가 아이콘 */}
                       <button type="button" css={exceedText}>
                         예약불가
                       </button>
@@ -240,7 +280,11 @@ const ProductsDetail = () => {
                             css={CartIcon}
                             onClick={() => addToCart(productDetail, room)}
                           />
-                          <button type="button" css={reservationButton}>
+                          <button
+                            type="button"
+                            css={reservationButton}
+                            onClick={() => makeReservation(productDetail, room)}
+                          >
                             예약하기
                           </button>
                         </>
