@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -260,9 +261,14 @@ const ProductsDetail = () => {
               <div css={RoomAction}>
                 <div css={priceStyle}>
                   {parseFloat(room.price) === 0
-                    ? 100000 * nights
-                    : parseFloat(room.price) * nights}
-                  원
+                    ? (100000 * nights).toLocaleString('ko-KR', {
+                        style: 'currency',
+                        currency: 'KRW',
+                      })
+                    : (parseFloat(room.price) * nights).toLocaleString(
+                        'ko-KR',
+                        { style: 'currency', currency: 'KRW' },
+                      )}
                 </div>
                 <div css={buyBtn}>
                   {room.reserved ? (
@@ -585,16 +591,19 @@ const modalText1 = css`
   margin-right: auto;
   margin-left: auto;
   margin-top: 10px;
+  white-space: nowrap;
 `;
 
 const modalText2 = css`
   text-align: center;
   margin-bottom: 10px;
+  white-space: nowrap;
 `;
 
 const modalText3 = css`
   text-align: center;
   margin-top: 10px;
+  white-space: nowrap;
 `;
 
 const modalBtn = css`
