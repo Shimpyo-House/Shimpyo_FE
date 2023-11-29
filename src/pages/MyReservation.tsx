@@ -6,7 +6,6 @@ const MyReservation = () => {
     <div css={MyReservationWrap}>
       <h1 css={MyReservationTitle}>예약 내역</h1>
       <AllReservation />
-      <AllReservation />
     </div>
   );
 };

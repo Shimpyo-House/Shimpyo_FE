@@ -1,28 +1,28 @@
 import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
-import OrderAxios from '../api/OrderComplete';
+// import OrderAxios from '../api/OrderComplete';
 import OrderedProduct from '../components/layout/Pay/OrderedProduct';
 import theme from '../style/theme';
 
 const OrderedList = () => {
-  const [orderCom, setOrderCom] = useState('');
+  // const [orderCom, setOrderCom] = useState('');
   const [loading, setLoading] = useState(true);
   const paymentMethod = localStorage.getItem('PaymentMethod');
   const userName = localStorage.getItem('UserName');
   const userPhoneNum = localStorage.getItem('UserPhoneNum');
 
-  useEffect(() => {
-    const orderedData = async () => {
-      try {
-        const data = await OrderAxios();
-        setOrderCom(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  // useEffect(() => {
+  //   const orderedData = async () => {
+  //     try {
+  //       const data = await OrderAxios();
+  //       setOrderCom(data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
-    orderedData();
-  }, []);
+  //   orderedData();
+  // }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -32,16 +32,16 @@ const OrderedList = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const orderComplete = async () => {
-    try {
-      const data = await OrderAxios();
-      setOrderCom(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const orderComplete = async () => {
+  //   try {
+  //     const data = await OrderAxios();
+  //     setOrderCom(data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  orderComplete();
+  // orderComplete();
 
   return (
     <div>
@@ -56,7 +56,7 @@ const OrderedList = () => {
         </div>
       ) : (
         <nav>
-          <div css={OrderComplete}>{orderCom}</div>
+          <div css={OrderComplete}>결제가 완료되었습니다.</div>
           <OrderedProduct />
 
           <div css={OrderedWrap}>
