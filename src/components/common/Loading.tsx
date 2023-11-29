@@ -68,7 +68,7 @@ const Loader = css`
     background-color: #fff;
   }
 
-  .ball:nth-child(1) {
+  .ball:nth-of-type(1) {
     animation: bounce-1 1.4s ease-in-out infinite;
   }
 
@@ -79,7 +79,7 @@ const Loader = css`
     }
   }
 
-  .ball:nth-child(2) {
+  .ball:nth-of-type(2) {
     animation: bounce-3 1.4s ease-in-out 0.2s infinite;
   }
 
@@ -90,7 +90,7 @@ const Loader = css`
     }
   }
 
-  .ball:nth-child(3) {
+  .ball:nth-of-type(3) {
     animation: bounce-3 1.4s ease-in-out 0.4s infinite;
   }
 
