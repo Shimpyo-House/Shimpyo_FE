@@ -12,7 +12,7 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { format } from 'date-fns';
 import { axiosWithNoToken, axiosWithAccessToken } from '../../../Axios';
 import theme from '../../../style/theme';
-import { RequestProductDetail } from '../../../types';
+import { RequestProductDetail, Room } from '../../../types';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import CalendarComponent from './Calendar';
@@ -30,6 +30,14 @@ const ProductsDetail = () => {
 
   const [nights, setNights] = useState(1);
 
+  const today = new Date();
+  const tomorrow = new Date(today.getTime() + 86400000);
+
+  const [defaultDate, setDefaultDate] = useState(format(today, 'yyyy-MM-dd'));
+  const [defaultDatePlusDay, setDefaultDatePlusDay] = useState(
+    format(tomorrow, 'yyyy-MM-dd'),
+  );
+
   // 선택한 숙박일 수 부모 컴포넌트 상태에 업데이트
   const handleSetNights = (selectedNights: SetStateAction<number>) => {
     setNights(selectedNights);
@@ -41,36 +49,15 @@ const ProductsDetail = () => {
   const handleEnterExitDatesChange = (enterDate: string, exitDate: string) => {
     setEnterDate(enterDate);
     setExitDate(exitDate);
-  };
 
-  const today = new Date();
-  const tomorrow = new Date(today.getTime() + 86400000);
+    const startDateFormatted = format(new Date(enterDate), 'yyyy-MM-dd');
+    const endDateFormatted = format(new Date(exitDate), 'yyyy-MM-dd');
+
+    setDefaultDate(startDateFormatted);
+    setDefaultDatePlusDay(endDateFormatted);
+  };
 
   console.log(today, tomorrow);
-
-  const defaultDate = format(today, 'yyyy-MM-dd');
-  const defaultDatePlusDay = format(tomorrow, 'yyyy-MM-dd');
-
-  const addToCart = async (product: RequestProductDetail) => {
-    try {
-      const response = await axiosWithAccessToken.post('/api/carts', {
-        // 상품 정보 추가
-      });
-      console.log('Added to cart:', response);
-    } catch (error) {
-      console.error('Error adding to cart:', error);
-    }
-  };
-
-  const handleAddToCart = async (selectedProduct: RequestProductDetail) => {
-    try {
-      await addToCart(selectedProduct);
-      // 장바구니에 성공적으로 추가되었을 때 할 작업들을 추가할 수 있습니다.
-      // 예: 알림 메시지 표시, 다른 동작 수행 등
-    } catch (error) {
-      console.error('Error while adding to cart:', error);
-    }
-  };
 
   useEffect(() => {
     const fetchDataProductDetail = async ({
@@ -78,7 +65,7 @@ const ProductsDetail = () => {
       endDate,
     }: Pick<RequestProductDetail, 'startDate' | 'endDate'>) => {
       try {
-        // if (!startDate || !endDate) return; // 유효하지 않은 날짜인 경우, 요청을 보내지 않음
+        // if (!startDate || !endDate) return;
         const response = await axiosWithNoToken.get(
           `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
         );
@@ -94,6 +81,49 @@ const ProductsDetail = () => {
       endDate: exitDate || defaultDatePlusDay,
     });
   }, [enterDate, exitDate]);
+
+  const addToCart = async (product: RequestProductDetail, room: Room) => {
+    if (!product || !room) {
+      console.error('Product or room information is missing');
+      return;
+    }
+
+    const requestData = {
+      roomId: room.roomId,
+      productId: product.productId,
+      productName: product.productName,
+      images: product.images,
+      price: room.price,
+      desc: room.description,
+      standard: room.standard,
+      capacity: room.capacity,
+      startDate: defaultDate,
+      endDate: defaultDatePlusDay,
+      checkIn: room.checkIn,
+      checkOut: room.checkOut,
+    };
+
+    try {
+      const response = await axiosWithAccessToken.post(
+        '/api/carts',
+        requestData,
+      );
+      console.log('Added to cart:', response);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      console.log(room.roomId);
+      console.log(room.roomId);
+      console.log(product.productId);
+      console.log(product.productName);
+      console.log(product.images);
+      console.log(room.price);
+      console.log(room.description);
+      console.log(room.standard);
+      console.log(room.capacity);
+      console.log(defaultDate);
+      console.log(defaultDatePlusDay);
+    }
+  };
 
   if (!productDetail) {
     return <div>Loading...</div>;
@@ -175,13 +205,12 @@ const ProductsDetail = () => {
                   {parseFloat(`${room.price}`) * nights}원
                 </div>
                 <div css={buyBtn}>
-                  <AiOutlineShoppingCart css={CartIcon} />
+                  <AiOutlineShoppingCart
+                    css={CartIcon}
+                    onClick={() => addToCart(productDetail, room)}
+                  />
                   {count <= room.capacity ? (
-                    <button
-                      type="button"
-                      css={reservationButton}
-                      onClick={() => handleAddToCart(productDetail)}
-                    >
+                    <button type="button" css={reservationButton}>
                       예약하기
                     </button>
                   ) : (
