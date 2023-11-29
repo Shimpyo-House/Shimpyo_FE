@@ -297,8 +297,11 @@ const MyPageForm = () => {
 const MyPageFormContainer = css`
   display: flex;
 
+  height: 100%;
+
   flex-direction: row;
   justify-content: center;
+  align-items: center;
 
   margin: 2rem 4rem 0 0;
 `;
