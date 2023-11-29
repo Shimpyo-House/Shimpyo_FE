@@ -1,19 +1,19 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useCallback, useMemo, useState } from 'react';
 import { css } from '@emotion/react';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { ResponseCartData } from '../../../types';
-import { cartDeleteItem } from '../../../api/cart';
+import useCart from '../../../hooks/useCart';
 import theme from '../../../style/theme';
 import CartTotal from './CartTotal';
 
-interface CartDataProps {
-  carts: ResponseCartData[] | null;
-}
-
-const CartItem = (carts: CartDataProps) => {
-  const cartsData = carts?.carts;
+const CartItem = () => {
+  const {
+    cartQuery: { data: cartData },
+    deleteCartItemMutation,
+  } = useCart();
   const [checkedRoomList, setCheckedRoomList] = useState<ResponseCartData[]>(
     [],
   );
@@ -31,13 +31,13 @@ const CartItem = (carts: CartDataProps) => {
   );
 
   const handleAllCheckbox = useCallback(() => {
-    const allChecked = cartsData?.every((cart) =>
+    const allChecked = cartData.every((cart: ResponseCartData) =>
       checkedRoomList.includes(cart),
     );
     if (allChecked) {
       setCheckedRoomList([]);
     } else {
-      const allRoomIds = cartsData?.map((cart) => cart) || [];
+      const allRoomIds = cartData.map((cart: ResponseCartData) => cart) || [];
       setCheckedRoomList(allRoomIds);
     }
   }, [checkedRoomList]);
@@ -53,7 +53,7 @@ const CartItem = (carts: CartDataProps) => {
         `[${productName}]을 장바구니에서 제거하시겠습니까?`,
       );
       if (confirm) {
-        await cartDeleteItem(cartId);
+        await deleteCartItemMutation.mutate(cartId);
       }
     } catch (error) {
       console.log(error);
@@ -69,16 +69,18 @@ const CartItem = (carts: CartDataProps) => {
           css={AllCheckBox}
           onChange={handleAllCheckbox}
           checked={
-            cartsData &&
-            cartsData.every((cart) => checkedRoomList.includes(cart))
+            cartData &&
+            cartData.every((cart: ResponseCartData) =>
+              checkedRoomList.includes(cart),
+            )
               ? true
               : false
           }
         />
         <p css={AllSelect}>전체 선택</p>
       </label>
-      {cartsData &&
-        cartsData.map((cart) => (
+      {cartData &&
+        cartData.map((cart: ResponseCartData) => (
           <div css={Container} key={`${cart.cartId}_${cart.productName}`}>
             <label htmlFor="box" css={Label}>
               <input
