@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-shadow */
@@ -190,22 +191,36 @@ const ProductsDetail = () => {
                   {parseFloat(`${room.price}`) * nights}원
                 </div>
                 <div css={buyBtn}>
-                  <AiOutlineShoppingCart
-                    css={CartIcon}
-                    onClick={() => addToCart(productDetail, room)}
-                  />
                   {room.reserved ? (
-                    <button type="button" css={exceedText}>
-                      예약불가
-                    </button>
-                  ) : count < room.capacity ? (
-                    <button type="button" css={reservationButton}>
-                      예약하기
-                    </button>
+                    <>
+                      <AiOutlineShoppingCart css={NoCartIcon} />{' '}
+                      {/* 예약 불가 아이콘 */}
+                      <button type="button" css={exceedText}>
+                        예약불가
+                      </button>
+                    </>
                   ) : (
-                    <button type="button" css={exceedText}>
-                      인원초과
-                    </button>
+                    <>
+                      {count < room.capacity ? (
+                        <>
+                          <AiOutlineShoppingCart
+                            css={CartIcon}
+                            onClick={() => addToCart(productDetail, room)}
+                          />
+                          <button type="button" css={reservationButton}>
+                            예약하기
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <AiOutlineShoppingCart css={NoCartIcon} />{' '}
+                          {/* 인원 초과 아이콘 */}
+                          <button type="button" css={exceedText}>
+                            인원초과
+                          </button>
+                        </>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
@@ -407,9 +422,17 @@ const CartIcon = css`
   margin-right: 2rem;
 `;
 
+const NoCartIcon = css`
+  width: 2.5rem;
+  height: 2.5rem;
+  color: ${theme.colors.gray500};
+  cursor: not-allowed;
+  margin-right: 2rem;
+`;
+
 const reservationButton = css`
   padding: 10px 20px;
-  background-color: #3d91ff;
+  background-color: ${theme.colors.blue700};
   color: white;
   border: none;
   border-radius: 5px;
@@ -419,7 +442,7 @@ const reservationButton = css`
   outline: none;
 
   &:hover {
-    background-color: #2565cb;
+    background-color: ${theme.colors.blue800};
   }
 
   &:active {
@@ -429,7 +452,7 @@ const reservationButton = css`
 
 const exceedText = css`
   padding: 10px 20px;
-  background-color: #cccccc;
+  background-color: ${theme.colors.gray500};
   color: white;
   border: none;
   border-radius: 5px;
