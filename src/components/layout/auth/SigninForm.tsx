@@ -7,8 +7,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { axiosWithNoToken } from '../../../Axios';
 import theme from '../../../style/theme';
-import { userData } from '../../../atoms/user';
+import { userAtom } from '../../../atoms/user';
 import { setCookie } from './auth.utils';
+import { loadingAtom } from '../../../atoms/loading';
 
 export type IFormInput = {
   email: string;
@@ -22,12 +23,14 @@ const SigninForm = () => {
     formState: { errors },
   } = useForm<IFormInput>();
 
-  const setUserData = useSetRecoilState(userData);
+  const setUserData = useSetRecoilState(userAtom);
   const navigate = useNavigate();
+  const setLoading = useSetRecoilState(loadingAtom);
 
   const onSubmit: SubmitHandler<IFormInput> = useCallback(
     async ({ email, password }) => {
       try {
+        setLoading({ isLoading: true, message: '로그인 진행중입니다.' });
         const res = await axiosWithNoToken.post('/api/auth/signin', {
           email,
           password,
@@ -39,20 +42,22 @@ const SigninForm = () => {
         /* 전역상태 관리 => 유저정보 */
         setUserData(userObj);
 
-        /* 쿠키 => Access, Refresh */
-        const expireDate = new Date(accessTokenExpiresIn);
-        setCookie('accessToken', accessToken, {
-          secure: true,
-          Expires: expireDate.toUTCString(),
-        });
-        setCookie('refreshToken', refreshToken, {
+        const option = {
           secure: true,
           maxAge: 60 * 24 * 7,
-        });
+          // httpOnly: true,
+        };
 
-        navigate('/');
+        /* 쿠키 => Access, Refresh */
+        setCookie('accessToken', accessToken, option);
+        setCookie('refreshToken', refreshToken, option);
+        setCookie('accessTokenExpiresIn', accessTokenExpiresIn, option);
+
+        navigate(-1);
       } catch (e) {
         console.log(e);
+      } finally {
+        setLoading({ isLoading: false, message: '' });
       }
     },
     [],
@@ -70,7 +75,7 @@ const SigninForm = () => {
             로그인
           </h1>
           <div css={InputWithLabelContainer}>
-            <InputLabel>이메일</InputLabel>
+            <InputLabel css={LabelStyle}>이메일</InputLabel>
             <TextField
               variant="outlined"
               fullWidth
@@ -87,7 +92,7 @@ const SigninForm = () => {
             </div>
           </div>
           <div css={InputWithLabelContainer}>
-            <InputLabel>비밀번호</InputLabel>
+            <InputLabel css={LabelStyle}>비밀번호</InputLabel>
             <TextField
               variant="outlined"
               fullWidth
@@ -100,11 +105,7 @@ const SigninForm = () => {
           </div>
 
           <div css={ButtonContainer}>
-            <Button
-              style={{ width: '100%', height: '4rem' }}
-              variant="contained"
-              type="submit"
-            >
+            <Button css={ButtonStyle} variant="contained" type="submit">
               로그인
             </Button>
           </div>
@@ -120,7 +121,7 @@ const SigninForm = () => {
 export const FormContainer = css`
   height: 100%;
 
-  margin: 4rem 2rem;
+  margin: 4rem 1rem;
 `;
 
 export const FormInnerContainer = css`
@@ -161,6 +162,18 @@ export const ErrorStyle = css`
 
 export const ErrorContainer = css`
   height: 30px;
+`;
+
+export const LabelStyle = css`
+  font-weight: bold;
+  font-size: 1.125rem;
+`;
+
+export const ButtonStyle = css`
+  width: 100%;
+  height: 4rem;
+
+  font-size: 1.125rem;
 `;
 
 export default SigninForm;

@@ -10,7 +10,7 @@ const Signin = () => {
       <div css={SigninContainer}>
         <div css={SigninInnerContainer}>
           <div css={LogoContainer}>
-            <h1 css={LogoText}>Shimpyo ,</h1>
+            <h1 css={LogoText}>Shimpyo,</h1>
           </div>
           <div css={FormContainer}>
             <SigninForm />
@@ -35,12 +35,13 @@ export const SigninInnerContainer = css`
 
   height: 100%;
   width: 100%;
-  max-width: 1280px;
+  max-width: 1080px;
+
+  margin: 5.5rem auto 0 auto;
 
   border-radius: 0.75rem;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   overflow: hidden;
-
-  margin: 8rem auto;
 `;
 
 export const LogoContainer = css`
@@ -70,7 +71,7 @@ export const LogoText = css`
 
   color: ${theme.colors.white};
   font-size: 3rem;
-
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   text-align: center;
 
   cursor: pointer;
@@ -83,7 +84,7 @@ export const BackgroundStyle = css`
   left: 0;
 
   width: 100%;
-  height: 100%;
+  height: 110%;
 
   background-color: ${theme.colors.blue100};
   z-index: -50;
