@@ -29,15 +29,11 @@ const PeopleSelector = ({ count, setCount }: PeopleSelectorProps) => {
     display: flex;
     align-items: center;
     border-radius: 5px;
-    background-color: #3d91ff;
     padding: 5px;
+    color: black;
   `;
 
   const countControlStyle = css`
-    background-color: white;
-    color: #3d91ff;
-    border: none;
-    border-radius: 50%;
     width: 30px;
     height: 30px;
     display: flex;
@@ -45,18 +41,20 @@ const PeopleSelector = ({ count, setCount }: PeopleSelectorProps) => {
     align-items: center;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 20px;
+    font-weight: 600;
 
     &:hover {
       background-color: #e3f0ff;
+      font-weight: 900;
     }
   `;
 
   const countStyle = css`
     margin: 0 10px;
-    font-size: 16px;
-    color: white;
+    font-size: 20px;
+    color: black;
+    font-weight: 600;
   `;
 
   return (
