@@ -206,7 +206,7 @@ const PaymentWay = css`
     width: 5rem;
   }
 
-  &:nth-child(2) {
+  &:nth-of-type(2) {
     img {
       width: 8rem;
     }
