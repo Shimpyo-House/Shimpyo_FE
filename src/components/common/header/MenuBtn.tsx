@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useAnimate, stagger, motion } from 'framer-motion';
 import { css } from '@emotion/react';
 import { MdMenu } from 'react-icons/md';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import theme from '../../../style/theme';
 import rabbit from '/rabbit.jpg';
 import { userAtom } from '../../../atoms/user';
+import { removeCookie } from '../../layout/auth/auth.utils';
 
 const staggerMenuItems = stagger(0.1, { startDelay: 0.15 });
 
@@ -46,7 +47,18 @@ function useMenuAnimation(isOpen: boolean) {
 const MenuBtn = () => {
   const [isOpen, setIsOpen] = useState(false);
   const scope = useMenuAnimation(isOpen);
-  const user = useRecoilValue(userAtom);
+  const [user, setUser] = useRecoilState(userAtom);
+
+  const handlerLogout = useCallback(() => {
+    removeCookie('accessToken');
+    removeCookie('refreshToken');
+    removeCookie('accessTokenExpiresIn');
+
+    setUser(null);
+
+    alert('성공적으로 로그아웃 됐습니다.');
+  }, []);
+
   return (
     <nav css={MenuPosition} ref={scope}>
       <motion.button
@@ -75,7 +87,11 @@ const MenuBtn = () => {
         <li>
           <Link to="/signup">회원가입</Link>
         </li>
-        <li>로그아웃</li>
+        <li>
+          <button type="button" onClick={handlerLogout}>
+            로그아웃
+          </button>
+        </li>
       </ul>{' '}
     </nav>
   );

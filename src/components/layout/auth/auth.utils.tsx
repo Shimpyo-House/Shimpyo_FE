@@ -16,6 +16,10 @@ export const setCookie = (
   return cookies.set(name, value, { ...options });
 };
 
+export const removeCookie = (name: CookieNameType) => {
+  cookies.remove(name);
+};
+
 export const escapeRegExp = (string: string) => {
   if (!string) return undefined;
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
