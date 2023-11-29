@@ -92,3 +92,19 @@ export interface PostRoomData {
   endDate: string;
   isAvailable?: boolean;
 }
+
+export interface AllReservationData {
+  reservationId: number;
+  productName: string;
+  productImageUrl: string;
+  productAddress: string;
+  roomId: number;
+  roomName: string;
+  startDate: string;
+  endDate: string;
+  checkIn: string;
+  checkOut: string;
+  price: number;
+  payMethod: string;
+  orderedAt: string;
+}

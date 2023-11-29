@@ -1,8 +1,27 @@
+import { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
 import hotelImg from '/img1.jpeg';
 import theme from '../../../style/theme';
+import OrderAxios from '../../../api/OrderComplete';
 
 const AllReservation = () => {
+  const [orderCom, setOrderCom] = useState('');
+
+  useEffect(() => {
+    const orderedData = async () => {
+      try {
+        const data = await OrderAxios();
+        setOrderCom(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    orderedData();
+  }, []);
+
+  console.log(orderCom);
+
   return (
     <nav css={ReservationWrap}>
       <div css={WrapContainer}>
