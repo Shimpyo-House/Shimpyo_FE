@@ -1,8 +1,9 @@
+/* eslint-disable  @typescript-eslint/indent */
 import { css } from '@emotion/react';
 import { useInfiniteQuery } from 'react-query';
 import { useEffect, useRef, useState } from 'react';
 import ColumnList from './ColumnList';
-import useProductsData from '../../../hooks/useProductsData';
+import { useObs, useProductsData } from '../../../hooks/useProductsData';
 import { ResponseProductsData } from '../../../types';
 
 type PropsType = {
@@ -12,11 +13,12 @@ type PropsType = {
 const CategoryProductsList = ({ category }: PropsType) => {
   const [isEnd, setIsEnd] = useState(false);
   const obsRef = useRef(null);
+  const pageVolume = 8;
 
   const { data, fetchNextPage } = useInfiniteQuery<
-  unknown,
-  unknown,
-  ResponseProductsData[]
+    unknown,
+    unknown,
+    ResponseProductsData[]
   >(
     category,
     ({ pageParam = 0 }) => {
@@ -34,31 +36,30 @@ const CategoryProductsList = ({ category }: PropsType) => {
     },
   );
 
+  // 페이지에 다시 돌아왔을 때 더 로딩할 페이지가 있는지 확인 로직
   useEffect(() => {
-    const io = new IntersectionObserver(obsHandler, {
-      threshold: 1,
-    });
-    if (obsRef.current) {
-      io.observe(obsRef.current);
-    }
-    return () => {
-      io.disconnect();
-    };
+    if (data)
+      if (
+        data?.pages[data.pages.length - 1] < data?.pages[data.pages.length - 2]
+      ) {
+        setIsEnd(true);
+      }
   }, []);
 
   const obsHandler = async (entries: IntersectionObserverEntry[]) => {
     const target = entries[0];
-    console.log(1);
     if (target.isIntersecting && !isEnd) {
       fetchNextPage();
     }
   };
 
+  useObs(obsHandler, obsRef);
+
   const getData = async (pageParam: number) => {
     try {
-      const fetchData = await useProductsData(pageParam, 8, category);
+      const fetchData = await useProductsData(pageParam, pageVolume, category);
       if (fetchData) {
-        if (fetchData.length < 8) {
+        if (fetchData.length < pageVolume) {
           setIsEnd(true);
         }
         return fetchData;
@@ -87,7 +88,7 @@ const CategoryProductsList = ({ category }: PropsType) => {
         {data && data.pages && (
           <ColumnList category={category} data={data.pages.flat()} />
         )}
-        {!isEnd && <div ref={obsRef} css={spinner} />}
+        {!isEnd && <div ref={obsRef} />}
       </div>
     </div>
   );
@@ -96,8 +97,14 @@ const CategoryProductsList = ({ category }: PropsType) => {
 export default CategoryProductsList;
 
 const PageBox = css`
+  position: relative;
+
+  min-height: calc(100vh - 70px);
+
   display: flex;
   justify-content: center;
+
+  background-color: rgba(255, 2555, 255, 0.8);
 `;
 
 const ListBox = css`
@@ -111,6 +118,8 @@ const ListBox = css`
 `;
 
 const CategoryNameBox = css`
+  position: relative;
+
   height: 6rem;
 
   display: flex;
@@ -126,10 +135,4 @@ const CategoryName = css`
 const CategoryDesc = css`
   font-size: 1.5rem;
   font-weight: 400;
-`;
-
-const spinner = css`
-  height: 0;
-
-  background-color: aqua;
 `;
