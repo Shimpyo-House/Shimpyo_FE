@@ -1,8 +1,12 @@
 // 주문 완료 후 결제 완료 화면
 
 import { css } from '@emotion/react';
+// import { useRecoilValue } from 'recoil';
+// import { cartDataState } from '../../../atoms/cartAtom';
 
 const OrderedProduct = () => {
+  // const cartData = useRecoilValue(cartDataState);
+
   return (
     <div css={OrderedContainer}>
       <div css={BookingInfoCss}>

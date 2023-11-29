@@ -89,7 +89,9 @@ const MenuBtn = () => {
         <li>
           <Link to="/mypage">내 정보</Link>
         </li>
-        <li>결제 내역 </li>
+        <li>
+          <Link to="/reservation">결제 내역</Link>
+        </li>
         <li>
           <Link to="/signin">로그인</Link>
         </li>

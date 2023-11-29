@@ -58,7 +58,6 @@ const OrderedList = () => {
         <nav>
           <div css={OrderComplete}>{orderCom}</div>
           <OrderedProduct />
-          <OrderedProduct />
 
           <div css={OrderedWrap}>
             <div css={OrderedWrapEl}>
