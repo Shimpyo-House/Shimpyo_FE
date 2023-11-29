@@ -1,25 +1,14 @@
 /* eslint-disable import/no-cycle */
-import { useEffect, useState } from 'react';
-import { ResponseCartData } from '../types';
-import { cartGetAxios } from '../api/cart';
+import useCart from '../hooks/useCart';
 import CartItem from '../components/layout/cart/CartItem';
+import CartNoItem from '../components/layout/cart/CartNoItem';
 
 const Cart = () => {
-  const [carts, setCarts] = useState<ResponseCartData[] | null>(null);
+  const {
+    cartQuery: { data: cartData },
+  } = useCart();
 
-  useEffect(() => {
-    const cartData = async () => {
-      try {
-        const data = await cartGetAxios();
-        setCarts(data);
-      } catch (error) {
-        console.error('장바구니 error: ', error);
-      }
-    };
-    cartData();
-  }, []);
-
-  return <CartItem carts={carts} />;
+  return cartData.length === 0 ? <CartNoItem /> : <CartItem />;
 };
 
 export default Cart;
