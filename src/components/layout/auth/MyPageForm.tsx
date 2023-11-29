@@ -16,6 +16,7 @@ import { RequestMembers } from '../../../types';
 import { WRONG_PASSWORD_MESSAGE } from './auth.constant';
 import useGetUserData from '../../../hooks/useGetUserData';
 import { loadingAtom } from '../../../atoms/loading';
+import userImg from '/user_default.svg';
 
 type UserPatchForm = {
   password?: string;
@@ -157,7 +158,7 @@ const MyPageForm = () => {
     <div css={MyPageFormContainer}>
       <div css={ImageContainer}>
         <img
-          src={userImageUrl || user?.photoUrl || '/rabbit.jpg'}
+          src={userImageUrl || user?.photoUrl || userImg}
           alt={user?.name}
           css={userPhotoUrlStyle}
         />
@@ -312,8 +313,11 @@ const userPhotoUrlStyle = css`
   width: 30rem;
   height: 30rem;
 
-  object-fit: cover;
+  object-fit: contain;
   object-position: center center;
+
+  image-rendering: crisp-edges;
+  image-rendering: -o-crisp-edges;
 `;
 
 const FormContainer = css`
@@ -326,7 +330,7 @@ const InputContainer = css`
   align-items: center;
 `;
 const InputLabelStyle = css`
-  flex: 1 5rem;
+  flex: 1 0 7rem;
 
   margin-right: 0.5rem;
 
@@ -335,7 +339,7 @@ const InputLabelStyle = css`
 `;
 
 const TextFieldStyle = css`
-  flex: 3 20rem;
+  flex: 3 1 20rem;
 `;
 
 const ErrorContainer = css`
@@ -351,4 +355,5 @@ const ButtonStyle = css`
 
   font-size: 1.125rem;
 `;
+
 export default MyPageForm;
