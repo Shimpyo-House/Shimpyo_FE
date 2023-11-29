@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import RowProduct from './RowProduct';
-import theme from '../../../style/theme';
 import { ResponseProductsData } from '../../../types';
 
 type PropsType = {
@@ -21,7 +20,6 @@ const ColumnList = ({ category, data }: PropsType) => {
         data.map((e) => (
           <RowProduct resData={e} rank={null} key={e.productId} />
         ))}
-      <div css={CenterLine} />
     </div>
   );
 };
@@ -40,15 +38,4 @@ const ProductsBox = css`
   align-content: space-between;
 
   gap: 3.125rem;
-`;
-
-const CenterLine = css`
-  width: 1px;
-  height: 98%;
-
-  position: absolute;
-  top: 1%;
-  left: 50%;
-
-  background-color: ${theme.colors.gray400};
 `;
