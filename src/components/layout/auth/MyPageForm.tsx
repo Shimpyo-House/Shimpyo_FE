@@ -300,7 +300,7 @@ const MyPageFormContainer = css`
   flex-direction: row;
   justify-content: center;
 
-  margin: 2rem 4rem 0 0;
+  margin: 5.5rem 4rem 0 0;
 `;
 
 const ImageContainer = css`
