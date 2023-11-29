@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable import/no-extraneous-dependencies */
@@ -46,6 +47,7 @@ const ProductsDetail = () => {
   const [enterDate, setEnterDate] = useState('');
   const [exitDate, setExitDate] = useState('');
 
+  // 캘린더에서 날짜 선택했을 때 로직(입실날짜 및 퇴실날짜 설정)
   const handleEnterExitDatesChange = (enterDate: string, exitDate: string) => {
     setEnterDate(enterDate);
     setExitDate(exitDate);
@@ -111,17 +113,6 @@ const ProductsDetail = () => {
       console.log('Added to cart:', response);
     } catch (error) {
       console.error('Error adding to cart:', error);
-      console.log(room.roomId);
-      console.log(room.roomId);
-      console.log(product.productId);
-      console.log(product.productName);
-      console.log(product.images);
-      console.log(parseFloat(`${room.price}`) * nights);
-      console.log(room.description);
-      console.log(room.standard);
-      console.log(room.capacity);
-      console.log(defaultDate);
-      console.log(defaultDatePlusDay);
     }
   };
 
@@ -175,7 +166,7 @@ const ProductsDetail = () => {
           </div>
         </div>
         <div css={OptionSelector}>
-          <div css={DayCalendar}>
+          <div css={[DayCalendar, Divider]}>
             <CalendarComponent
               setNights={handleSetNights}
               onEnterExitDatesChange={handleEnterExitDatesChange}
@@ -209,7 +200,11 @@ const ProductsDetail = () => {
                     css={CartIcon}
                     onClick={() => addToCart(productDetail, room)}
                   />
-                  {count <= room.capacity ? (
+                  {room.reserved ? (
+                    <button type="button" css={exceedText}>
+                      예약불가
+                    </button>
+                  ) : count < room.capacity ? (
                     <button type="button" css={reservationButton}>
                       예약하기
                     </button>
@@ -312,22 +307,32 @@ const ProductsLocation = css`
 
 const OptionSelector = css`
   display: flex;
-  align-items: center;
-  margin-top: 3rem;
-  margin-right: auto;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-top: 4rem;
+`;
+
+const Divider = css`
+  border-right: 1px solid #ccc;
 `;
 
 const DayCalendar = css`
   flex: 1;
-  white-space: nowrap;
-  text-align: center;
-  margin-right: 1rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 0.5rem;
 `;
 
 const PeopleCount = css`
   flex: 1;
-  white-space: nowrap;
-  text-align: center;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 0.5rem;
 `;
 
 const RoomContainer = css`
