@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 // import OrderAxios from '../api/OrderComplete';
+import { useRecoilValue } from 'recoil';
 import OrderedProduct from '../components/layout/Pay/OrderedProduct';
 import theme from '../style/theme';
+import { cartDataState } from '../atoms/cartAtom';
 
 const OrderedList = () => {
   // const [orderCom, setOrderCom] = useState('');
@@ -10,6 +12,10 @@ const OrderedList = () => {
   const paymentMethod = localStorage.getItem('PaymentMethod');
   const userName = localStorage.getItem('UserName');
   const userPhoneNum = localStorage.getItem('UserPhoneNum');
+
+  const cartData = useRecoilValue(cartDataState);
+  const roomPrices = cartData.map((cartItem) => cartItem.price);
+  const totalRoomPrices = roomPrices.reduce((acc, cur) => acc + cur, 0);
 
   // useEffect(() => {
   //   const orderedData = async () => {
@@ -72,7 +78,7 @@ const OrderedList = () => {
             </div>
             <div css={OrderedWrapEl}>
               <h3>총 결제 금액</h3>
-              <div>156,000원</div>
+              <div>{totalRoomPrices}원</div>
             </div>
           </div>
         </nav>

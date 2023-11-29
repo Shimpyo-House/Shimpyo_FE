@@ -43,7 +43,9 @@ const OrderedProduct = () => {
           </div>
         ))
       ) : (
-        <p>장바구니가 비어있습니다.</p>
+        <div css={ErrorMessage}>
+          결제 정보를 불러올 수 없습니다. 예약 내역을 확인해주세요.
+        </div>
       )}
     </div>
   );
@@ -119,6 +121,13 @@ const BookingPrice = css`
     font-size: 1.3rem;
     font-weight: 900;
   }
+`;
+
+const ErrorMessage = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10rem;
 `;
 
 export default OrderedProduct;

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
 import hotelImg from '/img1.jpeg';
+
 import theme from '../../../style/theme';
 import OrderAxios from '../../../api/OrderComplete';
 
@@ -45,7 +46,7 @@ const AllReservation = () => {
             <div>2023.11.22 ~ 2023.11.24</div>
             <div>체크인 13:00 | 체크아웃 17:00</div>
             <div>결제 수단 | toss페이</div>
-            <div>결제 금액 | 95,000원</div>
+            <div>결제 금액 | 80,000원</div>
           </div>
         </div>
       </div>

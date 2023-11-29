@@ -2,7 +2,9 @@
 import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import theme from '../../../style/theme';
+import { cartDataState } from '../../../atoms/cartAtom';
 
 const Payment = () => {
   const [allAgree, setAllAgree] = useState(false);
@@ -13,6 +15,10 @@ const Payment = () => {
   const [eventInfoAgree, setEventInfoAgree] = useState(false);
 
   const navigate = useNavigate();
+
+  const cartData = useRecoilValue(cartDataState);
+  const roomPrices = cartData.map((cartItem) => cartItem.price);
+  const totalRoomPrices = roomPrices.reduce((acc, cur) => acc + cur, 0);
 
   useEffect(() => {
     if (ageAgree && infoAgree && thirdPartyAgree) {
@@ -44,7 +50,7 @@ const Payment = () => {
 
       <div css={TotalPrice}>
         <div>총 결제 금액</div>
-        <p>300,000원</p>
+        <p>{totalRoomPrices}원</p>
       </div>
 
       <div css={Agreement}>
@@ -139,7 +145,7 @@ const Payment = () => {
         disabled={!allAgree}
         onClick={() => navigate('/ordered')}
       >
-        300,000원 결제하기
+        {totalRoomPrices}원 결제하기
       </button>
     </div>
   );
