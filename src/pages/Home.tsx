@@ -7,22 +7,26 @@ import { ResponseProductsData } from '../types';
 import ListBackground from '../components/layout/productsList/ListBackground';
 
 const getData = async () => {
-  const hotData: ResponseProductsData[] | undefined = await useProductsData(
+  const fetchData: ResponseProductsData[] | undefined = await useProductsData(
     0,
-    4,
+    100,
     'hot',
   );
-  const pensionData: ResponseProductsData[] | undefined = await useProductsData(
-    0,
-    3,
-    '펜션,풀빌라',
-  );
-  const hotelData: ResponseProductsData[] | undefined = await useProductsData(
-    0,
-    3,
-    '호텔,모텔',
-  );
-  if (hotData && pensionData && hotelData) {
+
+  if (fetchData) {
+    const hotData: ResponseProductsData[] | undefined = fetchData.slice(0, 4);
+    const pensionData: ResponseProductsData[] | undefined = fetchData
+      .filter(
+        (product) =>
+          product.category === '펜션' || product.category === '풀빌라',
+      )
+      .slice(0, 3);
+    const hotelData: ResponseProductsData[] | undefined = fetchData
+      .filter(
+        (product) => product.category === '호텔' || product.category === '모텔',
+      )
+      .slice(0, 3);
+    // console.log('hot', hotData, 'hotel', hotelData, 'pension', pensionData);
     const data = [[...hotData], [...pensionData], [...hotelData]];
     return data;
   }
