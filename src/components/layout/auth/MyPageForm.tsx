@@ -295,12 +295,15 @@ const MyPageForm = () => {
   );
 };
 const MyPageFormContainer = css`
+  position: relative;
+
+  top: calc(50vh - 75px);
+  transform: translateY(-50%);
+
   display: flex;
 
   flex-direction: row;
   justify-content: center;
-
-  margin: 5.5rem 4rem 0 0;
 `;
 
 const ImageContainer = css`

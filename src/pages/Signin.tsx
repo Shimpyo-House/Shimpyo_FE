@@ -31,13 +31,16 @@ export const SigninContainer = css`
 export const SigninInnerContainer = css`
   position: relative;
 
+  top: 50vh;
+  transform: translateY(-50%);
+
   display: flex;
 
   height: 100%;
   width: 100%;
   max-width: 1080px;
 
-  margin: 7rem auto 0 auto;
+  margin: 5rem auto;
 
   border-radius: 0.75rem;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -84,7 +87,7 @@ export const BackgroundStyle = css`
   left: 0;
 
   width: 100%;
-  height: 110%;
+  height: 120%;
 
   background-color: ${theme.colors.blue100};
   z-index: -50;
