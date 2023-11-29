@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { DateRange } from 'react-date-range';
 import { addDays, differenceInDays, format } from 'date-fns';
@@ -57,6 +57,19 @@ const CalendarComponent = ({
     }
   };
 
+  useEffect(() => {
+    const handleHistoryChange = () => {
+      setShowCalendar(false);
+      document.body.style.overflow = 'auto';
+    };
+
+    window.addEventListener('popstate', handleHistoryChange);
+
+    return () => {
+      window.removeEventListener('popstate', handleHistoryChange);
+    };
+  }, []);
+
   const ranges = {
     startDate,
     endDate,
@@ -77,7 +90,7 @@ const CalendarComponent = ({
     display: ${showCalendar ? 'flex' : 'none'};
     justify-content: center;
     align-items: center;
-    // z-index: 1000;
+    z-index: 1000;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
