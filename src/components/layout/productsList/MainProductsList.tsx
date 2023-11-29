@@ -66,6 +66,8 @@ const PageBox = css`
   flex-direction: column;
   align-items: center;
 
+  position: relative;
+
   padding: 3.125rem 0;
   gap: 3.125rem;
 `;

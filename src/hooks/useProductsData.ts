@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { ResponseProducts, ResponseProductsData } from '../types';
 import { axiosWithNoToken } from '../Axios';
 
@@ -22,4 +23,22 @@ const useProductsData = async (
     return undefined;
   }
 };
-export default useProductsData;
+
+const useObs = (
+  obsHandler: (entries: IntersectionObserverEntry[]) => Promise<void>,
+  obsRef: React.MutableRefObject<null>,
+) => {
+  useEffect(() => {
+    const io = new IntersectionObserver(obsHandler, {
+      threshold: 1,
+    });
+    if (obsRef.current) {
+      io.observe(obsRef.current);
+    }
+    return () => {
+      io.disconnect();
+    };
+  }, []);
+};
+
+export { useProductsData, useObs };

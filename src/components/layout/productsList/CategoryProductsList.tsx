@@ -1,8 +1,9 @@
+/* eslint-disable  @typescript-eslint/indent */
 import { css } from '@emotion/react';
 import { useInfiniteQuery } from 'react-query';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import ColumnList from './ColumnList';
-import useProductsData from '../../../hooks/useProductsData';
+import { useObs, useProductsData } from '../../../hooks/useProductsData';
 import { ResponseProductsData } from '../../../types';
 
 type PropsType = {
@@ -14,9 +15,9 @@ const CategoryProductsList = ({ category }: PropsType) => {
   const obsRef = useRef(null);
 
   const { data, fetchNextPage } = useInfiniteQuery<
-  unknown,
-  unknown,
-  ResponseProductsData[]
+    unknown,
+    unknown,
+    ResponseProductsData[]
   >(
     category,
     ({ pageParam = 0 }) => {
@@ -34,25 +35,14 @@ const CategoryProductsList = ({ category }: PropsType) => {
     },
   );
 
-  useEffect(() => {
-    const io = new IntersectionObserver(obsHandler, {
-      threshold: 1,
-    });
-    if (obsRef.current) {
-      io.observe(obsRef.current);
-    }
-    return () => {
-      io.disconnect();
-    };
-  }, []);
-
   const obsHandler = async (entries: IntersectionObserverEntry[]) => {
     const target = entries[0];
-    console.log(1);
     if (target.isIntersecting && !isEnd) {
       fetchNextPage();
     }
   };
+
+  useObs(obsHandler, obsRef);
 
   const getData = async (pageParam: number) => {
     try {
@@ -111,6 +101,8 @@ const ListBox = css`
 `;
 
 const CategoryNameBox = css`
+  position: relative;
+
   height: 6rem;
 
   display: flex;
