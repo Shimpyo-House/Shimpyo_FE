@@ -96,10 +96,13 @@ const MenuBtn = () => {
               <Link to="/mypage">내 정보</Link>
             </li>
             <li>결제 내역 </li>
-            <li>
-              <button onClick={handlerLogout} type="button">
-                로그아웃
-              </button>
+            <li
+              onClick={handlerLogout}
+              css={css`
+                cursor: pointer;
+              `}
+            >
+              로그아웃
             </li>
           </>
         ) : (

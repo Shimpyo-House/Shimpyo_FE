@@ -7,6 +7,7 @@ import useGetUserData from '../../../hooks/useGetUserData';
 
 const Header = () => {
   useGetUserData();
+
   return (
     <div css={Container}>
       <nav css={InnerContainer}>
