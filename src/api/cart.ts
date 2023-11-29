@@ -8,7 +8,7 @@ const cartGetAxios = async () => {
     const response = await axiosWithAccessToken.get('/api/carts');
     return response.data.data;
   } catch (err) {
-    alert('⚠️ 장바구니 에러');
+    console.error(err);
   }
 };
 
@@ -25,7 +25,7 @@ const cartPostToJudgment = async (roomData: PostRoomData[]) => {
 
 const cartDeleteItem = async (cartId: number) => {
   try {
-    const response = await axios.delete(`/api/carts/${cartId}`);
+    const response = await axiosWithAccessToken.delete(`/api/carts/${cartId}`);
     return response.data;
   } catch (err) {
     alert('⚠️ 장바구니 삭제 에러');
