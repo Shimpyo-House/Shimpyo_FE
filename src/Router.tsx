@@ -11,6 +11,7 @@ import CategoryProducts from './pages/CategoryProducts';
 import TokenProvider from './TokenProvider';
 import MyPage from './pages/MyPage';
 import MyReservation from './pages/MyReservation';
+import PrivateRoute from './PrivateRoute';
 
 const Router = () => {
   return (
@@ -23,10 +24,19 @@ const Router = () => {
               <Route path="category" element={<CategoryProducts />} />
               <Route path="products/:productId" element={<ProductDetail />} />
               <Route path="carts" element={<Cart />} />
-              <Route path="pay" element={<Pay />} />
-              <Route path="ordered" element={<OrderedList />} />
-              <Route path="reservation" element={<MyReservation />} />
-              <Route path="mypage" element={<MyPage />} />
+              <Route path="pay" element={<PrivateRoute component={Pay} />} />
+              <Route
+                path="ordered"
+                element={<PrivateRoute component={OrderedList} />}
+              />
+              <Route
+                path="reservation"
+                element={<PrivateRoute component={MyReservation} />}
+              />
+              <Route
+                path="mypage"
+                element={<PrivateRoute component={MyPage} />}
+              />
             </Route>
             <Route path="signup" element={<Signup />} />
             <Route path="signin" element={<Signin />} />
