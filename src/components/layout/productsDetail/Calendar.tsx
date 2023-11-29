@@ -30,6 +30,10 @@ const CalendarComponent = ({
     setShowCalendar(true);
   };
 
+  const cancelCalendar = () => {
+    setShowCalendar(false);
+  };
+
   const closeCalendar = () => {
     if (startDate.toDateString() === endDate.toDateString()) {
       alert(
@@ -67,38 +71,36 @@ const CalendarComponent = ({
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.5);
     display: ${showCalendar ? 'flex' : 'none'};
     justify-content: center;
     align-items: center;
     z-index: 1000;
     width: 100%;
     height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
   `;
 
   const modalContentStyle = css`
     background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
+    padding: 40px;
+    border-radius: 15px;
+    border: 2px solid #3d91ff;
   `;
 
   const selectButtonStyle = css`
     padding: 10px 20px;
-    background-color: #3d91ff;
-    color: white;
+    // background-color: #3d91ff;
+    color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: 600;
     outline: none;
 
     &:hover {
-      background-color: #2565cb;
+      font-weight: 900;
     }
 
     &:active {
@@ -106,7 +108,16 @@ const CalendarComponent = ({
     }
   `;
 
+  const buttonContainer = css`
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3rem;
+  `;
+
   const closeButtonStyle = css`
+    width: 100%;
     bottom: 0;
     background-color: #3d91ff;
     color: white;
@@ -114,6 +125,45 @@ const CalendarComponent = ({
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
+    margin-right: 1rem;
+    font-size: 1.2rem;
+  `;
+
+  const cancelButtonStyle = css`
+    width: 100%;
+    bottom: 0;
+    background-color: #3d91ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 1rem;
+    font-size: 1.2rem;
+  `;
+
+  const customStyle = css`
+    .rdrMonth {
+      width: 100% !important;
+      height: 100% !important;
+      padding: 0 !important;
+    }
+
+    .rdrDateDisplayWrapper {
+      width: 1200px;
+    }
+
+    .rdrCalendarWrapper {
+      font-size: 16px;
+    }
+
+    .rdrDateDisplayItemActive input {
+      font-size: 20px;
+    }
+
+    .rdrDateDisplayItem input {
+      font-size: 20px;
+    }
   `;
 
   return (
@@ -121,24 +171,35 @@ const CalendarComponent = ({
       <button type="button" css={selectButtonStyle} onClick={openCalendar}>
         {`${formattedStartDate} ~ ${formattedEndDateString} (${nights}박)`}
       </button>
-      <div css={modalStyle}>
+      <div css={modalStyle} style={{ display: showCalendar ? 'flex' : 'none' }}>
         {showCalendar && (
           <div css={modalContentStyle}>
-            <DateRange
-              editableDateInputs
-              onChange={onRangeChange}
-              moveRangeOnFirstSelection={false}
-              ranges={[ranges]}
-              minDate={addDays(new Date(), 0)}
-              maxDate={addDays(new Date(), 30)}
-            />
-            <button
-              type="button"
-              css={closeButtonStyle}
-              onClick={closeCalendar}
-            >
-              선택
-            </button>
+            <div css={customStyle}>
+              <DateRange
+                editableDateInputs
+                onChange={onRangeChange}
+                moveRangeOnFirstSelection={false}
+                ranges={[ranges]}
+                minDate={addDays(new Date(), 0)}
+                maxDate={addDays(new Date(), 30)}
+              />
+            </div>
+            <div css={buttonContainer}>
+              <button
+                type="button"
+                css={closeButtonStyle}
+                onClick={closeCalendar}
+              >
+                선택
+              </button>
+              <button
+                type="button"
+                css={cancelButtonStyle}
+                onClick={cancelCalendar}
+              >
+                취소
+              </button>
+            </div>
           </div>
         )}
       </div>
