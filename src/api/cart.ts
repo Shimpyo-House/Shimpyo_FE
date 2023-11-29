@@ -1,24 +1,20 @@
 /* eslint-disable consistent-return */
 import axios from 'axios';
+import { axiosWithAccessToken } from '../Axios';
+import { PostRoomData } from '../types';
 
 const cartGetAxios = async () => {
   try {
-    const response = await axios.get('/api/carts');
+    const response = await axiosWithAccessToken.get('/api/carts');
     return response.data.data;
   } catch (err) {
-    alert('⚠️ 장바구니 에러');
+    console.error(err);
   }
 };
 
-interface PostRoomData {
-  roomId: number;
-  startDate: string;
-  endDate: string;
-}
-
-const cartPostToPay = async (roomData: PostRoomData[]) => {
+const cartPostToJudgment = async (roomData: PostRoomData[]) => {
   try {
-    const response = await axios.post('/api/carts', {
+    const response = await axios.post('/api/reservations/preoccupy', {
       roomData,
     });
     return response.data.data;
@@ -29,11 +25,11 @@ const cartPostToPay = async (roomData: PostRoomData[]) => {
 
 const cartDeleteItem = async (cartId: number) => {
   try {
-    const response = await axios.delete(`/api/carts/${cartId}`);
+    const response = await axiosWithAccessToken.delete(`/api/carts/${cartId}`);
     return response.data;
   } catch (err) {
     alert('⚠️ 장바구니 삭제 에러');
   }
 };
 
-export { cartGetAxios, cartPostToPay, cartDeleteItem };
+export { cartGetAxios, cartPostToJudgment, cartDeleteItem };
