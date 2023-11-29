@@ -8,7 +8,7 @@ const Cart = () => {
     cartQuery: { data: cartData },
   } = useCart();
 
-  return cartData.length === 0 ? <CartNoItem /> : <CartItem />;
+  return !cartData || cartData.length === 0 ? <CartNoItem /> : <CartItem />;
 };
 
 export default Cart;
