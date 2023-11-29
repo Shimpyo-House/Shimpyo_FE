@@ -47,6 +47,7 @@ const globalStyles = css`
   button {
     border: 0;
     background: transparent;
+    cursor: pointer;
   }
 
   @font-face {
