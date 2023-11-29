@@ -94,17 +94,16 @@ export interface PostRoomData {
 }
 
 export interface AllReservationData {
-  reservationId: number;
-  productName: string;
-  productImageUrl: string;
-  productAddress: string;
   roomId: number;
+  productName: string;
   roomName: string;
+  standard: number;
+  max: number;
   startDate: string;
   endDate: string;
   checkIn: string;
   checkOut: string;
+  visitorName: string | null;
+  visitorPhone: string | null;
   price: number;
-  payMethod: string;
-  orderedAt: string;
 }

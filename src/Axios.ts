@@ -12,8 +12,8 @@ export const axiosWithAccessToken = axios.create({
   timeout: 2000,
   headers: {
     'Content-Type': 'application/json',
-    withCredentials: true,
   },
+  withCredentials: true,
 });
 
 export const axiosWithNoToken = axios.create({

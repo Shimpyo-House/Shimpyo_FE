@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import theme from '../../../style/theme';
 import { cartDataState } from '../../../atoms/cartAtom';
+import { AllReservationData } from '../../../types';
+import { axiosWithAccessToken } from '../../../Axios';
 
 const Payment = () => {
   const [allAgree, setAllAgree] = useState(false);
@@ -13,12 +15,64 @@ const Payment = () => {
   const [thirdPartyAgree, setThirdPartyAgree] = useState(false);
   const [eventAgree, setEventAgree] = useState(false);
   const [eventInfoAgree, setEventInfoAgree] = useState(false);
+  const payMethod = localStorage.getItem('PaymentMethod');
+  const userName = localStorage.getItem('UserName');
+  const userPhoneNum = localStorage.getItem('UserPhoneNum');
 
   const navigate = useNavigate();
 
   const cartData = useRecoilValue(cartDataState);
   const roomPrices = cartData.map((cartItem) => cartItem.price);
-  const totalRoomPrices = roomPrices.reduce((acc, cur) => acc + cur, 0);
+  const totalPrice = roomPrices.reduce((acc, cur) => acc + cur, 0);
+
+  const handlePaymentData = async () => {
+    const reservationProducts: AllReservationData[] = [];
+
+    cartData.forEach((cartItem) => {
+      const reservProducts: AllReservationData = {
+        roomId: cartItem.roomId,
+        productName: cartItem.productName,
+        roomName: cartItem.roomName,
+        standard: cartItem.standard,
+        max: cartItem.capacity,
+        startDate: cartItem.startDate,
+        endDate: cartItem.endDate,
+        checkIn: cartItem.checkIn,
+        checkOut: cartItem.checkOut,
+        visitorName: userName,
+        visitorPhone: userPhoneNum,
+        price: cartItem.price,
+      };
+
+      reservationProducts.push(reservProducts);
+    });
+
+    // const reservationData = {
+    //   reservationProducts: reservProductsArray,
+    //   payMethod: paymentMethod,
+    //   totalPrice: totalRoomPrices,
+    // };
+
+    // const token = localStorage.getItem('accessToken');
+
+    try {
+      const response = await axiosWithAccessToken.post('/api/reservations', {
+        reservationProducts,
+        payMethod,
+        totalPrice,
+      });
+
+      console.log('reservation', response);
+
+      if (response.status === 200) {
+        console.log('예약 성공!');
+      } else {
+        console.error('예약 실패:', response.statusText);
+      }
+    } catch (error) {
+      console.error('예약 중 에러가 발생했습니다:', error);
+    }
+  };
 
   useEffect(() => {
     if (ageAgree && infoAgree && thirdPartyAgree) {
@@ -50,7 +104,7 @@ const Payment = () => {
 
       <div css={TotalPrice}>
         <div>총 결제 금액</div>
-        <p>{totalRoomPrices}원</p>
+        <p>{totalPrice}원</p>
       </div>
 
       <div css={Agreement}>
@@ -143,9 +197,12 @@ const Payment = () => {
           cursor: allAgree ? 'pointer' : 'not-allowed',
         }}
         disabled={!allAgree}
-        onClick={() => navigate('/ordered')}
+        onClick={() => {
+          navigate('/ordered');
+          handlePaymentData();
+        }}
       >
-        {totalRoomPrices}원 결제하기
+        {totalPrice}원 결제하기
       </button>
     </div>
   );
