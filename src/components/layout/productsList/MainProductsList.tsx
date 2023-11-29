@@ -60,13 +60,13 @@ const NormalCategory = ({ data }: PropsType) => {
 export default NormalCategory;
 
 const PageBox = css`
-  width: 100%;
+  position: relative;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  position: relative;
+  width: 100%;
 
   padding: 3.125rem 0;
   gap: 3.125rem;
