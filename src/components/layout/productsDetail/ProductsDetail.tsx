@@ -1,16 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-props-no-spreading */
 import { css } from '@emotion/react';
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 // import axios from 'axios';
 import Slider from 'react-slick';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
-import { axiosWithNoToken } from '../../../Axios';
+import { format } from 'date-fns';
+import { axiosWithNoToken, axiosWithAccessToken } from '../../../Axios';
 import theme from '../../../style/theme';
-import { RequestProductDetail } from '../../../types';
+import { RequestProductDetail, Room } from '../../../types';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import CalendarComponent from './Calendar';
@@ -26,28 +28,102 @@ const ProductsDetail = () => {
 
   const { productId } = useParams();
 
+  const [nights, setNights] = useState(1);
+
+  const today = new Date();
+  const tomorrow = new Date(today.getTime() + 86400000);
+
+  const [defaultDate, setDefaultDate] = useState(format(today, 'yyyy-MM-dd'));
+  const [defaultDatePlusDay, setDefaultDatePlusDay] = useState(
+    format(tomorrow, 'yyyy-MM-dd'),
+  );
+
+  // 선택한 숙박일 수 부모 컴포넌트 상태에 업데이트
+  const handleSetNights = (selectedNights: SetStateAction<number>) => {
+    setNights(selectedNights);
+  };
+
+  const [enterDate, setEnterDate] = useState('');
+  const [exitDate, setExitDate] = useState('');
+
+  const handleEnterExitDatesChange = (enterDate: string, exitDate: string) => {
+    setEnterDate(enterDate);
+    setExitDate(exitDate);
+
+    const startDateFormatted = format(new Date(enterDate), 'yyyy-MM-dd');
+    const endDateFormatted = format(new Date(exitDate), 'yyyy-MM-dd');
+
+    setDefaultDate(startDateFormatted);
+    setDefaultDatePlusDay(endDateFormatted);
+  };
+
+  console.log(today, tomorrow);
+
   useEffect(() => {
     const fetchDataProductDetail = async ({
       startDate,
       endDate,
     }: Pick<RequestProductDetail, 'startDate' | 'endDate'>) => {
       try {
+        // if (!startDate || !endDate) return;
         const response = await axiosWithNoToken.get(
           `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
         );
         console.log('ProductDetail', response);
         setProductDetail(response.data.data);
-        console.log(setProductDetail(response.data.data));
       } catch (error) {
         console.error('Error fetching product detail:', error);
       }
     };
 
     fetchDataProductDetail({
-      startDate: '2023-11-20',
-      endDate: '2023-11-23',
+      startDate: enterDate || defaultDate,
+      endDate: exitDate || defaultDatePlusDay,
     });
-  }, []);
+  }, [enterDate, exitDate]);
+
+  const addToCart = async (product: RequestProductDetail, room: Room) => {
+    if (!product || !room) {
+      console.error('Product or room information is missing');
+      return;
+    }
+
+    const requestData = {
+      roomId: room.roomId,
+      productId: product.productId,
+      productName: product.productName,
+      images: product.images,
+      price: parseFloat(`${room.price}`) * nights,
+      desc: room.description,
+      standard: room.standard,
+      capacity: room.capacity,
+      startDate: defaultDate,
+      endDate: defaultDatePlusDay,
+      checkIn: room.checkIn,
+      checkOut: room.checkOut,
+    };
+
+    try {
+      const response = await axiosWithAccessToken.post(
+        '/api/carts',
+        requestData,
+      );
+      console.log('Added to cart:', response);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      console.log(room.roomId);
+      console.log(room.roomId);
+      console.log(product.productId);
+      console.log(product.productName);
+      console.log(product.images);
+      console.log(parseFloat(`${room.price}`) * nights);
+      console.log(room.description);
+      console.log(room.standard);
+      console.log(room.capacity);
+      console.log(defaultDate);
+      console.log(defaultDatePlusDay);
+    }
+  };
 
   if (!productDetail) {
     return <div>Loading...</div>;
@@ -61,6 +137,12 @@ const ProductsDetail = () => {
     slidesToShow: 1,
     autoplaySpeed: 2000,
   };
+
+  console.log(nights);
+
+  const realPrice = productDetail.rooms[0].price;
+
+  console.log(realPrice);
 
   if (!productDetail || !productDetail.images) {
     console.log('ProductDetail or images are undefined:', productDetail);
@@ -85,14 +167,19 @@ const ProductsDetail = () => {
           <div css={ProductData}>
             <div css={NameScoreContainer}>
               <div css={ProductName}>{productDetail.productName}</div>
-              <div css={ProductScore}>⭐ {productDetail.starAvg}</div>
+              <div css={ProductScore}>
+                ⭐ {productDetail.starAvg.toFixed(1)}
+              </div>
             </div>
             <div css={ProductsLocation}>{productDetail.address}</div>
           </div>
         </div>
         <div css={OptionSelector}>
           <div css={DayCalendar}>
-            <CalendarComponent />
+            <CalendarComponent
+              setNights={handleSetNights}
+              onEnterExitDatesChange={handleEnterExitDatesChange}
+            />
           </div>
           <div css={PeopleCount}>
             <PeopleSelector count={count} setCount={setCount} />
@@ -114,15 +201,16 @@ const ProductsDetail = () => {
                 </div>
               </div>
               <div css={RoomAction}>
-                <div css={priceStyle}>{parseFloat(`${room.price}`)}원</div>
+                <div css={priceStyle}>
+                  {parseFloat(`${room.price}`) * nights}원
+                </div>
                 <div css={buyBtn}>
-                  <AiOutlineShoppingCart css={CartIcon} />
+                  <AiOutlineShoppingCart
+                    css={CartIcon}
+                    onClick={() => addToCart(productDetail, room)}
+                  />
                   {count <= room.capacity ? (
-                    <button
-                      type="button"
-                      css={reservationButton}
-                      onClick={() => {}}
-                    >
+                    <button type="button" css={reservationButton}>
                       예약하기
                     </button>
                   ) : (
