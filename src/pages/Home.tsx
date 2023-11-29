@@ -2,8 +2,9 @@
 
 import { useQuery } from 'react-query';
 import MainProductsList from '../components/layout/productsList/MainProductsList';
-import useProductsData from '../hooks/useProductsData';
+import { useProductsData } from '../hooks/useProductsData';
 import { ResponseProductsData } from '../types';
+import ListBackground from '../components/layout/productsList/ListBackground';
 
 const getData = async () => {
   const hotData: ResponseProductsData[] | undefined = await useProductsData(
@@ -29,7 +30,7 @@ const getData = async () => {
 };
 
 const Home = () => {
-  const { isLoading, isError, data } = useQuery<
+  const { isLoading, data } = useQuery<
     ResponseProductsData[][] | undefined,
     unknown
   >('main', getData, {
@@ -37,15 +38,12 @@ const Home = () => {
     staleTime: 50000,
   });
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error!</div>;
-  }
-
-  return <MainProductsList data={data} />;
+  return (
+    <div>
+      <ListBackground />
+      {isLoading ? <div>Loading...</div> : <MainProductsList data={data} />}
+    </div>
+  );
 };
 
 export default Home;
