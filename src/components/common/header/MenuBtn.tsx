@@ -101,13 +101,14 @@ const MenuBtn = () => {
           clipPath: 'inset(10% 50% 90% 50% round 10px)',
         }}
       >
-        {/* 추후에 여기다가 링크나 모달 연결해서 쓰시면 됩니다! */}
         {accessToken ? (
           <>
             <li>
               <Link to="/mypage">내 정보</Link>
             </li>
-            <li>결제 내역 </li>
+            <li>
+              <Link to="/reservation">결제 내역</Link>
+            </li>
             <li
               onClick={handlerLogout}
               css={css`

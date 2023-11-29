@@ -1,36 +1,52 @@
 // 주문 완료 후 결제 완료 화면
 
 import { css } from '@emotion/react';
+import { useRecoilValue } from 'recoil';
+import { cartDataState } from '../../../atoms/cartAtom';
 
 const OrderedProduct = () => {
+  const cartData = useRecoilValue(cartDataState);
+
   return (
-    <div css={OrderedContainer}>
-      <div css={BookingInfoCss}>
-        <div css={BookHeader}>
-          <span>최저가보상</span>
-          <h1>마리나베이 속초</h1>
-          <p>[God딜] 슈페리어 더블 레이크뷰</p>
-        </div>
+    <div>
+      {cartData.length > 0 ? (
+        cartData.map((cartItem) => (
+          <div key={cartItem.roomId} css={OrderedContainer}>
+            <div css={BookingInfoCss}>
+              <div css={BookHeader}>
+                <span>최저가보상</span>
+                <h1>{cartItem.roomName}</h1>
+                <p>{cartItem.productName}</p>
+              </div>
 
-        <div css={CheckInOut}>
-          <div>
-            <span>체크인</span>
-            <h3>2023.11.23(목)</h3>
-            <p>15:00</p>
+              <div css={CheckInOut}>
+                <div>
+                  <span>체크인</span>
+                  <h3>{cartItem.startDate}</h3>
+                  <p>{cartItem.checkIn}</p>
+                </div>
+                <div>
+                  <span>체크아웃</span>
+                  <h3>{cartItem.endDate}</h3>
+                  <p>{cartItem.checkOut}</p>
+                </div>
+              </div>
+
+              <div css={RefPeople}>
+                기준 {cartItem.standard}명 / 최대 {cartItem.capacity}명
+              </div>
+
+              <div css={BookingPrice}>
+                숙박 / 1박 <span>{cartItem.price.toLocaleString()}원</span>
+              </div>
+            </div>
           </div>
-          <div>
-            <span>체크아웃</span>
-            <h3>2023.11.24(금)</h3>
-            <p>11:00</p>
-          </div>
+        ))
+      ) : (
+        <div css={ErrorMessage}>
+          결제 정보를 불러올 수 없습니다. 예약 내역을 확인해주세요.
         </div>
-
-        <div css={RefPeople}>기준 2명 / 최대 2명</div>
-
-        <div css={BookingPrice}>
-          숙박 / 1박 <span>72,800원</span>
-        </div>
-      </div>
+      )}
     </div>
   );
 };
@@ -105,6 +121,13 @@ const BookingPrice = css`
     font-size: 1.3rem;
     font-weight: 900;
   }
+`;
+
+const ErrorMessage = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10rem;
 `;
 
 export default OrderedProduct;
