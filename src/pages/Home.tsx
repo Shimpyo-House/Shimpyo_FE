@@ -35,7 +35,7 @@ const Home = () => {
     unknown
   >('main', getData, {
     refetchOnWindowFocus: false,
-    staleTime: 50000,
+    staleTime: 100000,
   });
 
   return (
