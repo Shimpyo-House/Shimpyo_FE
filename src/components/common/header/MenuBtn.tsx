@@ -52,6 +52,18 @@ const MenuBtn = () => {
   const [user, setUser] = useRecoilState(userAtom);
   const accessToken = getCookie('accessToken');
 
+  useEffect(() => {
+    const handleOutsideClick = () => {
+      setIsOpen(false);
+    };
+    if (isOpen) {
+      document.addEventListener('click', handleOutsideClick);
+    }
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, [isOpen]);
+
   const handlerLogout = useCallback(() => {
     removeCookie('accessToken');
     removeCookie('refreshToken');
@@ -136,7 +148,7 @@ const MenuContainer = css`
   align-items: center;
   gap: 1rem;
 
-  padding: 0.2rem 1rem;
+  padding: 0.4rem 1rem;
 
   border-radius: 3rem;
 
@@ -153,8 +165,8 @@ const MenuIcon = css`
 `;
 
 const Profile = css`
-  width: 3rem;
-  height: 3rem;
+  width: 2.4rem;
+  height: 2.4rem;
 
   border-radius: 50%;
 `;

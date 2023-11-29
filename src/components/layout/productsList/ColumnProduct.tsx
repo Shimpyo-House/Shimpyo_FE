@@ -14,7 +14,7 @@ const ColumnProduct = ({ resData }: PropsType) => {
         <img css={ProductImg} src={resData.image} alt="숙소 대표 사진" />
         <p css={ProductName}>{resData.productName}</p>
         <p css={ProductScore}>⭐ {resData.starAvg.toFixed(1)}</p>
-        <p css={ProductPrice}>{resData.price.toLocaleString()}원 ~</p>
+        <p css={ProductPrice}>{resData.price.toLocaleString()}원</p>
       </div>
     </Link>
   );
@@ -35,6 +35,8 @@ const ProductBox = css`
 
   border: 1px solid ${theme.colors.gray300};
   border-radius: 10px;
+
+  background-color: ${theme.colors.white};
 
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 
@@ -81,6 +83,6 @@ const ProductPrice = css`
   display: flex;
   justify-content: flex-end;
 
-  font-size: 1rem;
+  font-size: 1.35rem;
   font-weight: 700;
 `;
