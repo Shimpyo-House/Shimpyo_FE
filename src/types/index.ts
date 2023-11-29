@@ -92,3 +92,24 @@ export interface PostRoomData {
   endDate: string;
   isAvailable?: boolean;
 }
+
+export type CartRequest = {
+  roomId: number;
+  productId: string;
+  productName: string;
+  images: string[];
+  price: number;
+  desc: string;
+  standard: number;
+  capacity: number;
+  startDate: string;
+  endDate: string;
+  checkIn: string;
+  checkOut: string;
+};
+
+export type CartItem = {
+  roomId: number;
+  startDate: string;
+  endDate: string;
+};
