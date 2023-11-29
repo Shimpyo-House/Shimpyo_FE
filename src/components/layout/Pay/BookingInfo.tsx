@@ -12,7 +12,7 @@ const BookingInfo = () => {
       {cartData.length > 0 ? (
         cartData.map((cartItem) => (
           <>
-            <div css={BookHeader}>
+            <div key={cartItem.roomId} css={BookHeader}>
               <span>최저가보상</span>
               <h1>{cartItem.roomName}</h1>
               <p>{cartItem.productName}</p>
