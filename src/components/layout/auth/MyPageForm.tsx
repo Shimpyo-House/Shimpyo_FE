@@ -13,8 +13,7 @@ import { ErrorStyle } from './SigninForm';
 import { escapeRegExp } from './auth.utils';
 import { axiosWithAccessToken } from '../../../Axios';
 import { RequestMembers } from '../../../types';
-import { WRONG_PASSWORD_MESSAGE } from './auth.constant';
-import useGetUserData from '../../../hooks/useGetUserData';
+import { ACCEPT_IMAGE_TYPE, WRONG_PASSWORD_MESSAGE } from './auth.constant';
 import { loadingAtom } from '../../../atoms/loading';
 import userImg from '/user_default.svg';
 
@@ -74,16 +73,14 @@ const MyPageForm = () => {
             request.photoUrl = imageUrl;
           }
         }
-
         if (password && passwordConfirm) {
           request = { ...request, password, passwordConfirm };
         }
-
         const res = await axiosWithAccessToken.patch('/api/members', request);
-        console.log(request, res);
         setUser(res.data.data);
         setMyPage('USER_DATA');
       } catch (e) {
+        alert('예기치 못한 에러가 발생했습니다.');
         console.log(e);
       } finally {
         setLoading({ isLoading: false, message: '' });
@@ -111,7 +108,11 @@ const MyPageForm = () => {
         const base64DataUrl = e.target!.result as string;
         setUserImageUrl(base64DataUrl);
       };
-      reader.readAsDataURL(file);
+      if (ACCEPT_IMAGE_TYPE.includes(file.type.split('/')[1])) {
+        reader.readAsDataURL(file);
+      } else {
+        alert('이미지 타입을 확인해주세요(svg,jpg,jpeg,png만 가능)');
+      }
     }
   };
 
@@ -131,15 +132,15 @@ const MyPageForm = () => {
           event.preventDefault();
           /* 비밀번호 확인 후 맞을 경우 진행 */
           try {
-            const res = await axiosWithAccessToken.post('api/members', {
+            await axiosWithAccessToken.post('api/members', {
               password: passwordValue,
             });
-            console.log(res);
             setMyPage('PATCH_DATA');
           } catch (e: any) {
-            console.log(e);
             if (e.response?.data.message === WRONG_PASSWORD_MESSAGE) {
               alert('비밀번호를 확인해주세요');
+            } else {
+              alert('얘기치 못한 에러가 발생했습니다');
             }
           }
         },
@@ -150,9 +151,6 @@ const MyPageForm = () => {
       },
     };
   }, [user, passwordValue]);
-
-  /* userData 전역 상태가 비어있을 경우 새 정보 받아오기 */
-  useGetUserData();
 
   return (
     <div css={MyPageFormContainer}>
@@ -194,7 +192,7 @@ const MyPageForm = () => {
               variant="outlined"
               fullWidth
               type="email"
-              value={user?.email}
+              value={user?.email || ''}
               disabled
               css={TextFieldStyle}
             />
@@ -207,7 +205,7 @@ const MyPageForm = () => {
               variant="outlined"
               fullWidth
               type="text"
-              value={user?.name}
+              value={user?.name || ''}
               disabled
               css={TextFieldStyle}
             />
@@ -295,6 +293,11 @@ const MyPageForm = () => {
   );
 };
 const MyPageFormContainer = css`
+  position: relative;
+
+  top: calc(50vh - 75px);
+  transform: translateY(-50%);
+
   display: flex;
 
   height: 100%;
@@ -302,8 +305,6 @@ const MyPageFormContainer = css`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-
-  margin: 2rem 4rem 0 0;
 `;
 
 const ImageContainer = css`
@@ -316,6 +317,8 @@ const ImageContainer = css`
 const userPhotoUrlStyle = css`
   width: 26rem;
   height: 30rem;
+
+  padding-left: 2rem;
 
   object-fit: cover;
   object-position: center center;
