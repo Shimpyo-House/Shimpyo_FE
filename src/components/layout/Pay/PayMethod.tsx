@@ -198,7 +198,7 @@ const PaymentWay = css`
   font-size: 1.2rem;
   transition: 0.2s;
 
-  &:first-child {
+  &:first-of-type {
     grid-column: span 2;
   }
 
