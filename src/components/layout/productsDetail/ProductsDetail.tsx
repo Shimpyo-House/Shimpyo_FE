@@ -274,7 +274,7 @@ const ProductsDetail = () => {
                     </>
                   ) : (
                     <>
-                      {count < room.capacity ? (
+                      {count <= room.capacity ? (
                         <>
                           <AiOutlineShoppingCart
                             css={CartIcon}
