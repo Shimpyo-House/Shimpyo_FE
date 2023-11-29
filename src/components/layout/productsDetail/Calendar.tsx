@@ -28,13 +28,16 @@ const CalendarComponent = ({
 
   const openCalendar = () => {
     setShowCalendar(true);
+    document.body.style.overflow = 'hidden';
   };
 
   const cancelCalendar = () => {
     setShowCalendar(false);
+    document.body.style.overflow = 'auto';
   };
 
   const closeCalendar = () => {
+    document.body.style.overflow = 'auto';
     if (startDate.toDateString() === endDate.toDateString()) {
       alert(
         '입실날짜와 퇴실날짜가 같을 수 없습니다. 최소 1박 이상 선택해주세요.',
@@ -70,22 +73,23 @@ const CalendarComponent = ({
     position: fixed;
     top: 50%;
     left: 50%;
-    // transition:
-    //   transform 1s ease-in-out,
-    //   opacity 1s ease-in-out;
-    transform: translate(-50%, ${showCalendar ? '-50%' : '100%'});
+    transform: translate(-50%, ${showCalendar ? '-50%' : '100vh'});
     display: ${showCalendar ? 'flex' : 'none'};
     justify-content: center;
     align-items: center;
-    z-index: 1000;
-    width: 50%;
+    // z-index: 1000;
+    width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeOut 3s ease-out forwards;
   `;
 
   const modalContentStyle = css`
     background-color: white;
-    padding: 100%;
+    // padding-right: 10rem;
+    // padding-left: 10rem;
+    padding-bottom: 1rem;
+    margin-top: 3rem;
     border-radius: 15px;
     border: 2px solid #3d91ff;
   `;
@@ -111,38 +115,22 @@ const CalendarComponent = ({
     }
   `;
 
-  const buttonContainer = css`
-    width: 100%;
-    height: 3rem;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 3rem;
-  `;
-
   const closeButtonStyle = css`
-    width: 100%;
+    display: flex;
+    width: 58%;
+    height: 3rem;
     bottom: 0;
     background-color: #3d91ff;
     color: white;
     border: none;
-    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    margin-right: 1rem;
+    margin-top: 3rem;
+    margin-right: auto;
+    margin-left: auto;
     font-size: 1rem;
-  `;
-
-  const cancelButtonStyle = css`
-    width: 100%;
-    bottom: 0;
-    background-color: #3d91ff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-left: 1rem;
-    font-size: 1rem;
+    justify-content: center;
+    align-items: center;
   `;
 
   const customStyle = css`
@@ -153,20 +141,55 @@ const CalendarComponent = ({
     }
 
     .rdrDateDisplayWrapper {
-      width: 600px;
+      width: 450px;
+      margin-top: 3rem;
     }
 
     .rdrCalendarWrapper {
-      font-size: 14px;
+      font-size: 12px;
     }
 
     .rdrDateDisplayItemActive input {
-      font-size: 18px;
+      font-size: 12px;
     }
 
     .rdrDateDisplayItem input {
-      font-size: 18px;
+      font-size: 12px;
     }
+
+    .rdrCalendarWrapper {
+      padding-right: 10rem;
+      padding-left: 10rem;
+    }
+  `;
+
+  const CalendarText = css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    font-weight: bold;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  `;
+
+  const closedButtonStyle = css`
+    display: flex;
+    color: black;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    position: absolute;
+    margin-right: 1.5rem;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+  `;
+
+  const CalendarHeader = css`
+    position: relative;
+    padding-top: 3rem;
   `;
 
   return (
@@ -174,10 +197,20 @@ const CalendarComponent = ({
       <button type="button" css={selectButtonStyle} onClick={openCalendar}>
         {`${formattedStartDate} ~ ${formattedEndDateString} (${nights}박)`}
       </button>
-      <div css={modalStyle} style={{ display: showCalendar ? 'flex' : 'none' }}>
+      <div css={modalStyle}>
         {showCalendar && (
           <div css={modalContentStyle}>
             <div css={customStyle}>
+              <div css={CalendarHeader}>
+                <div css={CalendarText}>날짜선택</div>
+                <button
+                  type="button"
+                  css={closedButtonStyle}
+                  onClick={cancelCalendar}
+                >
+                  X
+                </button>
+              </div>
               <DateRange
                 editableDateInputs
                 onChange={onRangeChange}
@@ -187,22 +220,13 @@ const CalendarComponent = ({
                 maxDate={addDays(new Date(), 30)}
               />
             </div>
-            <div css={buttonContainer}>
-              <button
-                type="button"
-                css={closeButtonStyle}
-                onClick={closeCalendar}
-              >
-                선택
-              </button>
-              <button
-                type="button"
-                css={cancelButtonStyle}
-                onClick={cancelCalendar}
-              >
-                취소
-              </button>
-            </div>
+            <button
+              type="button"
+              css={closeButtonStyle}
+              onClick={closeCalendar}
+            >
+              선택
+            </button>
           </div>
         )}
       </div>
