@@ -16,7 +16,7 @@ function App() {
 const ContainerStyle = css`
   position: relative;
 
-  top: 75px;
+  top: 70px;
 
   height: 100%;
   width: 100%;
