@@ -16,7 +16,7 @@ const Signup = () => {
       <div css={SigninContainer}>
         <div css={SigninInnerContainer}>
           <div css={LogoContainer}>
-            <h1 css={LogoText}>Shimpyo ,</h1>
+            <h1 css={LogoText}>Shimpyo,</h1>
           </div>
           <div css={FormContainer}>
             <SignupForm />
