@@ -35,7 +35,6 @@ const SigninForm = () => {
           email,
           password,
         });
-        console.log('signin ', res);
         const userObj = res.data.data.member;
         const { accessToken, refreshToken, accessTokenExpiresIn } =
           res.data.data.token;
@@ -53,8 +52,13 @@ const SigninForm = () => {
         setCookie('refreshToken', refreshToken, option);
         setCookie('accessTokenExpiresIn', accessTokenExpiresIn, option);
 
-        navigate(-1);
-      } catch (e) {
+        navigate('/');
+      } catch (e: any) {
+        if (e.response.status === 401) {
+          alert('회원 정보를 확인해주세요');
+        } else {
+          alert('알 수 없는 에러입니다.');
+        }
         console.log(e);
       } finally {
         setLoading({ isLoading: false, message: '' });

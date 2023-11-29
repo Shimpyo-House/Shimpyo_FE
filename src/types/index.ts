@@ -107,3 +107,20 @@ export interface AllReservationData {
   visitorPhone: string | null;
   price: number;
 }
+
+export type CartRequest = {
+  roomId: number;
+  productId: string;
+  productName: string;
+  images: string[];
+  price: number;
+  desc: string;
+  standard: number;
+  capacity: number;
+};
+
+export type CartItem = {
+  roomId: number;
+  startDate: string;
+  endDate: string;
+};

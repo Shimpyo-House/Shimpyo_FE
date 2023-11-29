@@ -80,7 +80,6 @@ const useTokenRefresher = () => {
             prevRefreshToken: refreshToken,
           });
         }
-        config.headers.Authorization = `Bearer ${accessToken}`;
         return config;
       },
       (error) => {
