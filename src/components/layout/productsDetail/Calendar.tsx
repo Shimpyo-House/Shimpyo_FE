@@ -70,19 +70,22 @@ const CalendarComponent = ({
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    // transition:
+    //   transform 1s ease-in-out,
+    //   opacity 1s ease-in-out;
+    transform: translate(-50%, ${showCalendar ? '-50%' : '100%'});
     display: ${showCalendar ? 'flex' : 'none'};
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    width: 100%;
+    width: 50%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
   `;
 
   const modalContentStyle = css`
     background-color: white;
-    padding: 40px;
+    padding: 100%;
     border-radius: 15px;
     border: 2px solid #3d91ff;
   `;
@@ -126,7 +129,7 @@ const CalendarComponent = ({
     border-radius: 5px;
     cursor: pointer;
     margin-right: 1rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
   `;
 
   const cancelButtonStyle = css`
@@ -139,7 +142,7 @@ const CalendarComponent = ({
     border-radius: 5px;
     cursor: pointer;
     margin-left: 1rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
   `;
 
   const customStyle = css`
@@ -150,19 +153,19 @@ const CalendarComponent = ({
     }
 
     .rdrDateDisplayWrapper {
-      width: 1200px;
+      width: 600px;
     }
 
     .rdrCalendarWrapper {
-      font-size: 16px;
+      font-size: 14px;
     }
 
     .rdrDateDisplayItemActive input {
-      font-size: 20px;
+      font-size: 18px;
     }
 
     .rdrDateDisplayItem input {
-      font-size: 20px;
+      font-size: 18px;
     }
   `;
 
