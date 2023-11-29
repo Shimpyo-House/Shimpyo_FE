@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, css, InputLabel, TextField } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useSetRecoilState } from 'recoil';
 import { axiosWithNoToken } from '../../../Axios';
 import {
   ButtonContainer,
@@ -15,6 +16,7 @@ import {
   InputWithLabelContainer,
 } from './SigninForm';
 import { escapeRegExp } from './auth.utils';
+import { loadingAtom } from '../../../atoms/loading';
 
 type IFormInput = {
   email: string;
@@ -31,10 +33,12 @@ const SignupForm = () => {
     formState: { errors },
   } = useForm<IFormInput>();
   const navigate = useNavigate();
+  const setLoading = useSetRecoilState(loadingAtom);
 
   const onSubmit: SubmitHandler<IFormInput> = useCallback(
     async ({ name, email, password, passwordConfirm }) => {
       try {
+        setLoading({ isLoading: true, message: '회원가입 중입니다' });
         const data = await axiosWithNoToken.post('/api/auth/signup', {
           name,
           email,
@@ -45,7 +49,9 @@ const SignupForm = () => {
         console.log('submit', name, email, password, passwordConfirm);
         navigate('/signin');
       } catch (e) {
-        console.log(e);
+        alert(e.response.data.message);
+      } finally {
+        setLoading({ isLoading: false, message: '' });
       }
     },
     [],

@@ -5,9 +5,9 @@ import { css } from '@emotion/react';
 import { MdMenu } from 'react-icons/md';
 import { useRecoilState } from 'recoil';
 import theme from '../../../style/theme';
-import rabbit from '/rabbit.jpg';
+import userImg from '/user_default.svg';
 import { userAtom } from '../../../atoms/user';
-import { removeCookie } from '../../layout/auth/auth.utils';
+import { getCookie, removeCookie } from '../../layout/auth/auth.utils';
 
 const staggerMenuItems = stagger(0.1, { startDelay: 0.15 });
 
@@ -48,6 +48,7 @@ const MenuBtn = () => {
   const [isOpen, setIsOpen] = useState(false);
   const scope = useMenuAnimation(isOpen);
   const [user, setUser] = useRecoilState(userAtom);
+  const accessToken = getCookie('accessToken');
 
   const handlerLogout = useCallback(() => {
     removeCookie('accessToken');
@@ -67,7 +68,11 @@ const MenuBtn = () => {
         css={MenuContainer}
       >
         <MdMenu css={MenuIcon} />
-        <img src={user?.photoUrl || rabbit} alt="사용자 프로필" css={Profile} />
+        <img
+          src={user?.photoUrl || userImg}
+          alt="사용자 프로필"
+          css={Profile}
+        />
       </motion.button>
       <ul
         css={ListBox}
@@ -77,22 +82,29 @@ const MenuBtn = () => {
         }}
       >
         {/* 추후에 여기다가 링크나 모달 연결해서 쓰시면 됩니다! */}
-        <li>
-          <Link to="/mypage">내 정보</Link>
-        </li>
-        <li>결제 내역 </li>
-        <li>
-          <Link to="/signin">로그인</Link>
-        </li>
-        <li>
-          <Link to="/signup">회원가입</Link>
-        </li>
-        <li>
-          <button type="button" onClick={handlerLogout}>
-            로그아웃
-          </button>
-        </li>
-      </ul>{' '}
+        {accessToken ? (
+          <>
+            <li>
+              <Link to="/mypage">내 정보</Link>
+            </li>
+            <li>결제 내역 </li>
+            <li>
+              <button onClick={handlerLogout} type="button">
+                로그아웃
+              </button>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link to="/signin">로그인</Link>
+            </li>
+            <li>
+              <Link to="/signup">회원가입</Link>
+            </li>
+          </>
+        )}
+      </ul>
     </nav>
   );
 };
