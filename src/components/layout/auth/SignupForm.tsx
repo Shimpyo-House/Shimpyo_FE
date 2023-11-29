@@ -8,12 +8,14 @@ import { useSetRecoilState } from 'recoil';
 import { axiosWithNoToken } from '../../../Axios';
 import {
   ButtonContainer,
+  ButtonStyle,
   ErrorContainer,
   ErrorStyle,
   FormContainer,
   FormInnerContainer,
   FormStyle,
   InputWithLabelContainer,
+  LabelStyle,
 } from './SigninForm';
 import { escapeRegExp } from './auth.utils';
 import { loadingAtom } from '../../../atoms/loading';
@@ -48,7 +50,7 @@ const SignupForm = () => {
         console.log(data);
         console.log('submit', name, email, password, passwordConfirm);
         navigate('/signin');
-      } catch (e) {
+      } catch (e: any) {
         alert(e.response.data.message);
       } finally {
         setLoading({ isLoading: false, message: '' });
@@ -69,7 +71,7 @@ const SignupForm = () => {
             회원가입
           </h1>
           <div css={InputWithLabelContainer}>
-            <InputLabel>이메일</InputLabel>
+            <InputLabel css={LabelStyle}>이메일</InputLabel>
             <TextField
               variant="outlined"
               fullWidth
@@ -86,7 +88,7 @@ const SignupForm = () => {
             </div>
           </div>
           <div css={InputWithLabelContainer}>
-            <InputLabel>이름</InputLabel>
+            <InputLabel css={LabelStyle}>이름</InputLabel>
             <TextField
               variant="outlined"
               fullWidth
@@ -107,7 +109,7 @@ const SignupForm = () => {
             </div>
           </div>
           <div css={InputWithLabelContainer}>
-            <InputLabel>비밀번호</InputLabel>
+            <InputLabel css={LabelStyle}>비밀번호</InputLabel>
             <TextField
               variant="outlined"
               fullWidth
@@ -130,7 +132,7 @@ const SignupForm = () => {
           </div>
 
           <div css={InputWithLabelContainer}>
-            <InputLabel>비밀번호 확인</InputLabel>
+            <InputLabel css={LabelStyle}>비밀번호 확인</InputLabel>
             <TextField
               variant="outlined"
               fullWidth
@@ -150,11 +152,7 @@ const SignupForm = () => {
           </div>
 
           <div css={ButtonContainer}>
-            <Button
-              style={{ width: '100%', height: '4rem' }}
-              variant="contained"
-              type="submit"
-            >
+            <Button css={ButtonStyle} variant="contained" type="submit">
               회원가입
             </Button>
           </div>
