@@ -93,7 +93,7 @@ const ProductsDetail = () => {
       productId: product.productId,
       productName: product.productName,
       images: product.images,
-      price: room.price,
+      price: parseFloat(`${room.price}`) * nights,
       desc: room.description,
       standard: room.standard,
       capacity: room.capacity,
@@ -116,7 +116,7 @@ const ProductsDetail = () => {
       console.log(product.productId);
       console.log(product.productName);
       console.log(product.images);
-      console.log(room.price);
+      console.log(parseFloat(`${room.price}`) * nights);
       console.log(room.description);
       console.log(room.standard);
       console.log(room.capacity);
