@@ -36,7 +36,7 @@ const BookingInfo = () => {
             </div>
 
             <div css={BookingPrice}>
-              숙박 / 1박 <span>{cartItem.price}원</span>
+              숙박 / 1박 <span>{cartItem.price.toLocaleString()}원</span>
             </div>
 
             <div css={VisitWay}>

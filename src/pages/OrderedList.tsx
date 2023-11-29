@@ -78,7 +78,7 @@ const OrderedList = () => {
             </div>
             <div css={OrderedWrapEl}>
               <h3>총 결제 금액</h3>
-              <div>{totalRoomPrices}원</div>
+              <div>{totalRoomPrices.toLocaleString()}원</div>
             </div>
           </div>
         </nav>

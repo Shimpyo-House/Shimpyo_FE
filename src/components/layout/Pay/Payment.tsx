@@ -16,8 +16,8 @@ const Payment = () => {
   const [eventAgree, setEventAgree] = useState(false);
   const [eventInfoAgree, setEventInfoAgree] = useState(false);
   const payMethod = localStorage.getItem('PaymentMethod');
-  const userName = localStorage.getItem('UserName');
-  const userPhoneNum = localStorage.getItem('UserPhoneNum');
+  const userName = localStorage.getItem('UserName') || null;
+  const userPhoneNum = localStorage.getItem('UserPhoneNum') || null;
 
   const navigate = useNavigate();
 
@@ -63,6 +63,8 @@ const Payment = () => {
       });
 
       console.log('reservation', response);
+      console.log(userName);
+      console.log(userPhoneNum);
 
       if (response.status === 200) {
         console.log('예약 성공!');
@@ -104,7 +106,7 @@ const Payment = () => {
 
       <div css={TotalPrice}>
         <div>총 결제 금액</div>
-        <p>{totalPrice}원</p>
+        <p>{totalPrice.toLocaleString()}원</p>
       </div>
 
       <div css={Agreement}>
@@ -202,7 +204,7 @@ const Payment = () => {
           handlePaymentData();
         }}
       >
-        {totalPrice}원 결제하기
+        {totalPrice.toLocaleString()}원 결제하기
       </button>
     </div>
   );
