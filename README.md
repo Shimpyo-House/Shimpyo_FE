@@ -256,7 +256,8 @@ Test PW : qwe123!@#
 - 주문하기
 ![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/7f5bf375-fb07-45ea-87b2-41df9d1541eb)
 - 예외처리
-![Alt text](image.png)
+![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/b1457ea1-6c20-4fa2-8f45-2fccaabf6e7c)
+
 
 
 ### 4️⃣예약 및 결제
