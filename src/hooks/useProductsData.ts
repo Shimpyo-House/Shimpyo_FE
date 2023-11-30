@@ -12,6 +12,7 @@ const useProductsData = async (
       const fetchData = await axiosWithNoToken.get<ResponseProducts>(
         `/api/products?page=${page}&size=${productsVolume}&sort=starAvg,desc`,
       );
+      console.log(fetchData);
       return fetchData.data.data;
     }
     const fetchData = await axiosWithNoToken.get<ResponseProducts>(
@@ -22,6 +23,70 @@ const useProductsData = async (
     console.log(error);
     return undefined;
   }
+};
+
+const useSearchData = async (
+  keyword: string,
+  location: string,
+  count: string,
+  page: number,
+) => {
+  try {
+    console.log(keyword);
+    console.log(location);
+    console.log(count);
+
+    const countNumber = parseInt(count, 10);
+    if (location === 'x' && keyword !== 'x') {
+      const fetchData = await axiosWithNoToken.get<ResponseProducts>(
+        `/api/products?page=${page}&size=30&productName=${keyword}&sort=starAvg,desc`,
+      );
+      const searchData = fetchData.data.data.filter(
+        (products) => products.capacity >= countNumber,
+      );
+      console.log(fetchData);
+      console.log(searchData);
+
+      return searchData;
+    }
+    if (keyword === 'x' && location !== 'x') {
+      const fetchData = await axiosWithNoToken.get<ResponseProducts>(
+        `/api/products?page=${page}&size=30&address=${location}&sort=starAvg,desc`,
+      );
+      const searchData = fetchData.data.data.filter(
+        (products) => products.capacity >= countNumber,
+      );
+      console.log(fetchData);
+      console.log(searchData);
+
+      return searchData;
+    }
+    if (keyword === 'x' && location === 'x') {
+      const fetchData = await axiosWithNoToken.get<ResponseProducts>(
+        `/api/products?page=${page}&size=30&sort=starAvg,desc`,
+      );
+      const searchData = fetchData.data.data.filter(
+        (products) => products.capacity >= countNumber,
+      );
+      console.log(fetchData);
+      console.log(searchData);
+
+      return searchData;
+    }
+    const fetchData = await axiosWithNoToken.get<ResponseProducts>(
+      `/api/products?page=${page}&size=30&productName=${keyword}&address=${location}&sort=starAvg,desc`,
+    );
+    const searchData = fetchData.data.data.filter(
+      (products) => products.capacity >= countNumber,
+    );
+    console.log(fetchData);
+    console.log(searchData);
+
+    return searchData;
+  } catch (error) {
+    console.log(error);
+  }
+  return undefined;
 };
 
 const useObs = (
@@ -41,4 +106,4 @@ const useObs = (
   }, []);
 };
 
-export { useProductsData, useObs };
+export { useProductsData, useObs, useSearchData };
