@@ -73,7 +73,7 @@ export type ResponseCartData = {
   cartId: number;
   productId: number;
   productName: string;
-  images: string;
+  image: string;
   roomId: number;
   roomName: string;
   price: number;
