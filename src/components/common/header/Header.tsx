@@ -5,8 +5,10 @@ import { Link } from 'react-router-dom';
 import theme from '../../../style/theme';
 import MenuBtn from './MenuBtn';
 import useGetUserData from '../../../hooks/useGetUserData';
+import SearchBar from './searchBar/SearchBar';
 import { userAtom } from '../../../atoms/user';
 import useCart from '../../../hooks/useCart';
+
 
 const Header = () => {
   useGetUserData();
@@ -23,6 +25,7 @@ const Header = () => {
         <Link to="/" css={LogoText}>
           Shimpyo ,
         </Link>
+        <SearchBar />
         <div css={IconContainer}>
           {!user && <p>로그인을 해주세요</p>}
           <div css={CartContainer}>

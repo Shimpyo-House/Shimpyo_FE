@@ -12,6 +12,7 @@ import TokenProvider from './TokenProvider';
 import MyPage from './pages/MyPage';
 import MyReservation from './pages/MyReservation';
 import PrivateRoute from './PrivateRoute';
+import SearchProducts from './pages/SearchProducts';
 
 const Router = () => {
   return (
@@ -22,6 +23,7 @@ const Router = () => {
             <Route element={<App />}>
               <Route index element={<Home />} />
               <Route path="category" element={<CategoryProducts />} />
+              <Route path="search" element={<SearchProducts />} />
               <Route path="products/:productId" element={<ProductDetail />} />
               <Route path="carts" element={<Cart />} />
               <Route path="pay" element={<PrivateRoute component={Pay} />} />
