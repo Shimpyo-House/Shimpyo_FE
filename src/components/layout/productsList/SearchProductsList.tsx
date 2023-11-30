@@ -1,11 +1,13 @@
 /* eslint-disable  @typescript-eslint/indent */
 import { css } from '@emotion/react';
 import { useInfiniteQuery } from 'react-query';
+import { useSetRecoilState } from 'recoil';
 import { useEffect, useRef, useState } from 'react';
 import ColumnList from './ColumnList';
 import { useObs, useSearchData } from '../../../hooks/useProductsData';
 import { ResponseProductsData } from '../../../types';
 import theme from '../../../style/theme';
+import { loadingAtom } from '../../../atoms/loading';
 
 type PropsType = {
   keyword: string;
@@ -14,9 +16,9 @@ type PropsType = {
 };
 
 const SearchProductsList = ({ keyword, count, location }: PropsType) => {
+  const setLoading = useSetRecoilState(loadingAtom);
   const [isEnd, setIsEnd] = useState(false);
   const [isReal, setIsReal] = useState(true);
-  const [load, setLoad] = useState(false);
   const obsRef = useRef(null);
 
   const { data, fetchNextPage } = useInfiniteQuery<
@@ -59,7 +61,7 @@ const SearchProductsList = ({ keyword, count, location }: PropsType) => {
 
   const getData = async (pageParam: number) => {
     try {
-      setLoad(true);
+      setLoading({ isLoading: true, message: '데이터를 조회중입니다.' });
       const fetchData = await useSearchData(
         keyword,
         location,
@@ -78,7 +80,7 @@ const SearchProductsList = ({ keyword, count, location }: PropsType) => {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoad(false);
+      setLoading({ isLoading: false, message: '' });
     }
     return undefined;
   };
@@ -93,11 +95,6 @@ const SearchProductsList = ({ keyword, count, location }: PropsType) => {
         {!isReal && (
           <div css={FailBox}>
             <p css={FailText}>검색결과가 없습니다.</p>
-          </div>
-        )}
-        {load && (
-          <div css={SpinnerBox}>
-            <img src="/spinner.gif" alt="로딩스피너" />
           </div>
         )}
         {!isEnd && <div ref={obsRef} />}
@@ -138,13 +135,6 @@ const ListBox = css`
 
   padding: 3.125rem 0;
   gap: 3rem;
-`;
-
-const SpinnerBox = css`
-  display: flex;
-  justify-content: center;
-
-  height: 4rem;
 `;
 
 const FailBox = css`

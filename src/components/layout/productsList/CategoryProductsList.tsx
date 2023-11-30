@@ -15,7 +15,6 @@ type PropsType = {
 const CategoryProductsList = ({ category }: PropsType) => {
   const setLoading = useSetRecoilState(loadingAtom);
   const [isEnd, setIsEnd] = useState(false);
-  const [load, setLoad] = useState(false);
   const obsRef = useRef(null);
   const pageVolume = 16;
 
@@ -61,7 +60,6 @@ const CategoryProductsList = ({ category }: PropsType) => {
 
   const getData = async (pageParam: number) => {
     try {
-      setLoad(true);
       setLoading({ isLoading: true, message: '데이터를 조회중입니다.' });
       const fetchData = await useProductsData(pageParam, pageVolume, category);
       if (fetchData) {
@@ -73,7 +71,6 @@ const CategoryProductsList = ({ category }: PropsType) => {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoad(false);
       setLoading({ isLoading: false, message: '' });
     }
     return undefined;
@@ -95,11 +92,6 @@ const CategoryProductsList = ({ category }: PropsType) => {
           </p>
         </div>
         {data && data.pages && <ColumnList data={data.pages.flat()} />}
-        {load && (
-          <div css={SpinnerBox}>
-            <img src="/spinner.gif" alt="로딩스피너" />
-          </div>
-        )}
         {!isEnd && <div ref={obsRef} />}
       </div>
     </div>
@@ -147,11 +139,4 @@ const CategoryName = css`
 const CategoryDesc = css`
   font-size: 1.5rem;
   font-weight: 400;
-`;
-
-const SpinnerBox = css`
-  display: flex;
-  justify-content: center;
-
-  height: 4rem;
 `;

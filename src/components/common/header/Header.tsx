@@ -24,7 +24,7 @@ const Header = () => {
         </Link>
         <SearchBar />
         <div css={IconContainer}>
-          {!user && <p>로그인을 해주세요</p>}
+          {!user && <p css={RequireLogin}>로그인을 해주세요</p>}
           {user && (
             <Link to="/carts">
               <div css={CartContainer}>
@@ -130,14 +130,14 @@ const CartCount = css`
   font-weight: 700;
 `;
 
-// const RequireLogin = css`
-//   position: absolute;
-//   top: 1.2rem;
-//   right: 12.5rem;
+const RequireLogin = css`
+  position: absolute;
+  top: 1.2rem;
+  right: 9.5rem;
 
-//   width: 9.375rem;
+  width: 9.375rem;
 
-//   font-size: 1rem;
+  font-size: 1rem;
 
-//   color: ${theme.colors.gray600};
-// `;
+  color: ${theme.colors.gray600};
+`;
