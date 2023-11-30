@@ -9,6 +9,7 @@ import StarModal from '../../common/StarModal';
 export type ModalInfoType = {
   productId: number;
   productName: string;
+  reservationProductId: number;
 };
 
 const AllReservation = () => {
@@ -16,6 +17,7 @@ const AllReservation = () => {
   const [modalInfo, setModalInfo] = useState<ModalInfoType>({
     productId: 0,
     productName: '',
+    reservationProductId: 0,
   });
   const setLoading = useSetRecoilState(loadingAtom);
   const [orderCom, setOrderCom] = useState<any>('');
@@ -23,9 +25,10 @@ const AllReservation = () => {
   const handlerOnClickRegisterStar = ({
     productId,
     productName,
+    reservationProductId,
   }: ModalInfoType) => {
     setIsOpen(true);
-    setModalInfo({ productId, productName });
+    setModalInfo({ productId, productName, reservationProductId });
   };
 
   useEffect(() => {
@@ -52,51 +55,54 @@ const AllReservation = () => {
     <div>
       <StarModal isOpen={isOpen} setIsOpen={setIsOpen} modalInfo={modalInfo} />
       {productArray.length > 0 ? (
-        productArray.map((product: any) => (
-          <nav css={ReservationWrap}>
-            <div css={WrapContainer}>
-              <h1>{product.startDate}</h1>
-              <button
-                onClick={() =>
-                  handlerOnClickRegisterStar({
-                    productId: product.productId,
-                    productName: product.productName,
-                  })
-                }
-                css={RoomRate}
-                type="button"
-              >
-                별점 남기기
-              </button>
-            </div>
-            <hr />
+        productArray.map((product: any) => {
+          return (
+            <nav css={ReservationWrap}>
+              <div css={WrapContainer}>
+                <h1>{product.startDate}</h1>
+                <button
+                  onClick={() =>
+                    handlerOnClickRegisterStar({
+                      productId: product.productId,
+                      productName: product.productName,
+                      reservationProductId: product.reservationProductId,
+                    })
+                  }
+                  css={RoomRate}
+                  type="button"
+                >
+                  별점 남기기
+                </button>
+              </div>
+              <hr />
 
-            <div>
-              <div css={ReserveTitle}>{product.productName}</div>
-              <div css={MakeReservation}>{product.productAddress}</div>
+              <div>
+                <div css={ReserveTitle}>{product.productName}</div>
+                <div css={MakeReservation}>{product.productAddress}</div>
 
-              <div css={ContentWrap}>
-                <div css={MainImg}>
-                  <img src={product.productImageUrl} alt="호텔 이미지" />
-                </div>
-
-                <div css={RoomInfoWrap}>
-                  <div css={RoomInfoTitle}>{product.roomName}</div>
-                  <div>
-                    {product.startDate} ~ {product.endDate}
+                <div css={ContentWrap}>
+                  <div css={MainImg}>
+                    <img src={product.productImageUrl} alt="호텔 이미지" />
                   </div>
-                  <div>
-                    체크인 {product.checkIn} | 체크아웃 {product.checkOut}
-                  </div>
-                  <div>결제 수단 | {product.payMethod}</div>
-                  <div css={ReservationPrice}>
-                    결제 금액 | {product.price.toLocaleString()}원
+
+                  <div css={RoomInfoWrap}>
+                    <div css={RoomInfoTitle}>{product.roomName}</div>
+                    <div>
+                      {product.startDate} ~ {product.endDate}
+                    </div>
+                    <div>
+                      체크인 {product.checkIn} | 체크아웃 {product.checkOut}
+                    </div>
+                    <div>결제 수단 | {product.payMethod}</div>
+                    <div css={ReservationPrice}>
+                      결제 금액 | {product.price.toLocaleString()}원
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </nav>
-        ))
+            </nav>
+          );
+        })
       ) : (
         <div css={ErrorMessage}>예약 내역이 없습니다.</div>
       )}
