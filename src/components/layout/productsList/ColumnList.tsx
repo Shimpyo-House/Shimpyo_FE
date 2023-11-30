@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import { useEffect } from 'react';
 import RowProduct from './RowProduct';
 import { ResponseProductsData } from '../../../types';
 
@@ -8,10 +7,6 @@ type PropsType = {
 };
 
 const ColumnList = ({ data }: PropsType) => {
-  useEffect(() => {
-    console.log(data);
-  }, []);
-
   return (
     <div css={ProductsBox}>
       {data &&
