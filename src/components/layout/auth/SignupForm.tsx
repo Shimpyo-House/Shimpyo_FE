@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, css, InputLabel, TextField } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
+import swal from 'sweetalert';
 import { axiosWithNoToken } from '../../../Axios';
 import {
   ButtonContainer,
@@ -49,7 +50,10 @@ const SignupForm = () => {
         });
         navigate('/signin');
       } catch (e: any) {
-        alert(e.response.data.message);
+        swal({
+          title: e.response.data.message,
+          icon: 'info',
+        });
       } finally {
         setLoading({ isLoading: false, message: '' });
       }

@@ -5,6 +5,7 @@ import { Button, InputLabel, css, TextField } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
+import swal from 'sweetalert';
 import { axiosWithNoToken } from '../../../Axios';
 import theme from '../../../style/theme';
 import { userAtom } from '../../../atoms/user';
@@ -55,9 +56,15 @@ const SigninForm = () => {
         navigate('/');
       } catch (e: any) {
         if (e.response.status === 401) {
-          alert('회원 정보를 확인해주세요');
+          swal({
+            title: '회원 정보를 확인해주세요',
+            icon: 'error',
+          });
         } else {
-          alert('알 수 없는 에러입니다.');
+          swal({
+            title: '알 수 없는 에러입니다',
+            icon: 'error',
+          });
         }
         console.log(e);
       } finally {
