@@ -18,16 +18,14 @@ const getData = async () => {
     const pensionData: ResponseProductsData[] | undefined = fetchData
       .filter(
         (product) =>
-          product.category === '펜션' || product.category === '콘도미니엄',
+          product.category === '관광호텔' ||
+          product.category === '유스호스텔' ||
+          product.category === '콘도미니엄',
       )
       .slice(0, 3);
     const hotelData: ResponseProductsData[] | undefined = fetchData
-      .filter(
-        (product) =>
-          product.category === '관광호텔' || product.category === '모텔',
-      )
+      .filter((product) => product.category === '한옥')
       .slice(0, 3);
-    // console.log('hot', hotData, 'hotel', hotelData, 'pension', pensionData);
     const data = [[...hotData], [...pensionData], [...hotelData]];
     return data;
   }
@@ -46,7 +44,7 @@ const Home = () => {
   return (
     <div>
       <ListBackground />
-      {isLoading ? <div>Loading...</div> : <MainProductsList data={data} />}
+      {isLoading ? <div>...</div> : <MainProductsList data={data} />}
     </div>
   );
 };

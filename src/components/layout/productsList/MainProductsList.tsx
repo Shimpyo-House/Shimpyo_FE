@@ -35,22 +35,22 @@ const NormalCategory = ({ data }: PropsType) => {
       </div>
       <div css={CategoryBox}>
         <h2 css={CategoryName}>
-          <Link css={LinkBox} to="/category?type=펜션,콘도미니엄">
-            펜션, 풀빌라
-            <IoIosArrowForward className="arrowIcon" />
-          </Link>
-        </h2>
-        <p css={CategoryDesc}>크리스마스 펜션 예약하기</p>
-        <RowList data={pensionData} />
-      </div>
-      <div css={CategoryBox}>
-        <h2 css={CategoryName}>
-          <Link css={LinkBox} to="/category?type=관광호텔,모텔">
-            호텔, 모텔
+          <Link css={LinkBox} to="/category?type=관광호텔">
+            호텔
             <IoIosArrowForward className="arrowIcon" />
           </Link>
         </h2>
         <p css={CategoryDesc}>지금 떠나는 도심 호캉스!</p>
+        <RowList data={pensionData} />
+      </div>
+      <div css={CategoryBox}>
+        <h2 css={CategoryName}>
+          <Link css={LinkBox} to="/category?type=한옥">
+            한옥
+            <IoIosArrowForward className="arrowIcon" />
+          </Link>
+        </h2>
+        <p css={CategoryDesc}>한옥에서 즐기는 대한민국의 정취</p>
         <RowList data={hotelData} />
       </div>
     </div>
@@ -65,6 +65,8 @@ const PageBox = css`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  min-height: calc(100vh - 70px);
 
   background-color: rgba(255, 2555, 255, 0.8);
 

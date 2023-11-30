@@ -387,7 +387,9 @@ const ProductDetailContainer = css`
   flex-direction: column;
   align-items: center;
   /* margin-top: 4rem; */
-  background-color: rgba(255, 2555, 255, 0.8);
+  background-color: #fff;
+
+  min-height: calc(100vh - 70px);
 `;
 
 const SliderStyle = css`
