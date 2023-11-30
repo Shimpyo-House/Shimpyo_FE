@@ -19,7 +19,7 @@ const NormalCategory = ({ data }: PropsType) => {
   let pensionData: ResponseProductsData[] = [];
   let koreaData: ResponseProductsData[] = [];
   if (data) {
-    [hotData, pensionData, hotelData, koreaData] = data;
+    [hotData, hotelData, pensionData, koreaData] = data;
   }
 
   return (
