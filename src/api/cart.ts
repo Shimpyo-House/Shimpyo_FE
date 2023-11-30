@@ -1,5 +1,4 @@
 /* eslint-disable consistent-return */
-import axios from 'axios';
 import { axiosWithAccessToken } from '../Axios';
 import { PostRoomData } from '../types';
 
@@ -12,14 +11,17 @@ const cartGetAxios = async () => {
   }
 };
 
-const cartPostToJudgment = async (roomData: PostRoomData[]) => {
+const cartPostToJudgment = async (rooms: PostRoomData[]) => {
   try {
-    const response = await axios.post('/api/reservations/preoccupy', {
-      roomData,
-    });
+    const response = await axiosWithAccessToken.post(
+      '/api/reservations/preoccupy',
+      {
+        rooms,
+      },
+    );
     return response.data.data;
-  } catch (err) {
-    alert('⚠️ 장바구니 post 에러');
+  } catch (err: any) {
+    return err.response?.data?.data;
   }
 };
 

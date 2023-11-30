@@ -1,25 +1,40 @@
+/* eslint-disable no-useless-return */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-alert */
 /* eslint-disable react/button-has-type */
 import { css } from '@emotion/react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-// import { cartPostToJudgment } from '../../../api/cart';
-import { ResponseCartData } from '../../../types';
-import { cartDataState } from '../../../atoms/cartAtom';
+import { cartPostToJudgment } from '../../../api/cart';
+import {
+  cartDataState,
+  cartSoldOutState,
+  cartCheckedRoomListState,
+} from '../../../atoms/cartAtom';
 import theme from '../../../style/theme';
 
 interface CartTotalProps {
   totalPrice: number;
-  checkedRoomList: ResponseCartData[];
 }
 
-const CartTotal = ({ totalPrice, checkedRoomList }: CartTotalProps) => {
+const CartTotal = ({ totalPrice }: CartTotalProps) => {
   const navigate = useNavigate();
-  const [cartData, setCartData] = useRecoilState(cartDataState);
-  console.log(cartData);
+  const setCartData = useSetRecoilState(cartDataState);
+  const [soldOutData, setSoldOutData] = useRecoilState(cartSoldOutState);
+  const [checkedRoomList, setCheckedRoomList] = useRecoilState(
+    cartCheckedRoomListState,
+  );
 
   const handlePostClick = async () => {
+    const updateCheckboxAvailability = () => {
+      const unavailableRoomIds = soldOutData?.unavailableIds || [];
+      const updatedCheckedRoomList =
+        checkedRoomList.map((room) => ({
+          ...room,
+          disabled: unavailableRoomIds.includes(room.roomId),
+        })) || [];
+      setCheckedRoomList(updatedCheckedRoomList);
+    };
     try {
       if (checkedRoomList.length > 3) {
         alert('3개 이상의 상품을 주문할 수 없습니다.');
@@ -31,26 +46,11 @@ const CartTotal = ({ totalPrice, checkedRoomList }: CartTotalProps) => {
         return;
       }
 
-      // const roomData = checkedRoomList.map(
-      //   ({ roomId, startDate, endDate }) => ({
-      //     roomId,
-      //     startDate,
-      //     endDate,
-      //   }),
-      // );
-
-      // const response = await cartPostToJudgment(roomData);
-      // const soldOutRooms = response.filter(
-      //   (room: PostRoomData) => !room.isAvailable,
-      // );
-
-      // if (soldOutRooms.length > 0) {
-      //   const soldOutRoomIds = soldOutRooms.map(
-      //     (room: PostRoomData) => room.roomId,
-      //   );
-      //   alert(`${soldOutRoomIds} 상품이 품절되었습니다. 주문할 수 없습니다.`);
-      //   return;
-      // }
+      const rooms = checkedRoomList.map(({ roomId, startDate, endDate }) => ({
+        roomId,
+        startDate,
+        endDate,
+      }));
 
       const updatedCartData = checkedRoomList.map(
         ({
@@ -77,14 +77,35 @@ const CartTotal = ({ totalPrice, checkedRoomList }: CartTotalProps) => {
           price,
         }),
       );
-      setCartData(updatedCartData);
-      alert('주문이 성공적으로 완료되었습니다.');
-      navigate('/pay');
+
+      const response = await cartPostToJudgment(rooms);
+
+      if (!response) {
+        alert('주문이 성공적으로 완료되었습니다.');
+        navigate('/pay');
+        setCartData(updatedCartData);
+        setCheckedRoomList([]);
+      } else {
+        setSoldOutData(response);
+        updateCheckboxAvailability();
+
+        const soldOutRoomNames = checkedRoomList
+          .filter(
+            (room) =>
+              response.unavailableIds &&
+              response.unavailableIds.includes(room.roomId),
+          )
+          .map((room) => room.productName)
+          .join(', ');
+        alert(
+          `[${soldOutRoomNames}] 상품이 품절되었습니다. 주문할 수 없습니다.`,
+        );
+        setCheckedRoomList([]);
+      }
     } catch (error) {
       console.error(error);
     }
   };
-
   return (
     <div css={Container}>
       <h2>전체 주문 합계</h2>
