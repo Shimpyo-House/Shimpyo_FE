@@ -27,7 +27,6 @@ const getData = async () => {
           product.category === '관광호텔' || product.category === '모텔',
       )
       .slice(0, 3);
-    // console.log('hot', hotData, 'hotel', hotelData, 'pension', pensionData);
     const data = [[...hotData], [...pensionData], [...hotelData]];
     return data;
   }

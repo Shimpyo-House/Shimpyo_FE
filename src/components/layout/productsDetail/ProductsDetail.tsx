@@ -198,7 +198,6 @@ const ProductsDetail = () => {
     try {
       setLoading({ isLoading: true, message: '현재 예약중입니다.' });
       const payload = { rooms };
-      console.log(payload);
       const response = await axiosWithAccessToken.post(
         '/api/reservations/preoccupy',
         payload,
@@ -228,7 +227,6 @@ const ProductsDetail = () => {
 
   if (!productDetail || !productDetail.images) {
     console.log('ProductDetail or images are undefined:', productDetail);
-    console.log(productDetail.images);
     return <div>Loading...</div>;
   }
 

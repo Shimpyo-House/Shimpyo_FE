@@ -8,56 +8,6 @@ async function sleep(timeout: number) {
 }
 
 const handlers = [
-  // // 상품 상세 조회
-  // rest.get('/api/products/:productId', async (req, res, ctx) => {
-  //   const { productId } = req.params;
-  //   // 쿼리스트링이 안되네요
-  //   // const startDate = req.url.searchParams.getAll('startDate');
-  //   // const endDate = req.url.searchParams.getAll('endDate');
-  //   console.log(productId);
-
-  //   await sleep(500);
-  //   return res(
-  //     ctx.status(200),
-  //     ctx.json({
-  //       code: 200,
-  //       message: '상품을 성공적으로 조회했습니다.',
-  //       data: {
-  //         productId: 1,
-  //         category: '호텔',
-  //         address: '12충청남도 서북부 태안반도 327',
-  //         productName: '서산 오션 호텔',
-  //         desc: '호텔 내 수영장이 있어요.',
-  //         favorites: true,
-  //         starAvg: 1.3,
-  //         images: ['/public/img1.jpeg', '/public/img2.jpeg'],
-  //         rooms: [
-  //           {
-  //             roomId: 1,
-  //             roomName: '디럭스룸',
-  //             price: '100000',
-  //             desc: '실내 흡연 금지',
-  //             standard: 2,
-  //             capacity: 3,
-  //             checkIn: '2023-11-20 15:00',
-  //             checkOut: '2023-11-21 11:00',
-  //           },
-  //           {
-  //             roomId: 2,
-  //             roomName: '킹스룸',
-  //             price: '120000',
-  //             desc: '왕의 침대... 왕의 TV... 왕관....',
-  //             standard: 8,
-  //             capacity: 12,
-  //             checkIn: '2023-11-20 15:00',
-  //             checkOut: '2023-11-21 11:00',
-  //           },
-  //         ],
-  //       },
-  //     }),
-  //   );
-  // }),
-
   // 주문
   rest.post('/api/orders', async (_, res, ctx) => {
     await sleep(500);
