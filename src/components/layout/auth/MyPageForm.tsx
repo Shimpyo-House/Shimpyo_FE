@@ -115,7 +115,11 @@ const MyPageForm = () => {
       if (ACCEPT_IMAGE_TYPE.includes(file.type.split('/')[1])) {
         reader.readAsDataURL(file);
       } else {
-        alert('이미지 타입을 확인해주세요(svg,jpg,jpeg,png만 가능)');
+        swal({
+          title: '이미지 타입을 확인해주세요',
+          text: 'svg,jpg,jpeg,png만 가능합니다',
+          icon: 'error',
+        });
       }
     }
   };

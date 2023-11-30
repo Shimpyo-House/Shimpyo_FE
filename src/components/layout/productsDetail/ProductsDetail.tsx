@@ -32,6 +32,7 @@ import CalendarComponent from './Calendar';
 import PeopleSelector from './PeopleSelector';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { loadingAtom } from '../../../atoms/loading';
 import Star from '../../common/star';
 
 const ProductsDetail = () => {
@@ -53,6 +54,8 @@ const ProductsDetail = () => {
   const [defaultDatePlusDay, setDefaultDatePlusDay] = useState(
     format(tomorrow, 'yyyy-MM-dd'),
   );
+
+  const setLoading = useSetRecoilState(loadingAtom);
 
   // 선택한 숙박일 수 부모 컴포넌트 상태에 업데이트
   const handleSetNights = (selectedNights: SetStateAction<number>) => {
@@ -80,6 +83,7 @@ const ProductsDetail = () => {
       endDate,
     }: Pick<RequestProductDetail, 'startDate' | 'endDate'>) => {
       try {
+        setLoading({ isLoading: true, message: '방 정보를 조회중입니다.' });
         // if (!startDate || !endDate) return;
         const response = await axiosWithNoToken.get(
           `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
@@ -88,6 +92,8 @@ const ProductsDetail = () => {
         setProductDetail(response.data.data);
       } catch (error) {
         console.error('Error fetching product detail:', error);
+      } finally {
+        setLoading({ isLoading: false, message: '' });
       }
     };
 
@@ -187,6 +193,7 @@ const ProductsDetail = () => {
 
   const reservation = async (rooms: RoomData[], roomInfo: Room) => {
     try {
+      setLoading({ isLoading: true, message: '현재 예약중입니다.' });
       const payload = { rooms };
       console.log(payload);
       const response = await axiosWithAccessToken.post(
@@ -213,6 +220,8 @@ const ProductsDetail = () => {
       return response.data.data;
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading({ isLoading: false, message: '' });
     }
   };
 

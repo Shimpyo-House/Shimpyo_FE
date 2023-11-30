@@ -7,6 +7,7 @@ import { useCallback, useMemo } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { css } from '@emotion/react';
 import { RiDeleteBin6Line } from 'react-icons/ri';
+import swal from 'sweetalert';
 import { ResponseCartData } from '../../../types';
 import {
   cartSoldOutState,
@@ -41,7 +42,7 @@ const CartItem = () => {
   const handleAllCheckbox = useCallback(() => {
     const availableCartData = cartData.filter(
       (cart: ResponseCartData) =>
-        !soldOutData.unavailableIds.includes(cart.roomId),
+        !soldOutData.unavailableIds.includes(cart.roomId) && !cart.reserved,
     );
     const allChecked = cartData.every((cart: ResponseCartData) =>
       checkedRoomList.includes(cart),
@@ -49,8 +50,9 @@ const CartItem = () => {
     if (allChecked) {
       setCheckedRoomList([]);
     } else {
-      const allRoomIds =
-        availableCartData.map((cart: ResponseCartData) => cart) || [];
+      const allRoomIds = availableCartData.map(
+        (cart: ResponseCartData) => cart,
+      );
       setCheckedRoomList(allRoomIds);
     }
   }, [checkedRoomList]);
@@ -66,9 +68,12 @@ const CartItem = () => {
 
   const handleDeleteCartItem = async (cartId: number, productName: string) => {
     try {
-      const confirm = window.confirm(
-        `[${productName}]을 장바구니에서 제거하시겠습니까?`,
-      );
+      const confirm = await swal({
+        title: '삭제',
+        text: `[${productName}]을 장바구니에서 제거하시겠습니까?`,
+        icon: 'warning',
+        buttons: ['취소', '확인'],
+      });
       if (confirm) {
         await deleteCartItemMutation.mutate(cartId);
       }
@@ -106,15 +111,18 @@ const CartItem = () => {
                 type="checkbox"
                 css={[
                   CheckBox,
-                  soldOutData &&
-                    soldOutData.unavailableIds.includes(cart.roomId) &&
-                    DisabledCheckBox,
+                  (soldOutData &&
+                    soldOutData.unavailableIds.includes(cart.roomId)) ||
+                  cart.reserved
+                    ? DisabledCheckBox
+                    : null,
                 ]}
                 onChange={() => handleCheckbox(cart)}
                 checked={checkedRoomList.includes(cart)}
                 disabled={
-                  soldOutData &&
-                  soldOutData.unavailableIds.includes(cart.roomId)
+                  (soldOutData &&
+                    soldOutData.unavailableIds.includes(cart.roomId)) ||
+                  cart.reserved
                 }
               />
             </label>
@@ -144,15 +152,21 @@ const CartItem = () => {
                 css={DeleteIcon}
               />
               <div css={PriceContainer}>
-                <p css={Price}>
-                  {soldOutData &&
-                  soldOutData.unavailableIds.includes(cart.roomId) ? (
-                    <span>품절</span>
-                  ) : (
-                    new Intl.NumberFormat().format(cart.price) + '원'
-                  )}
-                </p>
-                <p css={PriceText}>취소 및 환불 불가</p>
+                {(soldOutData &&
+                  soldOutData.unavailableIds.includes(cart.roomId)) ||
+                cart.reserved ? (
+                  <span css={SoldOutText}>❎해당 상품은 현재 품절입니다.</span>
+                ) : (
+                  <>
+                    <p css={Price}>
+                      {new Intl.NumberFormat().format(cart.price) + '원'}
+                    </p>
+                    {!soldOutData ||
+                      (!soldOutData.unavailableIds.includes(cart.roomId) && (
+                        <p css={PriceText}>취소 및 환불 불가</p>
+                      ))}
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -234,6 +248,7 @@ const CheckBox = css`
 
 const DisabledCheckBox = css`
   cursor: not-allowed;
+  opacity: 0.3;
 `;
 
 const CartImg = css`
@@ -309,6 +324,14 @@ const PriceContainer = css`
 
 const Price = css`
   font-weight: 700;
+`;
+
+const SoldOutText = css`
+  display: flex;
+  justify-content: flex-end;
+  width: 15rem;
+  font-weight: 700;
+  color: ${theme.colors.error};
 `;
 
 const PriceText = css`

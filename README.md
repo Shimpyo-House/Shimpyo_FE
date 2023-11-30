@@ -21,59 +21,59 @@
 <table>
   <tr>
     <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="최우혁 프로필" />
+      <a href="https://github.com/TaePoong719" target="_blank">
+        <img src="https://avatars.githubusercontent.com/u/98576512?v=4" alt="최우혁 프로필" />
       </a>
     </td>
     <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="정지오 프로필" />
+      <a href="https://github.com/jiohjung98" target="_blank">
+        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/cab3f3cc-ccb0-46cc-8b36-bf645b5c4086" alt="정지오 프로필" />
       </a>
     </td>
     <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="백상원 프로필" />
+      <a href="https://github.com/Yamyam-code" target="_blank">
+        <img src="https://github.com/KDT1-FE/Y_FE_Toy1/assets/39702832/58fb577d-9f8c-4679-bca1-8ff15ca84f6b" alt="백상원 프로필" />
       </a>
     </td>
     <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="정수빈 프로필" />
+      <a href="https://github.com/wkdtnqls0506" target="_blank">
+        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/93272421/9b7ea286-4768-4d55-a26e-fc0541824b71" alt="장수빈 프로필" />
       </a>
     </td>
     <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="소유나 프로필" />
+      <a href="https://github.com/seacrab808" target="_blank">
+        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/93272421/6b9601d2-eec9-4887-8041-f98ed2f319d2" alt="소유나 프로필" />
       </a>
     </td>
 
   </tr>
   <tr> 
     <td align="center">
-      <a href="" target="_blank">
+      <a href="https://github.com/TaePoong719" target="_blank">
         최우혁<br />
         Frontend
       </a>
     </td>
     <td align="center">
-      <a href="" target="_blank">
+      <a href="https://github.com/jiohjung98" target="_blank">
         정지오<br />
         Frontend
       </a>
     </td>
     <td align="center">
-      <a href="" target="_blank">
+      <a href="https://github.com/Yamyam-code" target="_blank">
         백상원<br />
         Frontend
       </a>
     </td>
     <td align="center">
-      <a href="" target="_blank">
-        정수빈<br />
+      <a href="https://github.com/wkdtnqls0506" target="_blank">
+        장수빈<br />
         Frontend
       </a>
     </td>
     <td align="center">
-      <a href="" target="_blank">
+      <a href="https://github.com/seacrab808" target="_blank">
         소유나<br />
         Frontend
       </a>
@@ -84,48 +84,38 @@
   </tr>
     <tr>
     <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="정의정 프로필" />
+      <a href="https://github.com/JeongUijeong" target="_blank">
+        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/bc2ef8d5-a063-4473-991b-92df77fb0263" alt="정의정 프로필" />
       </a>
     </td>
     <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="심재철 프로필" />
+      <a href="https://github.com/wocjf0513" target="_blank">
+        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/b6cdb1b6-76dd-4136-a6c5-eecb9ca0c2ab" alt="심재철 프로필" />
       </a>
     </td>
     <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="이주연 프로필" />
-      </a>
-    </td>
-    <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="서정현 멘토님" />
+      <a href="https://github.com/jo0oy" target="_blank">
+        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/29a0dfc6-8e91-4f5f-a5bd-43b7b668f4a6" alt="이주연 프로필" />
       </a>
     </td>
   </tr>
   <tr> 
     <td align="center">
-      <a href="" target="_blank">
+      <a href="https://github.com/JeongUijeong" target="_blank">
         정의정<br />
         Backend
       </a>
     </td>
     <td align="center">
-      <a href="" target="_blank">
+      <a href="https://github.com/wocjf0513" target="_blank">
         심재철<br />
         Backend
       </a>
     </td>
     <td align="center">
-      <a href="" target="_blank">
+      <a href="https://github.com/jo0oy" target="_blank">
         이주연<br />
         Backend
-      </a>
-    </td>
-    <td align="center">
-      <a href="" target="_blank">
-        서정현 멘토님
       </a>
     </td>
   </tr>
@@ -134,11 +124,12 @@
 
 ## 🎁기술 스택
 
-스택 이미지
+![기술스택](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/37ca06f0-7d59-4f49-95ec-bf21d65b1d98)
 
 ## 👤디자인 설계
 
-Figma 이미지
+![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/5e3e3667-fb3f-4862-92de-b81c5b89a9bb)
+
 <br>
 
 <details>
