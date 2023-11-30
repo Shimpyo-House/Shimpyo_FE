@@ -232,6 +232,7 @@ const ProductsDetail = () => {
             <div css={ProductsLocation}>{productDetail.address}</div>
           </div>
         </div>
+        <div css={RoomText}>객실 선택</div>
         <div css={OptionSelector}>
           <div css={[DayCalendar, Divider]}>
             <CalendarComponent
@@ -414,6 +415,15 @@ const ProductsLocation = css`
   margin-top: 2rem;
 `;
 
+const RoomText = css`
+  display: flex;
+  margin-right: auto;
+  margin-top: 4rem;
+
+  font-size: 1.6rem;
+  font-weight: 600;
+`;
+
 const OptionSelector = css`
   display: flex;
   width: 100%;
@@ -421,7 +431,7 @@ const OptionSelector = css`
   border-radius: 4px;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  margin-top: 4rem;
+  margin-top: 2rem;
 `;
 
 const Divider = css`

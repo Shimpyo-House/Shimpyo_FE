@@ -109,6 +109,7 @@ export type CartRequest = {
 };
 
 export type CartItem = {
+  rooms: Room[];
   roomId: number;
   startDate: string;
   endDate: string;
