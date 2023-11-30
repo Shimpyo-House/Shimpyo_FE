@@ -52,7 +52,6 @@ const CheckBooking = () => {
 
         <div css={BookingInformation}>
           <BookingInfo />
-          <BookingInfo />
         </div>
       </div>
     </nav>
