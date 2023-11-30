@@ -83,11 +83,13 @@ const CategoryProductsList = ({ category }: PropsType) => {
           <h2 css={CategoryName}>
             {category === 'hot' && '인기 숙소'}
             {category === '관광호텔' && '호텔'}
+            {category === '펜션' && '펜션'}
             {category === '한옥' && '한옥'}
           </h2>
           <p css={CategoryDesc}>
             {category === 'hot' && '가장 잘 나가는 숙소 추천'}
             {category === '관광호텔' && '지금 떠나는 도심 호캉스!'}
+            {category === '펜션' && '자연과 함께 즐기는 펜션여행'}
             {category === '한옥' && '한옥에서 즐기는 대한민국의 정취'}
           </p>
         </div>
