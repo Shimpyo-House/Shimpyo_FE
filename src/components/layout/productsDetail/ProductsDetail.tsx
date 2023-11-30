@@ -15,14 +15,8 @@ import Slider from 'react-slick';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { format } from 'date-fns';
 import Modal from 'react-modal';
-import { useQueryClient } from 'react-query';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import useCart from '../../../hooks/useCart';
-import {
-  cartDataState,
-  cartSoldOutState,
-  cartCheckedRoomListState,
-} from '../../../atoms/cartAtom';
+import { useSetRecoilState } from 'recoil';
+import { cartDataState } from '../../../atoms/cartAtom';
 import { axiosWithNoToken, axiosWithAccessToken } from '../../../Axios';
 import theme from '../../../style/theme';
 import { RequestProductDetail, Room, RoomData } from '../../../types';
