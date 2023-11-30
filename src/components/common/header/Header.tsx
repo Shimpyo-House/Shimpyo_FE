@@ -9,12 +9,15 @@ import SearchBar from './searchBar/SearchBar';
 import { userAtom } from '../../../atoms/user';
 import useCart from '../../../hooks/useCart';
 
+
 const Header = () => {
   useGetUserData();
 
   const user = useRecoilValue(userAtom);
 
-  const { cartQuery } = user ? useCart() : { cartQuery: { data: [] } };
+  const {
+    cartQuery: { data: cartData },
+  } = useCart();
 
   return (
     <div css={Container}>
@@ -28,9 +31,7 @@ const Header = () => {
           <div css={CartContainer}>
             <Link to="/carts">
               <AiOutlineShoppingCart css={CartIcon} />
-              <span css={CartCount}>
-                {cartQuery ? cartQuery.data.length : 0}
-              </span>
+              <span css={CartCount}>{cartData ? cartData.length : 0}</span>
             </Link>
           </div>
           <MenuBtn />

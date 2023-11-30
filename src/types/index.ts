@@ -85,7 +85,6 @@ export type ResponseCartData = {
   endDate: string;
   checkIn: string;
   checkOut: string;
-  reserved: boolean;
 };
 
 export interface RoomData {
