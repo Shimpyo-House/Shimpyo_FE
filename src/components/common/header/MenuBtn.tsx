@@ -6,6 +6,7 @@ import { useAnimate, stagger, motion } from 'framer-motion';
 import { css } from '@emotion/react';
 import { MdMenu } from 'react-icons/md';
 import { useRecoilState } from 'recoil';
+import swal from 'sweetalert';
 import theme from '../../../style/theme';
 import userImg from '/user_default.svg';
 import { userAtom } from '../../../atoms/user';
@@ -71,7 +72,10 @@ const MenuBtn = () => {
 
     setUser(null);
 
-    alert('성공적으로 로그아웃 됐습니다.');
+    swal({
+      title: '성공적으로 로그아웃 되었습니다',
+      icon: 'success',
+    });
   }, []);
 
   return (

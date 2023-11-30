@@ -1,4 +1,5 @@
 import React from 'react';
+import swal from 'sweetalert';
 import { Navigate } from 'react-router-dom';
 import { getCookie } from './components/layout/auth/auth.utils';
 
@@ -11,7 +12,10 @@ const PrivateRoute = ({
   if (accessToken) {
     return <RouteComponent />;
   }
-  alert('로그인이 필요합니다.');
+  swal({
+    title: '로그인이 필요합니다',
+    icon: 'info',
+  });
   return <Navigate to="/" />;
 };
 
