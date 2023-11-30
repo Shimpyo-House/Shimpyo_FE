@@ -12,7 +12,7 @@ export type ModalInfoType = {
 };
 
 const AllReservation = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [modalInfo, setModalInfo] = useState<ModalInfoType>({
     productId: 0,
     productName: '',
