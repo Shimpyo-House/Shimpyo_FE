@@ -7,6 +7,7 @@ import { useCallback, useMemo } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { css } from '@emotion/react';
 import { RiDeleteBin6Line } from 'react-icons/ri';
+import swal from 'sweetalert';
 import { ResponseCartData } from '../../../types';
 import {
   cartSoldOutState,
@@ -66,9 +67,12 @@ const CartItem = () => {
 
   const handleDeleteCartItem = async (cartId: number, productName: string) => {
     try {
-      const confirm = window.confirm(
-        `[${productName}]을 장바구니에서 제거하시겠습니까?`,
-      );
+      const confirm = await swal({
+        title: '삭제',
+        text: `[${productName}]을 장바구니에서 제거하시겠습니까?`,
+        icon: 'warning',
+        buttons: ['취소', '확인'],
+      });
       if (confirm) {
         await deleteCartItemMutation.mutate(cartId);
       }
