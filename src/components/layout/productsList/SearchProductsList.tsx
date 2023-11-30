@@ -2,28 +2,27 @@
 import { css } from '@emotion/react';
 import { useInfiniteQuery } from 'react-query';
 import { useEffect, useRef, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
 import ColumnList from './ColumnList';
-import { useObs, useProductsData } from '../../../hooks/useProductsData';
+import { useObs, useSearchData } from '../../../hooks/useProductsData';
 import { ResponseProductsData } from '../../../types';
-import { loadingAtom } from '../../../atoms/loading';
 
 type PropsType = {
-  category: string;
+  keyword: string;
+  count: string;
+  location: string;
 };
 
-const CategoryProductsList = ({ category }: PropsType) => {
-  const setLoading = useSetRecoilState(loadingAtom);
+const SearchProductsList = ({ keyword, count, location }: PropsType) => {
   const [isEnd, setIsEnd] = useState(false);
+  const [isReal, setIsReal] = useState(false);
   const obsRef = useRef(null);
-  const pageVolume = 8;
 
   const { data, fetchNextPage } = useInfiniteQuery<
     unknown,
     unknown,
     ResponseProductsData[]
   >(
-    category,
+    keyword,
     ({ pageParam = 0 }) => {
       return getData(pageParam);
     },
@@ -42,12 +41,14 @@ const CategoryProductsList = ({ category }: PropsType) => {
   // 페이지에 다시 돌아왔을 때 더 로딩할 페이지가 있는지 확인 로직
   useEffect(() => {
     if (data)
-      if (
-        data?.pages[data.pages.length - 1] < data?.pages[data.pages.length - 2]
-      ) {
+      if (data?.pages[data.pages.length - 1].length === 0) {
         setIsEnd(true);
       }
   }, []);
+
+  useEffect(() => {
+    console.log(data?.pages);
+  }, [data]);
 
   const obsHandler = async (entries: IntersectionObserverEntry[]) => {
     const target = entries[0];
@@ -60,18 +61,21 @@ const CategoryProductsList = ({ category }: PropsType) => {
 
   const getData = async (pageParam: number) => {
     try {
-      setLoading({ isLoading: true, message: '데이터를 조회중입니다.' });
-      const fetchData = await useProductsData(pageParam, pageVolume, category);
+      const fetchData = await useSearchData(
+        keyword,
+        location,
+        count,
+        pageParam,
+      );
       if (fetchData) {
-        if (fetchData.length < pageVolume) {
+        if (fetchData.length === 0) {
           setIsEnd(true);
         }
+        setIsReal(true);
         return fetchData;
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoading({ isLoading: false, message: '' });
     }
     return undefined;
   };
@@ -80,25 +84,20 @@ const CategoryProductsList = ({ category }: PropsType) => {
     <div css={PageBox}>
       <div css={ListBox}>
         <div css={CategoryNameBox}>
-          <h2 css={CategoryName}>
-            {category === 'hot' && '인기 숙소'}
-            {category === '펜션,풀빌라' && '펜션, 풀빌라'}
-            {category === '호텔,모텔' && '호텔, 모텔'}
-          </h2>
-          <p css={CategoryDesc}>
-            {category === 'hot' && '가장 잘 나가는 숙소 추천'}
-            {category === '펜션,풀빌라' && '크리스마스 펜션 예약하기'}
-            {category === '호텔,모텔' && '지금 떠나는 도심 호캉스!'}
-          </p>
+          <h2 css={CategoryName}>{keyword}</h2>
         </div>
-        {data && data.pages && <ColumnList data={data.pages.flat()} />}
+        {isReal && data?.pages ? (
+          <ColumnList data={data.pages.flat()} />
+        ) : (
+          <div>존재하지 않음</div>
+        )}
         {!isEnd && <div ref={obsRef} />}
       </div>
     </div>
   );
 };
 
-export default CategoryProductsList;
+export default SearchProductsList;
 
 const PageBox = css`
   position: relative;
@@ -134,9 +133,4 @@ const CategoryNameBox = css`
 const CategoryName = css`
   font-size: 3rem;
   font-weight: 700;
-`;
-
-const CategoryDesc = css`
-  font-size: 1.5rem;
-  font-weight: 400;
 `;
