@@ -2,11 +2,12 @@
 import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import theme from '../../../style/theme';
 import { cartDataState } from '../../../atoms/cartAtom';
 import { AllReservationData } from '../../../types';
 import { axiosWithAccessToken } from '../../../Axios';
+import { loadingAtom } from '../../../atoms/loading';
 
 const Payment = () => {
   const [allAgree, setAllAgree] = useState(false);
@@ -21,6 +22,7 @@ const Payment = () => {
 
   const navigate = useNavigate();
 
+  const setLoading = useSetRecoilState(loadingAtom);
   const cartData = useRecoilValue(cartDataState);
   const roomPrices = cartData.map((cartItem) => cartItem.price);
   const totalPrice = roomPrices.reduce((acc, cur) => acc + cur, 0);
@@ -30,13 +32,13 @@ const Payment = () => {
 
     cartData.forEach((cartItem) => {
       const reservProducts: AllReservationData = {
-        roomId: 2,
+        roomId: cartItem.roomId,
         productName: cartItem.productName,
         roomName: cartItem.roomName,
         standard: cartItem.standard,
         max: cartItem.capacity,
-        startDate: '2023-12-02',
-        endDate: '2023-12-04',
+        startDate: cartItem.startDate,
+        endDate: cartItem.endDate,
         checkIn: cartItem.checkIn,
         checkOut: cartItem.checkOut,
         visitorName: userName,
@@ -56,6 +58,7 @@ const Payment = () => {
     // const token = localStorage.getItem('accessToken');
 
     try {
+      setLoading({ isLoading: true, message: '현재 예약중입니다.' });
       const response = await axiosWithAccessToken.post('/api/reservations', {
         reservationProducts,
         payMethod,
@@ -73,6 +76,8 @@ const Payment = () => {
       }
     } catch (error) {
       console.error('예약 중 에러가 발생했습니다:', error);
+    } finally {
+      setLoading({ isLoading: false, message: '' });
     }
   };
 
