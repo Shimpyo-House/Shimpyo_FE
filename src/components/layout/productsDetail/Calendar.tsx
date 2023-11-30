@@ -230,7 +230,7 @@ const CalendarComponent = ({
                 moveRangeOnFirstSelection={false}
                 ranges={[ranges]}
                 minDate={addDays(new Date(), 0)}
-                maxDate={addDays(new Date(), 30)}
+                maxDate={addDays(new Date(), 40)}
               />
             </div>
             <button

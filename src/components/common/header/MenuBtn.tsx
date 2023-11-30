@@ -6,6 +6,7 @@ import { useAnimate, stagger, motion } from 'framer-motion';
 import { css } from '@emotion/react';
 import { MdMenu } from 'react-icons/md';
 import { useRecoilState } from 'recoil';
+import swal from 'sweetalert';
 import theme from '../../../style/theme';
 import userImg from '/user_default.svg';
 import { userAtom } from '../../../atoms/user';
@@ -71,7 +72,10 @@ const MenuBtn = () => {
 
     setUser(null);
 
-    alert('성공적으로 로그아웃 됐습니다.');
+    swal({
+      title: '성공적으로 로그아웃 되었습니다',
+      icon: 'success',
+    });
   }, []);
 
   return (
@@ -101,13 +105,14 @@ const MenuBtn = () => {
           clipPath: 'inset(10% 50% 90% 50% round 10px)',
         }}
       >
-        {/* 추후에 여기다가 링크나 모달 연결해서 쓰시면 됩니다! */}
         {accessToken ? (
           <>
             <li>
               <Link to="/mypage">내 정보</Link>
             </li>
-            <li>결제 내역 </li>
+            <li>
+              <Link to="/reservation">결제 내역</Link>
+            </li>
             <li
               onClick={handlerLogout}
               css={css`

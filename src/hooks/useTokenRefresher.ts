@@ -6,6 +6,7 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
+import swal from 'sweetalert';
 import { userAtom } from '../atoms/user';
 import { axiosWithAccessToken, axiosWithNoToken } from '../Axios';
 import { getCookie, setCookie } from '../components/layout/auth/auth.utils';
@@ -53,7 +54,10 @@ const useTokenRefresher = () => {
 
         setUserData(res.data.data.member);
 
-        alert('token이 Refresh됐습니다.');
+        swal({
+          title: 'token이 Refresh됐습니다.',
+          icon: 'success',
+        });
       } catch (e) {
         console.log(e);
       } finally {
@@ -65,6 +69,7 @@ const useTokenRefresher = () => {
 
   useEffect(() => {
     console.log('useTokenRefresh mount');
+
     axiosWithAccessToken.interceptors.request.use(
       (config) => {
         const accessToken = getCookie('accessToken');
@@ -72,14 +77,21 @@ const useTokenRefresher = () => {
         const accessTokenExpiresIn = getCookie('accessTokenExpiresIn');
 
         if (!accessToken) {
-          navigate('/');
-          return config;
+          swal({
+            title: '[회원 정보 없음] 로그인 해주세요',
+            icon: 'error',
+          });
+          navigate('/signin');
+          return Promise.reject(
+            new Error('회원정보가 없습니다, 로그인 해주세요'),
+          );
         } else if (Date.now() > accessTokenExpiresIn) {
           tokenRefresh({
             prevAccessToken: accessToken,
             prevRefreshToken: refreshToken,
           });
         }
+        config.headers.Authorization = `Bearer ${getCookie('accessToken')}`;
         return config;
       },
       (error) => {
@@ -100,7 +112,11 @@ const useTokenRefresher = () => {
           /* Refresh Token 만료시 */
           if (error.response?.data.message === REFRESH_TOKEN_EXPIRED_MESSAGE) {
             navigate('/signin');
-            alert('토큰이 만료되어 재로그인이 필요합니다');
+            swal({
+              title: '토큰 만료',
+              text: '토큰이 만료되어 재로그인이 필요합니다',
+              icon: 'error',
+            });
 
             /* Access Token 만료 및 로그인 정보 없을 시 */
           } else if (!prevAccessToken) {
