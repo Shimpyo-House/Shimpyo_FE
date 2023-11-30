@@ -132,7 +132,7 @@ Test PW : qwe123!@#
 
 ![기술스택](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/37ca06f0-7d59-4f49-95ec-bf21d65b1d98)
 
-## 👤디자인 설계
+## 📐디자인 설계
 
 ![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/5e3e3667-fb3f-4862-92de-b81c5b89a9bb)
 
@@ -234,8 +234,41 @@ Test PW : qwe123!@#
 <br/>
 
 ## 🧑🏻‍💻 주요 기능 구현
+### 1️⃣메인 페이지
+- 무한스크롤
+![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/762f58c0-f7d0-4a54-8b2a-3abe173eab81)
 
-### 로그인, 회원가입
+- 상세 카테고리
+![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/0da95154-97f2-405a-980e-c5c1f3a1f6d4)
 
-<img src="https://github.com/cs-yum/cs-yum-blog/assets/101972330/08a39e06-34d9-47a7-9292-c2dccb19e158"  width="300" />
-```
+- 검색 기능
+![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/fb2e9e7f-cc52-41a2-a667-74cce478c484)
+
+### 2️⃣제품 상세 페이지
+![image](docs/화면-기록-2023-12-01-오전-3.50.52.gif)
+
+### 3️⃣장바구니
+- 장바구니 삭제
+![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/60480c72-6738-45b6-aaca-ed80daa96539)  
+- 주문하기
+![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/7f5bf375-fb07-45ea-87b2-41df9d1541eb)
+- 예외처리
+![Alt text](image.png)
+
+
+### 4️⃣예약 및 결제
+![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/21a85cd3-cf1a-468e-b121-d20d38612c85)
+![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/10dab2f8-215f-4bc3-a9e5-1ea0a6e85766)
+
+### 5️⃣인증
+- 로그인, 회원가입
+![로그인및회원가입](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/1a34daf2-6c7d-434d-a4a9-152230c4439f)
+
+- 로그아웃
+![로그아웃](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/8fda596c-784a-448c-89e1-2fd69cfda8e1)
+
+- 자동 리프레시
+![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/9231108e-cbb2-4af8-9781-2b9d83812e4e)
+
+### 6️⃣회원 정보 변경
+![회원정보변경](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/88c092d0-c0f1-4977-a336-0675a1e8373c)
