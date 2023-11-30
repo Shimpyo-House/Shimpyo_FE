@@ -1,12 +1,16 @@
 import { css } from '@emotion/react';
+import { useRecoilValue } from 'recoil';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import theme from '../../../style/theme';
 import MenuBtn from './MenuBtn';
 import useGetUserData from '../../../hooks/useGetUserData';
+import { userAtom } from '../../../atoms/user';
 
 const Header = () => {
   useGetUserData();
+
+  const user = useRecoilValue(userAtom);
 
   return (
     <div css={Container}>
@@ -15,6 +19,7 @@ const Header = () => {
           Shimpyo ,
         </Link>
         <div css={IconContainer}>
+          {!user && <p>로그인을 해주세요</p>}
           <div css={CartContainer}>
             <Link to="/carts">
               <AiOutlineShoppingCart css={CartIcon} />
