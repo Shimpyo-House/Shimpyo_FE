@@ -1,28 +1,34 @@
 import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
-import OrderAxios from '../api/OrderComplete';
+// import OrderAxios from '../api/OrderComplete';
+import { useRecoilValue } from 'recoil';
 import OrderedProduct from '../components/layout/Pay/OrderedProduct';
 import theme from '../style/theme';
+import { cartDataState } from '../atoms/cartAtom';
 
 const OrderedList = () => {
-  const [orderCom, setOrderCom] = useState('');
+  // const [orderCom, setOrderCom] = useState('');
   const [loading, setLoading] = useState(true);
   const paymentMethod = localStorage.getItem('PaymentMethod');
   const userName = localStorage.getItem('UserName');
   const userPhoneNum = localStorage.getItem('UserPhoneNum');
 
-  useEffect(() => {
-    const orderedData = async () => {
-      try {
-        const data = await OrderAxios();
-        setOrderCom(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const cartData = useRecoilValue(cartDataState);
+  const roomPrices = cartData.map((cartItem) => cartItem.price);
+  const totalRoomPrices = roomPrices.reduce((acc, cur) => acc + cur, 0);
 
-    orderedData();
-  }, []);
+  // useEffect(() => {
+  //   const orderedData = async () => {
+  //     try {
+  //       const data = await OrderAxios();
+  //       setOrderCom(data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+
+  //   orderedData();
+  // }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -32,16 +38,16 @@ const OrderedList = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const orderComplete = async () => {
-    try {
-      const data = await OrderAxios();
-      setOrderCom(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const orderComplete = async () => {
+  //   try {
+  //     const data = await OrderAxios();
+  //     setOrderCom(data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  orderComplete();
+  // orderComplete();
 
   return (
     <div>
@@ -56,8 +62,7 @@ const OrderedList = () => {
         </div>
       ) : (
         <nav>
-          <div css={OrderComplete}>{orderCom}</div>
-          <OrderedProduct />
+          <div css={OrderComplete}>결제가 완료되었습니다.</div>
           <OrderedProduct />
 
           <div css={OrderedWrap}>
@@ -73,7 +78,7 @@ const OrderedList = () => {
             </div>
             <div css={OrderedWrapEl}>
               <h3>총 결제 금액</h3>
-              <div>156,000원</div>
+              <div>{totalRoomPrices.toLocaleString()}원</div>
             </div>
           </div>
         </nav>
@@ -104,7 +109,7 @@ const Loader = css`
     background-color: #fff;
   }
 
-  .ball:nth-child(1) {
+  .ball:nth-of-type(1) {
     animation: bounce-1 1.4s ease-in-out infinite;
   }
 
@@ -115,7 +120,7 @@ const Loader = css`
     }
   }
 
-  .ball:nth-child(2) {
+  .ball:nth-of-type(2) {
     animation: bounce-3 1.4s ease-in-out 0.2s infinite;
   }
 
@@ -126,7 +131,7 @@ const Loader = css`
     }
   }
 
-  .ball:nth-child(3) {
+  .ball:nth-of-type(3) {
     animation: bounce-3 1.4s ease-in-out 0.4s infinite;
   }
 
