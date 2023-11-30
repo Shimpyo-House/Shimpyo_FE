@@ -12,6 +12,7 @@ export const axiosWithAccessToken = axios.create({
     withCredentials: true,
     Authorization: `Bearer ${accessToken}`,
   },
+  withCredentials: true,
 });
 
 export const axiosWithNoToken = axios.create({
