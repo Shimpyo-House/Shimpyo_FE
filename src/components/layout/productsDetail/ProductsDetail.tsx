@@ -112,18 +112,28 @@ const ProductsDetail = () => {
     }
 
     const requestData = {
+      // roomId: room.roomId,
+      // productId: product.productId,
+      // productName: product.productName,
+      // images: product.images,
+      // price: parseFloat(`${room.price}`) * nights,
+      // desc: room.description,
+      // standard: room.standard,
+      // capacity: room.capacity,
+      // startDate: defaultDate,
+      // endDate: defaultDatePlusDay,
+      // checkIn: room.checkIn,
+      // checkOut: room.checkOut,
       roomId: room.roomId,
-      productId: product.productId,
-      productName: product.productName,
-      images: product.images,
+      roomName: room.roomName,
       price: parseFloat(`${room.price}`) * nights,
       desc: room.description,
       standard: room.standard,
-      capacity: room.capacity,
-      startDate: defaultDate,
-      endDate: defaultDatePlusDay,
       checkIn: room.checkIn,
       checkOut: room.checkOut,
+      reserved: Boolean,
+      startDate: defaultDate,
+      endDate: defaultDatePlusDay,
     };
 
     try {
@@ -271,10 +281,15 @@ const ProductsDetail = () => {
               />
               <div css={RoomInfo}>
                 <div css={RoomName}>{room.roomName}</div>
-                <div>{`기준 ${room.standard}인 / 최대 ${room.capacity}인`}</div>
-                <div>{room.description}</div>
+                <div
+                  css={RoomCount}
+                >{`기준 ${room.standard}인 / 최대 ${room.capacity}인`}</div>
+                <div css={RoomDesc}>{room.description}</div>
                 <div css={checkTime}>
-                  {`${room.checkIn} ~ ${room.checkOut}`}
+                  {`체크인: ${room.checkIn} ~ 체크아웃: ${room.checkOut}`}
+                </div>
+                <div css={peoplePlusText}>
+                  기준 인원 초과 시, 추가요금이 발생할 수 있습니다.
                 </div>
               </div>
               <div css={RoomAction}>
@@ -294,7 +309,7 @@ const ProductsDetail = () => {
                     <>
                       <AiOutlineShoppingCart css={NoCartIcon} />{' '}
                       <button type="button" css={exceedText}>
-                        예약불가
+                        예약마감
                       </button>
                     </>
                   ) : (
@@ -501,7 +516,7 @@ const RoomItem = css`
   border-radius: 10px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   width: 1280px;
-  height: 250px;
+  height: 400px;
   margin-bottom: 50px;
 `;
 
@@ -525,8 +540,21 @@ const RoomName = css`
   font-size: 36px;
 `;
 
+const RoomCount = css`
+  font-size: 24px;
+`;
+
+const RoomDesc = css`
+  font-size: 20px;
+`;
+
 const checkTime = css`
   font-size: 20px;
+`;
+
+const peoplePlusText = css`
+  font-size: 14px;
+  color: ${theme.colors.gray600};
 `;
 
 const RoomAction = css`
