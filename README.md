@@ -9,8 +9,8 @@
 
 <br>
 <div align=center>
-  <a href="https://fastcampus-wiki.netlify.app/" target="_blank">
-    <img src="https://img.shields.io/badge/배포 링크-ed234b?style=for-the-badge&logoColor=white" alt="example"/>
+  <a href="https://shimpyo.netlify.app" target="_blank">
+    <img src="https://img.shields.io/badge/배포 링크-4299E1?style=for-the-badge&logoColor=white" alt="example"/>
   </a>
 </div>
 
@@ -272,3 +272,32 @@ Test PW : qwe123!@#
 
 ### 6️⃣회원 정보 변경
 ![회원정보변경](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/88c092d0-c0f1-4977-a336-0675a1e8373c)
+
+
+### API 문서
+
+## API 문서
+
+※ Spring REST Docs로 문서화했습니다.
+
+> `index`
+> ![](docs/image/index-docs.png)
+>
+> `Member API Docs`
+> ![](docs/image/member-docs.png)
+>
+> `Product API Docs`
+> ![](docs/image/product-docs.png)
+>
+> `Cart API Docs`
+> ![](docs/image/cart-docs.png)
+>
+> `Reservation API Docs`
+> ![](docs/image/reservation-docs.png)
+>
+> `Reservation Product API Docs`
+> ![](docs/image/reservation-product-docs.png)
+>
+> `Star API Docs`
+> ![](docs/image/star-docs.png)
+>  
