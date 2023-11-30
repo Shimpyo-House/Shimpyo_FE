@@ -9,12 +9,9 @@ import SearchBar from './searchBar/SearchBar';
 import { userAtom } from '../../../atoms/user';
 import useCart from '../../../hooks/useCart';
 
-
 const Header = () => {
   useGetUserData();
-
   const user = useRecoilValue(userAtom);
-
   const {
     cartQuery: { data: cartData },
   } = useCart();
@@ -27,13 +24,17 @@ const Header = () => {
         </Link>
         <SearchBar />
         <div css={IconContainer}>
-          {!user && <p>로그인을 해주세요</p>}
-          <div css={CartContainer}>
+          {!user && <p css={RequireLogin}>로그인 후 이용해주세요</p>}
+          {user && (
             <Link to="/carts">
-              <AiOutlineShoppingCart css={CartIcon} />
-              <span css={CartCount}>{cartData ? cartData.length : 0}</span>
+              <div css={CartContainer}>
+                <AiOutlineShoppingCart css={CartIcon} />
+                <span css={CartCount}>
+                  {cartData && cartData ? cartData.length : 0}
+                </span>
+              </div>
             </Link>
-          </div>
+          )}
           <MenuBtn />
         </div>
       </nav>
@@ -83,9 +84,11 @@ const LogoText = css`
 `;
 
 const IconContainer = css`
+  position: relative;
+
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.3rem;
 `;
 
 const CartContainer = css`
@@ -125,4 +128,16 @@ const CartCount = css`
   color: ${theme.colors.white};
   background-color: ${theme.colors.blue700};
   font-weight: 700;
+`;
+
+const RequireLogin = css`
+  position: absolute;
+  top: 1.2rem;
+  right: 8.1rem;
+
+  width: 12rem;
+
+  font-size: 1rem;
+
+  color: ${theme.colors.gray600};
 `;

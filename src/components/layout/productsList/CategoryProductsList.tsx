@@ -16,7 +16,7 @@ const CategoryProductsList = ({ category }: PropsType) => {
   const setLoading = useSetRecoilState(loadingAtom);
   const [isEnd, setIsEnd] = useState(false);
   const obsRef = useRef(null);
-  const pageVolume = 8;
+  const pageVolume = 16;
 
   const { data, fetchNextPage } = useInfiniteQuery<
     unknown,
@@ -82,13 +82,15 @@ const CategoryProductsList = ({ category }: PropsType) => {
         <div css={CategoryNameBox}>
           <h2 css={CategoryName}>
             {category === 'hot' && '인기 숙소'}
-            {category === '펜션,풀빌라' && '펜션, 풀빌라'}
-            {category === '호텔,모텔' && '호텔, 모텔'}
+            {category === '관광호텔' && '호텔'}
+            {category === '펜션' && '펜션'}
+            {category === '한옥' && '한옥'}
           </h2>
           <p css={CategoryDesc}>
             {category === 'hot' && '가장 잘 나가는 숙소 추천'}
-            {category === '펜션,풀빌라' && '크리스마스 펜션 예약하기'}
-            {category === '호텔,모텔' && '지금 떠나는 도심 호캉스!'}
+            {category === '관광호텔' && '지금 떠나는 도심 호캉스!'}
+            {category === '펜션' && '자연과 함께 즐기는 펜션여행'}
+            {category === '한옥' && '한옥에서 즐기는 대한민국의 정취'}
           </p>
         </div>
         {data && data.pages && <ColumnList data={data.pages.flat()} />}
