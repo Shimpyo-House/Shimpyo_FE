@@ -15,10 +15,11 @@ type PropsType = {
 
 const NormalCategory = ({ data }: PropsType) => {
   let hotData: ResponseProductsData[] = [];
-  let pensionData: ResponseProductsData[] = [];
   let hotelData: ResponseProductsData[] = [];
+  let pensionData: ResponseProductsData[] = [];
+  let koreaData: ResponseProductsData[] = [];
   if (data) {
-    [hotData, pensionData, hotelData] = data;
+    [hotData, pensionData, hotelData, koreaData] = data;
   }
 
   return (
@@ -41,6 +42,16 @@ const NormalCategory = ({ data }: PropsType) => {
           </Link>
         </h2>
         <p css={CategoryDesc}>지금 떠나는 도심 호캉스!</p>
+        <RowList data={hotelData} />
+      </div>
+      <div css={CategoryBox}>
+        <h2 css={CategoryName}>
+          <Link css={LinkBox} to="/category?type=펜션">
+            펜션
+            <IoIosArrowForward className="arrowIcon" />
+          </Link>
+        </h2>
+        <p css={CategoryDesc}>자연과 함께 즐기는 펜션여행</p>
         <RowList data={pensionData} />
       </div>
       <div css={CategoryBox}>
@@ -51,7 +62,7 @@ const NormalCategory = ({ data }: PropsType) => {
           </Link>
         </h2>
         <p css={CategoryDesc}>한옥에서 즐기는 대한민국의 정취</p>
-        <RowList data={hotelData} />
+        <RowList data={koreaData} />
       </div>
     </div>
   );
