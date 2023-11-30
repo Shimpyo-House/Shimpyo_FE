@@ -42,7 +42,7 @@ const CartItem = () => {
   const handleAllCheckbox = useCallback(() => {
     const availableCartData = cartData.filter(
       (cart: ResponseCartData) =>
-        !soldOutData.unavailableIds.includes(cart.roomId) && !cart.reserved,
+        !soldOutData.unavailableIds.includes(cart.roomId),
     );
     const allChecked = cartData.every((cart: ResponseCartData) =>
       checkedRoomList.includes(cart),
@@ -50,9 +50,8 @@ const CartItem = () => {
     if (allChecked) {
       setCheckedRoomList([]);
     } else {
-      const allRoomIds = availableCartData.map(
-        (cart: ResponseCartData) => cart,
-      );
+      const allRoomIds =
+        availableCartData.map((cart: ResponseCartData) => cart) || [];
       setCheckedRoomList(allRoomIds);
     }
   }, [checkedRoomList]);
@@ -111,18 +110,15 @@ const CartItem = () => {
                 type="checkbox"
                 css={[
                   CheckBox,
-                  (soldOutData &&
-                    soldOutData.unavailableIds.includes(cart.roomId)) ||
-                  cart.reserved
-                    ? DisabledCheckBox
-                    : null,
+                  soldOutData &&
+                    soldOutData.unavailableIds.includes(cart.roomId) &&
+                    DisabledCheckBox,
                 ]}
                 onChange={() => handleCheckbox(cart)}
                 checked={checkedRoomList.includes(cart)}
                 disabled={
-                  (soldOutData &&
-                    soldOutData.unavailableIds.includes(cart.roomId)) ||
-                  cart.reserved
+                  soldOutData &&
+                  soldOutData.unavailableIds.includes(cart.roomId)
                 }
               />
             </label>
@@ -152,26 +148,21 @@ const CartItem = () => {
                 css={DeleteIcon}
               />
               <div css={PriceContainer}>
-                {(soldOutData &&
-                  soldOutData.unavailableIds.includes(cart.roomId)) ||
-                cart.reserved ? (
-                  <span css={SoldOutText}>❎해당 상품은 현재 품절입니다.</span>
-                ) : (
-                  <>
-                    <p css={Price}>
-                      {new Intl.NumberFormat().format(cart.price) + '원'}
-                    </p>
-                    {!soldOutData ||
-                      (!soldOutData.unavailableIds.includes(cart.roomId) && (
-                        <p css={PriceText}>취소 및 환불 불가</p>
-                      ))}
-                  </>
-                )}
+                <p css={Price}>
+                  {soldOutData &&
+                  soldOutData.unavailableIds.includes(cart.roomId) ? (
+                    <span>품절</span>
+                  ) : (
+                    new Intl.NumberFormat().format(cart.price) + '원'
+                  )}
+                </p>
+                <p css={PriceText}>취소 및 환불 불가</p>
               </div>
             </div>
           </div>
         ))}
       <CartTotal totalPrice={totalPrice} />
+      {/* <CartTotal totalPrice={totalPrice} checkedRoomList={checkedRoomList} /> */}
     </>
   );
 };
@@ -247,7 +238,6 @@ const CheckBox = css`
 
 const DisabledCheckBox = css`
   cursor: not-allowed;
-  opacity: 0.3;
 `;
 
 const CartImg = css`
@@ -323,16 +313,6 @@ const PriceContainer = css`
 
 const Price = css`
   font-weight: 700;
-`;
-
-const SoldOutText = css`
-  display: flex;
-  justify-content: flex-end;
-
-  width: 15rem;
-
-  font-weight: 700;
-  color: ${theme.colors.error};
 `;
 
 const PriceText = css`
