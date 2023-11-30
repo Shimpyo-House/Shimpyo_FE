@@ -4,7 +4,7 @@ import AllReservation from '../components/layout/Pay/AllReservation';
 const MyReservation = () => {
   return (
     <div css={MyReservationWrap}>
-      <h1 css={MyReservationTitle}>예약 내역</h1>
+      <h1 css={MyReservationTitle}>전체 주문 내역 조회</h1>
       <AllReservation />
     </div>
   );
