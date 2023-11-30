@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { IoMdSearch } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import SearchOptions from './SearchOptions';
+import theme from '../../../../style/theme';
 
 const SearchBar = () => {
   const [keyword, setKeyword] = useState('x');
@@ -63,7 +64,9 @@ const SearchBar = () => {
           InputProps={{
             style: {
               borderRadius: '2.75rem',
+              backgroundColor: `${theme.colors.gray200}`,
             },
+            autoComplete: 'off',
           }}
           css={TextFieldStyle}
         />
@@ -108,6 +111,8 @@ const SearchBtn = css`
   right: 0.75rem;
 
   font-size: 2.2rem;
+
+  color: ${theme.colors.gray700};
 
   cursor: pointer;
 `;
