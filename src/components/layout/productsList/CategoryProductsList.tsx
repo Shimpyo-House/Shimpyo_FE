@@ -12,8 +12,9 @@ type PropsType = {
 
 const CategoryProductsList = ({ category }: PropsType) => {
   const [isEnd, setIsEnd] = useState(false);
+  const [load, setLoad] = useState(false);
   const obsRef = useRef(null);
-  const pageVolume = 8;
+  const pageVolume = 16;
 
   const { data, fetchNextPage } = useInfiniteQuery<
     unknown,
@@ -57,6 +58,7 @@ const CategoryProductsList = ({ category }: PropsType) => {
 
   const getData = async (pageParam: number) => {
     try {
+      setLoad(true);
       const fetchData = await useProductsData(pageParam, pageVolume, category);
       if (fetchData) {
         if (fetchData.length < pageVolume) {
@@ -66,6 +68,8 @@ const CategoryProductsList = ({ category }: PropsType) => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoad(false);
     }
     return undefined;
   };
@@ -76,16 +80,21 @@ const CategoryProductsList = ({ category }: PropsType) => {
         <div css={CategoryNameBox}>
           <h2 css={CategoryName}>
             {category === 'hot' && '인기 숙소'}
-            {category === '펜션,콘도미니엄' && '펜션, 콘도미니엄'}
-            {category === '관광호텔,모텔' && '호텔, 모텔'}
+            {category === '관광호텔' && '호텔'}
+            {category === '한옥' && '한옥'}
           </h2>
           <p css={CategoryDesc}>
             {category === 'hot' && '가장 잘 나가는 숙소 추천'}
-            {category === '펜션,콘도미니엄' && '크리스마스 펜션 예약하기'}
-            {category === '관광호텔,모텔' && '지금 떠나는 도심 호캉스!'}
+            {category === '관광호텔' && '지금 떠나는 도심 호캉스!'}
+            {category === '한옥' && '한옥에서 즐기는 대한민국의 정취'}
           </p>
         </div>
         {data && data.pages && <ColumnList data={data.pages.flat()} />}
+        {load && (
+          <div css={SpinnerBox}>
+            <img src="../../../public/spinner.gif" alt="로딩스피너" />
+          </div>
+        )}
         {!isEnd && <div ref={obsRef} />}
       </div>
     </div>
@@ -133,4 +142,11 @@ const CategoryName = css`
 const CategoryDesc = css`
   font-size: 1.5rem;
   font-weight: 400;
+`;
+
+const SpinnerBox = css`
+  display: flex;
+  justify-content: center;
+
+  height: 4rem;
 `;

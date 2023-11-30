@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import ColumnList from './ColumnList';
 import { useObs, useSearchData } from '../../../hooks/useProductsData';
 import { ResponseProductsData } from '../../../types';
+import theme from '../../../style/theme';
 
 type PropsType = {
   keyword: string;
@@ -14,7 +15,8 @@ type PropsType = {
 
 const SearchProductsList = ({ keyword, count, location }: PropsType) => {
   const [isEnd, setIsEnd] = useState(false);
-  const [isReal, setIsReal] = useState(false);
+  const [isReal, setIsReal] = useState(true);
+  const [load, setLoad] = useState(false);
   const obsRef = useRef(null);
 
   const { data, fetchNextPage } = useInfiniteQuery<
@@ -46,10 +48,6 @@ const SearchProductsList = ({ keyword, count, location }: PropsType) => {
       }
   }, []);
 
-  useEffect(() => {
-    console.log(data?.pages);
-  }, [data]);
-
   const obsHandler = async (entries: IntersectionObserverEntry[]) => {
     const target = entries[0];
     if (target.isIntersecting && !isEnd) {
@@ -61,6 +59,7 @@ const SearchProductsList = ({ keyword, count, location }: PropsType) => {
 
   const getData = async (pageParam: number) => {
     try {
+      setLoad(true);
       const fetchData = await useSearchData(
         keyword,
         location,
@@ -70,12 +69,16 @@ const SearchProductsList = ({ keyword, count, location }: PropsType) => {
       if (fetchData) {
         if (fetchData.length === 0) {
           setIsEnd(true);
+          setIsReal(false);
+          return undefined;
         }
         setIsReal(true);
         return fetchData;
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoad(false);
     }
     return undefined;
   };
@@ -83,10 +86,19 @@ const SearchProductsList = ({ keyword, count, location }: PropsType) => {
   return (
     <div css={PageBox}>
       <div css={ListBox}>
-        {isReal && data?.pages ? (
-          <ColumnList data={data.pages.flat()} />
-        ) : (
-          <div>존재하지 않음</div>
+        <div css={CategoryName}>
+          <p>검색결과</p>
+        </div>
+        {isReal && data?.pages && <ColumnList data={data.pages.flat()} />}
+        {!isReal && (
+          <div css={FailBox}>
+            <p css={FailText}>검색결과가 없습니다.</p>
+          </div>
+        )}
+        {load && (
+          <div css={SpinnerBox}>
+            <img src="../../../public/spinner.gif" alt="로딩스피너" />
+          </div>
         )}
         {!isEnd && <div ref={obsRef} />}
       </div>
@@ -107,6 +119,17 @@ const PageBox = css`
   background-color: rgba(255, 2555, 255, 0.8);
 `;
 
+const CategoryName = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  height: 6rem;
+
+  font-size: 3rem;
+  font-weight: 700;
+`;
+
 const ListBox = css`
   width: 68.75rem;
 
@@ -115,4 +138,27 @@ const ListBox = css`
 
   padding: 3.125rem 0;
   gap: 3rem;
+`;
+
+const SpinnerBox = css`
+  display: flex;
+  justify-content: center;
+
+  height: 4rem;
+`;
+
+const FailBox = css`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 3.125rem;
+  font-weight: 700;
+  color: ${theme.colors.gray700};
+`;
+
+const FailText = css`
+  margin-bottom: 10rem;
 `;
