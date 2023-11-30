@@ -21,59 +21,59 @@
 <table>
   <tr>
     <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="최우혁 프로필" />
+      <a href="https://github.com/TaePoong719" target="_blank">
+        <img src="https://avatars.githubusercontent.com/u/98576512?v=4" alt="최우혁 프로필" />
       </a>
     </td>
     <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="정지오 프로필" />
+      <a href="https://github.com/jiohjung98" target="_blank">
+        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/cab3f3cc-ccb0-46cc-8b36-bf645b5c4086" alt="정지오 프로필" />
       </a>
     </td>
     <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="백상원 프로필" />
+      <a href="https://github.com/Yamyam-code" target="_blank">
+        <img src="https://github.com/KDT1-FE/Y_FE_Toy1/assets/39702832/58fb577d-9f8c-4679-bca1-8ff15ca84f6b" alt="백상원 프로필" />
       </a>
     </td>
     <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="정수빈 프로필" />
+      <a href="https://github.com/wkdtnqls0506" target="_blank">
+        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/93272421/9b7ea286-4768-4d55-a26e-fc0541824b71" alt="장수빈 프로필" />
       </a>
     </td>
     <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="소유나 프로필" />
+      <a href="https://github.com/seacrab808" target="_blank">
+        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/93272421/6b9601d2-eec9-4887-8041-f98ed2f319d2" alt="소유나 프로필" />
       </a>
     </td>
 
   </tr>
   <tr> 
     <td align="center">
-      <a href="" target="_blank">
+      <a href="https://github.com/TaePoong719" target="_blank">
         최우혁<br />
         Frontend
       </a>
     </td>
     <td align="center">
-      <a href="" target="_blank">
+      <a href="https://github.com/jiohjung98" target="_blank">
         정지오<br />
         Frontend
       </a>
     </td>
     <td align="center">
-      <a href="" target="_blank">
+      <a href="https://github.com/Yamyam-code" target="_blank">
         백상원<br />
         Frontend
       </a>
     </td>
     <td align="center">
-      <a href="" target="_blank">
-        정수빈<br />
+      <a href="https://github.com/wkdtnqls0506" target="_blank">
+        장수빈<br />
         Frontend
       </a>
     </td>
     <td align="center">
-      <a href="" target="_blank">
+      <a href="https://github.com/seacrab808" target="_blank">
         소유나<br />
         Frontend
       </a>
