@@ -121,10 +121,6 @@ const CalendarComponent = ({
     font-weight: 600;
     outline: none;
 
-    &:hover {
-      font-weight: 900;
-    }
-
     &:active {
       transform: translateY(1px);
     }

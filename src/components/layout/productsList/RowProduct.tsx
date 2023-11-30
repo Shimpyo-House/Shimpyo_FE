@@ -12,8 +12,14 @@ type PropsType = {
 
 const RowProduct = ({ resData, rank }: PropsType) => {
   const [price, setPrice] = useState(0);
+  const [address, setAddress] = useState('');
+
+  // 이후 훅 화 예정
   useEffect(() => {
-    console.log(resData.price);
+    const result = resData.address.match(/^(\S+\s+\S+\s+\S+)\s/);
+    if (result) {
+      setAddress(result[1]);
+    }
 
     if (resData.price === 0) {
       setPrice(100000);
@@ -31,12 +37,13 @@ const RowProduct = ({ resData, rank }: PropsType) => {
         <div css={ProductData}>
           <div css={NameScoreBox}>
             <p css={ProductName}>{resData.productName}</p>
-            <p css={ProductScore}>
+            <p css={ProductAddress}>{address}</p>
+            <div css={ProductScore}>
               <div css={SpaceScore}>
                 <Star />
                 {resData.starAvg.toFixed(1)}
               </div>
-            </p>
+            </div>
           </div>
           <p css={ProductPrice}>{price.toLocaleString()}원</p>
         </div>
@@ -146,6 +153,13 @@ const ProductName = css`
 
   font-size: 1.5rem;
   font-weight: 600;
+`;
+const ProductAddress = css`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+
+  font-size: 0.8rem;
 `;
 const ProductScore = css`
   width: 100%;

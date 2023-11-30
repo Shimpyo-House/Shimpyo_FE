@@ -247,7 +247,10 @@ const ProductsDetail = () => {
             <div key={index} css={SlideItem}>
               <div
                 css={ProductDetailImg}
-                style={{ backgroundImage: `url(${image})` }}
+                style={{
+                  backgroundImage: `url(${image})`,
+                  backgroundPosition: 'center',
+                }}
               />
             </div>
           ))}
@@ -264,7 +267,6 @@ const ProductsDetail = () => {
             <div css={ProductsLocation}>{productDetail.address}</div>
           </div>
         </div>
-        <div css={RoomText}>객실 선택</div>
         <div css={OptionSelector}>
           <div css={[DayCalendar, Divider]}>
             <CalendarComponent
@@ -405,7 +407,9 @@ const ProductDetailContainer = css`
   flex-direction: column;
   align-items: center;
   /* margin-top: 4rem; */
-  background-color: rgba(255, 2555, 255, 0.8);
+  background-color: #fff;
+
+  min-height: calc(100vh - 70px);
 `;
 
 const SliderStyle = css`
@@ -477,19 +481,10 @@ const ProductsLocation = css`
   display: flex;
   justify-content: flex-start;
 
-  font-size: 2.25rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 400;
 
   margin-top: 2rem;
-`;
-
-const RoomText = css`
-  display: flex;
-  margin-right: auto;
-  margin-top: 4rem;
-
-  font-size: 1.6rem;
-  font-weight: 600;
 `;
 
 const OptionSelector = css`
@@ -518,7 +513,7 @@ const DayCalendar = css`
 const PeopleCount = css`
   flex: 1;
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
   padding-left: 0.5rem;
 `;

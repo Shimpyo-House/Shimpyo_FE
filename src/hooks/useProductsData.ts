@@ -12,7 +12,6 @@ const useProductsData = async (
       const fetchData = await axiosWithNoToken.get<ResponseProducts>(
         `/api/products?page=${page}&size=${productsVolume}&sort=starAvg,desc`,
       );
-      console.log(fetchData);
       return fetchData.data.data;
     }
     const fetchData = await axiosWithNoToken.get<ResponseProducts>(
@@ -32,10 +31,6 @@ const useSearchData = async (
   page: number,
 ) => {
   try {
-    console.log(keyword);
-    console.log(location);
-    console.log(count);
-
     const countNumber = parseInt(count, 10);
     if (location === 'x' && keyword !== 'x') {
       const fetchData = await axiosWithNoToken.get<ResponseProducts>(
@@ -44,8 +39,6 @@ const useSearchData = async (
       const searchData = fetchData.data.data.filter(
         (products) => products.capacity >= countNumber,
       );
-      console.log(fetchData);
-      console.log(searchData);
 
       return searchData;
     }
@@ -56,8 +49,6 @@ const useSearchData = async (
       const searchData = fetchData.data.data.filter(
         (products) => products.capacity >= countNumber,
       );
-      console.log(fetchData);
-      console.log(searchData);
 
       return searchData;
     }
@@ -68,8 +59,6 @@ const useSearchData = async (
       const searchData = fetchData.data.data.filter(
         (products) => products.capacity >= countNumber,
       );
-      console.log(fetchData);
-      console.log(searchData);
 
       return searchData;
     }
