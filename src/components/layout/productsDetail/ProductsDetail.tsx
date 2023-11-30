@@ -15,6 +15,14 @@ import Slider from 'react-slick';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { format } from 'date-fns';
 import Modal from 'react-modal';
+import { useQueryClient } from 'react-query';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import useCart from '../../../hooks/useCart';
+import {
+  cartDataState,
+  cartSoldOutState,
+  cartCheckedRoomListState,
+} from '../../../atoms/cartAtom';
 import { axiosWithNoToken, axiosWithAccessToken } from '../../../Axios';
 import theme from '../../../style/theme';
 import { RequestProductDetail, Room, RoomData } from '../../../types';
@@ -167,6 +175,7 @@ const ProductsDetail = () => {
           requestData,
         );
         console.log('Added to cart:', response);
+        console.log(requestData);
         openCartModal();
       }
     } catch (error) {
@@ -174,7 +183,9 @@ const ProductsDetail = () => {
     }
   };
 
-  const reservation = async (rooms: RoomData[]) => {
+  const setCartData = useSetRecoilState(cartDataState);
+
+  const reservation = async (rooms: RoomData[], roomInfo: Room) => {
     try {
       const payload = { rooms };
       console.log(payload);
@@ -182,6 +193,22 @@ const ProductsDetail = () => {
         '/api/reservations/preoccupy',
         payload,
       );
+
+      const requestData = {
+        roomId: roomInfo.roomId,
+        roomName: roomInfo.roomName,
+        productName: roomInfo.roomName,
+        startDate: defaultDate,
+        endDate: defaultDatePlusDay,
+        standard: roomInfo.standard,
+        capacity: roomInfo.capacity,
+        checkIn: roomInfo.checkIn,
+        checkOut: roomInfo.checkOut,
+        price: parseFloat(`${roomInfo.price}`) * nights,
+      };
+
+      setCartData(() => [requestData]);
+
       navigate('/pay');
       return response.data.data;
     } catch (err) {
@@ -298,13 +325,16 @@ const ProductsDetail = () => {
                             type="button"
                             css={reservationButton}
                             onClick={() =>
-                              reservation([
-                                {
-                                  roomId: room.roomId,
-                                  startDate: defaultDate,
-                                  endDate: defaultDatePlusDay,
-                                },
-                              ])
+                              reservation(
+                                [
+                                  {
+                                    roomId: room.roomId,
+                                    startDate: defaultDate,
+                                    endDate: defaultDatePlusDay,
+                                  },
+                                ],
+                                room,
+                              )
                             }
                           >
                             예약하기
