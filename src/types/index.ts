@@ -86,26 +86,17 @@ export type ResponseCartData = {
   checkOut: string;
 };
 
+export interface RoomData {
+  roomId: number;
+  startDate: string;
+  endDate: string;
+}
+
 export interface PostRoomData {
   roomId: number;
   startDate: string;
   endDate: string;
   isAvailable?: boolean;
-}
-
-export interface AllReservationData {
-  roomId: number;
-  productName: string;
-  roomName: string;
-  standard: number;
-  max: number;
-  startDate: string;
-  endDate: string;
-  checkIn: string;
-  checkOut: string;
-  visitorName: string | null;
-  visitorPhone: string | null;
-  price: number;
 }
 
 export type CartRequest = {
@@ -117,10 +108,11 @@ export type CartRequest = {
   desc: string;
   standard: number;
   capacity: number;
+  startDate: string;
+  endDate: string;
 };
 
 export type CartItem = {
-  rooms: Room[];
   roomId: number;
   startDate: string;
   endDate: string;

@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable no-nested-ternary */
@@ -8,7 +9,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { css } from '@emotion/react';
 import { SetStateAction, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 // import axios from 'axios';
 import Slider from 'react-slick';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
@@ -16,7 +17,8 @@ import { format } from 'date-fns';
 import Modal from 'react-modal';
 import { axiosWithNoToken, axiosWithAccessToken } from '../../../Axios';
 import theme from '../../../style/theme';
-import { RequestProductDetail, Room } from '../../../types';
+import { RequestProductDetail, Room, RoomData } from '../../../types';
+
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import CalendarComponent from './Calendar';
@@ -25,6 +27,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 const ProductsDetail = () => {
+  const navigate = useNavigate();
+
   const [productDetail, setProductDetail] =
     useState<RequestProductDetail | null>(null);
 
@@ -182,37 +186,18 @@ const ProductsDetail = () => {
     }
   };
 
-  const makeReservation = async (product: RequestProductDetail, room: Room) => {
-    const reservationData = {
-      roomId: room.roomId,
-      productName: product.productName,
-      roomName: room.roomName,
-      standard: room.standard,
-      max: room.capacity,
-      startDate: defaultDate,
-      endDate: defaultDatePlusDay,
-      checkIn: room.checkIn,
-      checkOut: room.checkOut,
-      visitorName: '방문자명',
-      visitorPhone: '010-1111-1111',
-      price: parseFloat(`${room.price}`) * nights,
-    };
-
+  const reservation = async (rooms: RoomData[]) => {
     try {
+      const payload = { rooms };
+      console.log(payload);
       const response = await axiosWithAccessToken.post(
         '/api/reservations/preoccupy',
-        reservationData,
+        payload,
       );
-      if (response.data.code === 201) {
-        console.log('Reservation success:', response.data.data);
-        console.log(reservationData);
-      } else {
-        console.error('Reservation failed:', response.data.message);
-        console.log(reservationData);
-      }
-    } catch (error) {
-      console.error('Error making reservation:', error);
-      console.log(reservationData);
+      navigate('/pay');
+      return response.data.data;
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -323,7 +308,15 @@ const ProductsDetail = () => {
                           <button
                             type="button"
                             css={reservationButton}
-                            onClick={() => makeReservation(productDetail, room)}
+                            onClick={() =>
+                              reservation([
+                                {
+                                  roomId: room.roomId,
+                                  startDate: defaultDate,
+                                  endDate: defaultDatePlusDay,
+                                },
+                              ])
+                            }
                           >
                             예약하기
                           </button>

@@ -18,7 +18,7 @@ const Header = () => {
           <div css={CartContainer}>
             <Link to="/carts">
               <AiOutlineShoppingCart css={CartIcon} />
-              <span css={CartCount}>0</span>
+              <span css={CartCount}>1</span>
             </Link>
           </div>
           <MenuBtn />
