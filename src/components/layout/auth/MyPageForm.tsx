@@ -15,6 +15,7 @@ import { axiosWithAccessToken } from '../../../Axios';
 import { RequestMembers } from '../../../types';
 import { ACCEPT_IMAGE_TYPE, WRONG_PASSWORD_MESSAGE } from './auth.constant';
 import { loadingAtom } from '../../../atoms/loading';
+import swal from 'sweetalert';
 import userImg from '/user_default.svg';
 
 type UserPatchForm = {
@@ -80,7 +81,10 @@ const MyPageForm = () => {
         setUser(res.data.data);
         setMyPage('USER_DATA');
       } catch (e) {
-        alert('예기치 못한 에러가 발생했습니다.');
+        swal({
+          title: '예기치 못한 에러가 발생했습니다',
+          icon: 'error',
+        });
         console.log(e);
       } finally {
         setLoading({ isLoading: false, message: '' });
@@ -138,9 +142,15 @@ const MyPageForm = () => {
             setMyPage('PATCH_DATA');
           } catch (e: any) {
             if (e.response?.data.message === WRONG_PASSWORD_MESSAGE) {
-              alert('비밀번호를 확인해주세요');
+              swal({
+                title: '비밀번호를 확인해주세요',
+                icon: 'error',
+              });
             } else {
-              alert('얘기치 못한 에러가 발생했습니다');
+              swal({
+                title: '예기치 못한 에러가 발생했습니다',
+                icon: 'error',
+              });
             }
           }
         },

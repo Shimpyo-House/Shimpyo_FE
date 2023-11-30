@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable @typescript-eslint/indent */
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -7,7 +9,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { css } from '@emotion/react';
 import { SetStateAction, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 // import axios from 'axios';
 import Slider from 'react-slick';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
@@ -15,7 +17,8 @@ import { format } from 'date-fns';
 import Modal from 'react-modal';
 import { axiosWithNoToken, axiosWithAccessToken } from '../../../Axios';
 import theme from '../../../style/theme';
-import { CartItem, RequestProductDetail, Room } from '../../../types';
+import { RequestProductDetail, Room, RoomData } from '../../../types';
+
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import CalendarComponent from './Calendar';
@@ -25,6 +28,8 @@ import 'slick-carousel/slick/slick-theme.css';
 import Star from '../../common/star';
 
 const ProductsDetail = () => {
+  const navigate = useNavigate();
+
   const [productDetail, setProductDetail] =
     useState<RequestProductDetail | null>(null);
 
@@ -62,8 +67,6 @@ const ProductsDetail = () => {
     setDefaultDatePlusDay(endDateFormatted);
   };
 
-  console.log(today, tomorrow);
-
   useEffect(() => {
     const fetchDataProductDetail = async ({
       startDate,
@@ -87,6 +90,7 @@ const ProductsDetail = () => {
     });
   }, [enterDate, exitDate]);
 
+  // 장바구니에 같은 객체 있을 때 렌더링하는 모달
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const openModal = () => {
     Modal.setAppElement('#root');
@@ -96,6 +100,16 @@ const ProductsDetail = () => {
     setModalIsOpen(false);
   };
 
+  const [modalCartIsOpen, setModalCartIsOpen] = useState(false);
+  const openCartModal = () => {
+    Modal.setAppElement('#root');
+    setModalCartIsOpen(true);
+  };
+  const closeCartModal = () => {
+    setModalCartIsOpen(false);
+  };
+
+  // 장바구니 로직
   const addToCart = async (product: RequestProductDetail, room: Room) => {
     if (!product || !room) {
       console.error('Product or room information is missing');
@@ -103,51 +117,88 @@ const ProductsDetail = () => {
     }
 
     const requestData = {
+      // roomId: room.roomId,
+      // productId: product.productId,
+      // productName: product.productName,
+      // images: product.images,
+      // price: parseFloat(`${room.price}`) * nights,
+      // desc: room.description,
+      // standard: room.standard,
+      // capacity: room.capacity,
+      // startDate: defaultDate,
+      // endDate: defaultDatePlusDay,
+      // checkIn: room.checkIn,
+      // checkOut: room.checkOut,
       roomId: room.roomId,
-      productId: product.productId,
-      productName: product.productName,
-      images: product.images,
+      roomName: room.roomName,
       price: parseFloat(`${room.price}`) * nights,
       desc: room.description,
       standard: room.standard,
-      capacity: room.capacity,
-      startDate: defaultDate,
-      endDate: defaultDatePlusDay,
       checkIn: room.checkIn,
       checkOut: room.checkOut,
+      reserved: Boolean,
+      startDate: defaultDate,
+      endDate: defaultDatePlusDay,
     };
 
     try {
-      // 로컬스토리지에 상품 담기
       const existingCartItems = localStorage.getItem('cartItems');
       const cartItems = existingCartItems ? JSON.parse(existingCartItems) : [];
 
-      // 아이템이 장바구니에 있는지 확인
-      const existingItemIndex = cartItems.findIndex(
-        (item: CartItem) =>
-          item.roomId === room.roomId &&
-          item.startDate === defaultDate &&
-          item.endDate === defaultDatePlusDay,
+      // 날짜 범위
+      const newItemRange = {
+        startDate: defaultDate,
+        endDate: defaultDatePlusDay,
+      };
+
+      // 중복 여부 확인
+      const isOverlapping = cartItems.some(
+        (item: { startDate: string; endDate: string; roomId: number }) => {
+          // 기존 장바구니 아이템의 날짜 범위
+          const existingItemRange = {
+            startDate: item.startDate,
+            endDate: item.endDate,
+          };
+
+          // 날짜 범위 겹치는지 확인
+          return (
+            item.roomId === room.roomId &&
+            newItemRange.startDate < existingItemRange.endDate &&
+            newItemRange.endDate > existingItemRange.startDate
+          );
+        },
       );
 
-      // 장바구니에 아이템 X
-      if (existingItemIndex === -1) {
+      if (isOverlapping) {
+        openModal();
+        console.log('Item already exists in the cart');
+      } else {
         cartItems.push(requestData);
-
-        // 로컬스토리지에 저장
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
-
         const response = await axiosWithAccessToken.post(
           '/api/carts',
           requestData,
         );
         console.log('Added to cart:', response);
-      } else {
-        openModal();
-        console.log('Item already exists in the cart');
+        openCartModal();
       }
     } catch (error) {
       console.error('Error adding to cart:', error);
+    }
+  };
+
+  const reservation = async (rooms: RoomData[]) => {
+    try {
+      const payload = { rooms };
+      console.log(payload);
+      const response = await axiosWithAccessToken.post(
+        '/api/reservations/preoccupy',
+        payload,
+      );
+      navigate('/pay');
+      return response.data.data;
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -155,6 +206,7 @@ const ProductsDetail = () => {
     return <div>Loading...</div>;
   }
 
+  // slick
   const settings = {
     dots: true,
     infinite: true,
@@ -195,6 +247,7 @@ const ProductsDetail = () => {
             <div css={ProductsLocation}>{productDetail.address}</div>
           </div>
         </div>
+        <div css={RoomText}>객실 선택</div>
         <div css={OptionSelector}>
           <div css={[DayCalendar, Divider]}>
             <CalendarComponent
@@ -215,34 +268,58 @@ const ProductsDetail = () => {
               />
               <div css={RoomInfo}>
                 <div css={RoomName}>{room.roomName}</div>
-                <div>{`기준 ${room.standard}인 / 최대 ${room.capacity}인`}</div>
-                <div>{room.description}</div>
+                <div
+                  css={RoomCount}
+                >{`기준 ${room.standard}인 / 최대 ${room.capacity}인`}</div>
+                <div css={RoomDesc}>{room.description}</div>
                 <div css={checkTime}>
-                  {`${room.checkIn} ~ ${room.checkOut}`}
+                  {`체크인: ${room.checkIn} ~ 체크아웃: ${room.checkOut}`}
+                </div>
+                <div css={peoplePlusText}>
+                  기준 인원 초과 시, 추가요금이 발생할 수 있습니다.
                 </div>
               </div>
               <div css={RoomAction}>
                 <div css={priceStyle}>
-                  {parseFloat(`${room.price}`) * nights}원
+                  {parseFloat(room.price) === 0
+                    ? (100000 * nights).toLocaleString('ko-KR', {
+                        style: 'currency',
+                        currency: 'KRW',
+                      })
+                    : (parseFloat(room.price) * nights).toLocaleString(
+                        'ko-KR',
+                        { style: 'currency', currency: 'KRW' },
+                      )}
                 </div>
                 <div css={buyBtn}>
                   {room.reserved ? (
                     <>
                       <AiOutlineShoppingCart css={NoCartIcon} />{' '}
-                      {/* 예약 불가 아이콘 */}
                       <button type="button" css={exceedText}>
-                        예약불가
+                        예약마감
                       </button>
                     </>
                   ) : (
                     <>
-                      {count < room.capacity ? (
+                      {count <= room.capacity ? (
                         <>
                           <AiOutlineShoppingCart
                             css={CartIcon}
                             onClick={() => addToCart(productDetail, room)}
                           />
-                          <button type="button" css={reservationButton}>
+                          <button
+                            type="button"
+                            css={reservationButton}
+                            onClick={() =>
+                              reservation([
+                                {
+                                  roomId: room.roomId,
+                                  startDate: defaultDate,
+                                  endDate: defaultDatePlusDay,
+                                },
+                              ])
+                            }
+                          >
                             예약하기
                           </button>
                         </>
@@ -271,11 +348,27 @@ const ProductsDetail = () => {
           <div css={modalText1}>장바구니 안내</div>
           <div css={modalTextContainer}>
             <div css={modalText2}>
-              이미 같은 날짜에 장바구니에 상품이 담겨있습니다.
+              해당 날짜를 포함하는 상품이 이미 장바구니에 있습니다.
             </div>
             <div css={modalText3}>장바구니를 확인해주세요.</div>
           </div>
           <button css={modalBtn} type="button" onClick={closeModal}>
+            닫기
+          </button>
+        </Modal>
+        <Modal
+          css={modalStyle}
+          isOpen={modalCartIsOpen}
+          onRequestClose={closeCartModal}
+          contentLabel="장바구니 안내"
+          shouldCloseOnOverlayClick={false}
+        >
+          <div css={modalText1}>장바구니 안내</div>
+          <div css={modalTextContainer}>
+            <div css={modalText2}>장바구니에 상품이 담겼습니다.</div>
+            <div css={modalText3}>장바구니를 확인해주세요.</div>
+          </div>
+          <button css={modalBtn} type="button" onClick={closeCartModal}>
             닫기
           </button>
         </Modal>
@@ -370,6 +463,15 @@ const ProductsLocation = css`
   margin-top: 2rem;
 `;
 
+const RoomText = css`
+  display: flex;
+  margin-right: auto;
+  margin-top: 4rem;
+
+  font-size: 1.6rem;
+  font-weight: 600;
+`;
+
 const OptionSelector = css`
   display: flex;
   width: 100%;
@@ -378,7 +480,7 @@ const OptionSelector = css`
   /* border-radius: 4px; */
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  margin-top: 4rem;
+  margin-top: 2rem;
 `;
 
 const Divider = css`
@@ -415,8 +517,7 @@ const RoomItem = css`
   /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
   background-color: ${theme.colors.white};
   width: 1280px;
-  height: 250px;
-  /* margin-bottom: 50px; */
+  height: 400px;
 `;
 
 const RoomImg = css`
@@ -439,8 +540,21 @@ const RoomName = css`
   font-size: 36px;
 `;
 
+const RoomCount = css`
+  font-size: 24px;
+`;
+
+const RoomDesc = css`
+  font-size: 20px;
+`;
+
 const checkTime = css`
   font-size: 20px;
+`;
+
+const peoplePlusText = css`
+  font-size: 14px;
+  color: ${theme.colors.gray600};
 `;
 
 const RoomAction = css`
@@ -549,16 +663,19 @@ const modalText1 = css`
   margin-right: auto;
   margin-left: auto;
   margin-top: 10px;
+  white-space: nowrap;
 `;
 
 const modalText2 = css`
   text-align: center;
   margin-bottom: 10px;
+  white-space: nowrap;
 `;
 
 const modalText3 = css`
   text-align: center;
   margin-top: 10px;
+  white-space: nowrap;
 `;
 
 const modalBtn = css`
