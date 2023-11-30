@@ -9,7 +9,6 @@ import SearchBar from './searchBar/SearchBar';
 import { userAtom } from '../../../atoms/user';
 import useCart from '../../../hooks/useCart';
 
-
 const Header = () => {
   useGetUserData();
 
@@ -27,7 +26,7 @@ const Header = () => {
         </Link>
         <SearchBar />
         <div css={IconContainer}>
-          {!user && <p>로그인을 해주세요</p>}
+          {!user && <p css={RequireLogin}>로그인을 해주세요</p>}
           <div css={CartContainer}>
             <Link to="/carts">
               <AiOutlineShoppingCart css={CartIcon} />
@@ -85,7 +84,7 @@ const LogoText = css`
 const IconContainer = css`
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.3rem;
 `;
 
 const CartContainer = css`
@@ -125,4 +124,10 @@ const CartCount = css`
   color: ${theme.colors.white};
   background-color: ${theme.colors.blue700};
   font-weight: 700;
+`;
+
+const RequireLogin = css`
+  position: absolute;
+  top: 1.7rem;
+  right: 54rem;
 `;
