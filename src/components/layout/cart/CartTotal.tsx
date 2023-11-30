@@ -89,7 +89,11 @@ const CartTotal = ({ totalPrice }: CartTotalProps) => {
       const response = await cartPostToJudgment(rooms);
 
       if (!response) {
-        alert('주문이 성공적으로 완료되었습니다.');
+        swal({
+          title: '주문 성공',
+          text: '주문이 성공적으로 완료되었습니다.',
+          icon: 'success',
+        });
         navigate('/pay');
         setCartData(updatedCartData);
         setCheckedRoomList([]);
@@ -105,9 +109,11 @@ const CartTotal = ({ totalPrice }: CartTotalProps) => {
           )
           .map((room) => room.productName)
           .join(', ');
-        alert(
-          `[${soldOutRoomNames}] 상품이 품절되었습니다. 주문할 수 없습니다.`,
-        );
+        swal({
+          title: '상품 품절',
+          text: `[${soldOutRoomNames}] 상품이 품절되었습니다. 주문할 수 없습니다.`,
+          icon: 'error',
+        });
         setCheckedRoomList([]);
       }
     } catch (error) {
