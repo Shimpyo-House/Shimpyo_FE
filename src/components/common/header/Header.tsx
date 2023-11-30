@@ -9,12 +9,9 @@ import SearchBar from './searchBar/SearchBar';
 import { userAtom } from '../../../atoms/user';
 import useCart from '../../../hooks/useCart';
 
-
 const Header = () => {
   useGetUserData();
-
   const user = useRecoilValue(userAtom);
-
   const {
     cartQuery: { data: cartData },
   } = useCart();
@@ -27,13 +24,17 @@ const Header = () => {
         </Link>
         <SearchBar />
         <div css={IconContainer}>
-          {!user && <p>로그인을 해주세요</p>}
-          <div css={CartContainer}>
+          {!user && <p>로그인 후 이용해주세요</p>}
+          {user && (
             <Link to="/carts">
-              <AiOutlineShoppingCart css={CartIcon} />
-              <span css={CartCount}>{cartData ? cartData.length : 0}</span>
+              <div css={CartContainer}>
+                <AiOutlineShoppingCart css={CartIcon} />
+                <span css={CartCount}>
+                  {cartData && cartData ? cartData.length : 0}
+                </span>
+              </div>
             </Link>
-          </div>
+          )}
           <MenuBtn />
         </div>
       </nav>
