@@ -16,6 +16,12 @@
 
 <br>
 
+```
+Test ID : test@mail.com
+Test PW : qwe123!@#
+```
+
+
 ## 👩‍💻팀원소개
 
 <table>
@@ -47,7 +53,7 @@
     </td>
 
   </tr>
-  <tr> 
+  <tr>
     <td align="center">
       <a href="https://github.com/TaePoong719" target="_blank">
         최우혁<br />
@@ -99,7 +105,7 @@
       </a>
     </td>
   </tr>
-  <tr> 
+  <tr>
     <td align="center">
       <a href="https://github.com/JeongUijeong" target="_blank">
         정의정<br />
@@ -232,3 +238,4 @@
 ### 로그인, 회원가입
 
 <img src="https://github.com/cs-yum/cs-yum-blog/assets/101972330/08a39e06-34d9-47a7-9292-c2dccb19e158"  width="300" />
+```
