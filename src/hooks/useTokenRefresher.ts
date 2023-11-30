@@ -65,6 +65,7 @@ const useTokenRefresher = () => {
 
   useEffect(() => {
     console.log('useTokenRefresh mount');
+
     axiosWithAccessToken.interceptors.request.use(
       (config) => {
         const accessToken = getCookie('accessToken');
@@ -72,14 +73,18 @@ const useTokenRefresher = () => {
         const accessTokenExpiresIn = getCookie('accessTokenExpiresIn');
 
         if (!accessToken) {
-          navigate('/');
-          return config;
+          alert('회원정보가 없습니다, 로그인 해주세요');
+          navigate('/signin');
+          return Promise.reject(
+            new Error('회원정보가 없습니다, 로그인 해주세요'),
+          );
         } else if (Date.now() > accessTokenExpiresIn) {
           tokenRefresh({
             prevAccessToken: accessToken,
             prevRefreshToken: refreshToken,
           });
         }
+        config.headers.Authorization = `Bearer ${getCookie('accessToken')}`;
         return config;
       },
       (error) => {
