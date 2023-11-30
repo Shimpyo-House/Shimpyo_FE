@@ -15,8 +15,8 @@ const OrderedProduct = () => {
             <div css={BookingInfoCss}>
               <div css={BookHeader}>
                 <span>최저가보상</span>
-                <h1>{cartItem.roomName}</h1>
-                <p>{cartItem.productName}</p>
+                <h1>{cartItem.productName}</h1>
+                <p>{cartItem.roomName}</p>
               </div>
 
               <div css={CheckInOut}>
