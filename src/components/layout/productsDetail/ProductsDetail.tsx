@@ -187,7 +187,8 @@ const ProductsDetail = () => {
             <div css={NameScoreContainer}>
               <div css={ProductName}>{productDetail.productName}</div>
               <div css={ProductScore}>
-                ⭐ {productDetail.starAvg.toFixed(1)}
+                <p>⭐</p>
+                {productDetail.starAvg.toFixed(1)}
               </div>
             </div>
             <div css={ProductsLocation}>{productDetail.address}</div>
@@ -285,10 +286,12 @@ const ProductsDetail = () => {
 export default ProductsDetail;
 
 const ProductDetailContainer = css`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 4rem;
+  /* margin-top: 4rem; */
+  background-color: rgba(255, 2555, 255, 0.8);
 `;
 
 const SliderStyle = css`
@@ -306,7 +309,7 @@ const ProductDetailImg = css`
   width: 100%;
   height: 500px;
   background-size: cover;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   display: block;
   object-fit: cover;
 `;
@@ -330,16 +333,18 @@ const ProductData = css`
 const NameScoreContainer = css`
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 95%;
   align-items: center;
   font-size: 14px;
 `;
 
 const ProductScore = css`
-  margin-left: auto;
+  display: flex;
+
+  /* margin-left: auto; */
   font-size: 1.875rem;
   font-weight: bold;
-  width: 6.25rem;
+  /* width: 6.25rem; */
 `;
 
 export const ProductName = css`
@@ -353,7 +358,7 @@ export const ProductName = css`
 `;
 
 const ProductsLocation = css`
-  width: 100%;
+  width: 95%;
 
   display: flex;
   justify-content: flex-start;
@@ -367,8 +372,9 @@ const ProductsLocation = css`
 const OptionSelector = css`
   display: flex;
   width: 100%;
+  background-color: ${theme.colors.white};
   border: 1px solid #ccc;
-  border-radius: 4px;
+  /* border-radius: 4px; */
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   margin-top: 4rem;
@@ -397,18 +403,19 @@ const PeopleCount = css`
 const RoomContainer = css`
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
+  /* margin-top: 50px; */
 `;
 
 const RoomItem = css`
   display: flex;
   padding: 20px;
   border: 1px solid #e5e9ed;
-  border-radius: 10px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  /* border-radius: 10px; */
+  /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
+  background-color: ${theme.colors.white};
   width: 1280px;
   height: 250px;
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
 `;
 
 const RoomImg = css`

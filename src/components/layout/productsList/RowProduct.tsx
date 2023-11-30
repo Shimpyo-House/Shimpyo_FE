@@ -1,5 +1,7 @@
 import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { FaStar } from 'react-icons/fa';
 import theme from '../../../style/theme';
 import { ResponseProductsData } from '../../../types';
 
@@ -9,6 +11,16 @@ type PropsType = {
 };
 
 const RowProduct = ({ resData, rank }: PropsType) => {
+  const [price, setPrice] = useState(0);
+  useEffect(() => {
+    console.log(resData.price);
+
+    if (resData.price === 0) {
+      setPrice(100000);
+    } else {
+      setPrice(resData.price);
+    }
+  }, []);
   return (
     <Link to={`/products/${resData.productId}`}>
       <div css={ProductBox}>
@@ -19,9 +31,14 @@ const RowProduct = ({ resData, rank }: PropsType) => {
         <div css={ProductData}>
           <div css={NameScoreBox}>
             <p css={ProductName}>{resData.productName}</p>
-            <p css={ProductScore}>⭐ {resData.starAvg.toFixed(1)}</p>
+            <p css={ProductScore}>
+              <p css={SpaceScore}>
+                <FaStar />
+                {resData.starAvg.toFixed(1)}
+              </p>
+            </p>
           </div>
-          <p css={ProductPrice}>{resData.price.toLocaleString()}원</p>
+          <p css={ProductPrice}>{price.toLocaleString()}원</p>
         </div>
       </div>
     </Link>
@@ -137,6 +154,12 @@ const ProductScore = css`
   justify-content: flex-start;
 
   font-size: 1rem;
+`;
+const SpaceScore = css`
+  width: 2.7rem;
+
+  display: flex;
+  justify-content: space-between;
 `;
 const ProductPrice = css`
   width: 100%;

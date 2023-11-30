@@ -35,7 +35,7 @@ const NormalCategory = ({ data }: PropsType) => {
       </div>
       <div css={CategoryBox}>
         <h2 css={CategoryName}>
-          <Link css={LinkBox} to="/category?type=펜션,풀빌라">
+          <Link css={LinkBox} to="/category?type=펜션,콘도미니엄">
             펜션, 풀빌라
             <IoIosArrowForward className="arrowIcon" />
           </Link>
@@ -45,7 +45,7 @@ const NormalCategory = ({ data }: PropsType) => {
       </div>
       <div css={CategoryBox}>
         <h2 css={CategoryName}>
-          <Link css={LinkBox} to="/category?type=호텔,모텔">
+          <Link css={LinkBox} to="/category?type=관광호텔,모텔">
             호텔, 모텔
             <IoIosArrowForward className="arrowIcon" />
           </Link>
