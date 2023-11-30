@@ -236,12 +236,15 @@ Test PW : qwe123!@#
 ## 🧑🏻‍💻 주요 기능 구현
 ### 1️⃣메인 페이지
 - 무한스크롤
+
 ![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/762f58c0-f7d0-4a54-8b2a-3abe173eab81)
 
 - 상세 카테고리
+
 ![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/0da95154-97f2-405a-980e-c5c1f3a1f6d4)
 
 - 검색 기능
+  
 ![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/fb2e9e7f-cc52-41a2-a667-74cce478c484)
 
 ### 2️⃣제품 상세 페이지
@@ -266,12 +269,15 @@ Test PW : qwe123!@#
 
 ### 5️⃣인증
 - 로그인, 회원가입
+
 ![로그인및회원가입](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/1a34daf2-6c7d-434d-a4a9-152230c4439f)
 
 - 로그아웃
+
 ![로그아웃](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/8fda596c-784a-448c-89e1-2fd69cfda8e1)
 
 - 자동 리프레시
+
 ![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/9231108e-cbb2-4af8-9781-2b9d83812e4e)
 
 ### 6️⃣회원 정보 변경
