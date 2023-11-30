@@ -13,7 +13,7 @@ type Propstype = {
 const SearchOptions = ({ setProductsLocation, count, setCount }: Propstype) => {
   return (
     <div css={OptionsBox}>
-      <p css={OptionName}>숙박 옵션</p>
+      <p css={OptionName}>검색 옵션</p>
       <SelecBox setProductsLocation={setProductsLocation} />
       <div css={PeopleCount}>
         <p>숙박 인원</p>
