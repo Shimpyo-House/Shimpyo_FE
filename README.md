@@ -84,48 +84,38 @@
   </tr>
     <tr>
     <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="정의정 프로필" />
+      <a href="https://github.com/JeongUijeong" target="_blank">
+        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/bc2ef8d5-a063-4473-991b-92df77fb0263" alt="정의정 프로필" />
       </a>
     </td>
     <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="심재철 프로필" />
+      <a href="https://github.com/wocjf0513" target="_blank">
+        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/b6cdb1b6-76dd-4136-a6c5-eecb9ca0c2ab" alt="심재철 프로필" />
       </a>
     </td>
     <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="이주연 프로필" />
-      </a>
-    </td>
-    <td align="center" width="150px">
-      <a href="" target="_blank">
-        <img src="" alt="서정현 멘토님" />
+      <a href="https://github.com/jo0oy" target="_blank">
+        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/29a0dfc6-8e91-4f5f-a5bd-43b7b668f4a6" alt="이주연 프로필" />
       </a>
     </td>
   </tr>
   <tr> 
     <td align="center">
-      <a href="" target="_blank">
+      <a href="https://github.com/JeongUijeong" target="_blank">
         정의정<br />
         Backend
       </a>
     </td>
     <td align="center">
-      <a href="" target="_blank">
+      <a href="https://github.com/wocjf0513" target="_blank">
         심재철<br />
         Backend
       </a>
     </td>
     <td align="center">
-      <a href="" target="_blank">
+      <a href="https://github.com/jo0oy" target="_blank">
         이주연<br />
         Backend
-      </a>
-    </td>
-    <td align="center">
-      <a href="" target="_blank">
-        서정현 멘토님
       </a>
     </td>
   </tr>
@@ -134,11 +124,12 @@
 
 ## 🎁기술 스택
 
-스택 이미지
+![기술스택](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/37ca06f0-7d59-4f49-95ec-bf21d65b1d98)
 
 ## 👤디자인 설계
 
-Figma 이미지
+![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/5e3e3667-fb3f-4862-92de-b81c5b89a9bb)
+
 <br>
 
 <details>
