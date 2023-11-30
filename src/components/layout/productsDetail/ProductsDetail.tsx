@@ -15,7 +15,7 @@ import Slider from 'react-slick';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { format } from 'date-fns';
 import Modal from 'react-modal';
-import { useSetRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { cartDataState } from '../../../atoms/cartAtom';
 import { axiosWithNoToken, axiosWithAccessToken } from '../../../Axios';
 import theme from '../../../style/theme';
@@ -51,6 +51,12 @@ const ProductsDetail = () => {
 
   const setLoading = useSetRecoilState(loadingAtom);
 
+  const loadingState = useRecoilValue(loadingAtom);
+
+  if (loadingState.isLoading) {
+    return <div>Loading...</div>;
+  }
+
   // 선택한 숙박일 수 부모 컴포넌트 상태에 업데이트
   const handleSetNights = (selectedNights: SetStateAction<number>) => {
     setNights(selectedNights);
@@ -82,7 +88,6 @@ const ProductsDetail = () => {
         const response = await axiosWithNoToken.get(
           `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
         );
-        console.log('ProductDetail', response);
         setProductDetail(response.data.data);
       } catch (error) {
         console.error('Error fetching product detail:', error);
@@ -166,7 +171,6 @@ const ProductsDetail = () => {
 
       if (isOverlapping) {
         openModal();
-        console.log('Item already exists in the cart');
       } else {
         cartItems.push(requestData);
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
@@ -175,7 +179,6 @@ const ProductsDetail = () => {
           requestData,
         );
         console.log('Added to cart:', response);
-        console.log(requestData);
         openCartModal();
       }
     } catch (error) {
@@ -189,7 +192,6 @@ const ProductsDetail = () => {
     try {
       setLoading({ isLoading: true, message: '현재 예약중입니다.' });
       const payload = { rooms };
-      console.log(payload);
       const response = await axiosWithAccessToken.post(
         '/api/reservations/preoccupy',
         payload,
@@ -234,8 +236,6 @@ const ProductsDetail = () => {
   };
 
   if (!productDetail || !productDetail.images) {
-    console.log('ProductDetail or images are undefined:', productDetail);
-    console.log(productDetail.images);
     return <div>Loading...</div>;
   }
 
