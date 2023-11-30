@@ -65,10 +65,6 @@ const Payment = () => {
         totalPrice,
       });
 
-      console.log('reservation', response);
-      console.log(userName);
-      console.log(userPhoneNum);
-
       if (response.status === 201) {
         console.log('예약 성공!');
       } else {

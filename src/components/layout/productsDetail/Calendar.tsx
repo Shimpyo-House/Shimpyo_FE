@@ -55,7 +55,6 @@ const CalendarComponent = ({
       // 변경된 날짜 정보 부모 컴포넌트로 전달
       const enterDate = format(startDate, 'yyyy-MM-dd');
       const exitDate = format(endDate, 'yyyy-MM-dd');
-      console.log(enterDate, exitDate);
       onEnterExitDatesChange(enterDate, exitDate);
     }
   };

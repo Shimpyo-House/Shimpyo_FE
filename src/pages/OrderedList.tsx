@@ -17,19 +17,6 @@ const OrderedList = () => {
   const roomPrices = cartData.map((cartItem) => cartItem.price);
   const totalRoomPrices = roomPrices.reduce((acc, cur) => acc + cur, 0);
 
-  // useEffect(() => {
-  //   const orderedData = async () => {
-  //     try {
-  //       const data = await OrderAxios();
-  //       setOrderCom(data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   orderedData();
-  // }, []);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -37,17 +24,6 @@ const OrderedList = () => {
 
     return () => clearTimeout(timer);
   }, []);
-
-  // const orderComplete = async () => {
-  //   try {
-  //     const data = await OrderAxios();
-  //     setOrderCom(data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // orderComplete();
 
   return (
     <div>
