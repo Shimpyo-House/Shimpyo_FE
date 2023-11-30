@@ -74,35 +74,34 @@ const handlers = [
   }),
 
   // 장바구니에서 주문하기 전 품절 여부 판단을 위한 post
-  rest.post('/api/reservations/preoccupy', async (req, res, ctx) => {
-    console.log('POST request to /api/reservations/preoccupy:', req.body);
-    await sleep(500);
-    return res(
-      ctx.status(200),
-      ctx.json({
-        code: 201,
-        message: '주문 가능한 상품인지 확인 완료',
-        data: [
-          {
-            rooms: [
-              {
-                roomId: 1,
-                startDate: 'string1',
-                endDate: 'string1',
-                isAvailable: true,
-              },
-              {
-                roomId: 2,
-                startDate: 'string2',
-                endDate: 'string2',
-                isAvailable: true,
-              },
-            ],
-          },
-        ],
-      }),
-    );
-  }),
+  // rest.post('/api/reservations/preoccupy', async (req, res, ctx) => {
+  //   await sleep(500);
+  //   return res(
+  //     ctx.status(200),
+  //     ctx.json({
+  //       code: 201,
+  //       message: '주문 가능한 상품인지 확인 완료',
+  //       data: [
+  //         {
+  //           rooms: [
+  //             {
+  //               roomId: 1,
+  //               startDate: 'string1',
+  //               endDate: 'string1',
+  //               isAvailable: true,
+  //             },
+  //             {
+  //               roomId: 2,
+  //               startDate: 'string2',
+  //               endDate: 'string2',
+  //               isAvailable: true,
+  //             },
+  //           ],
+  //         },
+  //       ],
+  //     }),
+  //   );
+  // }),
 
   // 주문 내역 목록 조회
   rest.get('/api/orders/:memberId', async (req, res, ctx) => {
