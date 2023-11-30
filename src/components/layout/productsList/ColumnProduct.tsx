@@ -34,10 +34,10 @@ const ColumnProduct = ({ resData }: PropsType) => {
         <p css={ProductName}>{resData.productName}</p>
         <p css={ProductAddress}>{address}</p>
         <div css={ProductScore}>
-          <p css={SpaceScore}>
+          <div css={SpaceScore}>
             <Star />
             {resData.starAvg.toFixed(1)}
-          </p>
+          </div>
         </div>
         <p css={ProductPrice}>{price.toLocaleString()}원</p>
       </div>

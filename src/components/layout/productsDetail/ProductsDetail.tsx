@@ -230,7 +230,10 @@ const ProductsDetail = () => {
             <div key={index} css={SlideItem}>
               <div
                 css={ProductDetailImg}
-                style={{ backgroundImage: `url(${image})` }}
+                style={{
+                  backgroundImage: `url(${image})`,
+                  backgroundPosition: 'center',
+                }}
               />
             </div>
           ))}
@@ -247,7 +250,6 @@ const ProductsDetail = () => {
             <div css={ProductsLocation}>{productDetail.address}</div>
           </div>
         </div>
-        <div css={RoomText}>객실 선택</div>
         <div css={OptionSelector}>
           <div css={[DayCalendar, Divider]}>
             <CalendarComponent
@@ -457,8 +459,8 @@ const ProductsLocation = css`
   display: flex;
   justify-content: flex-start;
 
-  font-size: 2.25rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 400;
 
   margin-top: 2rem;
 `;
@@ -498,7 +500,7 @@ const DayCalendar = css`
 const PeopleCount = css`
   flex: 1;
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
   padding-left: 0.5rem;
 `;
