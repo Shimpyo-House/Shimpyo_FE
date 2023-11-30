@@ -134,4 +134,8 @@ const RequireLogin = css`
   right: 12.5rem;
 
   width: 9.375rem;
+
+  font-size: 1rem;
+
+  color: ${theme.colors.gray600};
 `;
