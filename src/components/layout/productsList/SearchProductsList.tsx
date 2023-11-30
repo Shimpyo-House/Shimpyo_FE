@@ -97,7 +97,7 @@ const SearchProductsList = ({ keyword, count, location }: PropsType) => {
         )}
         {load && (
           <div css={SpinnerBox}>
-            <img src="../../../public/spinner.gif" alt="로딩스피너" />
+            <img src="/spinner.gif" alt="로딩스피너" />
           </div>
         )}
         {!isEnd && <div ref={obsRef} />}
