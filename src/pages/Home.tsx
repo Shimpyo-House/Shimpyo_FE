@@ -9,7 +9,7 @@ import ListBackground from '../components/layout/productsList/ListBackground';
 const getData = async () => {
   const fetchData: ResponseProductsData[] | undefined = await useProductsData(
     0,
-    100,
+    30,
     'hot',
   );
 

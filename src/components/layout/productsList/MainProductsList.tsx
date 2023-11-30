@@ -31,7 +31,7 @@ const NormalCategory = ({ data }: PropsType) => {
           </Link>
         </h2>
         <p css={CategoryDesc}>가장 잘 나가는 숙소 추천</p>
-        <ColumnList category="hot" data={hotData} />
+        <ColumnList data={hotData} />
       </div>
       <div css={CategoryBox}>
         <h2 css={CategoryName}>
