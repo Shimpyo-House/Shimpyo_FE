@@ -22,6 +22,7 @@ import CalendarComponent from './Calendar';
 import PeopleSelector from './PeopleSelector';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Star from '../../common/star';
 
 const ProductsDetail = () => {
   const [productDetail, setProductDetail] =
@@ -187,7 +188,7 @@ const ProductsDetail = () => {
             <div css={NameScoreContainer}>
               <div css={ProductName}>{productDetail.productName}</div>
               <div css={ProductScore}>
-                <p>⭐</p>
+                <Star />
                 {productDetail.starAvg.toFixed(1)}
               </div>
             </div>

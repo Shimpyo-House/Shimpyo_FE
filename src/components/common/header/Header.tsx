@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import theme from '../../../style/theme';
 import MenuBtn from './MenuBtn';
 import useGetUserData from '../../../hooks/useGetUserData';
+import SearchBar from './searchBar/SearchBar';
 
 const Header = () => {
   useGetUserData();
@@ -14,6 +15,7 @@ const Header = () => {
         <Link to="/" css={LogoText}>
           Shimpyo ,
         </Link>
+        <SearchBar />
         <div css={IconContainer}>
           <div css={CartContainer}>
             <Link to="/carts">

@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { FaStar } from 'react-icons/fa';
 import theme from '../../../style/theme';
 import { ResponseProductsData } from '../../../types';
+import Star from '../../common/star';
 
 type PropsType = {
   resData: ResponseProductsData;
@@ -26,12 +26,12 @@ const ColumnProduct = ({ resData }: PropsType) => {
       <div css={ProductBox}>
         <img css={ProductImg} src={resData.image} alt="숙소 대표 사진" />
         <p css={ProductName}>{resData.productName}</p>
-        <p css={ProductScore}>
+        <div css={ProductScore}>
           <p css={SpaceScore}>
-            <FaStar />
+            <Star />
             {resData.starAvg.toFixed(1)}
           </p>
-        </p>
+        </div>
         <p css={ProductPrice}>{price.toLocaleString()}원</p>
       </div>
     </Link>
