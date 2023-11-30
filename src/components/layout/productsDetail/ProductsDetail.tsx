@@ -16,10 +16,10 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { format } from 'date-fns';
 import Modal from 'react-modal';
 import { useSetRecoilState } from 'recoil';
+import { cartDataState } from '../../../atoms/cartAtom';
 import { axiosWithNoToken, axiosWithAccessToken } from '../../../Axios';
 import theme from '../../../style/theme';
 import { RequestProductDetail, Room, RoomData } from '../../../types';
-
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import CalendarComponent from './Calendar';
@@ -124,18 +124,6 @@ const ProductsDetail = () => {
     }
 
     const requestData = {
-      // roomId: room.roomId,
-      // productId: product.productId,
-      // productName: product.productName,
-      // images: product.images,
-      // price: parseFloat(`${room.price}`) * nights,
-      // desc: room.description,
-      // standard: room.standard,
-      // capacity: room.capacity,
-      // startDate: defaultDate,
-      // endDate: defaultDatePlusDay,
-      // checkIn: room.checkIn,
-      // checkOut: room.checkOut,
       roomId: room.roomId,
       roomName: room.roomName,
       price: parseFloat(`${room.price}`) * nights,
@@ -187,6 +175,7 @@ const ProductsDetail = () => {
           requestData,
         );
         console.log('Added to cart:', response);
+        console.log(requestData);
         openCartModal();
       }
     } catch (error) {
@@ -194,7 +183,9 @@ const ProductsDetail = () => {
     }
   };
 
-  const reservation = async (rooms: RoomData[]) => {
+  const setCartData = useSetRecoilState(cartDataState);
+
+  const reservation = async (rooms: RoomData[], roomInfo: Room) => {
     try {
       setLoading({ isLoading: true, message: '현재 예약중입니다.' });
       const payload = { rooms };
@@ -203,6 +194,22 @@ const ProductsDetail = () => {
         '/api/reservations/preoccupy',
         payload,
       );
+
+      const requestData = {
+        roomId: roomInfo.roomId,
+        roomName: roomInfo.roomName,
+        productName: roomInfo.roomName,
+        startDate: defaultDate,
+        endDate: defaultDatePlusDay,
+        standard: roomInfo.standard,
+        capacity: roomInfo.capacity,
+        checkIn: roomInfo.checkIn,
+        checkOut: roomInfo.checkOut,
+        price: parseFloat(`${roomInfo.price}`) * nights,
+      };
+
+      setCartData(() => [requestData]);
+
       navigate('/pay');
       return response.data.data;
     } catch (err) {
@@ -321,13 +328,16 @@ const ProductsDetail = () => {
                             type="button"
                             css={reservationButton}
                             onClick={() =>
-                              reservation([
-                                {
-                                  roomId: room.roomId,
-                                  startDate: defaultDate,
-                                  endDate: defaultDatePlusDay,
-                                },
-                              ])
+                              reservation(
+                                [
+                                  {
+                                    roomId: room.roomId,
+                                    startDate: defaultDate,
+                                    endDate: defaultDatePlusDay,
+                                  },
+                                ],
+                                room,
+                              )
                             }
                           >
                             예약하기
