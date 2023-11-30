@@ -2,15 +2,18 @@
 import { css } from '@emotion/react';
 import { useInfiniteQuery } from 'react-query';
 import { useEffect, useRef, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 import ColumnList from './ColumnList';
 import { useObs, useProductsData } from '../../../hooks/useProductsData';
 import { ResponseProductsData } from '../../../types';
+import { loadingAtom } from '../../../atoms/loading';
 
 type PropsType = {
   category: string;
 };
 
 const CategoryProductsList = ({ category }: PropsType) => {
+  const setLoading = useSetRecoilState(loadingAtom);
   const [isEnd, setIsEnd] = useState(false);
   const [load, setLoad] = useState(false);
   const obsRef = useRef(null);
@@ -59,6 +62,7 @@ const CategoryProductsList = ({ category }: PropsType) => {
   const getData = async (pageParam: number) => {
     try {
       setLoad(true);
+      setLoading({ isLoading: true, message: '데이터를 조회중입니다.' });
       const fetchData = await useProductsData(pageParam, pageVolume, category);
       if (fetchData) {
         if (fetchData.length < pageVolume) {
@@ -70,6 +74,7 @@ const CategoryProductsList = ({ category }: PropsType) => {
       console.log(error);
     } finally {
       setLoad(false);
+      setLoading({ isLoading: false, message: '' });
     }
     return undefined;
   };

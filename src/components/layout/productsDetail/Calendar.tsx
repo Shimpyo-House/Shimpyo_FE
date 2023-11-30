@@ -3,6 +3,7 @@ import { SetStateAction, useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { DateRange } from 'react-date-range';
 import { addDays, differenceInDays, format } from 'date-fns';
+import swal from 'sweetalert';
 
 interface CalendarProps {
   setNights: React.Dispatch<SetStateAction<number>>;
@@ -39,9 +40,11 @@ const CalendarComponent = ({
   const closeCalendar = () => {
     document.body.style.overflow = 'auto';
     if (startDate.toDateString() === endDate.toDateString()) {
-      alert(
-        '입실날짜와 퇴실날짜가 같을 수 없습니다. 최소 1박 이상 선택해주세요.',
-      );
+      swal({
+        title: '날짜 확인',
+        text: '입실날짜와 퇴실날짜가 같을 수 없습니다. 최소 1박 이상 선택해주세요.',
+        icon: 'error',
+      });
     } else {
       setShowCalendar(false);
 

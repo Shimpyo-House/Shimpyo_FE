@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAnimate, stagger, motion } from 'framer-motion';
 import { css } from '@emotion/react';
 import { MdMenu } from 'react-icons/md';
@@ -52,6 +52,7 @@ const MenuBtn = () => {
   const scope = useMenuAnimation(isOpen);
   const [user, setUser] = useRecoilState(userAtom);
   const accessToken = getCookie('accessToken');
+  const naviagte = useNavigate();
 
   useEffect(() => {
     const handleOutsideClick = () => {
@@ -71,7 +72,7 @@ const MenuBtn = () => {
     removeCookie('accessTokenExpiresIn');
 
     setUser(null);
-
+    naviagte('/');
     swal({
       title: '성공적으로 로그아웃 되었습니다',
       icon: 'success',
