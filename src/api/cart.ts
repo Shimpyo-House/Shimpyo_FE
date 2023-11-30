@@ -2,11 +2,15 @@
 import swal from 'sweetalert';
 import { axiosWithAccessToken } from '../Axios';
 import { PostRoomData } from '../types';
+import { getCookie } from '../components/layout/auth/auth.utils';
 
 const cartGetAxios = async () => {
+  const accessToken = getCookie('accessToken');
   try {
-    const response = await axiosWithAccessToken.get('/api/carts');
-    return response.data.data;
+    if (accessToken) {
+      const response = await axiosWithAccessToken.get('/api/carts');
+      return response.data.data;
+    }
   } catch (err) {
     console.error(err);
   }
