@@ -1,20 +1,25 @@
 import { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
 import hotelImg from '/img1.jpeg';
-
+import { useSetRecoilState } from 'recoil';
 import theme from '../../../style/theme';
 import OrderAxios from '../../../api/OrderComplete';
+import { loadingAtom } from '../../../atoms/loading';
 
 const AllReservation = () => {
   const [orderCom, setOrderCom] = useState('');
+  const setLoading = useSetRecoilState(loadingAtom);
 
   useEffect(() => {
     const orderedData = async () => {
       try {
+        setLoading({ isLoading: true, message: '현재 주문중입니다' });
         const data = await OrderAxios();
         setOrderCom(data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading({ isLoading: false, message: '' });
       }
     };
 
