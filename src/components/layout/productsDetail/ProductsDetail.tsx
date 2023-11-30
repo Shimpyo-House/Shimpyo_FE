@@ -195,6 +195,7 @@ const ProductsDetail = () => {
 
   const reservation = async (rooms: RoomData[]) => {
     try {
+      setLoading({ isLoading: true, message: '현재 예약중입니다.' });
       const payload = { rooms };
       console.log(payload);
       const response = await axiosWithAccessToken.post(
