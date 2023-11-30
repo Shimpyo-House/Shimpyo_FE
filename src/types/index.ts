@@ -19,6 +19,7 @@ export type RequestMembers = {
 export type ResponseProductsData = {
   images: any;
   productId: string;
+  capacity: number;
   category: string;
   productName: string;
   address: string;

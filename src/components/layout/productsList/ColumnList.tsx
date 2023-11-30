@@ -1,24 +1,22 @@
 import { css } from '@emotion/react';
+import { useEffect } from 'react';
 import RowProduct from './RowProduct';
 import { ResponseProductsData } from '../../../types';
 
 type PropsType = {
-  category: string;
   data: ResponseProductsData[];
 };
 
-const ColumnList = ({ category, data }: PropsType) => {
+const ColumnList = ({ data }: PropsType) => {
+  useEffect(() => {
+    console.log(data);
+  }, []);
+
   return (
     <div css={ProductsBox}>
       {data &&
-        category === 'hot' &&
         data.map((e, i) => (
           <RowProduct resData={e} rank={i + 1} key={e.productId} />
-        ))}
-      {data &&
-        category !== 'hot' &&
-        data.map((e) => (
-          <RowProduct resData={e} rank={null} key={e.productId} />
         ))}
     </div>
   );

@@ -9,7 +9,7 @@ import ListBackground from '../components/layout/productsList/ListBackground';
 const getData = async () => {
   const fetchData: ResponseProductsData[] | undefined = await useProductsData(
     0,
-    100,
+    30,
     'hot',
   );
 
@@ -18,12 +18,13 @@ const getData = async () => {
     const pensionData: ResponseProductsData[] | undefined = fetchData
       .filter(
         (product) =>
-          product.category === '펜션' || product.category === '풀빌라',
+          product.category === '펜션' || product.category === '콘도미니엄',
       )
       .slice(0, 3);
     const hotelData: ResponseProductsData[] | undefined = fetchData
       .filter(
-        (product) => product.category === '호텔' || product.category === '모텔',
+        (product) =>
+          product.category === '관광호텔' || product.category === '모텔',
       )
       .slice(0, 3);
     // console.log('hot', hotData, 'hotel', hotelData, 'pension', pensionData);
