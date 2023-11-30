@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import useCart from '../hooks/useCart';
 import CartItem from '../components/layout/cart/CartItem';
 import CartNoItem from '../components/layout/cart/CartNoItem';

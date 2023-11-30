@@ -32,6 +32,7 @@
     "react-slick": "^0.29.0",
     "recoil": "^0.7.7",
     "slick-carousel": "^1.8.1",
+    "sweetalert": "^2.1.2",
     "vite": "^4.4.5"
   },
   "devDependencies": {
@@ -53,6 +54,7 @@
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-react": "^7.33.2",
     "husky": "^8.0.3",
     "lint-staged": "^15.1.0",

@@ -1,12 +1,21 @@
 import { css } from '@emotion/react';
+import { useRecoilValue } from 'recoil';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import theme from '../../../style/theme';
 import MenuBtn from './MenuBtn';
 import useGetUserData from '../../../hooks/useGetUserData';
+import { userAtom } from '../../../atoms/user';
+import useCart from '../../../hooks/useCart';
 
 const Header = () => {
   useGetUserData();
+
+  const user = useRecoilValue(userAtom);
+
+  const {
+    cartQuery: { data: cartData },
+  } = useCart();
 
   return (
     <div css={Container}>
@@ -15,10 +24,11 @@ const Header = () => {
           Shimpyo ,
         </Link>
         <div css={IconContainer}>
+          {!user && <p>로그인을 해주세요</p>}
           <div css={CartContainer}>
             <Link to="/carts">
               <AiOutlineShoppingCart css={CartIcon} />
-              <span css={CartCount}>0</span>
+              <span css={CartCount}>{cartData ? cartData.length : 0}</span>
             </Link>
           </div>
           <MenuBtn />
@@ -101,6 +111,8 @@ const CartCount = css`
   position: absolute;
   top: -0.3125rem;
   right: -0.3125rem;
+
+  padding: 0.7rem;
 
   width: 1.25rem;
   height: 1.25rem;
