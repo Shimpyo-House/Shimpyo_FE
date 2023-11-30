@@ -30,13 +30,13 @@ const Payment = () => {
 
     cartData.forEach((cartItem) => {
       const reservProducts: AllReservationData = {
-        roomId: cartItem.roomId,
+        roomId: 2,
         productName: cartItem.productName,
         roomName: cartItem.roomName,
         standard: cartItem.standard,
         max: cartItem.capacity,
-        startDate: cartItem.startDate,
-        endDate: cartItem.endDate,
+        startDate: '2023-12-02',
+        endDate: '2023-12-04',
         checkIn: cartItem.checkIn,
         checkOut: cartItem.checkOut,
         visitorName: userName,
@@ -66,7 +66,7 @@ const Payment = () => {
       console.log(userName);
       console.log(userPhoneNum);
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log('예약 성공!');
       } else {
         console.error('예약 실패:', response.statusText);
