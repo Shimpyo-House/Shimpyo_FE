@@ -5,9 +5,11 @@ import { useSetRecoilState } from 'recoil';
 import theme from '../../../style/theme';
 import OrderAxios from '../../../api/OrderComplete';
 import { loadingAtom } from '../../../atoms/loading';
+import StarModal from '../../common/StarModal';
 
 const AllReservation = () => {
   const [orderCom, setOrderCom] = useState('');
+  const [isOpen, setIsOpen] = useState<boolean>(true);
   const setLoading = useSetRecoilState(loadingAtom);
 
   useEffect(() => {
@@ -30,6 +32,12 @@ const AllReservation = () => {
 
   return (
     <nav css={ReservationWrap}>
+      <StarModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        productId={1}
+        productName="강릉 고즈넉한 주문 펜션"
+      />
       <div css={WrapContainer}>
         <h1>2023.11.22</h1>
         <div css={CompleteTag}>이용완료</div>
