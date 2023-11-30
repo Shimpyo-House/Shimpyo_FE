@@ -18,7 +18,6 @@ import Modal from 'react-modal';
 import { axiosWithNoToken, axiosWithAccessToken } from '../../../Axios';
 import theme from '../../../style/theme';
 import { RequestProductDetail, Room, RoomData } from '../../../types';
-
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import CalendarComponent from './Calendar';
@@ -116,18 +115,6 @@ const ProductsDetail = () => {
     }
 
     const requestData = {
-      // roomId: room.roomId,
-      // productId: product.productId,
-      // productName: product.productName,
-      // images: product.images,
-      // price: parseFloat(`${room.price}`) * nights,
-      // desc: room.description,
-      // standard: room.standard,
-      // capacity: room.capacity,
-      // startDate: defaultDate,
-      // endDate: defaultDatePlusDay,
-      // checkIn: room.checkIn,
-      // checkOut: room.checkOut,
       roomId: room.roomId,
       roomName: room.roomName,
       price: parseFloat(`${room.price}`) * nights,
