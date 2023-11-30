@@ -477,15 +477,6 @@ const ProductsLocation = css`
   margin-top: 2rem;
 `;
 
-const RoomText = css`
-  display: flex;
-  margin-right: auto;
-  margin-top: 4rem;
-
-  font-size: 1.6rem;
-  font-weight: 600;
-`;
-
 const OptionSelector = css`
   display: flex;
   width: 100%;
