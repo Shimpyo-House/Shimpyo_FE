@@ -76,13 +76,13 @@ const CategoryProductsList = ({ category }: PropsType) => {
         <div css={CategoryNameBox}>
           <h2 css={CategoryName}>
             {category === 'hot' && '인기 숙소'}
-            {category === '펜션,풀빌라' && '펜션, 풀빌라'}
-            {category === '호텔,모텔' && '호텔, 모텔'}
+            {category === '펜션,콘도미니엄' && '펜션, 콘도미니엄'}
+            {category === '관광호텔,모텔' && '호텔, 모텔'}
           </h2>
           <p css={CategoryDesc}>
             {category === 'hot' && '가장 잘 나가는 숙소 추천'}
-            {category === '펜션,풀빌라' && '크리스마스 펜션 예약하기'}
-            {category === '호텔,모텔' && '지금 떠나는 도심 호캉스!'}
+            {category === '펜션,콘도미니엄' && '크리스마스 펜션 예약하기'}
+            {category === '관광호텔,모텔' && '지금 떠나는 도심 호캉스!'}
           </p>
         </div>
         {data && data.pages && <ColumnList data={data.pages.flat()} />}

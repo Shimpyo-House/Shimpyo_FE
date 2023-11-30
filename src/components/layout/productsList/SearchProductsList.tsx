@@ -83,9 +83,6 @@ const SearchProductsList = ({ keyword, count, location }: PropsType) => {
   return (
     <div css={PageBox}>
       <div css={ListBox}>
-        <div css={CategoryNameBox}>
-          <h2 css={CategoryName}>{keyword}</h2>
-        </div>
         {isReal && data?.pages ? (
           <ColumnList data={data.pages.flat()} />
         ) : (
@@ -118,19 +115,4 @@ const ListBox = css`
 
   padding: 3.125rem 0;
   gap: 3rem;
-`;
-
-const CategoryNameBox = css`
-  position: relative;
-
-  height: 6rem;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-
-const CategoryName = css`
-  font-size: 3rem;
-  font-weight: 700;
 `;
