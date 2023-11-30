@@ -16,7 +16,7 @@ import { format } from 'date-fns';
 import Modal from 'react-modal';
 import { axiosWithNoToken, axiosWithAccessToken } from '../../../Axios';
 import theme from '../../../style/theme';
-import { CartItem, RequestProductDetail, Room } from '../../../types';
+import { RequestProductDetail, Room } from '../../../types';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import CalendarComponent from './Calendar';
