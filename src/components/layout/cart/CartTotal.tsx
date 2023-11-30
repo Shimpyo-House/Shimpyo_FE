@@ -5,6 +5,7 @@
 import { css } from '@emotion/react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
+import swal from 'sweetalert';
 import { cartPostToJudgment } from '../../../api/cart';
 import {
   cartDataState,
@@ -37,12 +38,19 @@ const CartTotal = ({ totalPrice }: CartTotalProps) => {
     };
     try {
       if (checkedRoomList.length > 3) {
-        alert('3개 이상의 상품을 주문할 수 없습니다.');
+        swal({
+          title: '예약 한도 초과',
+          text: '3개 이상의 상품을 주문할 수 없습니다',
+          icon: 'error',
+        });
         return;
       }
 
       if (checkedRoomList.length === 0) {
-        alert('선택한 상품이 없습니다.');
+        swal({
+          title: '선택한 상품이 없습니다.',
+          icon: 'error',
+        });
         return;
       }
 

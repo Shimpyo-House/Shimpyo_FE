@@ -1,4 +1,5 @@
 /* eslint-disable consistent-return */
+import swal from 'sweetalert';
 import { axiosWithAccessToken } from '../Axios';
 import { PostRoomData } from '../types';
 
@@ -30,7 +31,10 @@ const cartDeleteItem = async (cartId: number) => {
     const response = await axiosWithAccessToken.delete(`/api/carts/${cartId}`);
     return response.data;
   } catch (err) {
-    alert('⚠️ 장바구니 삭제 에러');
+    swal({
+      title: '장바구니 삭제 에러',
+      icon: 'error',
+    });
   }
 };
 
