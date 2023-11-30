@@ -121,33 +121,44 @@ const ProductsDetail = () => {
     };
 
     try {
-      // 로컬스토리지에 상품 담기
       const existingCartItems = localStorage.getItem('cartItems');
       const cartItems = existingCartItems ? JSON.parse(existingCartItems) : [];
 
-      // 아이템이 장바구니에 있는지 확인
-      const existingItemIndex = cartItems.findIndex(
-        (item: CartItem) =>
-          item.roomId === room.roomId &&
-          item.startDate === defaultDate &&
-          item.endDate === defaultDatePlusDay,
+      // 날짜 범위
+      const newItemRange = {
+        startDate: defaultDate,
+        endDate: defaultDatePlusDay,
+      };
+
+      // 중복 여부 확인
+      const isOverlapping = cartItems.some(
+        (item: { startDate: string; endDate: string; roomId: number }) => {
+          // 기존 장바구니 아이템의 날짜 범위
+          const existingItemRange = {
+            startDate: item.startDate,
+            endDate: item.endDate,
+          };
+
+          // 날짜 범위 겹치는지 확인
+          return (
+            item.roomId === room.roomId &&
+            newItemRange.startDate < existingItemRange.endDate &&
+            newItemRange.endDate > existingItemRange.startDate
+          );
+        },
       );
 
-      // 장바구니에 아이템 X
-      if (existingItemIndex === -1) {
+      if (isOverlapping) {
+        openModal();
+        console.log('Item already exists in the cart');
+      } else {
         cartItems.push(requestData);
-
-        // 로컬스토리지에 저장
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
-
         const response = await axiosWithAccessToken.post(
           '/api/carts',
           requestData,
         );
         console.log('Added to cart:', response);
-      } else {
-        openModal();
-        console.log('Item already exists in the cart');
       }
     } catch (error) {
       console.error('Error adding to cart:', error);
@@ -320,7 +331,7 @@ const ProductsDetail = () => {
           <div css={modalText1}>장바구니 안내</div>
           <div css={modalTextContainer}>
             <div css={modalText2}>
-              이미 같은 날짜에 장바구니에 상품이 담겨있습니다.
+              해당 날짜를 포함하는 상품이 이미 장바구니에 있습니다.
             </div>
             <div css={modalText3}>장바구니를 확인해주세요.</div>
           </div>
