@@ -38,12 +38,12 @@ const RowProduct = ({ resData, rank }: PropsType) => {
           <div css={NameScoreBox}>
             <p css={ProductName}>{resData.productName}</p>
             <p css={ProductAddress}>{address}</p>
-            <p css={ProductScore}>
+            <div css={ProductScore}>
               <div css={SpaceScore}>
                 <Star />
                 {resData.starAvg.toFixed(1)}
               </div>
-            </p>
+            </div>
           </div>
           <p css={ProductPrice}>{price.toLocaleString()}원</p>
         </div>

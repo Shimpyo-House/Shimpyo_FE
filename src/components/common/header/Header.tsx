@@ -82,6 +82,8 @@ const LogoText = css`
 `;
 
 const IconContainer = css`
+  position: relative;
+
   display: flex;
   align-items: center;
   gap: 1.3rem;
@@ -128,6 +130,8 @@ const CartCount = css`
 
 const RequireLogin = css`
   position: absolute;
-  top: 1.7rem;
-  right: 54rem;
+  top: 1.2rem;
+  right: 12.5rem;
+
+  width: 9.375rem;
 `;
