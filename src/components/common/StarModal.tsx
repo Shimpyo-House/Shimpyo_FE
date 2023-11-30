@@ -14,18 +14,22 @@ import { loadingAtom } from '../../atoms/loading';
 type ModalInfoType = {
   productId: number;
   productName: string;
+  reservationProductId: number;
 };
 
 const registerStar = async ({
   productId,
   score,
+  reservationProductId,
 }: {
   productId: number;
   score: number;
+  reservationProductId: number;
 }) => {
   const res = await axiosWithAccessToken.post('/api/stars', {
     productId,
     score,
+    reservationProductId,
   });
 
   console.log(res);
@@ -50,15 +54,26 @@ const StarModal = ({
   const handlerButtonClick = async () => {
     try {
       setLoading({ isLoading: true, message: '별점을 등록중입니다.' });
-      await registerStar({ productId: modalInfo.productId, score: rating });
-      setIsOpen(false);
-      swal({ title: '성공적으로 별점이 등록됐습니다.', icon: 'info' });
-    } catch (e) {
-      swal({
-        title: '예기치 못한 에러가 발생했습니다',
-        icon: 'error',
+      await registerStar({
+        productId: modalInfo.productId,
+        score: rating,
+        reservationProductId: modalInfo.reservationProductId,
       });
+      swal({ title: '성공적으로 별점이 등록됐습니다.', icon: 'info' });
+    } catch (e: any) {
+      if (e.response.status === 400) {
+        swal({
+          title: '체크아웃시간이 지나야 별점을 매길 수 있습니다',
+          icon: 'error',
+        });
+      } else {
+        swal({
+          title: '예기치 못한 에러가 발생했습니다',
+          icon: 'error',
+        });
+      }
     } finally {
+      setIsOpen(false);
       setLoading({ isLoading: false, message: '' });
     }
   };
