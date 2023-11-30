@@ -13,7 +13,6 @@ type PropsType = {
 const RowProduct = ({ resData, rank }: PropsType) => {
   const [price, setPrice] = useState(0);
   useEffect(() => {
-    console.log(resData.price);
 
     if (resData.price === 0) {
       setPrice(100000);

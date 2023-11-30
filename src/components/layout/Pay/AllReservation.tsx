@@ -47,8 +47,6 @@ const AllReservation = () => {
     orderedData();
   }, []);
 
-  console.log(orderCom?.content);
-
   const productArray = orderCom?.content ?? [];
 
   return (

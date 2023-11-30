@@ -68,8 +68,6 @@ const useTokenRefresher = () => {
   );
 
   useEffect(() => {
-    console.log('useTokenRefresh mount');
-
     axiosWithAccessToken.interceptors.request.use(
       (config) => {
         const accessToken = getCookie('accessToken');
@@ -101,7 +99,6 @@ const useTokenRefresher = () => {
 
     axiosWithAccessToken.interceptors.response.use(
       (response) => {
-        console.log('response', response);
         return response;
       },
       async (error) => {
@@ -128,9 +125,6 @@ const useTokenRefresher = () => {
         return Promise.reject(error);
       },
     );
-    return () => {
-      console.log('refresh token unmount');
-    };
   }, []);
 };
 
