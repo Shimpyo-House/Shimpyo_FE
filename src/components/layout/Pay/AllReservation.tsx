@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
-import hotelImg from '/img1.jpeg';
 
 import theme from '../../../style/theme';
 import OrderAxios from '../../../api/OrderComplete';
 
 const AllReservation = () => {
-  const [orderCom, setOrderCom] = useState('');
+  const [orderCom, setOrderCom] = useState<any>('');
 
   useEffect(() => {
     const orderedData = async () => {
@@ -21,41 +20,58 @@ const AllReservation = () => {
     orderedData();
   }, []);
 
-  console.log(orderCom);
+  console.log(orderCom?.content);
+
+  const productArray = orderCom?.content ?? [];
 
   return (
-    <nav css={ReservationWrap}>
-      <div css={WrapContainer}>
-        <h1>2023.11.22</h1>
-        <div css={CompleteTag}>이용완료</div>
-      </div>
-      <hr />
+    <div>
+      {productArray.length > 0 ? (
+        productArray.map((product: any) => (
+          <nav css={ReservationWrap}>
+            <div css={WrapContainer}>
+              <h1>{product.startDate}</h1>
+              <button css={RoomRate} type="button">
+                별점 남기기
+              </button>
+            </div>
+            <hr />
 
-      <div>
-        <div css={MakeReservation}>숙소 예약 일시 : 2023-11-19 15:30:00</div>
+            <div>
+              <div css={ReserveTitle}>{product.productName}</div>
+              <div css={MakeReservation}>{product.productAddress}</div>
 
-        <div css={ReserveTitle}>강릉 고즈넉한 주문 펜션</div>
+              <div css={ContentWrap}>
+                <div css={MainImg}>
+                  <img src={product.productImageUrl} alt="호텔 이미지" />
+                </div>
 
-        <div css={ContentWrap}>
-          <div css={MainImg}>
-            <img src={hotelImg} alt="호텔 이미지" />
-          </div>
-
-          <div css={RoomInfoWrap}>
-            <div css={RoomInfoTitle}>Double Room(2인 이상시 문의)</div>
-            <div>2023.11.22 ~ 2023.11.24</div>
-            <div>체크인 13:00 | 체크아웃 17:00</div>
-            <div>결제 수단 | toss페이</div>
-            <div>결제 금액 | 80,000원</div>
-          </div>
-        </div>
-      </div>
-    </nav>
+                <div css={RoomInfoWrap}>
+                  <div css={RoomInfoTitle}>{product.roomName}</div>
+                  <div>
+                    {product.startDate} ~ {product.endDate}
+                  </div>
+                  <div>
+                    체크인 {product.checkIn} | 체크아웃 {product.checkOut}
+                  </div>
+                  <div>결제 수단 | {product.payMethod}</div>
+                  <div css={ReservationPrice}>
+                    결제 금액 | {product.price.toLocaleString()}원
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nav>
+        ))
+      ) : (
+        <div css={ErrorMessage}>예약 내역이 없습니다.</div>
+      )}
+    </div>
   );
 };
 
 const ReservationWrap = css`
-  width: 70%;
+  width: 55%;
   padding: 2rem;
   margin: 0 auto;
   margin-top: 1rem;
@@ -84,30 +100,14 @@ const WrapContainer = css`
 `;
 
 const MakeReservation = css`
-  margin-bottom: 0.8rem;
+  margin-bottom: 1rem;
   font-size: 0.8rem;
   color: ${theme.colors.gray700};
 `;
 
-const CompleteTag = css`
-  padding: 0.1rem 0.8rem;
-  height: 2rem;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  border: 1px solid ${theme.colors.gray500};
-  border-radius: 5px;
-  background-color: ${theme.colors.gray500};
-  color: #fff;
-  font-size: 0.9rem;
-  font-weight: 600;
-`;
-
 const ReserveTitle = css`
-  margin-top: 0.8rem;
-  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 
   font-size: 1.5rem;
   font-weight: 700;
@@ -119,6 +119,7 @@ const ContentWrap = css`
 
 const MainImg = css`
   width: 60%;
+  max-width: 19rem;
   img {
     max-width: 100%;
     border-radius: 5px;
@@ -128,7 +129,11 @@ const MainImg = css`
 const RoomInfoWrap = css`
   margin-left: 2rem;
 
+  display: flex;
+  flex-direction: column;
   font-size: 1rem;
+  justify-content: center;
+  align-items: flex-start;
 
   div {
     margin-bottom: 1rem;
@@ -138,6 +143,41 @@ const RoomInfoWrap = css`
 const RoomInfoTitle = css`
   font-size: 1.1rem;
   font-weight: 600;
+`;
+
+const ReservationPrice = css`
+  font-weight: 700;
+`;
+
+const RoomRate = css`
+  margin-top: -0.3rem;
+  padding: 0.1rem 0.8rem 0.2rem;
+  height: 2rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 5px;
+  background-color: ${theme.colors.blue700};
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: ${theme.colors.blue600};
+  }
+`;
+const ErrorMessage = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 80vh;
+
+  font-size: 1.5rem;
+  font-weight: 800;
 `;
 
 export default AllReservation;
