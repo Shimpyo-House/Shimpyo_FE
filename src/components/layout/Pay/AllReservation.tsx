@@ -6,10 +6,27 @@ import OrderAxios from '../../../api/OrderComplete';
 import { loadingAtom } from '../../../atoms/loading';
 import StarModal from '../../common/StarModal';
 
+export type ModalInfoType = {
+  productId: number;
+  productName: string;
+};
+
 const AllReservation = () => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [modalInfo, setModalInfo] = useState<ModalInfoType>({
+    productId: 0,
+    productName: '',
+  });
   const setLoading = useSetRecoilState(loadingAtom);
   const [orderCom, setOrderCom] = useState<any>('');
+
+  const handlerOnClickRegisterStar = ({
+    productId,
+    productName,
+  }: ModalInfoType) => {
+    setIsOpen(true);
+    setModalInfo({ productId, productName });
+  };
 
   useEffect(() => {
     const orderedData = async () => {
@@ -33,18 +50,22 @@ const AllReservation = () => {
 
   return (
     <div>
-      <StarModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        productId={1}
-        productName="강릉 고즈넉한 주문 펜션"
-      />
+      <StarModal isOpen={isOpen} setIsOpen={setIsOpen} modalInfo={modalInfo} />
       {productArray.length > 0 ? (
         productArray.map((product: any) => (
           <nav css={ReservationWrap}>
             <div css={WrapContainer}>
               <h1>{product.startDate}</h1>
-              <button css={RoomRate} type="button">
+              <button
+                onClick={() =>
+                  handlerOnClickRegisterStar({
+                    productId: product.productId,
+                    productName: product.productName,
+                  })
+                }
+                css={RoomRate}
+                type="button"
+              >
                 별점 남기기
               </button>
             </div>

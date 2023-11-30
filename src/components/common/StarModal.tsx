@@ -11,6 +11,11 @@ import { useSetRecoilState } from 'recoil';
 import { axiosWithAccessToken } from '../../Axios';
 import { loadingAtom } from '../../atoms/loading';
 
+type ModalInfoType = {
+  productId: number;
+  productName: string;
+};
+
 const registerStar = async ({
   productId,
   score,
@@ -29,13 +34,11 @@ const registerStar = async ({
 const StarModal = ({
   isOpen,
   setIsOpen,
-  productName,
-  productId,
+  modalInfo,
 }: {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  productName: string;
-  productId: number;
+  modalInfo: ModalInfoType;
 }) => {
   const [rating, setRating] = useState<number>(2.5);
   const setLoading = useSetRecoilState(loadingAtom);
@@ -47,7 +50,7 @@ const StarModal = ({
   const handlerButtonClick = async () => {
     try {
       setLoading({ isLoading: true, message: '별점을 등록중입니다.' });
-      await registerStar({ productId, score: rating });
+      await registerStar({ productId: modalInfo.productId, score: rating });
       setIsOpen(false);
       swal({ title: '성공적으로 별점이 등록됐습니다.', icon: 'info' });
     } catch (e) {
@@ -68,7 +71,7 @@ const StarModal = ({
         </Button>
         <div css={StarContainer}>
           <h1>
-            <b>{productName}</b> 이용은 어떠셨나요?
+            <b>{modalInfo.productName}</b> 이용은 어떠셨나요?
           </h1>
           <fieldset css={RatingField}>
             <StarInput setRating={setRating} value={5} isHalf={false} />
