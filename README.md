@@ -245,7 +245,10 @@ Test PW : qwe123!@#
 ![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/fb2e9e7f-cc52-41a2-a667-74cce478c484)
 
 ### 2️⃣제품 상세 페이지
-![image](docs/화면-기록-2023-12-01-오전-3.50.52.gif)
+![ez](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/2fa2f8c4-9b2c-49f9-a5e7-7aedabf4dd9d)
+![ezgif com-video-to](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/88e372e9-954f-446a-91dc-7965bb436e9a)
+![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/a2179e46-df12-43c2-a853-5675adae3d36)
+![](docs/image/IMG_5186.GIF)
 
 ### 3️⃣장바구니
 - 장바구니 삭제
