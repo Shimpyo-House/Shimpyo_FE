@@ -32,13 +32,13 @@ const Payment = () => {
 
     cartData.forEach((cartItem) => {
       const reservProducts: AllReservationData = {
-        roomId: 2,
+        roomId: cartItem.roomId,
         productName: cartItem.productName,
         roomName: cartItem.roomName,
         standard: cartItem.standard,
         max: cartItem.capacity,
-        startDate: '2023-12-02',
-        endDate: '2023-12-04',
+        startDate: cartItem.startDate,
+        endDate: cartItem.endDate,
         checkIn: cartItem.checkIn,
         checkOut: cartItem.checkOut,
         visitorName: userName,
