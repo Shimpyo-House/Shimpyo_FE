@@ -1,3 +1,6 @@
+/* eslint-disable no-useless-return */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-alert */
 /* eslint-disable react/button-has-type */
 import { css } from '@emotion/react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -34,6 +37,15 @@ const CartTotal = ({ totalPrice }: CartTotalProps) => {
       setCheckedRoomList(updatedCheckedRoomList);
     };
     try {
+      if (checkedRoomList.length > 3) {
+        swal({
+          title: '예약 한도 초과',
+          text: '3개 이상의 상품을 주문할 수 없습니다',
+          icon: 'error',
+        });
+        return;
+      }
+
       if (checkedRoomList.length === 0) {
         swal({
           title: '선택한 상품이 없습니다.',
@@ -111,28 +123,17 @@ const CartTotal = ({ totalPrice }: CartTotalProps) => {
   return (
     <div css={Container}>
       <h2>전체 주문 합계</h2>
-      <div css={InnerContainer}>
-        <div css={Total}>
-          <p>상품 금액</p>
-          <p>{new Intl.NumberFormat().format(totalPrice)}원</p>
-        </div>
-        <div css={Total}>
-          <p>주문 상품 개수</p>
-          <p>{checkedRoomList.length}개</p>
-        </div>
-        {checkedRoomList.length > 3 ? (
-          <p css={ErrorText}>⚠️ 3개 초과는 주문할 수 없습니다.</p>
-        ) : (
-          ''
-        )}
-        <button
-          onClick={handlePostClick}
-          css={checkedRoomList.length > 3 ? DisabledButton : OrderButton}
-          disabled={checkedRoomList.length > 3}
-        >
-          주문하기
-        </button>
+      <div css={Total}>
+        <p>상품 금액</p>
+        <p>{new Intl.NumberFormat().format(totalPrice)}원</p>
       </div>
+      <div css={Total}>
+        <p>주문 상품 개수</p>
+        <p>{checkedRoomList.length}개</p>
+      </div>
+      <button onClick={handlePostClick} css={OrderButton}>
+        주문하기
+      </button>
     </div>
   );
 };
@@ -150,29 +151,12 @@ const Container = css`
   border-top: 1px solid ${theme.colors.gray400};
 `;
 
-const InnerContainer = css`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
 const Total = css`
   display: flex;
-  justify-content: space-between;
-
-  width: 30rem;
-
-  margin-bottom: 2rem;
+  justify-content: space-around;
 
   color: ${theme.colors.gray700};
   font-size: 1.3rem;
-  font-weight: 700;
-`;
-
-const ErrorText = css`
-  color: ${theme.colors.error};
-  font-size: 1rem;
   font-weight: 700;
 `;
 
@@ -190,26 +174,10 @@ const OrderButton = css`
   color: ${theme.colors.white};
   background-color: ${theme.colors.blue700};
 
+  cursor: pointer;
   transition: all 0.15s ease-in-out;
 
   &:hover {
     background-color: ${theme.colors.blue600};
   }
-`;
-
-const DisabledButton = css`
-  width: 70%;
-
-  margin: auto;
-  margin-top: 1rem;
-  padding: 1rem;
-
-  border-radius: 0.5rem;
-
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: ${theme.colors.white};
-  background-color: ${theme.colors.gray400};
-
-  cursor: not-allowed;
 `;
