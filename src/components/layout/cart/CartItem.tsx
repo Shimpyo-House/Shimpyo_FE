@@ -1,10 +1,17 @@
+/* eslint-disable prefer-template */
+/* eslint-disable @typescript-eslint/indent */
 /* eslint-disable no-alert */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { css } from '@emotion/react';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { ResponseCartData } from '../../../types';
+import {
+  cartSoldOutState,
+  cartCheckedRoomListState,
+} from '../../../atoms/cartAtom';
 import useCart from '../../../hooks/useCart';
 import theme from '../../../style/theme';
 import CartTotal from './CartTotal';
@@ -14,9 +21,10 @@ const CartItem = () => {
     cartQuery: { data: cartData },
     deleteCartItemMutation,
   } = useCart();
-  const [checkedRoomList, setCheckedRoomList] = useState<ResponseCartData[]>(
-    [],
+  const [checkedRoomList, setCheckedRoomList] = useRecoilState(
+    cartCheckedRoomListState,
   );
+  const soldOutData = useRecoilValue(cartSoldOutState);
 
   const handleCheckbox = useCallback(
     (room: ResponseCartData) => {
@@ -31,20 +39,29 @@ const CartItem = () => {
   );
 
   const handleAllCheckbox = useCallback(() => {
+    const availableCartData = cartData.filter(
+      (cart: ResponseCartData) =>
+        !soldOutData.unavailableIds.includes(cart.roomId),
+    );
     const allChecked = cartData.every((cart: ResponseCartData) =>
       checkedRoomList.includes(cart),
     );
     if (allChecked) {
       setCheckedRoomList([]);
     } else {
-      const allRoomIds = cartData.map((cart: ResponseCartData) => cart) || [];
+      const allRoomIds =
+        availableCartData.map((cart: ResponseCartData) => cart) || [];
       setCheckedRoomList(allRoomIds);
     }
   }, [checkedRoomList]);
 
   const totalPrice = useMemo(() => {
-    const roomPrices = checkedRoomList.map((room) => room.price);
-    return roomPrices.reduce((acc, cur) => acc + cur, 0);
+    const roomPrices = checkedRoomList
+      ? checkedRoomList.map((room) => room.price)
+      : [];
+    return roomPrices.length > 0
+      ? roomPrices.reduce((acc, cur) => acc + cur, 0)
+      : 0;
   }, [checkedRoomList]);
 
   const handleDeleteCartItem = async (cartId: number, productName: string) => {
@@ -76,6 +93,7 @@ const CartItem = () => {
               ? true
               : false
           }
+          disabled={soldOutData && soldOutData.unavailableIds.length > 0}
         />
         <p css={AllSelect}>전체 선택</p>
       </label>
@@ -86,12 +104,21 @@ const CartItem = () => {
               <input
                 id="box"
                 type="checkbox"
-                css={CheckBox}
+                css={[
+                  CheckBox,
+                  soldOutData &&
+                    soldOutData.unavailableIds.includes(cart.roomId) &&
+                    DisabledCheckBox,
+                ]}
                 onChange={() => handleCheckbox(cart)}
                 checked={checkedRoomList.includes(cart)}
+                disabled={
+                  soldOutData &&
+                  soldOutData.unavailableIds.includes(cart.roomId)
+                }
               />
             </label>
-            <img css={CartImg} src={cart.images} alt="장바구니 상품 이미지" />
+            <img css={CartImg} src={cart.image} alt="장바구니 상품 이미지" />
             <div
               css={DescriptionContainer}
               key={`${cart.roomId}_${cart.roomName}`}
@@ -118,14 +145,20 @@ const CartItem = () => {
               />
               <div css={PriceContainer}>
                 <p css={Price}>
-                  {new Intl.NumberFormat().format(cart.price)}원
+                  {soldOutData &&
+                  soldOutData.unavailableIds.includes(cart.roomId) ? (
+                    <span>품절</span>
+                  ) : (
+                    new Intl.NumberFormat().format(cart.price) + '원'
+                  )}
                 </p>
                 <p css={PriceText}>취소 및 환불 불가</p>
               </div>
             </div>
           </div>
         ))}
-      <CartTotal totalPrice={totalPrice} checkedRoomList={checkedRoomList} />
+      <CartTotal totalPrice={totalPrice} />
+      {/* <CartTotal totalPrice={totalPrice} checkedRoomList={checkedRoomList} /> */}
     </>
   );
 };
@@ -197,6 +230,10 @@ const CheckBox = css`
     background-repeat: no-repeat;
     background-color: ${theme.colors.blue700};
   }
+`;
+
+const DisabledCheckBox = css`
+  cursor: not-allowed;
 `;
 
 const CartImg = css`
