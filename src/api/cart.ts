@@ -1,10 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-alert */
 /* eslint-disable consistent-return */
-import swal from 'sweetalert';
-import axios from 'axios';
 import { axiosWithAccessToken } from '../Axios';
-import { PostRoomData } from '../types';
+import { RoomData } from '../types';
 import { getCookie } from '../components/layout/auth/auth.utils';
 
 const cartGetAxios = async () => {
@@ -19,17 +17,15 @@ const cartGetAxios = async () => {
   }
 };
 
-const cartPostToJudgment = async (roomData: PostRoomData[]) => {
+const cartPostToJudgment = async (rooms: RoomData[]) => {
   try {
-    const response = await axios.post('/api/reservations/preoccupy', {
-      roomData,
-    });
+    const response = await axiosWithAccessToken.post(
+      '/api/reservations/preoccupy',
+      { rooms },
+    );
     return response.data.data;
-  } catch (err) {
-    swal({
-      title: '장바구니 삭제 에러',
-      icon: 'error',
-    });
+  } catch (err: any) {
+    return err.response?.data?.data;
   }
 };
 
@@ -38,7 +34,7 @@ const cartDeleteItem = async (cartId: number) => {
     const response = await axiosWithAccessToken.delete(`/api/carts/${cartId}`);
     return response.data;
   } catch (err) {
-    alert('⚠️ 장바구니 삭제 에러');
+    console.error('장바구니 삭제 에러: ', err);
   }
 };
 
