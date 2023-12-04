@@ -2,7 +2,7 @@
 /* eslint-disable no-alert */
 /* eslint-disable consistent-return */
 import swal from 'sweetalert';
-import axios from 'axios';
+// import axios from 'axios';
 import { axiosWithAccessToken } from '../Axios';
 import { PostRoomData } from '../types';
 import { getCookie } from '../components/layout/auth/auth.utils';
@@ -21,9 +21,12 @@ const cartGetAxios = async () => {
 
 const cartPostToJudgment = async (roomData: PostRoomData[]) => {
   try {
-    const response = await axios.post('/api/reservations/preoccupy', {
-      roomData,
-    });
+    const response = await axiosWithAccessToken.post(
+      '/api/reservations/preoccupy',
+      {
+        roomData,
+      },
+    );
     return response.data.data;
   } catch (err) {
     swal({

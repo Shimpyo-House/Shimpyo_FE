@@ -15,7 +15,7 @@ import Slider from 'react-slick';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { format } from 'date-fns';
 import Modal from 'react-modal';
-import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { cartDataState } from '../../../atoms/cartAtom';
 import { axiosWithNoToken, axiosWithAccessToken } from '../../../Axios';
 import theme from '../../../style/theme';
@@ -51,12 +51,6 @@ const ProductsDetail = () => {
 
   const setLoading = useSetRecoilState(loadingAtom);
 
-  const loadingState = useRecoilValue(loadingAtom);
-
-  if (loadingState.isLoading) {
-    return <div>Loading...</div>;
-  }
-
   // 선택한 숙박일 수 부모 컴포넌트 상태에 업데이트
   const handleSetNights = (selectedNights: SetStateAction<number>) => {
     setNights(selectedNights);
@@ -88,6 +82,7 @@ const ProductsDetail = () => {
         const response = await axiosWithNoToken.get(
           `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
         );
+        console.log('ProductDetail', response);
         setProductDetail(response.data.data);
       } catch (error) {
         console.error('Error fetching product detail:', error);
@@ -171,6 +166,7 @@ const ProductsDetail = () => {
 
       if (isOverlapping) {
         openModal();
+        console.log('Item already exists in the cart');
       } else {
         cartItems.push(requestData);
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
@@ -179,12 +175,15 @@ const ProductsDetail = () => {
           requestData,
         );
         console.log('Added to cart:', response);
+        console.log(requestData);
         openCartModal();
       }
     } catch (error) {
       console.error('Error adding to cart:', error);
     }
   };
+
+  const setCartData = useSetRecoilState(cartDataState);
 
   const reservation = async (rooms: RoomData[], roomInfo: Room) => {
     try {
@@ -207,7 +206,6 @@ const ProductsDetail = () => {
         checkOut: roomInfo.checkOut,
         price: parseFloat(`${roomInfo.price}`) * nights,
       };
-      const setCartData = useSetRecoilState(cartDataState);
 
       setCartData(() => [requestData]);
 
@@ -235,6 +233,7 @@ const ProductsDetail = () => {
   };
 
   if (!productDetail || !productDetail.images) {
+    console.log('ProductDetail or images are undefined:', productDetail);
     return <div>Loading...</div>;
   }
 
@@ -481,7 +480,7 @@ const ProductsLocation = css`
   justify-content: flex-start;
 
   font-size: 1.5rem;
-  font-weight: 400;
+  font-weight: 600;
 
   margin-top: 2rem;
 `;
@@ -514,7 +513,8 @@ const PeopleCount = css`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-left: 0.5rem;
+  // padding-left: 0.5rem;
+  padding: 10px 10px;
 `;
 
 const RoomContainer = css`
