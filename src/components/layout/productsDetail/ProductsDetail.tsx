@@ -488,11 +488,6 @@ const ProductsLocation = css`
   margin-bottom: 2rem;
 `;
 
-const kakaoMap = css`
-  width: 500px;
-  height: 400px;
-`;
-
 const OptionSelector = css`
   display: flex;
   width: 100%;
