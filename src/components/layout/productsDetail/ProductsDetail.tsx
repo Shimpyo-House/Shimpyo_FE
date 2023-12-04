@@ -223,16 +223,6 @@ const ProductsDetail = () => {
     return <div>Loading...</div>;
   }
 
-  // slick
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    autoplay: true,
-    slidesToShow: 1,
-    autoplaySpeed: 2000,
-  };
-
   if (!productDetail || !productDetail.images) {
     console.log('ProductDetail or images are undefined:', productDetail);
     return <div>Loading...</div>;
