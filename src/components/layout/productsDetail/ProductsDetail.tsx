@@ -11,7 +11,6 @@ import { css } from '@emotion/react';
 import { SetStateAction, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 // import axios from 'axios';
-import Slider from 'react-slick';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { format } from 'date-fns';
 import Modal from 'react-modal';
@@ -29,6 +28,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { loadingAtom } from '../../../atoms/loading';
 import Star from '../../common/star';
 import Location from './Location';
+import ImageSlider from './ImageSlider';
 
 const ProductsDetail = () => {
   const navigate = useNavigate();
@@ -241,19 +241,7 @@ const ProductsDetail = () => {
   return (
     <div>
       <div css={ProductDetailContainer}>
-        <Slider {...settings} css={SliderStyle}>
-          {productDetail?.images.map((image, index) => (
-            <div key={index} css={SlideItem}>
-              <div
-                css={ProductDetailImg}
-                style={{
-                  backgroundImage: `url(${image})`,
-                  backgroundPosition: 'center',
-                }}
-              />
-            </div>
-          ))}
-        </Slider>
+        <ImageSlider images={productDetail.images} />
         <div css={ProductDetailBox}>
           <div css={ProductData}>
             <div css={NameScoreContainer}>
@@ -415,26 +403,6 @@ const ProductDetailContainer = css`
   background-color: #fff;
 
   min-height: calc(100vh - 70px);
-`;
-
-const SliderStyle = css`
-  width: 100%;
-  height: 500px;
-  overflow: hidden;
-`;
-
-const SlideItem = css`
-  width: 100%;
-  height: 100%;
-`;
-
-const ProductDetailImg = css`
-  width: 100%;
-  height: 500px;
-  background-size: cover;
-  /* border-radius: 10px; */
-  display: block;
-  object-fit: cover;
 `;
 
 const ProductDetailBox = css`

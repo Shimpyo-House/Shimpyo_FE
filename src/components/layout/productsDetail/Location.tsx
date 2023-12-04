@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import { useEffect } from 'react';
 
 const Location = ({
@@ -56,9 +57,13 @@ const Location = ({
 
   return (
     <div>
-      <div id="map" style={{ width: '1210px', height: '550px' }} />
+      <div css={mapContainer}>
+        <div id="map" style={{ width: '1210px', height: '550px' }} />
+      </div>
     </div>
   );
 };
 
 export default Location;
+
+const mapContainer = css``;
