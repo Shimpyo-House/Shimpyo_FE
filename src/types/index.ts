@@ -94,12 +94,6 @@ export interface RoomData {
   endDate: string;
 }
 
-export interface PostRoomData {
-  roomId: number;
-  startDate: string;
-  endDate: string;
-  isAvailable?: boolean;
-}
 export interface AllReservationData {
   roomId: number;
   productName: string;

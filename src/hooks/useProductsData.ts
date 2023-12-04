@@ -68,8 +68,6 @@ const useSearchData = async (
     const searchData = fetchData.data.data.filter(
       (products) => products.capacity >= countNumber,
     );
-    console.log(fetchData);
-    console.log(searchData);
 
     return searchData;
   } catch (error) {

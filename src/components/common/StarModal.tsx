@@ -26,13 +26,12 @@ const registerStar = async ({
   score: number;
   reservationProductId: number;
 }) => {
-  const res = await axiosWithAccessToken.post('/api/stars', {
+  await axiosWithAccessToken.post('/api/stars', {
     productId,
     score,
     reservationProductId,
   });
 
-  console.log(res);
 };
 
 const StarModal = ({
