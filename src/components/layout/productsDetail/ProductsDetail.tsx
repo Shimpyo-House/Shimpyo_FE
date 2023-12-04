@@ -28,6 +28,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { loadingAtom } from '../../../atoms/loading';
 import Star from '../../common/star';
+import Location from './Location';
 
 const ProductsDetail = () => {
   const navigate = useNavigate();
@@ -265,6 +266,7 @@ const ProductsDetail = () => {
             <div css={ProductsLocation}>{productDetail.address}</div>
           </div>
         </div>
+        {productDetail && <Location address={productDetail.address} />}
         <div css={OptionSelector}>
           <div css={[DayCalendar, Divider]}>
             <CalendarComponent
@@ -483,6 +485,12 @@ const ProductsLocation = css`
   font-weight: 600;
 
   margin-top: 2rem;
+  margin-bottom: 2rem;
+`;
+
+const kakaoMap = css`
+  width: 500px;
+  height: 400px;
 `;
 
 const OptionSelector = css`
