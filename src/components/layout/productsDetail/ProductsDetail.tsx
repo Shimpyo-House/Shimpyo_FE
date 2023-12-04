@@ -186,8 +186,6 @@ const ProductsDetail = () => {
     }
   };
 
-  const setCartData = useSetRecoilState(cartDataState);
-
   const reservation = async (rooms: RoomData[], roomInfo: Room) => {
     try {
       setLoading({ isLoading: true, message: '현재 예약중입니다.' });
@@ -209,6 +207,7 @@ const ProductsDetail = () => {
         checkOut: roomInfo.checkOut,
         price: parseFloat(`${roomInfo.price}`) * nights,
       };
+      const setCartData = useSetRecoilState(cartDataState);
 
       setCartData(() => [requestData]);
 
