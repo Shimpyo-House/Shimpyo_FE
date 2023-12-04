@@ -41,13 +41,26 @@ const Location = ({
             position: coords,
           });
 
-          const infowindow = new kakao.maps.InfoWindow({
-            content: `<div style="width:150px;text-align:center;padding:6px 0;">${productName}</div>`,
+          const infoWindow = new kakao.maps.InfoWindow({
+            content: `<div style="width:150px;text-align:center;padding:6px 0;border:1px solid gray;">${productName}</div>`,
           });
-          infowindow.open(map, marker);
+          infoWindow.open(map, marker);
 
           // 지도 중심 이동
           map.setCenter(coords);
+
+          const createLink = () => {
+            const mapbtn = document.getElementById('map-btn');
+            mapbtn?.addEventListener('click', () => {
+              const location = encodeURIComponent(address);
+              const lat = encodeURIComponent(result[0].y);
+              const lng = encodeURIComponent(result[0].x);
+              const url = `https://map.kakao.com/link/to/${location},${lat},${lng}`;
+              window.location.href = url;
+            });
+          };
+
+          createLink();
         }
       });
     };
@@ -59,6 +72,9 @@ const Location = ({
     <div>
       <div css={mapContainer}>
         <div id="map" style={{ width: '1210px', height: '550px' }} />
+        <button type="button" id="map-btn">
+          길찾기
+        </button>
       </div>
     </div>
   );
