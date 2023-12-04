@@ -1,6 +1,12 @@
 import { useEffect } from 'react';
 
-const Location = ({ address }: { address: string }) => {
+const Location = ({
+  address,
+  productName,
+}: {
+  address: string;
+  productName: string;
+}) => {
   useEffect(() => {
     const script = document.createElement('script');
     script.src =
@@ -35,7 +41,7 @@ const Location = ({ address }: { address: string }) => {
           });
 
           const infowindow = new kakao.maps.InfoWindow({
-            content: `<div style="width:150px;text-align:center;padding:6px 0;">${address}</div>`,
+            content: `<div style="width:150px;text-align:center;padding:6px 0;">${productName}</div>`,
           });
           infowindow.open(map, marker);
 

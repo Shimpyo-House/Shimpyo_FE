@@ -266,7 +266,12 @@ const ProductsDetail = () => {
             <div css={ProductsLocation}>{productDetail.address}</div>
           </div>
         </div>
-        {productDetail && <Location address={productDetail.address} />}
+        {productDetail && (
+          <Location
+            address={productDetail.address}
+            productName={productDetail.productName}
+          />
+        )}
         <div css={OptionSelector}>
           <div css={[DayCalendar, Divider]}>
             <CalendarComponent
