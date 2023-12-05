@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import { useInfiniteQuery } from 'react-query';
 import { useSetRecoilState } from 'recoil';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import ColumnList from './ColumnList';
 import { useObs, useSearchData } from '../../../hooks/useProductsData';
 import { ResponseProductsData } from '../../../types';
@@ -42,14 +42,6 @@ const SearchProductsList = ({ keyword, count, location }: PropsType) => {
     },
   );
 
-  // 페이지에 다시 돌아왔을 때 더 로딩할 페이지가 있는지 확인 로직
-  useEffect(() => {
-    if (data)
-      if (data?.pages[data.pages.length - 1].length === 0) {
-        setIsEnd(true);
-      }
-  }, []);
-
   const obsHandler = async (entries: IntersectionObserverEntry[]) => {
     const target = entries[0];
     if (target.isIntersecting && !isEnd) {
@@ -69,8 +61,10 @@ const SearchProductsList = ({ keyword, count, location }: PropsType) => {
         pageParam,
       );
       if (fetchData) {
-        if (fetchData.length === 0) {
+        if (fetchData.length < 30) {
           setIsEnd(true);
+        }
+        if (fetchData.length === 0) {
           setIsReal(false);
           return undefined;
         }
