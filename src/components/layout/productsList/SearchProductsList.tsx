@@ -32,7 +32,7 @@ const SearchProductsList = ({ keyword, count, location }: PropsType) => {
     },
     {
       refetchOnWindowFocus: false,
-      staleTime: 100000,
+      staleTime: 10000,
       getNextPageParam: (pageParam, allPage) => {
         if (!allPage) {
           return pageParam;

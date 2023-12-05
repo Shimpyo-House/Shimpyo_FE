@@ -1,29 +1,21 @@
-import { useSearchParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import ListBackground from '../components/layout/productsList/ListBackground';
 import SearchProductsList from '../components/layout/productsList/SearchProductsList';
 
 const SearchProducts = () => {
+  const queryLocation = useLocation();
   const [searchPrams] = useSearchParams();
-  const [keyword, setKeword] = useState('');
-  const [count, setCount] = useState('');
-  const [location, setLocation] = useState('');
-  useEffect(() => {
-    const isKeyWord = searchPrams.get('keyword');
-    const isCount = searchPrams.get('count');
-    const isLocation = searchPrams.get('location');
+  const keyword = searchPrams.get('keyword') || '';
+  const count = searchPrams.get('count') || '';
+  const location = searchPrams.get('location') || '';
 
-    if (isKeyWord && isCount && isLocation) {
-      setKeword(isKeyWord);
-      setCount(isCount);
-      setLocation(isLocation);
-    }
-  }, []);
+  useEffect(() => {}, [queryLocation.key]);
 
   return (
     <div>
       <ListBackground />
-      {keyword !== '' && (
+      {keyword && (
         <SearchProductsList
           keyword={keyword}
           count={count}
