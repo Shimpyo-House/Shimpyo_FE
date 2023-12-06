@@ -150,13 +150,17 @@ const OrderButton = css`
 
 const DisabledButton = css`
   width: 70%;
+
   margin: auto;
   margin-top: 1rem;
   padding: 1rem;
+
   border-radius: 0.5rem;
+
   font-size: 1.3rem;
   font-weight: 700;
   color: ${theme.colors.white};
   background-color: ${theme.colors.gray400};
+
   cursor: not-allowed;
 `;
