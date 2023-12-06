@@ -3,10 +3,10 @@
 import { useQuery } from 'react-query';
 import { useSetRecoilState } from 'recoil';
 import MainProductsList from '../components/layout/productsList/MainProductsList';
-import { useProductsData } from '../hooks/useProductsData';
 import { ResponseProductsData } from '../types';
 import ListBackground from '../components/layout/productsList/ListBackground';
 import { loadingAtom } from '../atoms/loading';
+import { useProductsData } from '../api/productsList';
 
 const Home = () => {
   const setLoading = useSetRecoilState(loadingAtom);

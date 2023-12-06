@@ -1,24 +1,20 @@
 /* eslint-disable  @typescript-eslint/indent */
 import { css } from '@emotion/react';
 import { useInfiniteQuery } from 'react-query';
-import { useSetRecoilState } from 'recoil';
 import { useRef, useState } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import ColumnList from './ColumnList';
-import { useObs, useSearchData } from '../../../hooks/useProductsData';
+import useObs from '../../../hooks/useObs';
 import { ResponseProductsData } from '../../../types';
 import theme from '../../../style/theme';
-import { loadingAtom } from '../../../atoms/loading';
+import { getSearchData } from '../../../api/productsList';
 
-type PropsType = {
-  keyword: string;
-  count: string;
-  location: string;
-};
-
-const SearchProductsList = ({ keyword, count, location }: PropsType) => {
-  const setLoading = useSetRecoilState(loadingAtom);
+const SearchProductsList = () => {
   const [isEnd, setIsEnd] = useState(false);
   const [isReal, setIsReal] = useState(true);
+  const queryLocation = useLocation();
+  const [searchPrams] = useSearchParams();
+
   const obsRef = useRef(null);
 
   const { data, fetchNextPage } = useInfiniteQuery<
@@ -26,13 +22,12 @@ const SearchProductsList = ({ keyword, count, location }: PropsType) => {
     unknown,
     ResponseProductsData[]
   >(
-    keyword,
+    queryLocation.key,
     ({ pageParam = 0 }) => {
-      return getData(pageParam);
+      return getSearchData(pageParam, setIsEnd, setIsReal, searchPrams);
     },
     {
       refetchOnWindowFocus: false,
-      staleTime: 10000,
       getNextPageParam: (pageParam, allPage) => {
         if (!allPage) {
           return pageParam;
@@ -50,34 +45,6 @@ const SearchProductsList = ({ keyword, count, location }: PropsType) => {
   };
 
   useObs(obsHandler, obsRef);
-
-  const getData = async (pageParam: number) => {
-    try {
-      setLoading({ isLoading: true, message: '데이터를 조회중입니다.' });
-      const fetchData = await useSearchData(
-        keyword,
-        location,
-        count,
-        pageParam,
-      );
-      if (fetchData) {
-        if (fetchData.length < 30) {
-          setIsEnd(true);
-        }
-        if (fetchData.length === 0) {
-          setIsReal(false);
-          return undefined;
-        }
-        setIsReal(true);
-        return fetchData;
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading({ isLoading: false, message: '' });
-    }
-    return undefined;
-  };
 
   return (
     <div css={PageBox}>
