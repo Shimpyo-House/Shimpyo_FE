@@ -1,6 +1,5 @@
 /* eslint-disable prefer-template */
 /* eslint-disable @typescript-eslint/indent */
-/* eslint-disable no-alert */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useCallback, useMemo } from 'react';
@@ -172,7 +171,6 @@ const CartItem = () => {
           </div>
         ))}
       <CartTotal totalPrice={totalPrice} />
-      {/* <CartTotal totalPrice={totalPrice} checkedRoomList={checkedRoomList} /> */}
     </>
   );
 };
