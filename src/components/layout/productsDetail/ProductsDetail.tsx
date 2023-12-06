@@ -11,7 +11,6 @@ import { css } from '@emotion/react';
 import { SetStateAction, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 // import axios from 'axios';
-import Slider from 'react-slick';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { format } from 'date-fns';
 import Modal from 'react-modal';
@@ -28,6 +27,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { loadingAtom } from '../../../atoms/loading';
 import Star from '../../common/star';
+import Location from './Location';
+import ImageSlider from './ImageSlider';
 
 const ProductsDetail = () => {
   const navigate = useNavigate();
@@ -222,16 +223,6 @@ const ProductsDetail = () => {
     return <div>Loading...</div>;
   }
 
-  // slick
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    autoplay: true,
-    slidesToShow: 1,
-    autoplaySpeed: 2000,
-  };
-
   if (!productDetail || !productDetail.images) {
     console.log('ProductDetail or images are undefined:', productDetail);
     return <div>Loading...</div>;
@@ -240,19 +231,7 @@ const ProductsDetail = () => {
   return (
     <div>
       <div css={ProductDetailContainer}>
-        <Slider {...settings} css={SliderStyle}>
-          {productDetail?.images.map((image, index) => (
-            <div key={index} css={SlideItem}>
-              <div
-                css={ProductDetailImg}
-                style={{
-                  backgroundImage: `url(${image})`,
-                  backgroundPosition: 'center',
-                }}
-              />
-            </div>
-          ))}
-        </Slider>
+        <ImageSlider images={productDetail.images} />
         <div css={ProductDetailBox}>
           <div css={ProductData}>
             <div css={NameScoreContainer}>
@@ -265,6 +244,12 @@ const ProductsDetail = () => {
             <div css={ProductsLocation}>{productDetail.address}</div>
           </div>
         </div>
+        {productDetail && (
+          <Location
+            address={productDetail.address}
+            productName={productDetail.productName}
+          />
+        )}
         <div css={OptionSelector}>
           <div css={[DayCalendar, Divider]}>
             <CalendarComponent
@@ -410,26 +395,6 @@ const ProductDetailContainer = css`
   min-height: calc(100vh - 70px);
 `;
 
-const SliderStyle = css`
-  width: 100%;
-  height: 500px;
-  overflow: hidden;
-`;
-
-const SlideItem = css`
-  width: 100%;
-  height: 100%;
-`;
-
-const ProductDetailImg = css`
-  width: 100%;
-  height: 500px;
-  background-size: cover;
-  /* border-radius: 10px; */
-  display: block;
-  object-fit: cover;
-`;
-
 const ProductDetailBox = css`
   width: 100%;
   //   max-width: 1000px;
@@ -480,9 +445,10 @@ const ProductsLocation = css`
   justify-content: flex-start;
 
   font-size: 1.5rem;
-  font-weight: 400;
+  font-weight: 600;
 
   margin-top: 2rem;
+  margin-bottom: 2rem;
 `;
 
 const OptionSelector = css`
@@ -513,7 +479,8 @@ const PeopleCount = css`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-left: 0.5rem;
+  // padding-left: 0.5rem;
+  padding: 10px 10px;
 `;
 
 const RoomContainer = css`

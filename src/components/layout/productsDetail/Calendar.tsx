@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-alert */
 import { SetStateAction, useEffect, useState } from 'react';
 import { css } from '@emotion/react';
