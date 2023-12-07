@@ -17,8 +17,12 @@ const Payment = () => {
   const [eventAgree, setEventAgree] = useState(false);
   const [eventInfoAgree, setEventInfoAgree] = useState(false);
   const payMethod = localStorage.getItem('PaymentMethod');
-  const userName = localStorage.getItem('UserName') || null;
-  const userPhoneNum = localStorage.getItem('UserPhoneNum') || null;
+  const userName = localStorage.getItem('UserName');
+  const userPhoneNum = localStorage.getItem('UserPhoneNum');
+
+  const isUserInfoValid = payMethod && userName && userPhoneNum;
+
+  console.log(isUserInfoValid === '');
 
   const navigate = useNavigate();
 
@@ -196,10 +200,12 @@ const Payment = () => {
         type="button"
         css={PaymentButton}
         style={{
-          backgroundColor: allAgree ? '#3a7bdf' : 'gray',
-          cursor: allAgree ? 'pointer' : 'not-allowed',
+          backgroundColor:
+            allAgree && isUserInfoValid !== '' ? '#3a7bdf' : 'gray',
+          cursor:
+            allAgree && isUserInfoValid !== '' ? 'pointer' : 'not-allowed',
         }}
-        disabled={!allAgree}
+        disabled={!allAgree && isUserInfoValid === ''}
         onClick={() => {
           navigate('/ordered');
           handlePaymentData();
