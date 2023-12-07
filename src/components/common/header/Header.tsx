@@ -51,6 +51,7 @@ const Container = css`
   z-index: 999;
 
   width: 100%;
+  min-width: 80rem;
   height: 4.375rem;
 
   background-color: ${theme.colors.white};
