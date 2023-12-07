@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable prefer-template */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable no-unneeded-ternary */
@@ -19,7 +18,7 @@ import CartTotal from './CartTotal';
 
 const CartItem = () => {
   const {
-    cartQuery: { data: cartData },
+    cartGetQuery: { data: cartData },
     deleteCartItemMutation,
   } = useCart();
   const [checkedRoomList, setCheckedRoomList] = useRecoilState(
