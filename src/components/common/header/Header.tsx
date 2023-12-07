@@ -13,7 +13,7 @@ const Header = () => {
   useGetUserData();
   const user = useRecoilValue(userAtom);
   const {
-    cartQuery: { data: cartData },
+    cartGetQuery: { data: cartData },
   } = useCart();
 
   return (
