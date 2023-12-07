@@ -4,7 +4,7 @@ import CartNoItem from '../components/layout/cart/CartNoItem';
 
 const Cart = () => {
   const {
-    cartQuery: { data: cartData },
+    cartGetQuery: { data: cartData },
   } = useCart();
 
   return !cartData || cartData.length === 0 ? <CartNoItem /> : <CartItem />;
