@@ -1,23 +1,24 @@
 /* eslint-disable consistent-return */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/jsx-props-no-spreading */
 import { css } from '@emotion/react';
 import { SetStateAction, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+// import axios from 'axios';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { format } from 'date-fns';
 import Modal from 'react-modal';
 import { useSetRecoilState } from 'recoil';
 import { cartDataState } from '../../../atoms/cartAtom';
-import { axiosWithNoToken } from '../../../Axios';
+import { axiosWithNoToken, axiosWithAccessToken } from '../../../Axios';
 import theme from '../../../style/theme';
-import {
-  PostRoomToCart,
-  RequestProductDetail,
-  Room,
-  RoomData,
-} from '../../../types';
+import { RequestProductDetail, Room, RoomData } from '../../../types';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import CalendarComponent from './Calendar';
@@ -28,13 +29,9 @@ import { loadingAtom } from '../../../atoms/loading';
 import Star from '../../common/star';
 import LocationWithCustomOverlay from './LocationWithCustomOverlay';
 import ImageSlider from './ImageSlider';
-import useCart from '../../../hooks/useCart';
-import { cartPostToJudgment } from '../../../api/cart';
 
 const ProductsDetail = () => {
   const navigate = useNavigate();
-
-  const { cartPostMutation } = useCart();
 
   const [productDetail, setProductDetail] =
     useState<RequestProductDetail | null>(null);
@@ -86,6 +83,7 @@ const ProductsDetail = () => {
         const response = await axiosWithNoToken.get(
           `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
         );
+        console.log('ProductDetail', response);
         setProductDetail(response.data.data);
       } catch (error) {
         console.error('Error fetching product detail:', error);
@@ -126,7 +124,7 @@ const ProductsDetail = () => {
       return;
     }
 
-    const requestData: PostRoomToCart = {
+    const requestData = {
       roomId: room.roomId,
       roomName: room.roomName,
       price: parseFloat(`${room.price}`) * nights,
@@ -134,7 +132,7 @@ const ProductsDetail = () => {
       standard: room.standard,
       checkIn: room.checkIn,
       checkOut: room.checkOut,
-      reserved: room.reserved,
+      reserved: Boolean,
       startDate: defaultDate,
       endDate: defaultDatePlusDay,
     };
@@ -169,10 +167,16 @@ const ProductsDetail = () => {
 
       if (isOverlapping) {
         openModal();
+        console.log('Item already exists in the cart');
       } else {
         cartItems.push(requestData);
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
-        await cartPostMutation.mutate(requestData);
+        const response = await axiosWithAccessToken.post(
+          '/api/carts',
+          requestData,
+        );
+        console.log('Added to cart:', response);
+        console.log(requestData);
         openCartModal();
       }
     } catch (error) {
@@ -185,6 +189,11 @@ const ProductsDetail = () => {
   const reservation = async (rooms: RoomData[], roomInfo: Room) => {
     try {
       setLoading({ isLoading: true, message: '현재 예약중입니다.' });
+      const payload = { rooms };
+      const response = await axiosWithAccessToken.post(
+        '/api/reservations/preoccupy',
+        payload,
+      );
 
       const requestData = {
         roomId: roomInfo.roomId,
@@ -200,8 +209,9 @@ const ProductsDetail = () => {
       };
 
       setCartData(() => [requestData]);
-      await cartPostToJudgment(rooms);
+
       navigate('/pay');
+      return response.data.data;
     } catch (err) {
       console.error(err);
     } finally {
@@ -214,6 +224,7 @@ const ProductsDetail = () => {
   }
 
   if (!productDetail || !productDetail.images) {
+    console.log('ProductDetail or images are undefined:', productDetail);
     return <div>Loading...</div>;
   }
 
@@ -233,13 +244,15 @@ const ProductsDetail = () => {
             <div css={ProductsLocation}>{productDetail.address}</div>
           </div>
         </div>
-        {productDetail && (
-          <LocationWithCustomOverlay
-            address={productDetail.address}
-            productName={productDetail.productName}
-            images={productDetail.images}
-          />
-        )}
+        <div>
+          {productDetail && (
+            <LocationWithCustomOverlay
+              address={productDetail.address}
+              productName={productDetail.productName}
+              images={productDetail.images}
+            />
+          )}
+        </div>
         <div css={OptionSelector}>
           <div css={[DayCalendar, Divider]}>
             <CalendarComponent
@@ -387,9 +400,8 @@ const ProductDetailContainer = css`
 
 const ProductDetailBox = css`
   width: 100%;
-  //   max-width: 1000px;
   display: flex;
-  gap: 20px;
+  gap: 1.25rem;
   margin-top: 3rem;
 `;
 
@@ -406,7 +418,7 @@ const NameScoreContainer = css`
   justify-content: space-between;
   width: 95%;
   align-items: center;
-  font-size: 14px;
+  font-size: 0.875rem;
 `;
 
 const ProductScore = css`
@@ -418,7 +430,7 @@ const ProductScore = css`
   /* width: 6.25rem; */
 `;
 
-export const ProductName = css`
+const ProductName = css`
   width: 100%;
 
   display: flex;
@@ -446,14 +458,13 @@ const OptionSelector = css`
   width: 100%;
   background-color: ${theme.colors.white};
   border: 1px solid #ccc;
-  /* border-radius: 4px; */
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   margin-top: 2rem;
 `;
 
 const Divider = css`
-  border-right: 1px solid #ccc;
+  border-right: 0.0625rem solid #ccc;
 `;
 
 const DayCalendar = css`
@@ -470,30 +481,30 @@ const PeopleCount = css`
   justify-content: flex-end;
   align-items: center;
   // padding-left: 0.5rem;
-  padding: 10px 10px;
+  padding: 0.625rem 0.625rem;
 `;
 
 const RoomContainer = css`
   display: flex;
+  label: 'room';
   flex-direction: column;
   /* margin-top: 50px; */
+  width: 80rem;
 `;
 
 const RoomItem = css`
   display: flex;
-  padding: 20px;
+  padding: 1.25rem;
   border: 1px solid #e5e9ed;
-  /* border-radius: 10px; */
-  /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
   background-color: ${theme.colors.white};
-  width: 1280px;
-  height: 400px;
+  max-width: 80rem;
+  height: 25rem;
 `;
 
 const RoomImg = css`
   width: 30%;
-  border-radius: 10px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 0.625rem;
+  box-shadow: 0rem 0.25rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
 `;
 
 const RoomInfo = css`
@@ -501,29 +512,29 @@ const RoomInfo = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 10px;
-  margin-left: 20px;
+  padding: 0.625rem;
+  margin-left: 1.25rem;
   font-weight: bold;
 `;
 
 const RoomName = css`
-  font-size: 36px;
+  font-size: 2.25rem;
 `;
 
 const RoomCount = css`
-  font-size: 24px;
+  font-size: 1.5rem;
 `;
 
 const RoomDesc = css`
-  font-size: 20px;
+  font-size: 1.25rem;
 `;
 
 const checkTime = css`
-  font-size: 20px;
+  font-size: 1.25rem;
 `;
 
 const peoplePlusText = css`
-  font-size: 14px;
+  font-size: 0.875rem;
   color: ${theme.colors.gray600};
 `;
 
@@ -532,13 +543,13 @@ const RoomAction = css`
   flex-direction: column;
   align-items: flex-end;
   margin-left: auto;
-  padding: 10px;
+  padding: 0.625rem;
 `;
 
 const priceStyle = css`
   align-self: flex-end;
-  margin-bottom: 10px;
-  font-size: 30px;
+  margin-bottom: 0.625rem;
+  font-size: 1.875rem;
 `;
 
 const buyBtn = css`
@@ -573,14 +584,14 @@ const NoCartIcon = css`
 `;
 
 const reservationButton = css`
-  padding: 10px 20px;
+  padding: 0.625rem 1.25rem;
   background-color: ${theme.colors.blue700};
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  font-size: 16px;
+  font-size: 1rem;
   outline: none;
 
   &:hover {
@@ -593,14 +604,14 @@ const reservationButton = css`
 `;
 
 const exceedText = css`
-  padding: 10px 20px;
+  padding: 0.625rem 1.25rem;
   background-color: ${theme.colors.gray500};
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   cursor: not-allowed;
   transition: background-color 0.3s ease;
-  font-size: 16px;
+  font-size: 1rem;
   outline: none;
 `;
 
@@ -611,11 +622,11 @@ const modalStyle = css`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400px;
-  height: 250px;
+  width: 25rem;
+  height: 15.625rem;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
   background-color: white;
 `;
 
@@ -628,32 +639,32 @@ const modalTextContainer = css`
 `;
 
 const modalText1 = css`
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: bold;
   margin-right: auto;
   margin-left: auto;
-  margin-top: 10px;
+  margin-top: 0.625rem;
   white-space: nowrap;
 `;
 
 const modalText2 = css`
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
   white-space: nowrap;
 `;
 
 const modalText3 = css`
   text-align: center;
-  margin-top: 10px;
+  margin-top: 0.625rem;
   white-space: nowrap;
 `;
 
 const modalBtn = css`
-  padding: 8px 16px;
+  padding: 0.5rem 1rem;
   background-color: ${theme.colors.blue600};
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
 

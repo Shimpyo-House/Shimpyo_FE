@@ -26,6 +26,7 @@ const LocationWithCustomOverlay = ({
       const { kakao } = window as any;
 
       const mapContainer = document.getElementById('map');
+
       const mapOption = {
         center: new kakao.maps.LatLng(33.450701, 126.570667),
         level: 3,
@@ -59,9 +60,9 @@ const LocationWithCustomOverlay = ({
           const title = document.createElement('div');
           title.className = 'title';
           title.style.backgroundColor = '#6195E6';
-          title.style.borderTopLeftRadius = '10px';
-          title.style.borderTopRightRadius = '10px';
-          title.style.padding = '10px';
+          title.style.borderTopLeftRadius = '0.625rem';
+          title.style.borderTopRightRadius = '0.625rem';
+          title.style.padding = '0.625rem';
           title.style.fontWeight = '700';
           title.style.color = 'white';
           title.innerText = productName;
@@ -73,11 +74,11 @@ const LocationWithCustomOverlay = ({
           desc.className = 'desc';
           desc.style.display = 'flex';
           desc.style.alignItems = 'center';
-          desc.style.justifyContent = 'space-between'; // 주소와 버튼을 가로로 배치
-          desc.style.paddingTop = '12px';
-          desc.style.paddingBottom = '6px';
-          desc.style.paddingLeft = '10px';
-          desc.style.paddingRight = '10px';
+          desc.style.justifyContent = 'space-between';
+          desc.style.paddingTop = '0.75rem';
+          desc.style.paddingBottom = '0.375rem';
+          desc.style.paddingLeft = '0.625rem';
+          desc.style.paddingRight = '0.625rem';
           desc.style.fontWeight = '600';
 
           const addressElement = document.createElement('div');
@@ -88,6 +89,8 @@ const LocationWithCustomOverlay = ({
           mapBtn.style.cursor = 'pointer';
           mapBtn.style.color = 'blue';
           mapBtn.style.fontWeight = '500';
+          mapBtn.style.position = 'relative';
+          mapBtn.style.marginLeft = '0.625rem';
 
           const mapIcon = (
             <IconButton onClick={() => createLink()} size="small">
