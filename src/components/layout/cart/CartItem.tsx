@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable prefer-template */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable no-alert */
