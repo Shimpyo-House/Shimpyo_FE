@@ -205,7 +205,7 @@ const Payment = () => {
           cursor:
             allAgree && isUserInfoValid !== '' ? 'pointer' : 'not-allowed',
         }}
-        disabled={!allAgree && isUserInfoValid === ''}
+        disabled={!allAgree || isUserInfoValid === ''}
         onClick={() => {
           navigate('/ordered');
           handlePaymentData();
@@ -213,6 +213,9 @@ const Payment = () => {
       >
         {totalPrice.toLocaleString()}원 결제하기
       </button>
+      <div css={WarningInfo}>
+        {isUserInfoValid === '' ? '* 필수 정보를 다 입력해 주세요.' : null}
+      </div>
     </div>
   );
 };
@@ -440,6 +443,11 @@ const CheckBtn = css`
 const AlignCheckBox = css`
   display: flex;
   gap: 10px;
+`;
+
+const WarningInfo = css`
+  margin-top: 1rem;
+  color: ${theme.colors.blue800};
 `;
 
 export default Payment;
