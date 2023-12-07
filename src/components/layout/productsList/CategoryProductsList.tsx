@@ -94,7 +94,9 @@ const CategoryProductsList = ({ category }: PropsType) => {
             {category === '한옥' && '한옥에서 즐기는 대한민국의 정취'}
           </p>
         </div>
-        {data && data.pages && <ColumnList data={data.pages.flat()} />}
+        {data && data.pages && (
+          <ColumnList data={data.pages.flat()} main={false} />
+        )}
         {!isEnd && <div ref={obsRef} />}
       </div>
     </div>
