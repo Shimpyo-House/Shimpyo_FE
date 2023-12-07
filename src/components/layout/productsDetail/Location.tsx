@@ -113,6 +113,10 @@ const LocationWithCustomOverlay = ({
             overlay.setMap(map);
           });
 
+          kakao.maps.event.addListener(map, 'click', () => {
+            overlay.setMap(null);
+          });
+
           overlay.setMap(null);
           map.setCenter(coords);
         }
