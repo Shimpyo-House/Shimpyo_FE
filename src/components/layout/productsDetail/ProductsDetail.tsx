@@ -27,7 +27,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { loadingAtom } from '../../../atoms/loading';
 import Star from '../../common/star';
-import Location from './Location';
+import LocationWithCustomOverlay from './LocationWithCustomOverlay';
 import ImageSlider from './ImageSlider';
 
 const ProductsDetail = () => {
@@ -245,9 +245,10 @@ const ProductsDetail = () => {
           </div>
         </div>
         {productDetail && (
-          <Location
+          <LocationWithCustomOverlay
             address={productDetail.address}
             productName={productDetail.productName}
+            images={productDetail.images}
           />
         )}
         <div css={OptionSelector}>
