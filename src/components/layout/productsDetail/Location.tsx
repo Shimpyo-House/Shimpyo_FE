@@ -10,6 +10,8 @@ const LocationWithCustomOverlay = ({
   images: string[];
 }) => {
   useEffect(() => {
+    let overlay: any;
+
     const script = document.createElement('script');
     script.src =
       '//dapi.kakao.com/v2/maps/sdk.js?appkey=b92e72579927a4979cd3df30c71f2096';
@@ -21,7 +23,7 @@ const LocationWithCustomOverlay = ({
 
       const mapContainer = document.getElementById('map');
       const mapOption = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667), // 초기 지도 중심 임시 설정
+        center: new kakao.maps.LatLng(33.450701, 126.570667),
         level: 3,
       };
 
@@ -38,30 +40,72 @@ const LocationWithCustomOverlay = ({
             position: coords,
           });
 
-          const overlayContent = `
-            <div class="overlay" style="background-color: white; border: 1px solid #ccc; border-radius: 10px;">
-              <div class="wrap">
-                <div class="info">
-                  <div class="title" style="background-color: #6195E6; border-top-left-radius: 10px;
-                  border-top-right-radius: 10px; padding: 10px; font-weight: 700; color: white;">
-                    ${productName}
-                  </div>
-                  <div class="body">
-                    <div class="desc">
-                      <div class="ellipsis" style="padding-top: 10px; padding-left: 10px; padding-right: 10px; font-weight:500;">${address}</div>
-                      <button id="map-btn" style="cursor: pointer; color: blue; padding: 10px; font-weight: 500">길찾기</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          `;
+          const overlayElement = document.createElement('div');
+          overlayElement.className = 'overlay';
+          overlayElement.style.backgroundColor = 'white';
+          overlayElement.style.border = '1px solid #ccc';
+          overlayElement.style.borderRadius = '10px';
 
-          const overlay = new kakao.maps.CustomOverlay({
-            content: overlayContent,
+          const wrap = document.createElement('div');
+          wrap.className = 'wrap';
+
+          const info = document.createElement('div');
+          info.className = 'info';
+
+          const title = document.createElement('div');
+          title.className = 'title';
+          title.style.backgroundColor = '#6195E6';
+          title.style.borderTopLeftRadius = '10px';
+          title.style.borderTopRightRadius = '10px';
+          title.style.padding = '10px';
+          title.style.fontWeight = '700';
+          title.style.color = 'white';
+          title.innerText = productName;
+
+          const body = document.createElement('div');
+          body.className = 'body';
+
+          const desc = document.createElement('div');
+          desc.className = 'desc';
+          desc.style.paddingTop = '12px';
+          desc.style.paddingBottom = '6px';
+          desc.style.paddingLeft = '10px';
+          desc.style.paddingRight = '10px';
+          desc.style.fontWeight = '600';
+          desc.innerText = address;
+
+          const mapBtn = document.createElement('button');
+          mapBtn.id = 'map-btn';
+          mapBtn.style.cursor = 'pointer';
+          mapBtn.style.color = 'blue';
+          mapBtn.style.padding = '10px';
+          mapBtn.style.fontWeight = '500';
+          mapBtn.innerText = '길찾기';
+
+          desc.appendChild(mapBtn);
+          body.appendChild(desc);
+          info.appendChild(title);
+          info.appendChild(body);
+          wrap.appendChild(info);
+          overlayElement.appendChild(wrap);
+
+          const createLink = () => {
+            const location = encodeURIComponent(address);
+            const lat = encodeURIComponent(result[0].y);
+            const lng = encodeURIComponent(result[0].x);
+            const url = `https://map.kakao.com/link/to/${location},${lat},${lng}`;
+            window.open(url, '_blank');
+          };
+
+          mapBtn.onclick = () => {
+            createLink();
+          };
+
+          overlay = new kakao.maps.CustomOverlay({
+            content: overlayElement,
             map,
-            position: marker.getPosition(), // 마커 위치로 오버레이 위치 설정
-            yAnchor: 1,
+            position: marker.getPosition(),
+            yAnchor: 1.5,
             clickable: true,
           });
 
@@ -69,39 +113,16 @@ const LocationWithCustomOverlay = ({
             overlay.setMap(map);
           });
 
-          // 오버레이를 처음에는 숨김
           overlay.setMap(null);
-
-          // 마커의 위치로 지도 중심 변경
           map.setCenter(coords);
-
-          // // closeOverlay 함수를 전역 객체에 추가
-          // window.closeOverlay = () => {
-          //   overlay.setMap(null);
-          // };
-
-          // 길찾기 버튼 클릭 시
-          const createLink = () => {
-            const mapbtn = document.getElementById('map-btn');
-            console.log('11');
-
-            const handleMapButtonClick = () => {
-              const location = encodeURIComponent(address);
-              const lat = encodeURIComponent(result[0].y);
-              const lng = encodeURIComponent(result[0].x);
-              const url = `https://map.kakao.com/link/to/${location},${lat},${lng}`;
-              console.log(location, url);
-              window.open(url, '_blank'); // 새 창으로 열기
-            };
-
-            // 기존 이벤트 핸들러 제거 후 새로운 핸들러 등록
-            mapbtn?.removeEventListener('click', handleMapButtonClick);
-            mapbtn?.addEventListener('click', handleMapButtonClick);
-          };
-
-          createLink();
         }
       });
+    };
+
+    return () => {
+      if (overlay) {
+        overlay.setMap(null);
+      }
     };
   }, [address, images, productName]);
 
