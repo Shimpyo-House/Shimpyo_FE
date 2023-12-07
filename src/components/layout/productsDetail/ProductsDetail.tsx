@@ -1,24 +1,23 @@
 /* eslint-disable consistent-return */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable react/jsx-no-useless-fragment */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable react/jsx-props-no-spreading */
 import { css } from '@emotion/react';
 import { SetStateAction, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-// import axios from 'axios';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { format } from 'date-fns';
 import Modal from 'react-modal';
 import { useSetRecoilState } from 'recoil';
 import { cartDataState } from '../../../atoms/cartAtom';
-import { axiosWithNoToken, axiosWithAccessToken } from '../../../Axios';
+import { axiosWithNoToken } from '../../../Axios';
 import theme from '../../../style/theme';
-import { RequestProductDetail, Room, RoomData } from '../../../types';
+import {
+  PostRoomToCart,
+  RequestProductDetail,
+  Room,
+  RoomData,
+} from '../../../types';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import CalendarComponent from './Calendar';
@@ -29,9 +28,13 @@ import { loadingAtom } from '../../../atoms/loading';
 import Star from '../../common/star';
 import Location from './Location';
 import ImageSlider from './ImageSlider';
+import useCart from '../../../hooks/useCart';
+import { cartPostToJudgment } from '../../../api/cart';
 
 const ProductsDetail = () => {
   const navigate = useNavigate();
+
+  const { cartPostMutation } = useCart();
 
   const [productDetail, setProductDetail] =
     useState<RequestProductDetail | null>(null);
@@ -83,7 +86,6 @@ const ProductsDetail = () => {
         const response = await axiosWithNoToken.get(
           `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
         );
-        console.log('ProductDetail', response);
         setProductDetail(response.data.data);
       } catch (error) {
         console.error('Error fetching product detail:', error);
@@ -124,7 +126,7 @@ const ProductsDetail = () => {
       return;
     }
 
-    const requestData = {
+    const requestData: PostRoomToCart = {
       roomId: room.roomId,
       roomName: room.roomName,
       price: parseFloat(`${room.price}`) * nights,
@@ -132,7 +134,7 @@ const ProductsDetail = () => {
       standard: room.standard,
       checkIn: room.checkIn,
       checkOut: room.checkOut,
-      reserved: Boolean,
+      reserved: room.reserved,
       startDate: defaultDate,
       endDate: defaultDatePlusDay,
     };
@@ -167,16 +169,10 @@ const ProductsDetail = () => {
 
       if (isOverlapping) {
         openModal();
-        console.log('Item already exists in the cart');
       } else {
         cartItems.push(requestData);
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
-        const response = await axiosWithAccessToken.post(
-          '/api/carts',
-          requestData,
-        );
-        console.log('Added to cart:', response);
-        console.log(requestData);
+        await cartPostMutation.mutate(requestData);
         openCartModal();
       }
     } catch (error) {
@@ -189,11 +185,6 @@ const ProductsDetail = () => {
   const reservation = async (rooms: RoomData[], roomInfo: Room) => {
     try {
       setLoading({ isLoading: true, message: '현재 예약중입니다.' });
-      const payload = { rooms };
-      const response = await axiosWithAccessToken.post(
-        '/api/reservations/preoccupy',
-        payload,
-      );
 
       const requestData = {
         roomId: roomInfo.roomId,
@@ -209,9 +200,8 @@ const ProductsDetail = () => {
       };
 
       setCartData(() => [requestData]);
-
+      await cartPostToJudgment(rooms);
       navigate('/pay');
-      return response.data.data;
     } catch (err) {
       console.error(err);
     } finally {
@@ -224,7 +214,6 @@ const ProductsDetail = () => {
   }
 
   if (!productDetail || !productDetail.images) {
-    console.log('ProductDetail or images are undefined:', productDetail);
     return <div>Loading...</div>;
   }
 

@@ -56,6 +56,19 @@ export type Room = {
   reserved: boolean;
 };
 
+export type PostRoomToCart = {
+  roomId: number;
+  roomName: string;
+  price: number;
+  desc: string;
+  standard: number;
+  checkIn: string;
+  checkOut: string;
+  reserved: boolean;
+  startDate: string;
+  endDate: string;
+};
+
 export type RequestProductDetail = {
   productId: string;
   category: string;

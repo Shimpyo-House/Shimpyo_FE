@@ -1,17 +1,25 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable no-alert */
 /* eslint-disable consistent-return */
 import { axiosWithAccessToken } from '../Axios';
-import { RoomData } from '../types';
+import { RoomData, PostRoomToCart } from '../types';
 import { getCookie } from '../components/layout/auth/auth.utils';
 
+const accessToken = getCookie('accessToken');
+
 const cartGetAxios = async () => {
-  const accessToken = getCookie('accessToken');
   try {
     if (accessToken) {
       const response = await axiosWithAccessToken.get('/api/carts');
       return response.data.data;
     }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const cartPostAxios = async (requestData: PostRoomToCart) => {
+  try {
+    const response = await axiosWithAccessToken.post('/api/carts', requestData);
+    return response.data.data;
   } catch (err) {
     console.error(err);
   }
@@ -38,4 +46,4 @@ const cartDeleteItem = async (cartId: number) => {
   }
 };
 
-export { cartGetAxios, cartPostToJudgment, cartDeleteItem };
+export { cartGetAxios, cartPostAxios, cartPostToJudgment, cartDeleteItem };
