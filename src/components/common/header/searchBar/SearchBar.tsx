@@ -41,7 +41,6 @@ const SearchBar = () => {
     navigate(
       `/search?location=${productLocation}&count=${count}&keyword=${keyword}`,
     );
-    location.reload();
   };
 
   return (

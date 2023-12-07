@@ -14,14 +14,6 @@ type PropsType = {
 };
 
 const NormalCategory = ({ data }: PropsType) => {
-  let hotData: ResponseProductsData[] = [];
-  let hotelData: ResponseProductsData[] = [];
-  let pensionData: ResponseProductsData[] = [];
-  let koreaData: ResponseProductsData[] = [];
-  if (data) {
-    [hotData, hotelData, pensionData, koreaData] = data;
-  }
-
   return (
     <div css={PageBox}>
       <div css={CategoryBox}>
@@ -32,7 +24,7 @@ const NormalCategory = ({ data }: PropsType) => {
           </Link>
         </h2>
         <p css={CategoryDesc}>가장 잘 나가는 숙소 추천</p>
-        <ColumnList data={hotData} />
+        {data && <ColumnList data={data[0]} />}
       </div>
       <div css={CategoryBox}>
         <h2 css={CategoryName}>
@@ -42,7 +34,7 @@ const NormalCategory = ({ data }: PropsType) => {
           </Link>
         </h2>
         <p css={CategoryDesc}>지금 떠나는 도심 호캉스!</p>
-        <RowList data={hotelData} />
+        {data && <RowList data={data[1]} />}
       </div>
       <div css={CategoryBox}>
         <h2 css={CategoryName}>
@@ -52,7 +44,7 @@ const NormalCategory = ({ data }: PropsType) => {
           </Link>
         </h2>
         <p css={CategoryDesc}>자연과 함께 즐기는 펜션여행</p>
-        <RowList data={pensionData} />
+        {data && <RowList data={data[2]} />}
       </div>
       <div css={CategoryBox}>
         <h2 css={CategoryName}>
@@ -62,7 +54,7 @@ const NormalCategory = ({ data }: PropsType) => {
           </Link>
         </h2>
         <p css={CategoryDesc}>한옥에서 즐기는 대한민국의 정취</p>
-        <RowList data={koreaData} />
+        {data && <RowList data={data[3]} />}
       </div>
     </div>
   );
