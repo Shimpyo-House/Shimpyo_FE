@@ -104,8 +104,8 @@ const ProductImg = css`
 `;
 
 const ProductRank = css`
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 4rem;
+  height: 4rem;
 
   display: flex;
   justify-content: center;
@@ -120,7 +120,8 @@ const ProductRank = css`
 
   border-radius: 5px 0 5px 0;
 
-  font-size: 16px;
+  font-size: 25px;
+  font-weight: 600;
 
   z-index: 10;
 `;
@@ -133,7 +134,7 @@ const ProductData = css`
   align-items: center;
   justify-content: space-between;
 
-  padding: 1.5rem;
+  padding: 2rem;
 `;
 
 const NameScoreBox = css`
@@ -142,7 +143,7 @@ const NameScoreBox = css`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 1.2rem;
+  gap: 1rem;
 `;
 
 const ProductName = css`
@@ -181,6 +182,6 @@ const ProductPrice = css`
   display: flex;
   justify-content: flex-end;
 
-  font-size: 1.7rem;
+  font-size: 2.5rem;
   font-weight: 700;
 `;
