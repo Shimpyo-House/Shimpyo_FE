@@ -1,4 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { useEffect } from 'react';
+import IconButton from '@mui/material/IconButton';
+import TurnSlightRightIcon from '@mui/icons-material/TurnSlightRight';
+import { createRoot } from 'react-dom/client';
 
 const LocationWithCustomOverlay = ({
   productName,
@@ -67,21 +71,33 @@ const LocationWithCustomOverlay = ({
 
           const desc = document.createElement('div');
           desc.className = 'desc';
+          desc.style.display = 'flex';
+          desc.style.alignItems = 'center';
+          desc.style.justifyContent = 'space-between'; // 주소와 버튼을 가로로 배치
           desc.style.paddingTop = '12px';
           desc.style.paddingBottom = '6px';
           desc.style.paddingLeft = '10px';
           desc.style.paddingRight = '10px';
           desc.style.fontWeight = '600';
-          desc.innerText = address;
 
-          const mapBtn = document.createElement('button');
+          const addressElement = document.createElement('div');
+          addressElement.innerText = address;
+
+          const mapBtn = document.createElement('div');
           mapBtn.id = 'map-btn';
           mapBtn.style.cursor = 'pointer';
           mapBtn.style.color = 'blue';
-          mapBtn.style.padding = '10px';
           mapBtn.style.fontWeight = '500';
-          mapBtn.innerText = '길찾기';
 
+          const mapIcon = (
+            <IconButton onClick={() => createLink()} size="small">
+              <TurnSlightRightIcon fontSize="small" />
+            </IconButton>
+          );
+
+          createRoot(mapBtn).render(mapIcon);
+
+          desc.appendChild(addressElement);
           desc.appendChild(mapBtn);
           body.appendChild(desc);
           info.appendChild(title);
