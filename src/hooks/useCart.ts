@@ -1,11 +1,23 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { cartGetAxios, cartDeleteItem } from '../api/cart';
+import { cartGetAxios, cartDeleteItem, cartPostAxios } from '../api/cart';
+import { PostRoomToCart } from '../types';
 
 const useCart = () => {
   const queryClient = useQueryClient();
-  const cartQuery = useQuery(['cart'], cartGetAxios, {
+  const cartGetQuery = useQuery(['cart'], cartGetAxios, {
     refetchOnWindowFocus: false,
   });
+
+  const cartPostMutation = useMutation(
+    async (requestData: PostRoomToCart) => {
+      await cartPostAxios(requestData);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('cart');
+      },
+    },
+  );
 
   const deleteCartItemMutation = useMutation(
     async (cartId: number) => {
@@ -18,7 +30,7 @@ const useCart = () => {
     },
   );
 
-  return { cartQuery, deleteCartItemMutation };
+  return { cartGetQuery, cartPostMutation, deleteCartItemMutation };
 };
 
 export default useCart;
