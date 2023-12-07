@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { Dispatch } from 'react';
 import { ResponseProducts, ResponseProductsData } from '../types';
 import { axiosWithNoToken } from '../Axios';
 
@@ -76,21 +76,45 @@ const useSearchData = async (
   return undefined;
 };
 
-const useObs = (
-  obsHandler: (entries: IntersectionObserverEntry[]) => Promise<void>,
-  obsRef: React.MutableRefObject<null>,
-) => {
-  useEffect(() => {
-    const io = new IntersectionObserver(obsHandler, {
-      threshold: 1,
-    });
-    if (obsRef.current) {
-      io.observe(obsRef.current);
-    }
-    return () => {
-      io.disconnect();
-    };
-  }, []);
+const getQuery = (searchPrams: URLSearchParams) => {
+  const queryData = {
+    keyword: searchPrams.get('keyword') || '',
+    count: searchPrams.get('count') || '',
+    location: searchPrams.get('location') || '',
+  };
+  return queryData;
 };
 
-export { useProductsData, useObs, useSearchData };
+const getSearchData = async (
+  pageParam: number,
+  setIsEnd: Dispatch<React.SetStateAction<boolean>>,
+  setIsReal: Dispatch<React.SetStateAction<boolean>>,
+  searchPrams: URLSearchParams,
+) => {
+  try {
+    const queryData = await getQuery(searchPrams);
+    const fetchData = await useSearchData(
+      queryData.keyword,
+      queryData.location,
+      queryData.count,
+      pageParam,
+    );
+    console.log(fetchData);
+    if (fetchData) {
+      if (fetchData.length < 30) {
+        setIsEnd(true);
+      }
+      if (fetchData.length === 0) {
+        setIsReal(false);
+        return undefined;
+      }
+      setIsReal(true);
+      return fetchData;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  return undefined;
+};
+
+export { getSearchData, useProductsData };

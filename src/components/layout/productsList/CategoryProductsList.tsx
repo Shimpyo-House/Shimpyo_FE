@@ -4,9 +4,10 @@ import { useInfiniteQuery } from 'react-query';
 import { useEffect, useRef, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import ColumnList from './ColumnList';
-import { useObs, useProductsData } from '../../../hooks/useProductsData';
 import { ResponseProductsData } from '../../../types';
 import { loadingAtom } from '../../../atoms/loading';
+import useObs from '../../../hooks/useObs';
+import { useProductsData } from '../../../api/productsList';
 
 type PropsType = {
   category: string;
@@ -16,7 +17,7 @@ const CategoryProductsList = ({ category }: PropsType) => {
   const setLoading = useSetRecoilState(loadingAtom);
   const [isEnd, setIsEnd] = useState(false);
   const obsRef = useRef(null);
-  const pageVolume = 16;
+  const pageVolume = 20;
 
   const { data, fetchNextPage } = useInfiniteQuery<
     unknown,
