@@ -123,13 +123,14 @@ const ProductsDetail = () => {
     document.body.style.overflow = 'visible';
   };
 
-  const handleModalContainerClick = (e) => {
-    if (e.target.classList.contains('modal-container')) {
+  const handleModalContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLDivElement;
+    if (target.classList.contains('modal-container')) {
       closeModal();
     }
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Escape') {
       closeModal();
     }
@@ -635,6 +636,7 @@ const modalStyle = css`
   padding: 1.25rem;
   background-color: white;
   z-index: 1000;
+  backgroundcolor: 'rgba(0, 0, 0, 0.5)';
 `;
 
 const modalTextContainer = css`
