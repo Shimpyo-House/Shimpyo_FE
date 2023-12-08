@@ -629,14 +629,13 @@ const modalStyle = css`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 25rem;
+  width: 30rem;
   height: 15.625rem;
   border: 1px solid #ccc;
   border-radius: 0.5rem;
   padding: 1.25rem;
   background-color: white;
   z-index: 1000;
-  backgroundcolor: 'rgba(0, 0, 0, 0.5)';
 `;
 
 const modalTextContainer = css`
@@ -645,6 +644,8 @@ const modalTextContainer = css`
   align-items: center;
   justify-content: center;
   flex: 1;
+  margin-right: 2rem;
+  margin-left: 2rem;
 `;
 
 const modalText1 = css`
