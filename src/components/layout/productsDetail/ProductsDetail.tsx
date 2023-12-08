@@ -100,6 +100,13 @@ const ProductsDetail = () => {
     });
   }, [enterDate, exitDate]);
 
+  // 모달 떠있을 때 헤더 컴포넌트 클릭하거나 뒤로가기 눌러서 페이지 이동 시 스크롤 다시 허용
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = 'visible';
+    };
+  }, [navigate]);
+
   // 장바구니에 같은 객체 있을 때 렌더링하는 모달
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const openModal = () => {
