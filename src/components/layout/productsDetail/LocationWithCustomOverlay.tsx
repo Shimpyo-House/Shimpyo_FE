@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import './style.css';
+import { css } from '@emotion/react';
 import { useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 import TurnSlightRightIcon from '@mui/icons-material/TurnSlightRight';
@@ -51,6 +51,7 @@ const LocationWithCustomOverlay = ({
           overlayElement.style.backgroundColor = 'white';
           overlayElement.style.border = '1px solid #ccc';
           overlayElement.style.borderRadius = '10px';
+          overlayElement.style.zIndex = '1';
 
           const wrap = document.createElement('div');
           wrap.className = 'wrap';
@@ -151,10 +152,24 @@ const LocationWithCustomOverlay = ({
   }, [address, images, productName]);
 
   return (
-    <div id="container">
-      <div id="map" style={{ width: '1210px', height: '500px' }} />
+    <div>
+      <div css={mapContainer}>
+        <div
+          id="map"
+          style={{
+            width: '1210px',
+            height: '500px',
+          }}
+        />
+      </div>
     </div>
   );
 };
 
 export default LocationWithCustomOverlay;
+
+const mapContainer = css`
+  max-width: 1280px;
+  position: relative;
+  z-index: 0;
+`;

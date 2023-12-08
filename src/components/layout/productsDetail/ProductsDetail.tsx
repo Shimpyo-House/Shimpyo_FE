@@ -534,6 +534,7 @@ const buyBtn = css`
   align-items: flex-end;
   margin-top: auto;
 `;
+
 const CartIcon = css`
   width: 2.5rem;
   height: 2.5rem;
@@ -545,6 +546,7 @@ const CartIcon = css`
   }
   margin-right: 2rem;
 `;
+
 const NoCartIcon = css`
   width: 2.5rem;
   height: 2.5rem;
@@ -596,6 +598,7 @@ const modalStyle = css`
   border-radius: 0.5rem;
   padding: 1.25rem;
   background-color: white;
+  z-index: 1000;
 `;
 
 const modalTextContainer = css`
