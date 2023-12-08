@@ -17,8 +17,12 @@ const Payment = () => {
   const [eventAgree, setEventAgree] = useState(false);
   const [eventInfoAgree, setEventInfoAgree] = useState(false);
   const payMethod = localStorage.getItem('PaymentMethod');
-  const userName = localStorage.getItem('UserName') || null;
-  const userPhoneNum = localStorage.getItem('UserPhoneNum') || null;
+  const userName = localStorage.getItem('UserName');
+  const userPhoneNum = localStorage.getItem('UserPhoneNum');
+
+  const isUserInfoValid = payMethod && userName && userPhoneNum;
+
+  console.log(isUserInfoValid === '');
 
   const navigate = useNavigate();
 
@@ -196,10 +200,12 @@ const Payment = () => {
         type="button"
         css={PaymentButton}
         style={{
-          backgroundColor: allAgree ? '#3a7bdf' : 'gray',
-          cursor: allAgree ? 'pointer' : 'not-allowed',
+          backgroundColor:
+            allAgree && isUserInfoValid !== '' ? '#3a7bdf' : 'gray',
+          cursor:
+            allAgree && isUserInfoValid !== '' ? 'pointer' : 'not-allowed',
         }}
-        disabled={!allAgree}
+        disabled={!allAgree || isUserInfoValid === ''}
         onClick={() => {
           navigate('/ordered');
           handlePaymentData();
@@ -207,6 +213,9 @@ const Payment = () => {
       >
         {totalPrice.toLocaleString()}원 결제하기
       </button>
+      <div css={WarningInfo}>
+        {isUserInfoValid === '' ? '* 필수 정보를 다 입력해 주세요.' : null}
+      </div>
     </div>
   );
 };
@@ -434,6 +443,11 @@ const CheckBtn = css`
 const AlignCheckBox = css`
   display: flex;
   gap: 10px;
+`;
+
+const WarningInfo = css`
+  margin-top: 1rem;
+  color: ${theme.colors.blue800};
 `;
 
 export default Payment;

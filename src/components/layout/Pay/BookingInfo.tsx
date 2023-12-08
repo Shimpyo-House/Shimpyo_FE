@@ -10,7 +10,7 @@ const BookingInfo = () => {
   return (
     <div css={BookingInfoCss}>
       {cartData.length > 0 ? (
-        cartData.map((cartItem) => (
+        cartData.map((cartItem, index) => (
           <div key={cartItem.roomId}>
             <div css={BookHeader}>
               <span>최저가보상</span>
@@ -42,12 +42,12 @@ const BookingInfo = () => {
             <div css={VisitWay}>
               <div>방문수단 선택</div>
               <form>
-                <label htmlFor="walk">
-                  <input id="walk" type="radio" name="button" />
+                <label htmlFor={`walk-${index}`}>
+                  <input id={`walk-${index}`} type="radio" name="button" />
                   도보
                 </label>
-                <label htmlFor="car">
-                  <input id="car" type="radio" name="button" />
+                <label htmlFor={`car-${index}`}>
+                  <input id={`car-${index}`} type="radio" name="button" />
                   차량
                 </label>
               </form>
