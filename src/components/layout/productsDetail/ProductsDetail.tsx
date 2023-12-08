@@ -105,18 +105,34 @@ const ProductsDetail = () => {
   const openModal = () => {
     Modal.setAppElement('#root');
     setModalIsOpen(true);
+    document.body.style.overflow = 'hidden';
   };
   const closeModal = () => {
     setModalIsOpen(false);
+    document.body.style.overflow = 'visible';
   };
 
   const [modalCartIsOpen, setModalCartIsOpen] = useState(false);
   const openCartModal = () => {
     Modal.setAppElement('#root');
     setModalCartIsOpen(true);
+    document.body.style.overflow = 'hidden';
   };
   const closeCartModal = () => {
     setModalCartIsOpen(false);
+    document.body.style.overflow = 'visible';
+  };
+
+  const handleModalContainerClick = (e) => {
+    if (e.target.classList.contains('modal-container')) {
+      closeModal();
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
   };
 
   // 장바구니 로직
@@ -335,40 +351,60 @@ const ProductsDetail = () => {
             </div>
           ))}
         </div>
-        <Modal
-          css={modalStyle}
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          contentLabel="장바구니 안내"
-          shouldCloseOnOverlayClick={false}
-        >
-          <div css={modalText1}>장바구니 안내</div>
-          <div css={modalTextContainer}>
-            <div css={modalText2}>
-              해당 날짜를 포함하는 상품이 이미 장바구니에 있습니다.
-            </div>
-            <div css={modalText3}>장바구니를 확인해주세요.</div>
+        {modalIsOpen && (
+          <div
+            className="modal-container"
+            onClick={handleModalContainerClick}
+            onKeyDown={handleKeyDown}
+            role="button"
+            tabIndex={0}
+          >
+            <Modal
+              css={modalStyle}
+              isOpen={modalIsOpen}
+              onRequestClose={closeModal}
+              contentLabel="장바구니 안내"
+              shouldCloseOnOverlayClick={false}
+            >
+              <div css={modalText1}>장바구니 안내</div>
+              <div css={modalTextContainer}>
+                <div css={modalText2}>
+                  해당 날짜를 포함하는 상품이 이미 장바구니에 있습니다.
+                </div>
+                <div css={modalText3}>장바구니를 확인해주세요.</div>
+              </div>
+              <button css={modalBtn} type="button" onClick={closeModal}>
+                닫기
+              </button>
+            </Modal>
           </div>
-          <button css={modalBtn} type="button" onClick={closeModal}>
-            닫기
-          </button>
-        </Modal>
-        <Modal
-          css={modalStyle}
-          isOpen={modalCartIsOpen}
-          onRequestClose={closeCartModal}
-          contentLabel="장바구니 안내"
-          shouldCloseOnOverlayClick={false}
-        >
-          <div css={modalText1}>장바구니 안내</div>
-          <div css={modalTextContainer}>
-            <div css={modalText2}>장바구니에 상품이 담겼습니다.</div>
-            <div css={modalText3}>장바구니를 확인해주세요.</div>
+        )}
+        {modalCartIsOpen && (
+          <div
+            className="modal-container"
+            onClick={handleModalContainerClick}
+            onKeyDown={handleKeyDown}
+            role="button"
+            tabIndex={0}
+          >
+            <Modal
+              css={modalStyle}
+              isOpen={modalCartIsOpen}
+              onRequestClose={closeCartModal}
+              contentLabel="장바구니 안내"
+              shouldCloseOnOverlayClick={false}
+            >
+              <div css={modalText1}>장바구니 안내</div>
+              <div css={modalTextContainer}>
+                <div css={modalText2}>장바구니에 상품이 담겼습니다.</div>
+                <div css={modalText3}>장바구니를 확인해주세요.</div>
+              </div>
+              <button css={modalBtn} type="button" onClick={closeCartModal}>
+                닫기
+              </button>
+            </Modal>
           </div>
-          <button css={modalBtn} type="button" onClick={closeCartModal}>
-            닫기
-          </button>
-        </Modal>
+        )}
       </div>
     </div>
   );
