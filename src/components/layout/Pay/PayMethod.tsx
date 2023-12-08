@@ -103,7 +103,9 @@ const PayMethod = () => {
 
   return (
     <nav css={PaymethodWrap}>
-      <h1>결제 수단</h1>
+      <h1>
+        결제 수단 <span>*</span>
+      </h1>
       <div css={Method}>
         <button
           type="button"
@@ -173,6 +175,9 @@ const PaymethodWrap = css`
   h1 {
     font-size: 1.4rem;
     font-weight: 900;
+    span {
+      color: red;
+    }
   }
 `;
 

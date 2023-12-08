@@ -54,7 +54,9 @@ const BookingUser = () => {
       </div>
 
       <div css={UsingUser}>
-        <h1>이용자 정보</h1>
+        <h1>
+          이용자 정보 <span>*</span>
+        </h1>
         <div css={EssentialInfo}>상품 이용 시 필요한 필수 정보입니다.</div>
         <div css={SameReserveUser}>
           <label htmlFor="check" css={AlignCheckBox}>
@@ -69,7 +71,9 @@ const BookingUser = () => {
             <div>예약자 정보와 동일합니다.</div>
           </label>
         </div>
-        <p>성명</p>
+        <p>
+          성명 <span>*</span>
+        </p>
         <input
           placeholder="성명을 입력해주세요."
           css={InputEl}
@@ -77,7 +81,9 @@ const BookingUser = () => {
           onChange={(event) => setUserInfo(event.target.value)}
           type="string"
         />
-        <p>휴대폰 번호</p>
+        <p>
+          휴대폰 번호 <span>*</span>
+        </p>
         <input
           placeholder="휴대폰 번호를 입력해주세요."
           css={InputEl}
@@ -152,6 +158,18 @@ const UsingUser = css`
 
   box-shadow: 1px 1px 4px 0px #cacaca;
   border-radius: 5px;
+
+  h1 {
+    span {
+      color: red;
+    }
+  }
+
+  p {
+    span {
+      color: red;
+    }
+  }
 `;
 
 const EssentialInfo = css`
@@ -178,6 +196,10 @@ const SameReserveUser = css`
 const AlignCheckBox = css`
   display: flex;
   gap: 0.5rem;
+
+  p {
+    color: red;
+  }
 `;
 
 const CheckBtn = css`
