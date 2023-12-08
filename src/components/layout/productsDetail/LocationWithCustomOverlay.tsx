@@ -1,4 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
+import './style.css';
 import { useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 import TurnSlightRightIcon from '@mui/icons-material/TurnSlightRight';
@@ -150,7 +151,7 @@ const LocationWithCustomOverlay = ({
   }, [address, images, productName]);
 
   return (
-    <div>
+    <div id="container">
       <div id="map" style={{ width: '1210px', height: '500px' }} />
     </div>
   );
