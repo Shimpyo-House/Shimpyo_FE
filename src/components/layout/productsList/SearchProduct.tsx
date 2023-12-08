@@ -56,7 +56,7 @@ export default SearchProduct;
 
 const ProductBox = css`
   width: 68.75rem;
-  height: 24rem;
+  height: 20rem;
 
   display: flex;
   gap: 1.25rem;
@@ -80,8 +80,8 @@ const ProductBox = css`
 `;
 
 const ProductImgBox = css`
-  width: 24rem;
-  height: 24rem;
+  width: 20rem;
+  height: 20rem;
 
   position: relative;
 
@@ -152,7 +152,7 @@ const ProductName = css`
   display: flex;
   justify-content: flex-start;
 
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   font-weight: 700;
 `;
 const ProductAddress = css`
@@ -160,7 +160,7 @@ const ProductAddress = css`
   display: flex;
   justify-content: flex-start;
 
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 `;
 const ProductScore = css`
   width: 100%;
@@ -168,7 +168,7 @@ const ProductScore = css`
   display: flex;
   justify-content: flex-start;
 
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 `;
 const SpaceScore = css`
   width: 2.7rem;
@@ -182,6 +182,6 @@ const ProductPrice = css`
   display: flex;
   justify-content: flex-end;
 
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   font-weight: 700;
 `;
