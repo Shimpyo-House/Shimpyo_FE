@@ -255,6 +255,7 @@ const ProductsDetail = () => {
               </div>
             </div>
             <div css={ProductsLocation}>{productDetail.address}</div>
+            <div css={ProductsDetailInfo}>숙소 상세정보 보기</div>
           </div>
         </div>
         <div>
@@ -473,6 +474,16 @@ const ProductsLocation = css`
   font-size: 1.5rem;
   font-weight: 600;
   margin-top: 2rem;
+  margin-bottom: 2rem;
+`;
+
+const ProductsDetailInfo = css`
+  width: 95%;
+  display: flex;
+  justify-content: flex-start;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: gray;
   margin-bottom: 2rem;
 `;
 const OptionSelector = css`
