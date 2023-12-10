@@ -15,7 +15,8 @@ const Home = () => {
     try {
       setLoading({ isLoading: true, message: '데이터를 조회중입니다.' });
       const fetchData: ResponseProductsData[] | undefined =
-        await useProductsData(0, 25, 'hot');
+        await useProductsData(0, 50, 'hot');
+
       if (fetchData) {
         const hotData: ResponseProductsData[] | undefined = fetchData.slice(
           0,
