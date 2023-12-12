@@ -49,18 +49,6 @@ export type RequestOrders = {
   totalAmount: number;
 };
 
-export type Room = {
-  roomId: number;
-  roomName: string;
-  price: string;
-  description: string;
-  standard: number;
-  capacity: number;
-  checkIn: string;
-  checkOut: string;
-  reserved: boolean;
-};
-
 export type PostRoomToCart = {
   roomId: number;
   roomName: string;
@@ -77,16 +65,100 @@ export type PostRoomToCart = {
 export type RequestProductDetail = {
   productId: string;
   category: string;
-  address: string;
+  address: Address;
   productName: string;
   description: string;
   favorites: boolean;
   starAvg: number;
   images: string[];
+  productAmenityResponse: ProductAmenity;
+  productOptionResponse: ProductOption;
   rooms: Room[];
   startDate: string;
   endDate: string;
 };
+
+export type Address = {
+  address: string;
+  detailAddress: string;
+  mapX: number;
+  mapY: number;
+};
+
+export type ProductAmenity = {
+  barbecue: boolean;
+  beauty: boolean;
+  beverage: boolean;
+  bicycle: boolean;
+  campfire: boolean;
+  fitness: boolean;
+  karaoke: boolean;
+  publicBath: boolean;
+  publicPc: boolean;
+  sauna: boolean;
+  sports: boolean;
+  seminar: boolean;
+};
+
+export type ProductOption = {
+  cooking: boolean;
+  parking: boolean;
+  pickup: boolean;
+  foodPlace: string;
+  infoCenter: string;
+};
+
+export type Room = {
+  roomId: number;
+  roomName: string;
+  price: string;
+  description: string;
+  standard: number;
+  capacity: number;
+  checkIn: string;
+  checkOut: string;
+  roomOptionResponse: RoomOptionResponse[];
+  roomImages: string[];
+  reserved: boolean;
+};
+
+export type RoomOptionResponse = {
+  bathFacility: boolean;
+  bath: boolean;
+  homeTheater: boolean;
+  airCondition: boolean;
+  tv: boolean;
+  pc: boolean;
+  cable: boolean;
+  internet: boolean;
+  refrigerator: boolean;
+  toiletries: boolean;
+  sofa: boolean;
+  cooking: boolean;
+  table: boolean;
+  hairDryer: boolean;
+};
+
+export interface ProductResponse {
+  productId: number;
+  category: string;
+  address: string;
+  productName: string;
+  starAvg: number;
+  image: string;
+  price: number;
+  favorites: boolean;
+  capacity: number;
+}
+
+export interface NewProductResponse {
+  code: number;
+  message: string;
+  data: {
+    productResponses: ProductResponse[];
+    pageCount: number;
+  };
+}
 
 export type ResponseCartData = {
   cartId: number;
