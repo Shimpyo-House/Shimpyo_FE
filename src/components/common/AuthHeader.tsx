@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { css } from '@emotion/react';
-import { Link } from 'react-router-dom';
+import { MdMenu } from 'react-icons/md';
 import theme from '../../style/theme';
 
 const AuthHeader = () => {
   return (
     <div css={Container}>
       <nav css={InnerContainer}>
-        <Link to="/" css={LogoText}>
-          Shimpyo ,
-        </Link>
+        <h1 css={LogoText}>Shimpyo ,</h1>
+        <MdMenu css={MenuIcon} />
       </nav>
     </div>
   );
@@ -45,7 +44,15 @@ const InnerContainer = css`
 const LogoText = css`
   color: ${theme.colors.blue700};
   font-size: 2rem;
-  font-weight: 700;
+
+  cursor: pointer;
+`;
+
+const MenuIcon = css`
+  width: 1.8rem;
+  height: 1.8rem;
+
+  color: ${theme.colors.gray700};
 
   cursor: pointer;
 `;

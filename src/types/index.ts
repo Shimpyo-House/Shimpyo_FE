@@ -50,14 +50,14 @@ export type RequestOrders = {
 };
 
 export type PostRoomToCart = {
-  roomId: number;
-  roomName: string;
+  roomCode: number;
+  // roomName: string;
   price: number;
-  desc: string;
-  standard: number;
-  checkIn: string;
-  checkOut: string;
-  reserved: boolean;
+  // desc: string;
+  // standard: number;
+  // checkIn: string;
+  // checkOut: string;
+  // reserved: boolean;
   startDate: string;
   endDate: string;
 };
@@ -109,7 +109,7 @@ export type ProductOption = {
 };
 
 export type Room = {
-  roomId: number;
+  roomCode: number;
   roomName: string;
   price: string;
   description: string;
@@ -119,7 +119,7 @@ export type Room = {
   checkOut: string;
   roomOptionResponse: RoomOptionResponse[];
   roomImages: string[];
-  reserved: boolean;
+  remaining: number;
 };
 
 export type RoomOptionResponse = {
@@ -166,20 +166,20 @@ export type ResponseCartData = {
   productName: string;
   image: string;
   roomId: number;
+  roomCode: number;
   roomName: string;
   price: number;
-  desc: string;
+  description: string;
   standard: number;
   capacity: number;
   startDate: string;
   endDate: string;
   checkIn: string;
   checkOut: string;
-  reserved: boolean;
 };
 
 export interface RoomData {
-  roomId: number;
+  roomCode: number;
   startDate: string;
   endDate: string;
 }
