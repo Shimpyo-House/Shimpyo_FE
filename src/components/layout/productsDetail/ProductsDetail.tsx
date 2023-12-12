@@ -30,6 +30,7 @@ import LocationWithCustomOverlay from './LocationWithCustomOverlay';
 import ImageSlider from './ImageSlider';
 import useCart from '../../../hooks/useCart';
 import { cartPostToJudgment } from '../../../api/cart';
+import { useLocationData } from '../../../api/productsList';
 
 const ProductsDetail = () => {
   const navigate = useNavigate();
@@ -241,6 +242,19 @@ const ProductsDetail = () => {
     return <div>Loading...</div>;
   }
 
+  const handleShowNearbyClick = async () => {
+    try {
+      const location = productDetail.address.split(' ')[0];
+      console.log(location);
+
+      const fetchData = await useLocationData(location);
+
+      console.log('주변 숙소 데이터:', fetchData);
+    } catch (error) {
+      console.error('주변 숙소 데이터 불러오기 에러:', error);
+    }
+  };
+
   return (
     <div>
       <div css={ProductDetailContainer}>
@@ -255,7 +269,13 @@ const ProductsDetail = () => {
               </div>
             </div>
             <div css={ProductsLocation}>{productDetail.address}</div>
-            <div css={ProductsDetailInfo}>숙소 상세정보 보기</div>
+            <button
+              type="button"
+              css={ProductsDetailInfo}
+              onClick={handleShowNearbyClick}
+            >
+              주변 숙소 보기
+            </button>
           </div>
         </div>
         <div>
