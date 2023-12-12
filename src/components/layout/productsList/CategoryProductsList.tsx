@@ -57,6 +57,7 @@ const CategoryProductsList = ({ category }: PropsType) => {
   useObs(obsHandler, obsRef);
 
   const getData = async (pageParam: number) => {
+    console.log(data);
     try {
       const response: DataType | undefined = (await useProductsData(
         pageParam,
@@ -65,7 +66,7 @@ const CategoryProductsList = ({ category }: PropsType) => {
       )) as DataType | undefined;
       const fetchData = response?.productResponses;
       if (fetchData) {
-        if (fetchData.length < pageVolume) {
+        if (response.pageCount === data?.pageParams.length) {
           setIsEnd(true);
         }
         return fetchData;
