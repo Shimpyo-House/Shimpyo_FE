@@ -49,37 +49,6 @@ export type RequestOrders = {
   totalAmount: number;
 };
 
-export type Room = {
-  roomId: number;
-  roomName: string;
-  price: string;
-  description: string;
-  standard: number;
-  capacity: number;
-  checkIn: string;
-  checkOut: string;
-  roomOptionResponse: RoomOptionResponse[];
-  roomImages: string[];
-  reserved: boolean;
-};
-
-export type RoomOptionResponse = {
-  bathFacility: boolean;
-  bath: boolean;
-  homeTheater: boolean;
-  airCondition: boolean;
-  tv: boolean;
-  pc: boolean;
-  cable: boolean;
-  internet: boolean;
-  refrigerator: boolean;
-  toiletries: boolean;
-  sofa: boolean;
-  cooking: boolean;
-  table: boolean;
-  hairDryer: boolean;
-};
-
 export type PostRoomToCart = {
   roomId: number;
   roomName: string;
@@ -96,14 +65,14 @@ export type PostRoomToCart = {
 export type RequestProductDetail = {
   productId: string;
   category: string;
-  address: Address[];
+  address: Address;
   productName: string;
   description: string;
   favorites: boolean;
   starAvg: number;
   images: string[];
-  productAmenityResponse: ProductAmenity[];
-  productOptionResponse: ProductOption[];
+  productAmenityResponse: ProductAmenity;
+  productOptionResponse: ProductOption;
   rooms: Room[];
   startDate: string;
   endDate: string;
@@ -137,6 +106,37 @@ export type ProductOption = {
   pickup: boolean;
   foodPlace: string;
   infoCenter: string;
+};
+
+export type Room = {
+  roomId: number;
+  roomName: string;
+  price: string;
+  description: string;
+  standard: number;
+  capacity: number;
+  checkIn: string;
+  checkOut: string;
+  roomOptionResponse: RoomOptionResponse[];
+  roomImages: string[];
+  reserved: boolean;
+};
+
+export type RoomOptionResponse = {
+  bathFacility: boolean;
+  bath: boolean;
+  homeTheater: boolean;
+  airCondition: boolean;
+  tv: boolean;
+  pc: boolean;
+  cable: boolean;
+  internet: boolean;
+  refrigerator: boolean;
+  toiletries: boolean;
+  sofa: boolean;
+  cooking: boolean;
+  table: boolean;
+  hairDryer: boolean;
 };
 
 export interface ProductResponse {
