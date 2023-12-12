@@ -1,32 +1,28 @@
 import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import theme from '../../../style/theme';
 import { ResponseProductsData } from '../../../types';
 import Star from '../../common/star';
+import changeProductData from '../../../hooks/changeProductData';
 
 type PropsType = {
   resData: ResponseProductsData;
   rank: number | null;
 };
 
+type SetType = {
+  address: string | null;
+  productName: string | null;
+};
+
 const SearchProduct = ({ resData, rank }: PropsType) => {
-  const [price, setPrice] = useState(0);
-  const [address, setAddress] = useState('');
+  const [changeData, setChangeData] = useState<SetType>({
+    address: null,
+    productName: null,
+  });
 
-  // 이후 훅 화 예정
-  useEffect(() => {
-    const result = resData.address.match(/^(\S+\s+\S+\s+\S+)\s/);
-    if (result) {
-      setAddress(result[1]);
-    }
-
-    if (resData.price === 0) {
-      setPrice(100000);
-    } else {
-      setPrice(resData.price);
-    }
-  }, []);
+  changeProductData(resData, setChangeData);
   return (
     <Link to={`/products/${resData.productId}`}>
       <div css={ProductBox}>
@@ -36,8 +32,8 @@ const SearchProduct = ({ resData, rank }: PropsType) => {
         </div>
         <div css={ProductData}>
           <div css={NameScoreBox}>
-            <p css={ProductName}>{resData.productName}</p>
-            <p css={ProductAddress}>{address}</p>
+            <p css={ProductName}>{changeData.productName}</p>
+            <p css={ProductAddress}>{changeData.address}</p>
             <div css={ProductScore}>
               <div css={SpaceScore}>
                 <Star />
@@ -45,7 +41,7 @@ const SearchProduct = ({ resData, rank }: PropsType) => {
               </div>
             </div>
           </div>
-          <p css={ProductPrice}>{price.toLocaleString()}원</p>
+          <p css={ProductPrice}>{resData.price.toLocaleString()}원</p>
         </div>
       </div>
     </Link>

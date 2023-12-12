@@ -1,46 +1,55 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+
 import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { IoMdHeartEmpty } from 'react-icons/io';
 import theme from '../../../style/theme';
 import { ResponseProductsData } from '../../../types';
 import Star from '../../common/star';
+import changeProductData from '../../../hooks/changeProductData';
 
 type PropsType = {
   resData: ResponseProductsData;
 };
 
+type SetType = {
+  address: string | null;
+  productName: string | null;
+};
+
 const ColumnProduct = ({ resData }: PropsType) => {
-  const [price, setPrice] = useState(0);
-  const [address, setAddress] = useState('');
+  const [changeData, setChangeData] = useState<SetType>({
+    address: null,
+    productName: null,
+  });
 
-  // 이후 훅 화 예정
-  useEffect(() => {
-    const result = resData.address.match(/^(\S+\s+\S+\s+\S+)\s/);
-    if (result) {
-      setAddress(result[1]);
-    }
-
-    if (resData.price === 0) {
-      setPrice(100000);
-    } else {
-      setPrice(resData.price);
-    }
-  }, []);
+  changeProductData(resData, setChangeData);
 
   return (
-    <Link to={`/products/${resData.productId}`}>
-      <div css={ProductBox}>
+    <Link to={`/products/${resData.productId}`} css={ProductBox}>
+      <div css={ImgBox}>
         <img css={ProductImg} src={resData.image} alt="숙소 대표 사진" />
-        <p css={ProductName}>{resData.productName}</p>
-        <p css={ProductAddress}>{address}</p>
-        <div css={ProductScore}>
-          <div css={SpaceScore}>
-            <Star />
-            {resData.starAvg.toFixed(1)}
-          </div>
-        </div>
-        <p css={ProductPrice}>{price.toLocaleString()}원</p>
+        <p
+          css={Heart}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
+          <IoMdHeartEmpty />
+        </p>
       </div>
+      <p css={ProductName}>{changeData.productName}</p>
+      <p css={ProductAddress}>{changeData.address}</p>
+      <div css={ProductScore}>
+        <div css={SpaceScore}>
+          <Star />
+          {resData.starAvg.toFixed(1)}
+        </div>
+      </div>
+      <p css={ProductPrice}>{resData.price.toLocaleString()}원</p>
     </Link>
   );
 };
@@ -76,6 +85,14 @@ const ProductBox = css`
   }
 `;
 
+const ImgBox = css`
+  position: relative;
+
+  width: 100%;
+
+  cursor: default;
+`;
+
 const ProductImg = css`
   width: 100%;
   height: 11.25rem;
@@ -83,6 +100,27 @@ const ProductImg = css`
   background-color: ${theme.colors.gray700};
 
   border-radius: 5px;
+`;
+
+const Heart = css`
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 3rem;
+  height: 3rem;
+
+  font-size: 1.875rem;
+  color: rgb(255, 65, 65);
+  transition: all 0.4s;
+
+  z-index: 10;
+
+  cursor: pointer;
 `;
 
 const ProductName = css`

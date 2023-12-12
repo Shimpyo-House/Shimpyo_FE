@@ -57,7 +57,6 @@ const CategoryProductsList = ({ category }: PropsType) => {
   useObs(obsHandler, obsRef);
 
   const getData = async (pageParam: number) => {
-    console.log(data);
     try {
       const response: DataType | undefined = (await useProductsData(
         pageParam,

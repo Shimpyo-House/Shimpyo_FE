@@ -120,7 +120,6 @@ const getSearchData = async (
       queryData.count,
       pageParam,
     );
-    console.log(fetchData);
     if (fetchData) {
       if (fetchData.length < 30) {
         setIsEnd(true);
