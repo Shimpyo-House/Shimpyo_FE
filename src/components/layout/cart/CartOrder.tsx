@@ -46,14 +46,14 @@ const CartOrder = () => {
         return;
       }
 
-      const rooms = checkedRoomList.map(({ roomId, startDate, endDate }) => ({
-        roomId,
+      const rooms = checkedRoomList.map(({ roomCode, startDate, endDate }) => ({
+        roomCode,
         startDate,
         endDate,
       }));
       const updatedCartData = checkedRoomList.map(
         ({
-          roomId,
+          roomCode,
           roomName,
           startDate,
           endDate,
@@ -64,7 +64,7 @@ const CartOrder = () => {
           checkOut,
           price,
         }) => ({
-          roomId,
+          roomCode,
           roomName,
           productName,
           startDate,

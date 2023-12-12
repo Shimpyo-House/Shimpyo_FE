@@ -28,26 +28,36 @@ const Payment = () => {
 
   const setLoading = useSetRecoilState(loadingAtom);
   const cartData = useRecoilValue(cartDataState);
-  const roomPrices = cartData.map((cartItem) => cartItem.price);
-  const totalPrice = roomPrices.reduce((acc, cur) => acc + cur, 0);
+  // const roomPrices = cartData.map((cartItem) => cartItem.price);
+  // const totalPrice = roomPrices.reduce((acc, cur) => acc + cur, 0);
 
   const handlePaymentData = async () => {
     const reservationProducts: AllReservationData[] = [];
 
     cartData.forEach((cartItem) => {
       const reservProducts: AllReservationData = {
-        roomId: cartItem.roomId,
-        productName: cartItem.productName,
-        roomName: cartItem.roomName,
-        standard: cartItem.standard,
-        max: cartItem.capacity,
+        // roomId: cartItem.roomId,
+        // productName: cartItem.productName,
+        // roomName: cartItem.roomName,
+        // standard: cartItem.standard,
+        // max: cartItem.capacity,
+        // checkIn: cartItem.checkIn,
+        // checkOut: cartItem.checkOut,
+        // visitorName: userName,
+        // visitorPhone: userPhoneNum,
+        // price: cartItem.price,
         startDate: cartItem.startDate,
         endDate: cartItem.endDate,
-        checkIn: cartItem.checkIn,
-        checkOut: cartItem.checkOut,
-        visitorName: userName,
-        visitorPhone: userPhoneNum,
-        price: cartItem.price,
+        roomId: 0,
+        productName: '',
+        roomName: '',
+        standard: 0,
+        max: 0,
+        checkIn: '',
+        checkOut: '',
+        visitorName: null,
+        visitorPhone: null,
+        price: 0,
       };
 
       reservationProducts.push(reservProducts);
@@ -66,7 +76,7 @@ const Payment = () => {
       const response = await axiosWithAccessToken.post('/api/reservations', {
         reservationProducts,
         payMethod,
-        totalPrice,
+        // totalPrice,
       });
 
       if (response.status === 201) {
@@ -111,7 +121,7 @@ const Payment = () => {
 
       <div css={TotalPrice}>
         <div>총 결제 금액</div>
-        <p>{totalPrice.toLocaleString()}원</p>
+        {/* <p>{totalPrice.toLocaleString()}원</p> */}
       </div>
 
       <div css={Agreement}>
@@ -211,7 +221,7 @@ const Payment = () => {
           handlePaymentData();
         }}
       >
-        {totalPrice.toLocaleString()}원 결제하기
+        {/* {totalPrice.toLocaleString()}원 결제하기 */}
       </button>
       <div css={WarningInfo}>
         {isUserInfoValid === '' ? '* 필수 정보를 다 입력해 주세요.' : null}
