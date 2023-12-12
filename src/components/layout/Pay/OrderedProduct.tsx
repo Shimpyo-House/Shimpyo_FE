@@ -11,33 +11,33 @@ const OrderedProduct = () => {
     <div>
       {cartData.length > 0 ? (
         cartData.map((cartItem) => (
-          <div key={cartItem.roomId} css={OrderedContainer}>
+          <div key={cartItem.roomCode} css={OrderedContainer}>
             <div css={BookingInfoCss}>
               <div css={BookHeader}>
                 <span>최저가보상</span>
-                <h1>{cartItem.productName}</h1>
-                <p>{cartItem.roomName}</p>
+                {/* <h1>{cartItem.productName}</h1>
+                <p>{cartItem.roomName}</p> */}
               </div>
 
               <div css={CheckInOut}>
                 <div>
                   <span>체크인</span>
                   <h3>{cartItem.startDate}</h3>
-                  <p>{cartItem.checkIn}</p>
+                  {/* <p>{cartItem.checkIn}</p> */}
                 </div>
                 <div>
                   <span>체크아웃</span>
                   <h3>{cartItem.endDate}</h3>
-                  <p>{cartItem.checkOut}</p>
+                  {/* <p>{cartItem.checkOut}</p> */}
                 </div>
               </div>
 
               <div css={RefPeople}>
-                기준 {cartItem.standard}명 / 최대 {cartItem.capacity}명
+                {/* 기준 {cartItem.standard}명 / 최대 {cartItem.capacity}명 */}
               </div>
 
               <div css={BookingPrice}>
-                숙박 / 1박 <span>{cartItem.price.toLocaleString()}원</span>
+                {/* 숙박 / 1박 <span>{cartItem.price.toLocaleString()}원</span> */}
               </div>
             </div>
           </div>
