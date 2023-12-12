@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { useInfiniteQuery } from 'react-query';
 import { useEffect, useRef, useState } from 'react';
 import ColumnList from './ColumnList';
-import { ResponseProductsData } from '../../../types';
+import { DataType, ResponseProductsData } from '../../../types';
 import useObs from '../../../hooks/useObs';
 import { useProductsData } from '../../../api/productsList';
 
@@ -58,7 +58,12 @@ const CategoryProductsList = ({ category }: PropsType) => {
 
   const getData = async (pageParam: number) => {
     try {
-      const fetchData = await useProductsData(pageParam, pageVolume, category);
+      const response: DataType | undefined = (await useProductsData(
+        pageParam,
+        pageVolume,
+        category,
+      )) as DataType | undefined;
+      const fetchData = response?.productResponses;
       if (fetchData) {
         if (fetchData.length < pageVolume) {
           setIsEnd(true);
