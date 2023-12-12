@@ -41,6 +41,7 @@ const SearchBar = () => {
     navigate(
       `/search?location=${productLocation}&count=${count}&keyword=${keyword}`,
     );
+    setProductLocation('x');
   };
 
   return (

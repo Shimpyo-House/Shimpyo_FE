@@ -24,7 +24,7 @@ const NormalCategory = ({ data }: PropsType) => {
           </Link>
         </h2>
         <p css={CategoryDesc}>가장 잘 나가는 숙소 추천</p>
-        {data && <ColumnList data={data[0]} />}
+        {data && <ColumnList data={data[0]} main={true} />}
       </div>
       <div css={CategoryBox}>
         <h2 css={CategoryName}>

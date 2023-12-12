@@ -2,10 +2,8 @@
 import { css } from '@emotion/react';
 import { useInfiniteQuery } from 'react-query';
 import { useEffect, useRef, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
 import ColumnList from './ColumnList';
-import { ResponseProductsData } from '../../../types';
-import { loadingAtom } from '../../../atoms/loading';
+import { DataType, ResponseProductsData } from '../../../types';
 import useObs from '../../../hooks/useObs';
 import { useProductsData } from '../../../api/productsList';
 
@@ -14,7 +12,6 @@ type PropsType = {
 };
 
 const CategoryProductsList = ({ category }: PropsType) => {
-  const setLoading = useSetRecoilState(loadingAtom);
   const [isEnd, setIsEnd] = useState(false);
   const obsRef = useRef(null);
   const pageVolume = 20;
@@ -61,8 +58,12 @@ const CategoryProductsList = ({ category }: PropsType) => {
 
   const getData = async (pageParam: number) => {
     try {
-      setLoading({ isLoading: true, message: '데이터를 조회중입니다.' });
-      const fetchData = await useProductsData(pageParam, pageVolume, category);
+      const response: DataType | undefined = (await useProductsData(
+        pageParam,
+        pageVolume,
+        category,
+      )) as DataType | undefined;
+      const fetchData = response?.productResponses;
       if (fetchData) {
         if (fetchData.length < pageVolume) {
           setIsEnd(true);
@@ -71,8 +72,6 @@ const CategoryProductsList = ({ category }: PropsType) => {
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoading({ isLoading: false, message: '' });
     }
     return undefined;
   };
@@ -94,7 +93,9 @@ const CategoryProductsList = ({ category }: PropsType) => {
             {category === '한옥' && '한옥에서 즐기는 대한민국의 정취'}
           </p>
         </div>
-        {data && data.pages && <ColumnList data={data.pages.flat()} />}
+        {data && data.pages && (
+          <ColumnList data={data.pages.flat()} main={false} />
+        )}
         {!isEnd && <div ref={obsRef} />}
       </div>
     </div>
