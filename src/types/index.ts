@@ -29,10 +29,15 @@ export type ResponseProductsData = {
   price: number;
 };
 
+export type DataType = {
+  pageCount: number;
+  productResponses: ResponseProductsData[];
+};
+
 export type ResponseProducts = {
   code: number;
   message: string;
-  data: ResponseProductsData[] | [];
+  data: DataType;
 };
 
 export type RequestOrders = {

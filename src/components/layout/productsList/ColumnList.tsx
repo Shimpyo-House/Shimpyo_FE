@@ -1,25 +1,25 @@
+/* eslint-disable @typescript-eslint/indent */
+
 import { css } from '@emotion/react';
 import RowProduct from './RowProduct';
 import { ResponseProductsData } from '../../../types';
+import SearchProduct from './SearchProduct';
 
 type PropsType = {
-  category: string;
   data: ResponseProductsData[];
+  main: boolean;
 };
 
-const ColumnList = ({ category, data }: PropsType) => {
+const ColumnList = ({ data, main }: PropsType) => {
   return (
     <div css={ProductsBox}>
-      {data &&
-        category === 'hot' &&
-        data.map((e, i) => (
-          <RowProduct resData={e} rank={i + 1} key={e.productId} />
-        ))}
-      {data &&
-        category !== 'hot' &&
-        data.map((e) => (
-          <RowProduct resData={e} rank={null} key={e.productId} />
-        ))}
+      {data && main
+        ? data.map((e, i) => (
+            <RowProduct resData={e} rank={i + 1} key={e.productId} />
+          ))
+        : data.map((e, i) => (
+            <SearchProduct resData={e} rank={i + 1} key={e.productId} />
+          ))}
     </div>
   );
 };

@@ -52,7 +52,9 @@ const SearchProductsList = () => {
         <div css={CategoryName}>
           <p>검색결과</p>
         </div>
-        {isReal && data?.pages && <ColumnList data={data.pages.flat()} />}
+        {isReal && data?.pages && (
+          <ColumnList data={data.pages.flat()} main={false} />
+        )}
         {!isReal && (
           <div css={FailBox}>
             <p css={FailText}>검색결과가 없습니다.</p>
