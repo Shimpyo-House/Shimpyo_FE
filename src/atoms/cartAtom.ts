@@ -3,16 +3,16 @@ import { atom } from 'recoil';
 import { ResponseCartData } from '../types';
 
 export type CartDataType = {
-  roomId: number;
-  roomName: string;
-  productName: string;
+  roomCode: number;
+  // roomName: string;
+  // productName: string;
   startDate: string;
   endDate: string;
-  standard: number;
-  capacity: number;
-  checkIn: string;
-  checkOut: string;
-  price: number;
+  // standard: number;
+  // capacity: number;
+  // checkIn: string;
+  // checkOut: string;
+  // price: number;
 };
 
 export const cartDataState = atom<CartDataType[]>({

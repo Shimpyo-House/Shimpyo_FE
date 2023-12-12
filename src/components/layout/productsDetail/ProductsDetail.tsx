@@ -26,13 +26,20 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { loadingAtom } from '../../../atoms/loading';
 import Star from '../../common/star';
-import Location from './Location';
+import LocationWithCustomOverlay from './LocationWithCustomOverlay';
 import ImageSlider from './ImageSlider';
 import useCart from '../../../hooks/useCart';
 import { cartPostToJudgment } from '../../../api/cart';
+import { useLocationData } from '../../../api/productsList';
 
 const ProductsDetail = () => {
   const navigate = useNavigate();
+
+  const [showDetails, setShowDetails] = useState(false);
+
+  const toggleDetails = () => {
+    setShowDetails(!showDetails);
+  };
 
   const { cartPostMutation } = useCart();
 
@@ -87,6 +94,8 @@ const ProductsDetail = () => {
           `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
         );
         setProductDetail(response.data.data);
+
+        console.log(response.data.data);
       } catch (error) {
         console.error('Error fetching product detail:', error);
       } finally {
@@ -100,23 +109,47 @@ const ProductsDetail = () => {
     });
   }, [enterDate, exitDate]);
 
+  // 모달 떠있을 때 헤더 컴포넌트 클릭하거나 뒤로가기 눌러서 페이지 이동 시 스크롤 다시 허용
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = 'visible';
+    };
+  }, [navigate]);
+
   // 장바구니에 같은 객체 있을 때 렌더링하는 모달
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const openModal = () => {
     Modal.setAppElement('#root');
     setModalIsOpen(true);
+    document.body.style.overflow = 'hidden';
   };
   const closeModal = () => {
     setModalIsOpen(false);
+    document.body.style.overflow = 'visible';
   };
 
   const [modalCartIsOpen, setModalCartIsOpen] = useState(false);
   const openCartModal = () => {
     Modal.setAppElement('#root');
     setModalCartIsOpen(true);
+    document.body.style.overflow = 'hidden';
   };
   const closeCartModal = () => {
     setModalCartIsOpen(false);
+    document.body.style.overflow = 'visible';
+  };
+
+  const handleModalContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLDivElement;
+    if (target.classList.contains('modal-container')) {
+      closeModal();
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
   };
 
   // 장바구니 로직
@@ -127,14 +160,8 @@ const ProductsDetail = () => {
     }
 
     const requestData: PostRoomToCart = {
-      roomId: room.roomId,
-      roomName: room.roomName,
+      roomCode: room.roomCode,
       price: parseFloat(`${room.price}`) * nights,
-      desc: room.description,
-      standard: room.standard,
-      checkIn: room.checkIn,
-      checkOut: room.checkOut,
-      reserved: room.reserved,
       startDate: defaultDate,
       endDate: defaultDatePlusDay,
     };
@@ -151,7 +178,7 @@ const ProductsDetail = () => {
 
       // 중복 여부 확인
       const isOverlapping = cartItems.some(
-        (item: { startDate: string; endDate: string; roomId: number }) => {
+        (item: { startDate: string; endDate: string; roomCode: number }) => {
           // 기존 장바구니 아이템의 날짜 범위
           const existingItemRange = {
             startDate: item.startDate,
@@ -160,7 +187,7 @@ const ProductsDetail = () => {
 
           // 날짜 범위 겹치는지 확인
           return (
-            item.roomId === room.roomId &&
+            item.roomCode === room.roomCode &&
             newItemRange.startDate < existingItemRange.endDate &&
             newItemRange.endDate > existingItemRange.startDate
           );
@@ -187,16 +214,16 @@ const ProductsDetail = () => {
       setLoading({ isLoading: true, message: '현재 예약중입니다.' });
 
       const requestData = {
-        roomId: roomInfo.roomId,
-        roomName: roomInfo.roomName,
-        productName: roomInfo.roomName,
+        roomCode: roomInfo.roomCode,
+        // roomName: roomInfo.roomName,
+        // productName: roomInfo.roomName,
         startDate: defaultDate,
         endDate: defaultDatePlusDay,
-        standard: roomInfo.standard,
-        capacity: roomInfo.capacity,
-        checkIn: roomInfo.checkIn,
-        checkOut: roomInfo.checkOut,
-        price: parseFloat(`${roomInfo.price}`) * nights,
+        // standard: roomInfo.standard,
+        // capacity: roomInfo.capacity,
+        // checkIn: roomInfo.checkIn,
+        // checkOut: roomInfo.checkOut,
+        // price: parseFloat(`${roomInfo.price}`) * nights,
       };
 
       setCartData(() => [requestData]);
@@ -217,6 +244,19 @@ const ProductsDetail = () => {
     return <div>Loading...</div>;
   }
 
+  const handleShowNearbyClick = async () => {
+    try {
+      const location = productDetail.address.address.split(' ')[0];
+      console.log(location);
+
+      const fetchData = await useLocationData(location);
+
+      console.log('주변 숙소 데이터:', fetchData);
+    } catch (error) {
+      console.error('주변 숙소 데이터 불러오기 에러:', error);
+    }
+  };
+
   return (
     <div>
       <div css={ProductDetailContainer}>
@@ -230,15 +270,38 @@ const ProductsDetail = () => {
                 {productDetail.starAvg.toFixed(1)}
               </div>
             </div>
-            <div css={ProductsLocation}>{productDetail.address}</div>
+            <div css={ProductsLocation}>{productDetail.address.address}</div>
+            <button
+              css={ProductsDetailInfo}
+              type="button"
+              onClick={toggleDetails}
+            >
+              숙소소개
+            </button>
+            {showDetails && (
+              <div>
+                {' '}
+                <div css={ProductsIntroduce}>{productDetail.description}</div>
+              </div>
+            )}
+            <button
+              type="button"
+              css={ProductsDetailInfo}
+              onClick={handleShowNearbyClick}
+            >
+              주변 숙소 보기
+            </button>
           </div>
         </div>
-        {productDetail && (
-          <Location
-            address={productDetail.address}
-            productName={productDetail.productName}
-          />
-        )}
+        <div>
+          {productDetail && (
+            <LocationWithCustomOverlay
+              address={productDetail.address.address}
+              productName={productDetail.productName}
+              images={productDetail.images}
+            />
+          )}
+        </div>
         <div css={OptionSelector}>
           <div css={[DayCalendar, Divider]}>
             <CalendarComponent
@@ -252,7 +315,7 @@ const ProductsDetail = () => {
         </div>
         <div css={RoomContainer}>
           {productDetail.rooms.map((room) => (
-            <div key={`room ${room.roomId}`} css={RoomItem}>
+            <div key={`room ${room.roomCode}`} css={RoomItem}>
               <div
                 css={RoomImg}
                 style={{ backgroundImage: `url('${productDetail.images[0]}')` }}
@@ -283,9 +346,9 @@ const ProductsDetail = () => {
                       )}
                 </div>
                 <div css={buyBtn}>
-                  {room.reserved ? (
+                  {room.remaining === 0 ? (
                     <>
-                      <AiOutlineShoppingCart css={NoCartIcon} />{' '}
+                      <AiOutlineShoppingCart css={NoCartIcon} />
                       <button type="button" css={exceedText}>
                         예약마감
                       </button>
@@ -305,7 +368,7 @@ const ProductsDetail = () => {
                               reservation(
                                 [
                                   {
-                                    roomId: room.roomId,
+                                    roomCode: room.roomCode,
                                     startDate: defaultDate,
                                     endDate: defaultDatePlusDay,
                                   },
@@ -332,40 +395,60 @@ const ProductsDetail = () => {
             </div>
           ))}
         </div>
-        <Modal
-          css={modalStyle}
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          contentLabel="장바구니 안내"
-          shouldCloseOnOverlayClick={false}
-        >
-          <div css={modalText1}>장바구니 안내</div>
-          <div css={modalTextContainer}>
-            <div css={modalText2}>
-              해당 날짜를 포함하는 상품이 이미 장바구니에 있습니다.
-            </div>
-            <div css={modalText3}>장바구니를 확인해주세요.</div>
+        {modalIsOpen && (
+          <div
+            className="modal-container"
+            onClick={handleModalContainerClick}
+            onKeyDown={handleKeyDown}
+            role="button"
+            tabIndex={0}
+          >
+            <Modal
+              css={modalStyle}
+              isOpen={modalIsOpen}
+              onRequestClose={closeModal}
+              contentLabel="장바구니 안내"
+              shouldCloseOnOverlayClick={false}
+            >
+              <div css={modalText1}>장바구니 안내</div>
+              <div css={modalTextContainer}>
+                <div css={modalText2}>
+                  해당 날짜를 포함하는 상품이 이미 장바구니에 있습니다.
+                </div>
+                <div css={modalText3}>장바구니를 확인해주세요.</div>
+              </div>
+              <button css={modalBtn} type="button" onClick={closeModal}>
+                닫기
+              </button>
+            </Modal>
           </div>
-          <button css={modalBtn} type="button" onClick={closeModal}>
-            닫기
-          </button>
-        </Modal>
-        <Modal
-          css={modalStyle}
-          isOpen={modalCartIsOpen}
-          onRequestClose={closeCartModal}
-          contentLabel="장바구니 안내"
-          shouldCloseOnOverlayClick={false}
-        >
-          <div css={modalText1}>장바구니 안내</div>
-          <div css={modalTextContainer}>
-            <div css={modalText2}>장바구니에 상품이 담겼습니다.</div>
-            <div css={modalText3}>장바구니를 확인해주세요.</div>
+        )}
+        {modalCartIsOpen && (
+          <div
+            className="modal-container"
+            onClick={handleModalContainerClick}
+            onKeyDown={handleKeyDown}
+            role="button"
+            tabIndex={0}
+          >
+            <Modal
+              css={modalStyle}
+              isOpen={modalCartIsOpen}
+              onRequestClose={closeCartModal}
+              contentLabel="장바구니 안내"
+              shouldCloseOnOverlayClick={false}
+            >
+              <div css={modalText1}>장바구니 안내</div>
+              <div css={modalTextContainer}>
+                <div css={modalText2}>장바구니에 상품이 담겼습니다.</div>
+                <div css={modalText3}>장바구니를 확인해주세요.</div>
+              </div>
+              <button css={modalBtn} type="button" onClick={closeCartModal}>
+                닫기
+              </button>
+            </Modal>
           </div>
-          <button css={modalBtn} type="button" onClick={closeCartModal}>
-            닫기
-          </button>
-        </Modal>
+        )}
       </div>
     </div>
   );
@@ -378,17 +461,14 @@ const ProductDetailContainer = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* margin-top: 4rem; */
   background-color: #fff;
-
   min-height: calc(100vh - 70px);
 `;
 
 const ProductDetailBox = css`
   width: 100%;
-  //   max-width: 1000px;
   display: flex;
-  gap: 20px;
+  gap: 1.25rem;
   margin-top: 3rem;
 `;
 
@@ -399,60 +479,69 @@ const ProductData = css`
   align-items: center;
   justify-content: space-between;
 `;
-
 const NameScoreContainer = css`
   display: flex;
   justify-content: space-between;
   width: 95%;
   align-items: center;
-  font-size: 14px;
+  font-size: 0.875rem;
 `;
 
 const ProductScore = css`
   display: flex;
-
   /* margin-left: auto; */
   font-size: 1.875rem;
   font-weight: bold;
   /* width: 6.25rem; */
 `;
 
-export const ProductName = css`
+const ProductName = css`
   width: 100%;
-
   display: flex;
   justify-content: flex-start;
-
   font-size: 3rem;
   font-weight: 600;
 `;
-
 const ProductsLocation = css`
   width: 95%;
-
   display: flex;
   justify-content: flex-start;
-
   font-size: 1.5rem;
   font-weight: 600;
-
   margin-top: 2rem;
   margin-bottom: 2rem;
 `;
 
+const ProductsIntroduce = css`
+  display: flex;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.5rem;
+  font-weight: 600;
+`;
+
+const ProductsDetailInfo = css`
+  width: 95%;
+  display: flex;
+  justify-content: flex-start;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: gray;
+  margin-bottom: 2rem;
+`;
 const OptionSelector = css`
   display: flex;
   width: 100%;
   background-color: ${theme.colors.white};
   border: 1px solid #ccc;
-  /* border-radius: 4px; */
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   margin-top: 2rem;
 `;
 
 const Divider = css`
-  border-right: 1px solid #ccc;
+  border-right: 0.0625rem solid #ccc;
 `;
 
 const DayCalendar = css`
@@ -462,37 +551,35 @@ const DayCalendar = css`
   align-items: center;
   padding-left: 0.5rem;
 `;
-
 const PeopleCount = css`
   flex: 1;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  // padding-left: 0.5rem;
-  padding: 10px 10px;
+  padding: 0.625rem 0.625rem;
 `;
 
 const RoomContainer = css`
   display: flex;
+  label: 'room';
   flex-direction: column;
-  /* margin-top: 50px; */
+  width: 80rem;
 `;
 
 const RoomItem = css`
   display: flex;
   padding: 20px;
+  padding: 1.25rem;
   border: 1px solid #e5e9ed;
-  /* border-radius: 10px; */
-  /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
   background-color: ${theme.colors.white};
-  width: 1280px;
-  height: 400px;
+  width: 80rem;
+  height: 25rem;
 `;
 
 const RoomImg = css`
   width: 30%;
-  border-radius: 10px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 0.625rem;
+  box-shadow: 0rem 0.25rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
 `;
 
 const RoomInfo = css`
@@ -500,29 +587,29 @@ const RoomInfo = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 10px;
-  margin-left: 20px;
+  padding: 0.625rem;
+  margin-left: 1.25rem;
   font-weight: bold;
 `;
 
 const RoomName = css`
-  font-size: 36px;
+  font-size: 2.25rem;
 `;
 
 const RoomCount = css`
-  font-size: 24px;
+  font-size: 1.5rem;
 `;
 
 const RoomDesc = css`
-  font-size: 20px;
+  font-size: 1.25rem;
 `;
 
 const checkTime = css`
-  font-size: 20px;
+  font-size: 1.25rem;
 `;
 
 const peoplePlusText = css`
-  font-size: 14px;
+  font-size: 0.875rem;
   color: ${theme.colors.gray600};
 `;
 
@@ -531,13 +618,13 @@ const RoomAction = css`
   flex-direction: column;
   align-items: flex-end;
   margin-left: auto;
-  padding: 10px;
+  padding: 0.625rem;
 `;
 
 const priceStyle = css`
   align-self: flex-end;
-  margin-bottom: 10px;
-  font-size: 30px;
+  margin-bottom: 0.625rem;
+  font-size: 1.875rem;
 `;
 
 const buyBtn = css`
@@ -550,16 +637,12 @@ const buyBtn = css`
 const CartIcon = css`
   width: 2.5rem;
   height: 2.5rem;
-
   color: ${theme.colors.blue500};
-
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-
   &:hover {
     color: ${theme.colors.blue700};
   }
-
   margin-right: 2rem;
 `;
 
@@ -572,34 +655,32 @@ const NoCartIcon = css`
 `;
 
 const reservationButton = css`
-  padding: 10px 20px;
+  padding: 0.625rem 1.25rem;
   background-color: ${theme.colors.blue700};
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  font-size: 16px;
+  font-size: 1rem;
   outline: none;
-
   &:hover {
     background-color: ${theme.colors.blue800};
   }
-
   &:active {
     transform: translateY(1px);
   }
 `;
 
 const exceedText = css`
-  padding: 10px 20px;
+  padding: 0.625rem 1.25rem;
   background-color: ${theme.colors.gray500};
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   cursor: not-allowed;
   transition: background-color 0.3s ease;
-  font-size: 16px;
+  font-size: 1rem;
   outline: none;
 `;
 
@@ -610,12 +691,13 @@ const modalStyle = css`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400px;
-  height: 250px;
+  width: 30rem;
+  height: 15.625rem;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
   background-color: white;
+  z-index: 1000;
 `;
 
 const modalTextContainer = css`
@@ -624,38 +706,39 @@ const modalTextContainer = css`
   align-items: center;
   justify-content: center;
   flex: 1;
+  margin-right: 2rem;
+  margin-left: 2rem;
 `;
 
 const modalText1 = css`
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: bold;
   margin-right: auto;
   margin-left: auto;
-  margin-top: 10px;
+  margin-top: 0.625rem;
   white-space: nowrap;
 `;
 
 const modalText2 = css`
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
   white-space: nowrap;
 `;
 
 const modalText3 = css`
   text-align: center;
-  margin-top: 10px;
+  margin-top: 0.625rem;
   white-space: nowrap;
 `;
 
 const modalBtn = css`
-  padding: 8px 16px;
+  padding: 0.5rem 1rem;
   background-color: ${theme.colors.blue600};
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-
   &:hover {
     background-color: ${theme.colors.blue800};
   }

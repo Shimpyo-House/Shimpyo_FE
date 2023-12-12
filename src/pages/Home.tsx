@@ -3,7 +3,7 @@
 import { useQuery } from 'react-query';
 import { useSetRecoilState } from 'recoil';
 import MainProductsList from '../components/layout/productsList/MainProductsList';
-import { ResponseProductsData } from '../types';
+import { DataType, ResponseProductsData } from '../types';
 import ListBackground from '../components/layout/productsList/ListBackground';
 import { loadingAtom } from '../atoms/loading';
 import { useProductsData } from '../api/productsList';
@@ -14,8 +14,15 @@ const Home = () => {
   const getData = async () => {
     try {
       setLoading({ isLoading: true, message: '데이터를 조회중입니다.' });
+      const response: DataType | undefined = (await useProductsData(
+        0,
+        100,
+        'hot',
+      )) as DataType | undefined;
       const fetchData: ResponseProductsData[] | undefined =
-        await useProductsData(0, 25, 'hot');
+        response?.productResponses;
+      console.log(response);
+
       if (fetchData) {
         const hotData: ResponseProductsData[] | undefined = fetchData.slice(
           0,

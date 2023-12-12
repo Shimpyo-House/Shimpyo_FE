@@ -1,12 +1,12 @@
 import { Dispatch } from 'react';
-import { ResponseProducts, ResponseProductsData } from '../types';
+import { DataType, ResponseProducts } from '../types';
 import { axiosWithNoToken } from '../Axios';
 
 const useProductsData = async (
   page: number,
   productsVolume: number,
   category: string,
-): Promise<ResponseProductsData[] | [] | undefined> => {
+): Promise<DataType | undefined> => {
   try {
     if (category === 'hot') {
       const fetchData = await axiosWithNoToken.get<ResponseProducts>(
@@ -36,7 +36,7 @@ const useSearchData = async (
       const fetchData = await axiosWithNoToken.get<ResponseProducts>(
         `/api/products?page=${page}&size=30&productName=${keyword}&sort=starAvg,desc`,
       );
-      const searchData = fetchData.data.data.filter(
+      const searchData = fetchData.data.data.productResponses.filter(
         (products) => products.capacity >= countNumber,
       );
 
@@ -46,7 +46,7 @@ const useSearchData = async (
       const fetchData = await axiosWithNoToken.get<ResponseProducts>(
         `/api/products?page=${page}&size=30&address=${location}&sort=starAvg,desc`,
       );
-      const searchData = fetchData.data.data.filter(
+      const searchData = fetchData.data.data.productResponses.filter(
         (products) => products.capacity >= countNumber,
       );
 
@@ -56,7 +56,7 @@ const useSearchData = async (
       const fetchData = await axiosWithNoToken.get<ResponseProducts>(
         `/api/products?page=${page}&size=30&sort=starAvg,desc`,
       );
-      const searchData = fetchData.data.data.filter(
+      const searchData = fetchData.data.data.productResponses.filter(
         (products) => products.capacity >= countNumber,
       );
 
@@ -65,11 +65,32 @@ const useSearchData = async (
     const fetchData = await axiosWithNoToken.get<ResponseProducts>(
       `/api/products?page=${page}&size=30&productName=${keyword}&address=${location}&sort=starAvg,desc`,
     );
-    const searchData = fetchData.data.data.filter(
+    const searchData = fetchData.data.data.productResponses.filter(
       (products) => products.capacity >= countNumber,
     );
 
     return searchData;
+  } catch (error) {
+    console.log(error);
+  }
+  return undefined;
+};
+
+const useLocationData = async (location: string) => {
+  try {
+    if (location !== 'x') {
+      const fetchData = await axiosWithNoToken.get<ResponseProducts>(
+        `/api/products?location=${encodeURIComponent(
+          location,
+        )}&page=0&size=100`,
+      );
+      const filteredProperties = fetchData.data.data;
+
+      console.log(location);
+      console.log(filteredProperties);
+
+      return filteredProperties;
+    }
   } catch (error) {
     console.log(error);
   }
@@ -117,4 +138,4 @@ const getSearchData = async (
   return undefined;
 };
 
-export { getSearchData, useProductsData };
+export { getSearchData, useProductsData, useLocationData };

@@ -6,7 +6,8 @@ const useObs = (
 ) => {
   useEffect(() => {
     const io = new IntersectionObserver(obsHandler, {
-      threshold: 1,
+      threshold: 0.3,
+      rootMargin: '500px',
     });
     if (obsRef.current) {
       io.observe(obsRef.current);
