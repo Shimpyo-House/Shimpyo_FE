@@ -88,6 +88,8 @@ const ProductsDetail = () => {
           `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
         );
         setProductDetail(response.data.data);
+
+        console.log(response.data.data);
       } catch (error) {
         console.error('Error fetching product detail:', error);
       } finally {
@@ -244,7 +246,7 @@ const ProductsDetail = () => {
 
   const handleShowNearbyClick = async () => {
     try {
-      const location = productDetail.address.split(' ')[0];
+      const location = productDetail.address.address.split(' ')[0];
       console.log(location);
 
       const fetchData = await useLocationData(location);
@@ -268,7 +270,7 @@ const ProductsDetail = () => {
                 {productDetail.starAvg.toFixed(1)}
               </div>
             </div>
-            <div css={ProductsLocation}>{productDetail.address}</div>
+            <div css={ProductsLocation}>{productDetail.address.address}</div>
             <button
               type="button"
               css={ProductsDetailInfo}
@@ -281,7 +283,7 @@ const ProductsDetail = () => {
         <div>
           {productDetail && (
             <LocationWithCustomOverlay
-              address={productDetail.address}
+              address={productDetail.address.address}
               productName={productDetail.productName}
               images={productDetail.images}
             />
