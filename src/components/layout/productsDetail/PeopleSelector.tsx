@@ -28,20 +28,20 @@ const PeopleSelector = ({ count, setCount }: PeopleSelectorProps) => {
   const countWrapperStyle = css`
     display: flex;
     align-items: center;
-    border-radius: 5px;
-    padding: 5px;
+    border-radius: 0.3125rem;
+    padding: 0.3125rem;
     color: black;
   `;
 
   const countControlStyle = css`
-    width: 30px;
-    height: 30px;
+    width: 1.875rem;
+    height: 1.875rem;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 600;
 
     &:hover {
@@ -51,8 +51,8 @@ const PeopleSelector = ({ count, setCount }: PeopleSelectorProps) => {
   `;
 
   const countStyle = css`
-    margin: 0 10px;
-    font-size: 20px;
+    margin: 0 0.625rem;
+    font-size: 1.25rem;
     color: black;
     font-weight: 600;
   `;

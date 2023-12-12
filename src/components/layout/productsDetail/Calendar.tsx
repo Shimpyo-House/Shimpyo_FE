@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-alert */
 import { SetStateAction, useEffect, useState } from 'react';
 import { css } from '@emotion/react';
@@ -106,19 +105,25 @@ const CalendarComponent = ({
     // padding-left: 10rem;
     padding-bottom: 1rem;
     margin-top: 3rem;
-    border-radius: 15px;
+    border-radius: 0.9375rem;
+    height: 70%;
     border: 2px solid #3d91ff;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   `;
 
   const selectButtonStyle = css`
-    padding: 10px 20px;
+    padding: 0.625rem 1.25rem;
     // background-color: #3d91ff;
     color: black;
     border: none;
-    border-radius: 5px;
+    border-radius: 0.3125rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 600;
     outline: none;
 
@@ -129,17 +134,18 @@ const CalendarComponent = ({
 
   const closeButtonStyle = css`
     display: flex;
-    width: 58%;
+    width: 70%;
     height: 3rem;
+    position: absolute;
     bottom: 0;
+    margin-bottom: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: #3d91ff;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 3rem;
-    margin-right: auto;
-    margin-left: auto;
     font-size: 1rem;
     justify-content: center;
     align-items: center;
@@ -153,25 +159,29 @@ const CalendarComponent = ({
     }
 
     .rdrDateDisplayWrapper {
-      width: 450px;
+      width: 50rem;
       margin-top: 3rem;
     }
 
     .rdrCalendarWrapper {
-      font-size: 12px;
+      font-size: 0.75rem;
     }
 
     .rdrDateDisplayItemActive input {
-      font-size: 12px;
+      font-size: 0.75rem;
     }
 
     .rdrDateDisplayItem input {
-      font-size: 12px;
+      font-size: 0.75rem;
     }
 
     .rdrCalendarWrapper {
       padding-right: 10rem;
       padding-left: 10rem;
+    }
+
+    .rdrDays {
+      height: 100%;
     }
   `;
 
@@ -200,8 +210,13 @@ const CalendarComponent = ({
   `;
 
   const CalendarHeader = css`
-    position: relative;
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     padding-top: 3rem;
+    margin-top: 1rem;
   `;
 
   return (
@@ -212,17 +227,17 @@ const CalendarComponent = ({
       <div css={modalStyle}>
         {showCalendar && (
           <div css={modalContentStyle}>
+            <div css={CalendarHeader}>
+              <div css={CalendarText}>날짜선택</div>
+              <button
+                type="button"
+                css={closedButtonStyle}
+                onClick={cancelCalendar}
+              >
+                X
+              </button>
+            </div>
             <div css={customStyle}>
-              <div css={CalendarHeader}>
-                <div css={CalendarText}>날짜선택</div>
-                <button
-                  type="button"
-                  css={closedButtonStyle}
-                  onClick={cancelCalendar}
-                >
-                  X
-                </button>
-              </div>
               <DateRange
                 editableDateInputs
                 onChange={onRangeChange}

@@ -76,6 +76,27 @@ const useSearchData = async (
   return undefined;
 };
 
+const useLocationData = async (location: string) => {
+  try {
+    if (location !== 'x') {
+      const fetchData = await axiosWithNoToken.get<ResponseProducts>(
+        `/api/products?location=${encodeURIComponent(
+          location,
+        )}&page=0&size=100`,
+      );
+      const filteredProperties = fetchData.data.data;
+
+      console.log(location);
+      console.log(filteredProperties);
+
+      return filteredProperties;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  return undefined;
+};
+
 const getQuery = (searchPrams: URLSearchParams) => {
   const queryData = {
     keyword: searchPrams.get('keyword') || '',
@@ -117,4 +138,4 @@ const getSearchData = async (
   return undefined;
 };
 
-export { getSearchData, useProductsData };
+export { getSearchData, useProductsData, useLocationData };
