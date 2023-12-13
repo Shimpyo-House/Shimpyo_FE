@@ -1,6 +1,7 @@
 import { IoIosHeartEmpty, IoMdHeart } from 'react-icons/io';
 import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
+import toast from 'react-hot-toast';
 import { deleteFavorite, setFavorite } from '../../../api/favorite';
 
 type PropsType = {
@@ -22,13 +23,13 @@ const FavHeart = ({ productId, favorites }: PropsType) => {
       const fav = await deleteFavorite(productId);
       if (fav) {
         setIsFav(false);
-        alert('찜하기 취소됨');
+        toast.success('찜을 해제하였습니다.');
       }
     } else {
       const fav = await setFavorite(productId);
       if (fav) {
         setIsFav(true);
-        alert('찜하기 됨');
+        toast.success('찜 목록에 추가하였습니다.');
       }
     }
   };
