@@ -1,4 +1,5 @@
-/* eslint-disable consistent-return */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable @typescript-eslint/no-shadow */
@@ -31,6 +32,7 @@ import ImageSlider from './ImageSlider';
 import useCart from '../../../hooks/useCart';
 import { cartPostToJudgment } from '../../../api/cart';
 import { useLocationData } from '../../../api/productsList';
+import RoomOptionModal from './RoomOptionModal';
 
 const ProductsDetail = () => {
   const navigate = useNavigate();
@@ -61,6 +63,14 @@ const ProductsDetail = () => {
   );
 
   const setLoading = useSetRecoilState(loadingAtom);
+
+  const [roomOptionModalOpen, setRoomOptionModalOpen] = useState(false);
+  const [selectedRoomCode, setSelectedRoomCode] = useState<number | null>(null);
+
+  const handleRoomOpen = (roomCode: number) => {
+    setSelectedRoomCode(roomCode);
+    setRoomOptionModalOpen(true);
+  };
 
   // 선택한 숙박일 수 부모 컴포넌트 상태에 업데이트
   const handleSetNights = (selectedNights: SetStateAction<number>) => {
@@ -94,8 +104,6 @@ const ProductsDetail = () => {
           `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
         );
         setProductDetail(response.data.data);
-
-        console.log(response.data.data);
       } catch (error) {
         console.error('Error fetching product detail:', error);
       } finally {
@@ -247,10 +255,7 @@ const ProductsDetail = () => {
   const handleShowNearbyClick = async () => {
     try {
       const location = productDetail.address.address.split(' ')[0];
-      console.log(location);
-
       const fetchData = await useLocationData(location);
-
       console.log('주변 숙소 데이터:', fetchData);
     } catch (error) {
       console.error('주변 숙소 데이터 불러오기 에러:', error);
@@ -320,7 +325,7 @@ const ProductsDetail = () => {
                 css={RoomImg}
                 style={{ backgroundImage: `url('${productDetail.images[0]}')` }}
               />
-              <div css={RoomInfo}>
+              <div css={RoomInfo} onClick={() => handleRoomOpen(room.roomCode)}>
                 <div css={RoomName}>{room.roomName}</div>
                 <div
                   css={RoomCount}
@@ -395,6 +400,12 @@ const ProductsDetail = () => {
             </div>
           ))}
         </div>
+        <RoomOptionModal
+          openModal={roomOptionModalOpen}
+          closeModal={() => setRoomOptionModalOpen(false)}
+          productDetail={productDetail}
+          selectedRoomCode={selectedRoomCode}
+        />
         {modalIsOpen && (
           <div
             className="modal-container"
@@ -590,6 +601,7 @@ const RoomInfo = css`
   padding: 0.625rem;
   margin-left: 1.25rem;
   font-weight: bold;
+  cursor: pointer;
 `;
 
 const RoomName = css`
