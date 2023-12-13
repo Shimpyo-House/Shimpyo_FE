@@ -1,10 +1,34 @@
 /* eslint-disable react/no-array-index-key */
 import { css } from '@emotion/react';
 
-const ProductAmenities = ({ productDetail }: { productDetail: any }) => {
-  const amenityKeys = Object.keys(
-    productDetail.productAmenityResponse,
+const koreanAmenities: { [key: string]: string } = {
+  barbecue: '바베큐',
+  beauty: '화장대',
+  beverage: '식수대',
+  bicycle: '사이클',
+  campfire: '캠프파이어',
+  fitness: '헬스장',
+  karaoke: '노래방',
+  publicBath: '목욕탕',
+  publicPc: '피시방',
+  sauna: '사우나',
+  seminar: '세미나실',
+  sports: '운동기구',
+};
+
+interface ProductAmenityResponse {
+  [key: string]: boolean;
+}
+
+const ProductAmenities = ({
+  productDetail,
+}: {
+  productDetail: { productAmenityResponse: ProductAmenityResponse };
+}) => {
+  const amenityKeys = Object.keys(productDetail.productAmenityResponse).map(
+    (key) => koreanAmenities[key],
   ) as string[];
+
   const amenityValues = Object.values(
     productDetail.productAmenityResponse,
   ) as boolean[];
@@ -56,6 +80,7 @@ const AmenityGroup = css`
   justify-content: space-between;
   font-size: 1.3rem;
   margin-bottom: 0.625rem;
+  font-weight: 500;
 `;
 
 const AmenityItem = css`

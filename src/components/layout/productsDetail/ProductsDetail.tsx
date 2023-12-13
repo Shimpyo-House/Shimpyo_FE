@@ -268,7 +268,7 @@ const ProductsDetail = () => {
             </div>
             <div css={ProductsLocation}>{productDetail.address.address}</div>
             <div css={productsInfoCenter}>
-              Tel: {productDetail.productOptionResponse.infoCenter}
+              {productDetail.productOptionResponse.infoCenter}
             </div>
             <button
               type="button"
