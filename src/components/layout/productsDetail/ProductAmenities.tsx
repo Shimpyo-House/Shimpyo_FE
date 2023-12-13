@@ -56,21 +56,28 @@ const ProductAmenities = ({
   return (
     <>
       <div css={ProductsDetailInfo}>추가 정보</div>
-      <div css={AmenitiesContainer}>
-        <div>
-          <div>
-            숙소 연락처:{' '}
-            {productOptionResponse.infoCenter
-              ? productOptionResponse.infoCenter
-              : '없음'}
-          </div>
-          <div>
-            음식점: {productOptionResponse.foodPlace ? '레스토랑' : '없음'}
-          </div>
-          <div>음식조리: {productOptionResponse.cooking ? '가능' : '불가'}</div>
-          <div>주차여부: {productOptionResponse.parking ? '가능' : '불가'}</div>
-          <div>픽업여부: {productOptionResponse.pickup ? '가능' : '불가'}</div>
+      <div css={ProductsIntroduce}>
+        <div css={ProductsIntroduceText}>
+          숙소 연락처:{' '}
+          {productOptionResponse.infoCenter
+            ? productOptionResponse.infoCenter
+            : '없음'}
         </div>
+        <div css={ProductsIntroduceText}>
+          음식점: {productOptionResponse.foodPlace ? '레스토랑' : '없음'}
+        </div>
+        <div css={ProductsIntroduceText}>
+          음식조리: {productOptionResponse.cooking ? '가능' : '불가'}
+        </div>
+        <div css={ProductsIntroduceText}>
+          주차여부: {productOptionResponse.parking ? '가능' : '불가'}
+        </div>
+        <div css={ProductsIntroduceText}>
+          픽업여부: {productOptionResponse.pickup ? '가능' : '불가'}
+        </div>
+      </div>
+      <div css={ProductsDetailInfo}>시설 정보</div>
+      <div css={AmenitiesContainer}>
         {chunkedKeys.map((keys, index) => (
           <div key={index} css={AmenityGroup}>
             {keys.map((key, i) => (
@@ -109,12 +116,26 @@ const AmenityGroup = css`
   display: flex;
   justify-content: space-between;
   font-size: 1.3rem;
-  margin-bottom: 0.625rem;
+  margin-bottom: 2rem;
   font-weight: 500;
 `;
 
 const AmenityItem = css`
   flex: 1;
+`;
+
+const ProductsIntroduce = css`
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+`;
+
+const ProductsIntroduceText = css`
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
 `;
 
 function chunkArray<T>(array: T[], size: number): T[][] {
