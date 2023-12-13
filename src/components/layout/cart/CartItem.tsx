@@ -143,7 +143,9 @@ const CartItem = () => {
               <p css={RoomPerson}>
                 기준 {cart.standard}명 / 최대 {cart.capacity}명
               </p>
-              <p css={RoomDescription}>{cart.description}</p>
+              <p css={RoomDescription}>
+                {cart.description.replace(/<br\s*[/]?>/gi, '\n')}
+              </p>
             </div>
             <div css={RightContainer}>
               <RiDeleteBin6Line
@@ -290,6 +292,7 @@ const RoomPerson = css`
 const RoomDescription = css`
   font-size: 0.95rem;
   color: ${theme.colors.gray700};
+  white-space: pre-line;
 `;
 
 const RightContainer = css`

@@ -1,17 +1,19 @@
 import { css } from '@emotion/react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 import { cartPostToJudgment } from '../../../api/cart';
 import {
+  cartDataState,
   cartSoldOutState,
   cartCheckedRoomListState,
 } from '../../../atoms/cartAtom';
+import { ResponseCartJudgement } from '../../../types';
 import theme from '../../../style/theme';
 
 const CartOrder = () => {
   const navigate = useNavigate();
-  // const setCartData = useSetRecoilState(cartDataState);
+  const setCartData = useSetRecoilState(cartDataState);
   const [soldOutData, setSoldOutData] = useRecoilState(cartSoldOutState);
   const [checkedRoomList, setCheckedRoomList] = useRecoilState(
     cartCheckedRoomListState,
@@ -50,45 +52,31 @@ const CartOrder = () => {
         startDate,
         endDate,
       }));
-      // const updatedCartData = checkedRoomList.map(
-      //   ({
-      //     roomCode,
-      //     roomName,
-      //     startDate,
-      //     endDate,
-      //     productName,
-      //     standard,
-      //     capacity,
-      //     checkIn,
-      //     checkOut,
-      //     price,
-      //   }) => ({
-      //     roomCode,
-      //     roomName,
-      //     productName,
-      //     startDate,
-      //     endDate,
-      //     standard,
-      //     capacity,
-      //     checkIn,
-      //     checkOut,
-      //     price,
-      //   }),
-      // );
 
       const response = await cartPostToJudgment(rooms);
+      const requestData = response.roomResults.map(
+        (result: ResponseCartJudgement) => ({
+          roomId: result.roomId,
+          startDate: result.startDate,
+          endDate: result.endDate,
+        }),
+      );
 
-      if (!response) {
+      if (response.isAvailable) {
         swal({
           title: '주문 가능',
           text: '주문 가능한 상품입니다.',
           icon: 'success',
         });
         navigate('/pay');
-        // setCartData(rooms);
+        setCartData(requestData);
         setCheckedRoomList([]);
       } else {
-        setSoldOutData(response);
+        setSoldOutData(
+          response.roomResults.map(
+            (room: ResponseCartJudgement) => room.roomId === -1,
+          ),
+        );
         updateCheckboxAvailability();
 
         const soldOutRoomNames = checkedRoomList

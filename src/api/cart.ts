@@ -1,4 +1,6 @@
+/* eslint-disable no-alert */
 /* eslint-disable consistent-return */
+import swal from 'sweetalert';
 import { axiosWithAccessToken } from '../Axios';
 import { RoomData, PostRoomToCart } from '../types';
 import { getCookie } from '../components/layout/auth/auth.utils';
@@ -15,13 +17,43 @@ const cartGetAxios = async () => {
     console.error(err);
   }
 };
-
 const cartPostAxios = async (requestData: PostRoomToCart) => {
   try {
     const response = await axiosWithAccessToken.post('/api/carts', requestData);
+    await swal({
+      title: '',
+      text: '상품을 장바구니에 성공적으로 담았습니다.',
+      icon: 'success',
+      buttons: {
+        confirm: {
+          text: '확인',
+          value: true,
+          visible: true,
+          closeModal: true,
+        },
+      },
+    });
     return response.data.data;
-  } catch (err) {
-    console.error(err);
+  } catch (error: any) {
+    if (error.response && error.response.status === 403) {
+      const errorMessage = error.response.data.message;
+      await swal({
+        title: '',
+        text: '남은 객실 수를 초과해서 장바구니에 담을 수 없습니다.',
+        icon: 'error',
+        buttons: {
+          confirm: {
+            text: '확인',
+            value: true,
+            visible: true,
+            closeModal: true,
+          },
+        },
+      });
+      console.error(errorMessage);
+    } else {
+      console.error('Error:', error);
+    }
   }
 };
 
