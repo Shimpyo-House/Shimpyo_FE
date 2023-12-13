@@ -96,7 +96,7 @@ const ProductsDetailInfo = css`
   width: 95%;
   display: flex;
   justify-content: flex-start;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 2rem;
   margin-top: 4rem;
@@ -110,31 +110,34 @@ const AmenitiesContainer = css`
   flex-direction: column;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 5rem;
 `;
 
 const AmenityGroup = css`
   display: flex;
   justify-content: space-between;
   font-size: 1.3rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   font-weight: 500;
 `;
 
 const AmenityItem = css`
   flex: 1;
+  font-size: 1rem;
+  margin-bottom: 2rem;
 `;
 
 const ProductsIntroduce = css`
   width: 95%;
   margin-left: auto;
   margin-right: auto;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 500;
   margin-bottom: 2rem;
 `;
 
 const ProductsIntroduceText = css`
-  font-size: 1.3rem;
+  font-size: 1rem;
   margin-bottom: 1rem;
 `;
 

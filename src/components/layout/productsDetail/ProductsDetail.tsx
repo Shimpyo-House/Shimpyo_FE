@@ -90,6 +90,11 @@ const ProductsDetail = () => {
 
     setDefaultDate(startDateFormatted);
     setDefaultDatePlusDay(endDateFormatted);
+
+    console.log(startDateFormatted);
+    console.log(endDateFormatted);
+    console.log(defaultDate);
+    console.log(defaultDatePlusDay);
   };
 
   useEffect(() => {
@@ -185,7 +190,6 @@ const ProductsDetail = () => {
 
     try {
       await cartPostMutation.mutate(requestData);
-      // openCartModal();
     } catch (error) {
       console.error('Error adding to cart:', error);
     }
@@ -506,16 +510,17 @@ const ProductsIntroduce = css`
   width: 95%;
   margin-left: auto;
   margin-right: auto;
-  font-size: 1.3rem;
+  font-size: 1rem;
   font-weight: 500;
   margin-bottom: 2rem;
+  line-height: normal;
 `;
 
 const ProductsDetailInfo = css`
   width: 95%;
   display: flex;
   justify-content: flex-start;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 2rem;
   margin-top: 4rem;
@@ -587,23 +592,24 @@ const RoomInfo = css`
 `;
 
 const RoomName = css`
-  font-size: 2.25rem;
+  font-size: 1.8rem;
 `;
 
 const RoomCount = css`
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 `;
 
 const RoomDesc = css`
-  font-size: 1.25rem;
+  font-size: 1rem;
+  line-height: normal;
 `;
 
 const checkTime = css`
-  font-size: 1.25rem;
+  font-size: 1rem;
 `;
 
 const peoplePlusText = css`
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: ${theme.colors.gray600};
 `;
 
@@ -618,7 +624,7 @@ const RoomAction = css`
 const priceStyle = css`
   align-self: flex-end;
   margin-bottom: 0.625rem;
-  font-size: 1.875rem;
+  font-size: 1.3rem;
 `;
 
 const buyBtn = css`
