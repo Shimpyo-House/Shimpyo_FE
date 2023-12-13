@@ -80,6 +80,8 @@ const ProductsDetail = () => {
   const [enterDate, setEnterDate] = useState('');
   const [exitDate, setExitDate] = useState('');
 
+  // const [roomId, setRoomId] = useState<number>(0);
+
   // 캘린더에서 날짜 선택했을 때 로직(입실날짜 및 퇴실날짜 설정)
   const handleEnterExitDatesChange = (enterDate: string, exitDate: string) => {
     setEnterDate(enterDate);
@@ -158,13 +160,19 @@ const ProductsDetail = () => {
     try {
       setLoading({ isLoading: true, message: '현재 예약중입니다.' });
 
+      const data = await cartPostToJudgment(rooms);
+      console.log(data.roomResults[0].roomId);
+
+      // setRoomId(data.roomResults[0].roomId);
+
       const requestData = {
-        roomCode: roomInfo.roomCode,
+        roomId: data.roomResults[0].roomId,
         startDate: defaultDate,
         endDate: defaultDatePlusDay,
       };
+      console.log(roomInfo); // 안썼다고 빨간줄 떠서 콘솔 찍엇어요
 
-      setCartData(() => [requestData]);
+      setCartData([requestData]);
       await cartPostToJudgment(rooms);
       navigate('/pay');
     } catch (err) {
