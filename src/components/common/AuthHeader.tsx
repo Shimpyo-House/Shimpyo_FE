@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { css } from '@emotion/react';
 import { MdMenu } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 import theme from '../../style/theme';
 
 const AuthHeader = () => {
   return (
     <div css={Container}>
       <nav css={InnerContainer}>
-        <h1 css={LogoText}>Shimpyo ,</h1>
+        <Link to="/">
+          <h1 css={LogoText}>Shimpyo ,</h1>
+        </Link>
         <MdMenu css={MenuIcon} />
       </nav>
     </div>
