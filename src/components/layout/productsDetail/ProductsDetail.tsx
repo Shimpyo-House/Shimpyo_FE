@@ -1,4 +1,5 @@
-/* eslint-disable consistent-return */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable @typescript-eslint/no-shadow */
@@ -32,9 +33,16 @@ import useCart from '../../../hooks/useCart';
 import { cartPostToJudgment } from '../../../api/cart';
 import { useLocationData } from '../../../api/productsList';
 import FavHeart from '../productsList/FavHeart';
+import RoomOptionModal from './RoomOptionModal';
 
 const ProductsDetail = () => {
   const navigate = useNavigate();
+
+  const [showDetails, setShowDetails] = useState(false);
+
+  const toggleDetails = () => {
+    setShowDetails(!showDetails);
+  };
 
   const { cartPostMutation } = useCart();
 
@@ -56,6 +64,14 @@ const ProductsDetail = () => {
   );
 
   const setLoading = useSetRecoilState(loadingAtom);
+
+  const [roomOptionModalOpen, setRoomOptionModalOpen] = useState(false);
+  const [selectedRoomCode, setSelectedRoomCode] = useState<number | null>(null);
+
+  const handleRoomOpen = (roomCode: number) => {
+    setSelectedRoomCode(roomCode);
+    setRoomOptionModalOpen(true);
+  };
 
   // 선택한 숙박일 수 부모 컴포넌트 상태에 업데이트
   const handleSetNights = (selectedNights: SetStateAction<number>) => {
@@ -89,8 +105,6 @@ const ProductsDetail = () => {
           `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
         );
         setProductDetail(response.data.data);
-
-        console.log(response.data.data);
       } catch (error) {
         console.error('Error fetching product detail:', error);
       } finally {
@@ -155,14 +169,8 @@ const ProductsDetail = () => {
     }
 
     const requestData: PostRoomToCart = {
-      roomId: room.roomId,
-      roomName: room.roomName,
+      roomCode: room.roomCode,
       price: parseFloat(`${room.price}`) * nights,
-      desc: room.description,
-      standard: room.standard,
-      checkIn: room.checkIn,
-      checkOut: room.checkOut,
-      reserved: room.reserved,
       startDate: defaultDate,
       endDate: defaultDatePlusDay,
     };
@@ -179,7 +187,7 @@ const ProductsDetail = () => {
 
       // 중복 여부 확인
       const isOverlapping = cartItems.some(
-        (item: { startDate: string; endDate: string; roomId: number }) => {
+        (item: { startDate: string; endDate: string; roomCode: number }) => {
           // 기존 장바구니 아이템의 날짜 범위
           const existingItemRange = {
             startDate: item.startDate,
@@ -188,7 +196,7 @@ const ProductsDetail = () => {
 
           // 날짜 범위 겹치는지 확인
           return (
-            item.roomId === room.roomId &&
+            item.roomCode === room.roomCode &&
             newItemRange.startDate < existingItemRange.endDate &&
             newItemRange.endDate > existingItemRange.startDate
           );
@@ -215,16 +223,16 @@ const ProductsDetail = () => {
       setLoading({ isLoading: true, message: '현재 예약중입니다.' });
 
       const requestData = {
-        roomId: roomInfo.roomId,
-        roomName: roomInfo.roomName,
-        productName: roomInfo.roomName,
+        roomCode: roomInfo.roomCode,
+        // roomName: roomInfo.roomName,
+        // productName: roomInfo.roomName,
         startDate: defaultDate,
         endDate: defaultDatePlusDay,
-        standard: roomInfo.standard,
-        capacity: roomInfo.capacity,
-        checkIn: roomInfo.checkIn,
-        checkOut: roomInfo.checkOut,
-        price: parseFloat(`${roomInfo.price}`) * nights,
+        // standard: roomInfo.standard,
+        // capacity: roomInfo.capacity,
+        // checkIn: roomInfo.checkIn,
+        // checkOut: roomInfo.checkOut,
+        // price: parseFloat(`${roomInfo.price}`) * nights,
       };
 
       setCartData(() => [requestData]);
@@ -248,10 +256,7 @@ const ProductsDetail = () => {
   const handleShowNearbyClick = async () => {
     try {
       const location = productDetail.address.address.split(' ')[0];
-      console.log(location);
-
       const fetchData = await useLocationData(location);
-
       console.log('주변 숙소 데이터:', fetchData);
     } catch (error) {
       console.error('주변 숙소 데이터 불러오기 에러:', error);
@@ -276,6 +281,19 @@ const ProductsDetail = () => {
               </div>
             </div>
             <div css={ProductsLocation}>{productDetail.address.address}</div>
+            <button
+              css={ProductsDetailInfo}
+              type="button"
+              onClick={toggleDetails}
+            >
+              숙소소개
+            </button>
+            {showDetails && (
+              <div>
+                {' '}
+                <div css={ProductsIntroduce}>{productDetail.description}</div>
+              </div>
+            )}
             <button
               type="button"
               css={ProductsDetailInfo}
@@ -307,12 +325,12 @@ const ProductsDetail = () => {
         </div>
         <div css={RoomContainer}>
           {productDetail.rooms.map((room) => (
-            <div key={`room ${room.roomId}`} css={RoomItem}>
+            <div key={`room ${room.roomCode}`} css={RoomItem}>
               <div
                 css={RoomImg}
                 style={{ backgroundImage: `url('${productDetail.images[0]}')` }}
               />
-              <div css={RoomInfo}>
+              <div css={RoomInfo} onClick={() => handleRoomOpen(room.roomCode)}>
                 <div css={RoomName}>{room.roomName}</div>
                 <div
                   css={RoomCount}
@@ -338,9 +356,9 @@ const ProductsDetail = () => {
                       )}
                 </div>
                 <div css={buyBtn}>
-                  {room.reserved ? (
+                  {room.remaining === 0 ? (
                     <>
-                      <AiOutlineShoppingCart css={NoCartIcon} />{' '}
+                      <AiOutlineShoppingCart css={NoCartIcon} />
                       <button type="button" css={exceedText}>
                         예약마감
                       </button>
@@ -360,7 +378,7 @@ const ProductsDetail = () => {
                               reservation(
                                 [
                                   {
-                                    roomId: room.roomId,
+                                    roomCode: room.roomCode,
                                     startDate: defaultDate,
                                     endDate: defaultDatePlusDay,
                                   },
@@ -387,6 +405,12 @@ const ProductsDetail = () => {
             </div>
           ))}
         </div>
+        <RoomOptionModal
+          openModal={roomOptionModalOpen}
+          closeModal={() => setRoomOptionModalOpen(false)}
+          productDetail={productDetail}
+          selectedRoomCode={selectedRoomCode}
+        />
         {modalIsOpen && (
           <div
             className="modal-container"
@@ -504,6 +528,15 @@ const ProductsLocation = css`
   margin-bottom: 2rem;
 `;
 
+const ProductsIntroduce = css`
+  display: flex;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.5rem;
+  font-weight: 600;
+`;
+
 const ProductsDetailInfo = css`
   width: 95%;
   display: flex;
@@ -573,6 +606,7 @@ const RoomInfo = css`
   padding: 0.625rem;
   margin-left: 1.25rem;
   font-weight: bold;
+  cursor: pointer;
 `;
 
 const RoomName = css`
