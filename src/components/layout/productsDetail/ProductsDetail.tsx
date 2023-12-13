@@ -70,7 +70,7 @@ const ProductsDetail = () => {
   const [enterDate, setEnterDate] = useState('');
   const [exitDate, setExitDate] = useState('');
 
-  const [roomId, setRoomId] = useState<number>(0);
+  // const [roomId, setRoomId] = useState<number>(0);
 
   // 캘린더에서 날짜 선택했을 때 로직(입실날짜 및 퇴실날짜 설정)
   const handleEnterExitDatesChange = (enterDate: string, exitDate: string) => {
@@ -218,10 +218,10 @@ const ProductsDetail = () => {
       const data = await cartPostToJudgment(rooms);
       console.log(data.roomResults[0].roomId);
 
-      setRoomId(data.roomResults[0].roomId);
+      // setRoomId(data.roomResults[0].roomId);
 
       const requestData = {
-        roomId,
+        roomId: data.roomResults[0].roomId,
         startDate: defaultDate,
         endDate: defaultDatePlusDay,
       };

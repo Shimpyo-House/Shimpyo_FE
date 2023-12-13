@@ -24,6 +24,7 @@ const BookingInfo = () => {
       try {
         const data = await OrderListAxios(RoomIds);
         setOrderCom(data);
+        console.log(data);
       } catch (error) {
         console.error(error);
       }
