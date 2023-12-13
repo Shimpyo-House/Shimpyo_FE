@@ -1,10 +1,9 @@
 import { css } from '@emotion/react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 import { cartPostToJudgment } from '../../../api/cart';
 import {
-  cartDataState,
   cartSoldOutState,
   cartCheckedRoomListState,
 } from '../../../atoms/cartAtom';
@@ -12,7 +11,7 @@ import theme from '../../../style/theme';
 
 const CartOrder = () => {
   const navigate = useNavigate();
-  const setCartData = useSetRecoilState(cartDataState);
+  // const setCartData = useSetRecoilState(cartDataState);
   const [soldOutData, setSoldOutData] = useRecoilState(cartSoldOutState);
   const [checkedRoomList, setCheckedRoomList] = useRecoilState(
     cartCheckedRoomListState,
@@ -51,31 +50,31 @@ const CartOrder = () => {
         startDate,
         endDate,
       }));
-      const updatedCartData = checkedRoomList.map(
-        ({
-          roomCode,
-          roomName,
-          startDate,
-          endDate,
-          productName,
-          standard,
-          capacity,
-          checkIn,
-          checkOut,
-          price,
-        }) => ({
-          roomCode,
-          roomName,
-          productName,
-          startDate,
-          endDate,
-          standard,
-          capacity,
-          checkIn,
-          checkOut,
-          price,
-        }),
-      );
+      // const updatedCartData = checkedRoomList.map(
+      //   ({
+      //     roomCode,
+      //     roomName,
+      //     startDate,
+      //     endDate,
+      //     productName,
+      //     standard,
+      //     capacity,
+      //     checkIn,
+      //     checkOut,
+      //     price,
+      //   }) => ({
+      //     roomCode,
+      //     roomName,
+      //     productName,
+      //     startDate,
+      //     endDate,
+      //     standard,
+      //     capacity,
+      //     checkIn,
+      //     checkOut,
+      //     price,
+      //   }),
+      // );
 
       const response = await cartPostToJudgment(rooms);
 
@@ -86,7 +85,7 @@ const CartOrder = () => {
           icon: 'success',
         });
         navigate('/pay');
-        setCartData(updatedCartData);
+        // setCartData(rooms);
         setCheckedRoomList([]);
       } else {
         setSoldOutData(response);
