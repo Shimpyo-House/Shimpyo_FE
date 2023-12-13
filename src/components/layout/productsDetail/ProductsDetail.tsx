@@ -8,7 +8,6 @@ import { SetStateAction, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { format } from 'date-fns';
-// import Modal from 'react-modal';
 import { useSetRecoilState } from 'recoil';
 import { cartDataState } from '../../../atoms/cartAtom';
 import { axiosWithAccessToken, axiosWithNoToken } from '../../../Axios';

@@ -1,7 +1,5 @@
 /* eslint-disable no-alert */
 /* eslint-disable consistent-return */
-// import Modal from 'react-modal';
-// import { useState } from 'react';
 import swal from 'sweetalert';
 import { axiosWithAccessToken } from '../Axios';
 import { RoomData, PostRoomToCart } from '../types';
