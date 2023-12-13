@@ -11,12 +11,16 @@ const BookingInfo = () => {
   const cartData = useRecoilValue(cartDataState);
   const [orderCom, setOrderCom] = useState<any>('');
 
+  const roomIdsAsString = cartData
+    .map((item) => String(item.roomCode))
+    .join(', ');
+
   const RoomCode: OrderedList = {
-    roomIds: cartData.map((item) => item.roomCode),
+    roomIds: roomIdsAsString,
   };
 
   useEffect(() => {
-    const orderedData = async () => {
+    const fetchData = async () => {
       try {
         const data = await OrderListAxios(RoomCode);
         setOrderCom(data);
@@ -25,18 +29,17 @@ const BookingInfo = () => {
       }
     };
 
-    orderedData();
+    fetchData();
   }, []);
 
-  const productArray = orderCom?.content ?? [];
-  console.log(productArray);
+  console.log(orderCom);
 
   return (
     <div css={BookingInfoCss}>
-      {productArray.length > 0 ? (
-        productArray.map((product: any) => {
+      {orderCom.length > 0 ? (
+        orderCom.map((product: any) => {
           return (
-            <div key={product.someKey}>
+            <div key={product.productId}>
               {cartData.length > 0 ? (
                 cartData.map((cartItem, index) => (
                   <div key={cartItem.roomCode}>
@@ -160,6 +163,7 @@ const BookingPrice = css`
   text-align: end;
 
   span {
+    margin-left: 1rem;
     font-size: 1.3rem;
     font-weight: 900;
   }

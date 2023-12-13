@@ -218,5 +218,5 @@ export type CartItem = {
 };
 
 export type OrderedList = {
-  roomIds?: number[];
+  roomIds: string;
 };

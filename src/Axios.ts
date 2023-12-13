@@ -7,12 +7,11 @@ const accessToken = getCookie('accessToken');
 export const axiosWithAccessToken = axios.create({
   baseURL: BASE_URL,
   timeout: 5000,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
-    withCredentials: true,
     Authorization: `Bearer ${accessToken}`,
   },
-  withCredentials: true,
 });
 
 export const axiosWithNoToken = axios.create({

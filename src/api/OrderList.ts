@@ -6,7 +6,8 @@ const OrderListAxios = async (roomIds: OrderedList) => {
     const response = await axiosWithAccessToken.get('/api/rooms', {
       params: roomIds,
     });
-    return response.data.data;
+    console.log(response.data.data.rooms);
+    return response.data.data.rooms;
   } catch (error) {
     console.error(error);
     return error;
