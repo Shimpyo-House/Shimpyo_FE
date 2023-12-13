@@ -16,13 +16,11 @@ const Home = () => {
       setLoading({ isLoading: true, message: '데이터를 조회중입니다.' });
       const response: DataType | undefined = (await useProductsData(
         0,
-        100,
+        110,
         'hot',
       )) as DataType | undefined;
       const fetchData: ResponseProductsData[] | undefined =
         response?.productResponses;
-      console.log(response);
-
       if (fetchData) {
         const hotData: ResponseProductsData[] | undefined = fetchData.slice(
           0,

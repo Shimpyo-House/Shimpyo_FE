@@ -1,4 +1,5 @@
-/* eslint-disable consistent-return */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable @typescript-eslint/no-shadow */
@@ -10,7 +11,7 @@ import { format } from 'date-fns';
 import Modal from 'react-modal';
 import { useSetRecoilState } from 'recoil';
 import { cartDataState } from '../../../atoms/cartAtom';
-import { axiosWithNoToken } from '../../../Axios';
+import { axiosWithAccessToken, axiosWithNoToken } from '../../../Axios';
 import theme from '../../../style/theme';
 import {
   PostRoomToCart,
@@ -31,15 +32,14 @@ import ImageSlider from './ImageSlider';
 import useCart from '../../../hooks/useCart';
 import { cartPostToJudgment } from '../../../api/cart';
 import { useLocationData } from '../../../api/productsList';
+import RoomImageSlider from './RoomImageSlider';
+import ProductAmenities from './ProductAmenities';
+import RoomOptionModal from './RoomOptionModal';
+import FavHeart from '../productsList/FavHeart';
+import { getCookie } from '../auth/auth.utils';
 
 const ProductsDetail = () => {
   const navigate = useNavigate();
-
-  const [showDetails, setShowDetails] = useState(false);
-
-  const toggleDetails = () => {
-    setShowDetails(!showDetails);
-  };
 
   const { cartPostMutation } = useCart();
 
@@ -55,12 +55,22 @@ const ProductsDetail = () => {
   const today = new Date();
   const tomorrow = new Date(today.getTime() + 86400000);
 
+  const accessToken = getCookie('accessToken');
+
   const [defaultDate, setDefaultDate] = useState(format(today, 'yyyy-MM-dd'));
   const [defaultDatePlusDay, setDefaultDatePlusDay] = useState(
     format(tomorrow, 'yyyy-MM-dd'),
   );
 
   const setLoading = useSetRecoilState(loadingAtom);
+
+  const [roomOptionModalOpen, setRoomOptionModalOpen] = useState(false);
+  const [selectedRoomCode, setSelectedRoomCode] = useState<number | null>(null);
+
+  const handleRoomOpen = (roomCode: number) => {
+    setSelectedRoomCode(roomCode);
+    setRoomOptionModalOpen(true);
+  };
 
   // 선택한 숙박일 수 부모 컴포넌트 상태에 업데이트
   const handleSetNights = (selectedNights: SetStateAction<number>) => {
@@ -92,12 +102,19 @@ const ProductsDetail = () => {
       try {
         setLoading({ isLoading: true, message: '방 정보를 조회중입니다.' });
         // if (!startDate || !endDate) return;
-        const response = await axiosWithNoToken.get(
-          `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
-        );
-        setProductDetail(response.data.data);
+        console.log(accessToken);
 
-        console.log(response.data.data);
+        if (accessToken !== undefined) {
+          const response = await axiosWithAccessToken.get(
+            `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
+          );
+          setProductDetail(response.data.data);
+        } else {
+          const response = await axiosWithNoToken.get(
+            `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
+          );
+          setProductDetail(response.data.data);
+        }
       } catch (error) {
         console.error('Error fetching product detail:', error);
       } finally {
@@ -249,10 +266,7 @@ const ProductsDetail = () => {
   const handleShowNearbyClick = async () => {
     try {
       const location = productDetail.address.address.split(' ')[0];
-      console.log(location);
-
       const fetchData = await useLocationData(location);
-
       console.log('주변 숙소 데이터:', fetchData);
     } catch (error) {
       console.error('주변 숙소 데이터 불러오기 에러:', error);
@@ -262,6 +276,10 @@ const ProductsDetail = () => {
   return (
     <div>
       <div css={ProductDetailContainer}>
+        <FavHeart
+          productId={productDetail.productId}
+          favorites={productDetail.favorites}
+        />
         <ImageSlider images={productDetail.images} />
         <div css={ProductDetailBox}>
           <div css={ProductData}>
@@ -273,19 +291,6 @@ const ProductsDetail = () => {
               </div>
             </div>
             <div css={ProductsLocation}>{productDetail.address.address}</div>
-            <button
-              css={ProductsDetailInfo}
-              type="button"
-              onClick={toggleDetails}
-            >
-              숙소소개
-            </button>
-            {showDetails && (
-              <div>
-                {' '}
-                <div css={ProductsIntroduce}>{productDetail.description}</div>
-              </div>
-            )}
             <button
               type="button"
               css={ProductsDetailInfo}
@@ -318,11 +323,10 @@ const ProductsDetail = () => {
         <div css={RoomContainer}>
           {productDetail.rooms.map((room) => (
             <div key={`room ${room.roomCode}`} css={RoomItem}>
-              <div
-                css={RoomImg}
-                style={{ backgroundImage: `url('${productDetail.images[0]}')` }}
-              />
-              <div css={RoomInfo}>
+              <div css={RoomImg}>
+                <RoomImageSlider images={room.roomImages} />
+              </div>
+              <div css={RoomInfo} onClick={() => handleRoomOpen(room.roomCode)}>
                 <div css={RoomName}>{room.roomName}</div>
                 <div
                   css={RoomCount}
@@ -334,6 +338,7 @@ const ProductsDetail = () => {
                 <div css={peoplePlusText}>
                   기준 인원 초과 시, 추가요금이 발생할 수 있습니다.
                 </div>
+                <div css={RoomDesc}>남은 객실 {room.remaining}개</div>
               </div>
               <div css={RoomAction}>
                 <div css={priceStyle}>
@@ -396,7 +401,18 @@ const ProductsDetail = () => {
               </div>
             </div>
           ))}
+          <div css={ProductsDetailInfo}>숙소 소개</div>
+          <div>
+            <div css={ProductsIntroduce}>{productDetail.description}</div>
+          </div>
+          <ProductAmenities productDetail={productDetail} />
         </div>
+        <RoomOptionModal
+          openModal={roomOptionModalOpen}
+          closeModal={() => setRoomOptionModalOpen(false)}
+          productDetail={productDetail}
+          selectedRoomCode={selectedRoomCode}
+        />
         {modalIsOpen && (
           <div
             className="modal-container"
@@ -511,27 +527,37 @@ const ProductsLocation = css`
   font-size: 1.5rem;
   font-weight: 600;
   margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 `;
+
+// const productsInfoCenter = css`
+//   width: 95%;
+//   display: flex;
+//   font-size: 1.3rem;
+// `;
 
 const ProductsIntroduce = css`
   display: flex;
   width: 95%;
   margin-left: auto;
   margin-right: auto;
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
 `;
 
 const ProductsDetailInfo = css`
   width: 95%;
   display: flex;
   justify-content: flex-start;
-  font-size: 1.3rem;
+  font-size: 2rem;
   font-weight: 600;
-  color: gray;
   margin-bottom: 2rem;
+  margin-top: 4rem;
+  margin-left: auto;
+  margin-right: auto;
 `;
+
 const OptionSelector = css`
   display: flex;
   width: 100%;
@@ -579,7 +605,7 @@ const RoomItem = css`
 `;
 
 const RoomImg = css`
-  width: 30%;
+  width: 35%;
   border-radius: 0.625rem;
   box-shadow: 0rem 0.25rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
 `;
@@ -592,6 +618,7 @@ const RoomInfo = css`
   padding: 0.625rem;
   margin-left: 1.25rem;
   font-weight: bold;
+  cursor: pointer;
 `;
 
 const RoomName = css`

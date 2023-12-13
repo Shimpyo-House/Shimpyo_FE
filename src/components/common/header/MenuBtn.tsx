@@ -114,6 +114,9 @@ const MenuBtn = () => {
             <li>
               <Link to="/reservation">결제 내역</Link>
             </li>
+            <li>
+              <Link to="/favorite">찜한 숙소</Link>
+            </li>
             <li
               onClick={handlerLogout}
               css={css`

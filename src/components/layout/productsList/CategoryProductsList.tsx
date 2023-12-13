@@ -65,7 +65,7 @@ const CategoryProductsList = ({ category }: PropsType) => {
       )) as DataType | undefined;
       const fetchData = response?.productResponses;
       if (fetchData) {
-        if (fetchData.length < pageVolume) {
+        if (response.pageCount === data?.pageParams.length) {
           setIsEnd(true);
         }
         return fetchData;
