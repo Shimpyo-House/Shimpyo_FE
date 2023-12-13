@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/no-array-index-key */
 import { css } from '@emotion/react';
 
@@ -16,6 +17,18 @@ const koreanAmenities: { [key: string]: string } = {
   sports: '운동기구',
 };
 
+export type ProductOption = {
+  cooking: boolean;
+  parking: boolean;
+  pickup: boolean;
+  foodPlace: string;
+  infoCenter: string;
+};
+
+interface ProductOptionResponse {
+  [key: string]: boolean | string;
+}
+
 interface ProductAmenityResponse {
   [key: string]: boolean;
 }
@@ -23,15 +36,18 @@ interface ProductAmenityResponse {
 const ProductAmenities = ({
   productDetail,
 }: {
-  productDetail: { productAmenityResponse: ProductAmenityResponse };
+  productDetail: {
+    productAmenityResponse: ProductAmenityResponse;
+    productOptionResponse: ProductOptionResponse;
+  };
 }) => {
-  const amenityKeys = Object.keys(productDetail.productAmenityResponse).map(
+  const { productAmenityResponse, productOptionResponse } = productDetail;
+
+  const amenityKeys = Object.keys(productAmenityResponse).map(
     (key) => koreanAmenities[key],
   ) as string[];
 
-  const amenityValues = Object.values(
-    productDetail.productAmenityResponse,
-  ) as boolean[];
+  const amenityValues = Object.values(productAmenityResponse) as boolean[];
 
   const chunkSize = 4;
   const chunkedKeys = chunkArray(amenityKeys, chunkSize);
@@ -41,6 +57,20 @@ const ProductAmenities = ({
     <>
       <div css={ProductsDetailInfo}>추가 정보</div>
       <div css={AmenitiesContainer}>
+        <div>
+          <div>
+            숙소 연락처:{' '}
+            {productOptionResponse.infoCenter
+              ? productOptionResponse.infoCenter
+              : '없음'}
+          </div>
+          <div>
+            음식점: {productOptionResponse.foodPlace ? '레스토랑' : '없음'}
+          </div>
+          <div>음식조리: {productOptionResponse.cooking ? '가능' : '불가'}</div>
+          <div>주차여부: {productOptionResponse.parking ? '가능' : '불가'}</div>
+          <div>픽업여부: {productOptionResponse.pickup ? '가능' : '불가'}</div>
+        </div>
         {chunkedKeys.map((keys, index) => (
           <div key={index} css={AmenityGroup}>
             {keys.map((key, i) => (

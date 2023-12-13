@@ -267,9 +267,9 @@ const ProductsDetail = () => {
               </div>
             </div>
             <div css={ProductsLocation}>{productDetail.address.address}</div>
-            <div css={productsInfoCenter}>
+            {/* <div css={productsInfoCenter}>
               {productDetail.productOptionResponse.infoCenter}
-            </div>
+            </div> */}
             <button
               type="button"
               css={ProductsDetailInfo}
@@ -503,11 +503,11 @@ const ProductsLocation = css`
   margin-bottom: 1.5rem;
 `;
 
-const productsInfoCenter = css`
-  width: 95%;
-  display: flex;
-  font-size: 1.3rem;
-`;
+// const productsInfoCenter = css`
+//   width: 95%;
+//   display: flex;
+//   font-size: 1.3rem;
+// `;
 
 const ProductsIntroduce = css`
   display: flex;
