@@ -90,11 +90,6 @@ const ProductsDetail = () => {
 
     setDefaultDate(startDateFormatted);
     setDefaultDatePlusDay(endDateFormatted);
-
-    console.log(startDateFormatted);
-    console.log(endDateFormatted);
-    console.log(defaultDate);
-    console.log(defaultDatePlusDay);
   };
 
   useEffect(() => {
@@ -131,50 +126,12 @@ const ProductsDetail = () => {
     });
   }, [enterDate, exitDate]);
 
-  // 모달 떠있을 때 헤더 컴포넌트 클릭하거나 뒤로가기 눌러서 페이지 이동 시 스크롤 다시 허용
   useEffect(() => {
     return () => {
       document.body.style.overflow = 'visible';
     };
   }, [navigate]);
 
-  // // 장바구니에 같은 객체 있을 때 렌더링하는 모달
-  // const [modalIsOpen, setModalIsOpen] = useState(false);
-  // const openModal = () => {
-  //   Modal.setAppElement('#root');
-  //   setModalIsOpen(true);
-  //   document.body.style.overflow = 'hidden';
-  // };
-  // const closeModal = () => {
-  //   setModalIsOpen(false);
-  //   document.body.style.overflow = 'visible';
-  // };
-
-  // const [modalCartIsOpen, setModalCartIsOpen] = useState(false);
-  // const openCartModal = () => {
-  //   Modal.setAppElement('#root');
-  //   setModalCartIsOpen(true);
-  //   document.body.style.overflow = 'hidden';
-  // };
-  // const closeCartModal = () => {
-  //   setModalCartIsOpen(false);
-  //   document.body.style.overflow = 'visible';
-  // };
-
-  // const handleModalContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
-  //   const target = e.target as HTMLDivElement;
-  //   if (target.classList.contains('modal-container')) {
-  //     closeModal();
-  //   }
-  // };
-
-  // const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-  //   if (e.key === 'Escape') {
-  //     closeModal();
-  //   }
-  // };
-
-  // 장바구니 로직
   const addToCart = async (product: RequestProductDetail, room: Room) => {
     if (!product || !room) {
       console.error('Product or room information is missing');
@@ -203,15 +160,8 @@ const ProductsDetail = () => {
 
       const requestData = {
         roomCode: roomInfo.roomCode,
-        // roomName: roomInfo.roomName,
-        // productName: roomInfo.roomName,
         startDate: defaultDate,
         endDate: defaultDatePlusDay,
-        // standard: roomInfo.standard,
-        // capacity: roomInfo.capacity,
-        // checkIn: roomInfo.checkIn,
-        // checkOut: roomInfo.checkOut,
-        // price: parseFloat(`${roomInfo.price}`) * nights,
       };
 
       setCartData(() => [requestData]);
@@ -260,23 +210,7 @@ const ProductsDetail = () => {
               </div>
             </div>
             <div css={ProductsLocation}>{productDetail.address.address}</div>
-            <button
-              type="button"
-              css={ProductsDetailInfo}
-              onClick={handleShowNearbyClick}
-            >
-              주변 숙소 보기
-            </button>
           </div>
-        </div>
-        <div>
-          {productDetail && (
-            <LocationWithCustomOverlay
-              address={productDetail.address.address}
-              productName={productDetail.productName}
-              images={productDetail.images}
-            />
-          )}
         </div>
         <div css={OptionSelector}>
           <div css={[DayCalendar, Divider]}>
@@ -370,11 +304,28 @@ const ProductsDetail = () => {
               </div>
             </div>
           ))}
+          <div css={ProductsDetailInfo}>숙소 위치</div>
+          <div>
+            {productDetail && (
+              <LocationWithCustomOverlay
+                address={productDetail.address.address}
+                productName={productDetail.productName}
+                images={productDetail.images}
+              />
+            )}
+          </div>
           <div css={ProductsDetailInfo}>숙소 소개</div>
           <div>
             <div css={ProductsIntroduce}>{productDetail.description}</div>
           </div>
           <ProductAmenities productDetail={productDetail} />
+          <button
+            type="button"
+            css={ProductsDetailInfo}
+            onClick={handleShowNearbyClick}
+          >
+            주변 숙소 보기
+          </button>
         </div>
         <RoomOptionModal
           openModal={roomOptionModalOpen}
@@ -382,60 +333,6 @@ const ProductsDetail = () => {
           productDetail={productDetail}
           selectedRoomCode={selectedRoomCode}
         />
-        {/* {modalIsOpen && (
-          <div
-            className="modal-container"
-            onClick={handleModalContainerClick}
-            onKeyDown={handleKeyDown}
-            role="button"
-            tabIndex={0}
-          >
-            <Modal
-              css={modalStyle}
-              isOpen={modalIsOpen}
-              onRequestClose={closeModal}
-              contentLabel="장바구니 안내"
-              shouldCloseOnOverlayClick={false}
-            >
-              <div css={modalText1}>장바구니 안내</div>
-              <div css={modalTextContainer}>
-                <div css={modalText2}>
-                  해당 날짜를 포함하는 상품이 이미 장바구니에 있습니다.
-                </div>
-                <div css={modalText3}>장바구니를 확인해주세요.</div>
-              </div>
-              <button css={modalBtn} type="button" onClick={closeModal}>
-                닫기
-              </button>
-            </Modal>
-          </div>
-        )}
-        {modalCartIsOpen && (
-          <div
-            className="modal-container"
-            onClick={handleModalContainerClick}
-            onKeyDown={handleKeyDown}
-            role="button"
-            tabIndex={0}
-          >
-            <Modal
-              css={modalStyle}
-              isOpen={modalCartIsOpen}
-              onRequestClose={closeCartModal}
-              contentLabel="장바구니 안내"
-              shouldCloseOnOverlayClick={false}
-            >
-              <div css={modalText1}>장바구니 안내</div>
-              <div css={modalTextContainer}>
-                <div css={modalText2}>장바구니에 상품이 담겼습니다.</div>
-                <div css={modalText3}>장바구니를 확인해주세요.</div>
-              </div>
-              <button css={modalBtn} type="button" onClick={closeCartModal}>
-                닫기
-              </button>
-            </Modal>
-          </div>
-        )} */}
       </div>
     </div>
   );
@@ -498,12 +395,6 @@ const ProductsLocation = css`
   margin-top: 2rem;
   margin-bottom: 1.5rem;
 `;
-
-// const productsInfoCenter = css`
-//   width: 95%;
-//   display: flex;
-//   font-size: 1.3rem;
-// `;
 
 const ProductsIntroduce = css`
   display: flex;
@@ -683,63 +574,3 @@ const exceedText = css`
   font-size: 1rem;
   outline: none;
 `;
-
-// const modalStyle = css`
-//   display: flex;
-//   flex-direction: column;
-//   position: fixed;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-//   width: 30rem;
-//   height: 15.625rem;
-//   border: 1px solid #ccc;
-//   border-radius: 0.5rem;
-//   padding: 1.25rem;
-//   background-color: white;
-//   z-index: 1000;
-// `;
-
-// const modalTextContainer = css`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   flex: 1;
-//   margin-right: 2rem;
-//   margin-left: 2rem;
-// `;
-
-// const modalText1 = css`
-//   font-size: 1.25rem;
-//   font-weight: bold;
-//   margin-right: auto;
-//   margin-left: auto;
-//   margin-top: 0.625rem;
-//   white-space: nowrap;
-// `;
-
-// const modalText2 = css`
-//   text-align: center;
-//   margin-bottom: 0.625rem;
-//   white-space: nowrap;
-// `;
-
-// const modalText3 = css`
-//   text-align: center;
-//   margin-top: 0.625rem;
-//   white-space: nowrap;
-// `;
-
-// const modalBtn = css`
-//   padding: 0.5rem 1rem;
-//   background-color: ${theme.colors.blue600};
-//   color: white;
-//   border: none;
-//   border-radius: 0.25rem;
-//   cursor: pointer;
-//   transition: background-color 0.3s ease;
-//   &:hover {
-//     background-color: ${theme.colors.blue800};
-//   }
-// `;
