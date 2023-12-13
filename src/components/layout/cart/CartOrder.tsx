@@ -62,8 +62,6 @@ const CartOrder = () => {
         }),
       );
 
-      console.log('requestData: ', requestData);
-
       if (response.isAvailable) {
         swal({
           title: '주문 가능',
