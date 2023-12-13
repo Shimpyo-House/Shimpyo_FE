@@ -187,6 +187,12 @@ export type ResponseCartData = {
   checkOut: string;
 };
 
+export interface ResponseCartJudgement {
+  roomId: number;
+  startDate: string;
+  endDate: string;
+}
+
 export interface RoomData {
   roomCode: number;
   startDate: string;
