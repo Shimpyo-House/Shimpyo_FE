@@ -31,6 +31,7 @@ const cartPostToJudgment = async (rooms: RoomData[]) => {
       '/api/reservations/preoccupy',
       { rooms },
     );
+    console.log(response.data.data);
     return response.data.data;
   } catch (err: any) {
     return err.response?.data?.data;
