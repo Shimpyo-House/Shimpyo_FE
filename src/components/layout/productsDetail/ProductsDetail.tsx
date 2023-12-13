@@ -11,7 +11,7 @@ import { format } from 'date-fns';
 import Modal from 'react-modal';
 import { useSetRecoilState } from 'recoil';
 import { cartDataState } from '../../../atoms/cartAtom';
-import { axiosWithNoToken } from '../../../Axios';
+import { axiosWithAccessToken, axiosWithNoToken } from '../../../Axios';
 import theme from '../../../style/theme';
 import {
   PostRoomToCart,
@@ -53,6 +53,8 @@ const ProductsDetail = () => {
 
   const today = new Date();
   const tomorrow = new Date(today.getTime() + 86400000);
+
+  const accessToken = getCookie('accessToken');
 
   const [defaultDate, setDefaultDate] = useState(format(today, 'yyyy-MM-dd'));
   const [defaultDatePlusDay, setDefaultDatePlusDay] = useState(
@@ -97,10 +99,19 @@ const ProductsDetail = () => {
       try {
         setLoading({ isLoading: true, message: '방 정보를 조회중입니다.' });
         // if (!startDate || !endDate) return;
-        const response = await axiosWithNoToken.get(
-          `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
-        );
-        setProductDetail(response.data.data);
+        console.log(accessToken);
+
+        if (accessToken !== undefined) {
+          const response = await axiosWithAccessToken.get(
+            `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
+          );
+          setProductDetail(response.data.data);
+        } else {
+          const response = await axiosWithNoToken.get(
+            `/api/products/${productId}?startDate=${startDate}&endDate=${endDate}`,
+          );
+          setProductDetail(response.data.data);
+        }
       } catch (error) {
         console.error('Error fetching product detail:', error);
       } finally {
