@@ -1,13 +1,14 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
-import { css } from '@emotion/react';
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import theme from '../../../style/theme';
-import { ResponseProductsData } from '../../../types';
-import Star from '../../common/star';
+import { css } from '@emotion/react';
+import { Star } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 import changeProductData from '../../../hooks/changeProductData';
+import { ResponseProductsData } from '../../../types';
+import theme from '../../../style/theme';
+import FavHeart from './FavHeart';
 
 type PropsType = {
   resData: ResponseProductsData;
@@ -18,7 +19,7 @@ type SetType = {
   productName: string | null;
 };
 
-const ColumnProduct = ({ resData }: PropsType) => {
+const FavProduct = ({ resData }: PropsType) => {
   const [changeData, setChangeData] = useState<SetType>({
     address: null,
     productName: null,
@@ -28,7 +29,20 @@ const ColumnProduct = ({ resData }: PropsType) => {
 
   return (
     <Link to={`/products/${resData.productId}`} css={ProductBox}>
-      <img css={ProductImg} src={resData.image} alt="숙소 대표 사진" />
+      <div css={HeartBox}>
+        <img css={ProductImg} src={resData.image} alt="숙소 대표 사진" />
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+        >
+          <FavHeart
+            productId={resData.productId}
+            favorites={resData.favorites}
+          />
+        </div>
+      </div>
       <p css={ProductName}>{changeData.productName}</p>
       <p css={ProductAddress}>{changeData.address}</p>
       <div css={ProductScore}>
@@ -42,7 +56,7 @@ const ColumnProduct = ({ resData }: PropsType) => {
   );
 };
 
-export default ColumnProduct;
+export default FavProduct;
 
 const ProductBox = css`
   width: 20.625rem;
@@ -66,11 +80,14 @@ const ProductBox = css`
 
   transition: 0.2s all;
   &:hover {
-    scale: 1.015;
+    background-color: ${theme.colors.blue100};
   }
-  &:active {
-    scale: 0.985;
-  }
+`;
+
+const HeartBox = css`
+  position: relative;
+
+  width: 100%;
 `;
 
 const ProductImg = css`

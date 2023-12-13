@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import { Outlet } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Header from './components/common/header/Header';
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
       <Header />
       <div css={ContainerStyle}>
         <Outlet />
+        <Toaster />
       </div>
     </div>
   );

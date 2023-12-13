@@ -13,6 +13,7 @@ import MyPage from './pages/MyPage';
 import MyReservation from './pages/MyReservation';
 import PrivateRoute from './PrivateRoute';
 import SearchProducts from './pages/SearchProducts';
+import Favorite from './pages/Favorite';
 
 const Router = () => {
   return (
@@ -38,6 +39,10 @@ const Router = () => {
               <Route
                 path="mypage"
                 element={<PrivateRoute component={MyPage} />}
+              />
+              <Route
+                path="favorite"
+                element={<PrivateRoute component={Favorite} />}
               />
             </Route>
             <Route path="signup" element={<Signup />} />
