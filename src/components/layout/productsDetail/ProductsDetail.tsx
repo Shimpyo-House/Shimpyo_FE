@@ -31,6 +31,7 @@ import ImageSlider from './ImageSlider';
 import useCart from '../../../hooks/useCart';
 import { cartPostToJudgment } from '../../../api/cart';
 import { useLocationData } from '../../../api/productsList';
+import FavHeart from '../productsList/FavHeart';
 
 const ProductsDetail = () => {
   const navigate = useNavigate();
@@ -260,6 +261,10 @@ const ProductsDetail = () => {
   return (
     <div>
       <div css={ProductDetailContainer}>
+        <FavHeart
+          productId={productDetail.productId}
+          favorites={productDetail.favorites}
+        />
         <ImageSlider images={productDetail.images} />
         <div css={ProductDetailBox}>
           <div css={ProductData}>

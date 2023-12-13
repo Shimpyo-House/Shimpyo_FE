@@ -3,6 +3,7 @@
 import { Dispatch, useEffect } from 'react';
 import { ResponseProductsData } from '../types';
 
+// 주소를 간단히 표현해주고 숙소 이름을 괄호 이전까지로 바꾸어줍니다.
 const changeProductData = (
   data: ResponseProductsData,
   set: Dispatch<
