@@ -32,6 +32,7 @@ import useCart from '../../../hooks/useCart';
 import { cartPostToJudgment } from '../../../api/cart';
 import { useLocationData } from '../../../api/productsList';
 import RoomImageSlider from './RoomImageSlider';
+import ProductAmenities from './ProductAmenities';
 
 const ProductsDetail = () => {
   const navigate = useNavigate();
@@ -383,6 +384,7 @@ const ProductsDetail = () => {
           <div>
             <div css={ProductsIntroduce}>{productDetail.description}</div>
           </div>
+          <ProductAmenities productDetail={productDetail} />
         </div>
         {modalIsOpen && (
           <div
