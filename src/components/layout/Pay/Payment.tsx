@@ -5,9 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import theme from '../../../style/theme';
 import { cartDataState } from '../../../atoms/cartAtom';
-import { AllReservationData } from '../../../types';
+import { AllReservationData, OrderedList } from '../../../types';
 import { axiosWithAccessToken } from '../../../Axios';
 import { loadingAtom } from '../../../atoms/loading';
+import OrderListAxios from '../../../api/OrderList';
 
 const Payment = () => {
   const [allAgree, setAllAgree] = useState(false);
@@ -28,55 +29,65 @@ const Payment = () => {
 
   const setLoading = useSetRecoilState(loadingAtom);
   const cartData = useRecoilValue(cartDataState);
-  // const roomPrices = cartData.map((cartItem) => cartItem.price);
-  // const totalPrice = roomPrices.reduce((acc, cur) => acc + cur, 0);
+
+  const [orderCom, setOrderCom] = useState<any>('');
+
+  const roomIdsAsString = cartData
+    .map((item) => String(item.roomCode))
+    .join(', ');
+
+  const RoomCode: OrderedList = {
+    roomIds: roomIdsAsString,
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await OrderListAxios(RoomCode);
+        setOrderCom(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(orderCom);
+
+  const roomPrices =
+    orderCom.length > 0
+      ? orderCom.map((item: { price: number }) => item.price)
+      : [];
+  const totalPrice = roomPrices.reduce(
+    (acc: number, cur: number) => acc + cur,
+    0,
+  );
 
   const handlePaymentData = async () => {
     const reservationProducts: AllReservationData[] = [];
 
-    cartData.forEach((cartItem) => {
-      const reservProducts: AllReservationData = {
-        // roomId: cartItem.roomId,
-        // productName: cartItem.productName,
-        // roomName: cartItem.roomName,
-        // standard: cartItem.standard,
-        // max: cartItem.capacity,
-        // checkIn: cartItem.checkIn,
-        // checkOut: cartItem.checkOut,
-        // visitorName: userName,
-        // visitorPhone: userPhoneNum,
-        // price: cartItem.price,
-        startDate: cartItem.startDate,
-        endDate: cartItem.endDate,
-        roomId: 0,
-        productName: '',
-        roomName: '',
-        standard: 0,
-        max: 0,
-        checkIn: '',
-        checkOut: '',
-        visitorName: null,
-        visitorPhone: null,
-        price: 0,
-      };
+    orderCom.forEach((roomData: any) => {
+      cartData.forEach((cartItem) => {
+        const reservProducts: AllReservationData = {
+          roomId: roomData.roomId,
+          startDate: cartItem.startDate,
+          endDate: cartItem.endDate,
+          visitorName: userName,
+          visitorPhone: userPhoneNum,
+          price: roomData.price,
+        };
 
-      reservationProducts.push(reservProducts);
+        reservationProducts.push(reservProducts);
+      });
     });
-
-    // const reservationData = {
-    //   reservationProducts: reservProductsArray,
-    //   payMethod: paymentMethod,
-    //   totalPrice: totalRoomPrices,
-    // };
-
-    // const token = localStorage.getItem('accessToken');
 
     try {
       setLoading({ isLoading: true, message: '현재 예약중입니다.' });
       const response = await axiosWithAccessToken.post('/api/reservations', {
         reservationProducts,
         payMethod,
-        // totalPrice,
+        totalPrice,
       });
 
       if (response.status === 201) {
@@ -121,7 +132,7 @@ const Payment = () => {
 
       <div css={TotalPrice}>
         <div>총 결제 금액</div>
-        {/* <p>{totalPrice.toLocaleString()}원</p> */}
+        <p>{totalPrice.toLocaleString()}원</p>
       </div>
 
       <div css={Agreement}>
@@ -221,7 +232,7 @@ const Payment = () => {
           handlePaymentData();
         }}
       >
-        {/* {totalPrice.toLocaleString()}원 결제하기 */}
+        {totalPrice.toLocaleString()}원 결제하기
       </button>
       <div css={WarningInfo}>
         {isUserInfoValid === '' ? '* 필수 정보를 다 입력해 주세요.' : null}
