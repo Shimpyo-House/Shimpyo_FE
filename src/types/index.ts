@@ -33,11 +33,20 @@ export type DataType = {
   pageCount: number;
   productResponses: ResponseProductsData[];
 };
+export type FavoriteDataType = {
+  pageCount: number;
+  products: ResponseProductsData[];
+};
 
 export type ResponseProducts = {
   code: number;
   message: string;
   data: DataType;
+};
+export type FavoriteResponseProducts = {
+  code: number;
+  message: string;
+  data: FavoriteDataType;
 };
 
 export type RequestOrders = {
@@ -215,4 +224,16 @@ export type CartItem = {
   roomId: number;
   startDate: string;
   endDate: string;
+};
+
+export type SetFavoriteData = {
+  favoriteId: number;
+  memberId: number;
+  productId: number;
+};
+
+export type SetFavoriteRes = {
+  code: number;
+  message: string;
+  data: SetFavoriteData;
 };
