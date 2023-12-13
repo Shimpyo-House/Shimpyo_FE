@@ -11,7 +11,7 @@ const OrderedProduct = () => {
     <div>
       {cartData.length > 0 ? (
         cartData.map((cartItem) => (
-          <div key={cartItem.roomCode} css={OrderedContainer}>
+          <div key={cartItem.roomId} css={OrderedContainer}>
             <div css={BookingInfoCss}>
               <div css={BookHeader}>
                 <span>최저가보상</span>

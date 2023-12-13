@@ -3,7 +3,7 @@ import { atom } from 'recoil';
 import { ResponseCartData } from '../types';
 
 export type CartDataType = {
-  roomCode: number;
+  roomId: number;
   // roomName: string;
   // productName: string;
   startDate: string;

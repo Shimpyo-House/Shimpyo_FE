@@ -195,14 +195,8 @@ export interface RoomData {
 
 export interface AllReservationData {
   roomId: number;
-  productName: string;
-  roomName: string;
-  standard: number;
-  max: number;
   startDate: string;
   endDate: string;
-  checkIn: string;
-  checkOut: string;
   visitorName: string | null;
   visitorPhone: string | null;
   price: number;
@@ -224,6 +218,28 @@ export type CartItem = {
   roomId: number;
   startDate: string;
   endDate: string;
+};
+
+export type OrderedList = {
+  roomIds: string;
+};
+
+export type OrderComType = {
+  reservationId: number;
+  reservationProductId: number;
+  productId: number;
+  productName: string;
+  productImageUrl: string;
+  productDetailAddress: string;
+  roomId: number;
+  roomName: string;
+  startDate: string;
+  endDate: string;
+  checkIn: string;
+  checkOut: string;
+  price: string;
+  payMethod: string;
+  orderedAt: string;
 };
 
 export type SetFavoriteData = {
