@@ -32,18 +32,14 @@ import ImageSlider from './ImageSlider';
 import useCart from '../../../hooks/useCart';
 import { cartPostToJudgment } from '../../../api/cart';
 import { useLocationData } from '../../../api/productsList';
-import FavHeart from '../productsList/FavHeart';
+import RoomImageSlider from './RoomImageSlider';
+import ProductAmenities from './ProductAmenities';
 import RoomOptionModal from './RoomOptionModal';
+import FavHeart from '../productsList/FavHeart';
 import { getCookie } from '../auth/auth.utils';
 
 const ProductsDetail = () => {
   const navigate = useNavigate();
-
-  const [showDetails, setShowDetails] = useState(false);
-
-  const toggleDetails = () => {
-    setShowDetails(!showDetails);
-  };
 
   const { cartPostMutation } = useCart();
 
@@ -294,19 +290,6 @@ const ProductsDetail = () => {
             </div>
             <div css={ProductsLocation}>{productDetail.address.address}</div>
             <button
-              css={ProductsDetailInfo}
-              type="button"
-              onClick={toggleDetails}
-            >
-              숙소소개
-            </button>
-            {showDetails && (
-              <div>
-                {' '}
-                <div css={ProductsIntroduce}>{productDetail.description}</div>
-              </div>
-            )}
-            <button
               type="button"
               css={ProductsDetailInfo}
               onClick={handleShowNearbyClick}
@@ -338,10 +321,9 @@ const ProductsDetail = () => {
         <div css={RoomContainer}>
           {productDetail.rooms.map((room) => (
             <div key={`room ${room.roomCode}`} css={RoomItem}>
-              <div
-                css={RoomImg}
-                style={{ backgroundImage: `url('${productDetail.images[0]}')` }}
-              />
+              <div css={RoomImg}>
+                <RoomImageSlider images={room.roomImages} />
+              </div>
               <div css={RoomInfo} onClick={() => handleRoomOpen(room.roomCode)}>
                 <div css={RoomName}>{room.roomName}</div>
                 <div
@@ -354,6 +336,7 @@ const ProductsDetail = () => {
                 <div css={peoplePlusText}>
                   기준 인원 초과 시, 추가요금이 발생할 수 있습니다.
                 </div>
+                <div css={RoomDesc}>남은 객실 {room.remaining}개</div>
               </div>
               <div css={RoomAction}>
                 <div css={priceStyle}>
@@ -416,6 +399,11 @@ const ProductsDetail = () => {
               </div>
             </div>
           ))}
+          <div css={ProductsDetailInfo}>숙소 소개</div>
+          <div>
+            <div css={ProductsIntroduce}>{productDetail.description}</div>
+          </div>
+          <ProductAmenities productDetail={productDetail} />
         </div>
         <RoomOptionModal
           openModal={roomOptionModalOpen}
@@ -537,27 +525,37 @@ const ProductsLocation = css`
   font-size: 1.5rem;
   font-weight: 600;
   margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 `;
+
+// const productsInfoCenter = css`
+//   width: 95%;
+//   display: flex;
+//   font-size: 1.3rem;
+// `;
 
 const ProductsIntroduce = css`
   display: flex;
   width: 95%;
   margin-left: auto;
   margin-right: auto;
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
 `;
 
 const ProductsDetailInfo = css`
   width: 95%;
   display: flex;
   justify-content: flex-start;
-  font-size: 1.3rem;
+  font-size: 2rem;
   font-weight: 600;
-  color: gray;
   margin-bottom: 2rem;
+  margin-top: 4rem;
+  margin-left: auto;
+  margin-right: auto;
 `;
+
 const OptionSelector = css`
   display: flex;
   width: 100%;
@@ -605,7 +603,7 @@ const RoomItem = css`
 `;
 
 const RoomImg = css`
-  width: 30%;
+  width: 35%;
   border-radius: 0.625rem;
   box-shadow: 0rem 0.25rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
 `;

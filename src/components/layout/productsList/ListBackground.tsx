@@ -84,7 +84,7 @@ const ThirdWave = css`
 const Sun = css`
   position: fixed;
   top: 10%;
-  left: 2%;
+  left: 5%;
 
   font-size: 10rem;
 
