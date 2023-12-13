@@ -36,6 +36,7 @@ import RoomImageSlider from './RoomImageSlider';
 import ProductAmenities from './ProductAmenities';
 import RoomOptionModal from './RoomOptionModal';
 import FavHeart from '../productsList/FavHeart';
+import { getCookie } from '../auth/auth.utils';
 
 const ProductsDetail = () => {
   const navigate = useNavigate();
