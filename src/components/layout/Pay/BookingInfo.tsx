@@ -12,17 +12,17 @@ const BookingInfo = () => {
   const [orderCom, setOrderCom] = useState<any>('');
 
   const roomIdsAsString = cartData
-    .map((item) => String(item.roomCode))
+    .map((item) => String(item.roomId))
     .join(', ');
 
-  const RoomCode: OrderedList = {
+  const RoomIds: OrderedList = {
     roomIds: roomIdsAsString,
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await OrderListAxios(RoomCode);
+        const data = await OrderListAxios(RoomIds);
         setOrderCom(data);
       } catch (error) {
         console.error(error);
@@ -42,7 +42,7 @@ const BookingInfo = () => {
             <div key={product.productId}>
               {cartData.length > 0 ? (
                 cartData.map((cartItem, index) => (
-                  <div key={cartItem.roomCode}>
+                  <div key={cartItem.roomId}>
                     <div css={BookHeader}>
                       <span>최저가보상</span>
                       <h1>{product.productName}</h1>

@@ -33,17 +33,17 @@ const Payment = () => {
   const [orderCom, setOrderCom] = useState<any>('');
 
   const roomIdsAsString = cartData
-    .map((item) => String(item.roomCode))
+    .map((item) => String(item.roomId))
     .join(', ');
 
-  const RoomCode: OrderedList = {
+  const RoomIds: OrderedList = {
     roomIds: roomIdsAsString,
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await OrderListAxios(RoomCode);
+        const data = await OrderListAxios(RoomIds);
         setOrderCom(data);
       } catch (error) {
         console.error(error);
