@@ -159,6 +159,9 @@ const LocationWithCustomOverlay = ({
           style={{
             width: '1210px',
             height: '500px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginTop: '2rem',
           }}
         />
       </div>
