@@ -8,7 +8,7 @@ import { SetStateAction, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { format } from 'date-fns';
-import Modal from 'react-modal';
+// import Modal from 'react-modal';
 import { useSetRecoilState } from 'recoil';
 import { cartDataState } from '../../../atoms/cartAtom';
 import { axiosWithAccessToken, axiosWithNoToken } from '../../../Axios';
@@ -133,41 +133,41 @@ const ProductsDetail = () => {
     };
   }, [navigate]);
 
-  // 장바구니에 같은 객체 있을 때 렌더링하는 모달
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const openModal = () => {
-    Modal.setAppElement('#root');
-    setModalIsOpen(true);
-    document.body.style.overflow = 'hidden';
-  };
-  const closeModal = () => {
-    setModalIsOpen(false);
-    document.body.style.overflow = 'visible';
-  };
+  // // 장바구니에 같은 객체 있을 때 렌더링하는 모달
+  // const [modalIsOpen, setModalIsOpen] = useState(false);
+  // const openModal = () => {
+  //   Modal.setAppElement('#root');
+  //   setModalIsOpen(true);
+  //   document.body.style.overflow = 'hidden';
+  // };
+  // const closeModal = () => {
+  //   setModalIsOpen(false);
+  //   document.body.style.overflow = 'visible';
+  // };
 
-  const [modalCartIsOpen, setModalCartIsOpen] = useState(false);
-  const openCartModal = () => {
-    Modal.setAppElement('#root');
-    setModalCartIsOpen(true);
-    document.body.style.overflow = 'hidden';
-  };
-  const closeCartModal = () => {
-    setModalCartIsOpen(false);
-    document.body.style.overflow = 'visible';
-  };
+  // const [modalCartIsOpen, setModalCartIsOpen] = useState(false);
+  // const openCartModal = () => {
+  //   Modal.setAppElement('#root');
+  //   setModalCartIsOpen(true);
+  //   document.body.style.overflow = 'hidden';
+  // };
+  // const closeCartModal = () => {
+  //   setModalCartIsOpen(false);
+  //   document.body.style.overflow = 'visible';
+  // };
 
-  const handleModalContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const target = e.target as HTMLDivElement;
-    if (target.classList.contains('modal-container')) {
-      closeModal();
-    }
-  };
+  // const handleModalContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  //   const target = e.target as HTMLDivElement;
+  //   if (target.classList.contains('modal-container')) {
+  //     closeModal();
+  //   }
+  // };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Escape') {
-      closeModal();
-    }
-  };
+  // const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  //   if (e.key === 'Escape') {
+  //     closeModal();
+  //   }
+  // };
 
   // 장바구니 로직
   const addToCart = async (product: RequestProductDetail, room: Room) => {
@@ -184,41 +184,8 @@ const ProductsDetail = () => {
     };
 
     try {
-      const existingCartItems = localStorage.getItem('cartItems');
-      const cartItems = existingCartItems ? JSON.parse(existingCartItems) : [];
-
-      // 날짜 범위
-      const newItemRange = {
-        startDate: defaultDate,
-        endDate: defaultDatePlusDay,
-      };
-
-      // 중복 여부 확인
-      const isOverlapping = cartItems.some(
-        (item: { startDate: string; endDate: string; roomCode: number }) => {
-          // 기존 장바구니 아이템의 날짜 범위
-          const existingItemRange = {
-            startDate: item.startDate,
-            endDate: item.endDate,
-          };
-
-          // 날짜 범위 겹치는지 확인
-          return (
-            item.roomCode === room.roomCode &&
-            newItemRange.startDate < existingItemRange.endDate &&
-            newItemRange.endDate > existingItemRange.startDate
-          );
-        },
-      );
-
-      if (isOverlapping) {
-        openModal();
-      } else {
-        cartItems.push(requestData);
-        localStorage.setItem('cartItems', JSON.stringify(cartItems));
-        await cartPostMutation.mutate(requestData);
-        openCartModal();
-      }
+      await cartPostMutation.mutate(requestData);
+      // openCartModal();
     } catch (error) {
       console.error('Error adding to cart:', error);
     }
@@ -411,7 +378,7 @@ const ProductsDetail = () => {
           productDetail={productDetail}
           selectedRoomCode={selectedRoomCode}
         />
-        {modalIsOpen && (
+        {/* {modalIsOpen && (
           <div
             className="modal-container"
             onClick={handleModalContainerClick}
@@ -464,7 +431,7 @@ const ProductsDetail = () => {
               </button>
             </Modal>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );
@@ -711,62 +678,62 @@ const exceedText = css`
   outline: none;
 `;
 
-const modalStyle = css`
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 30rem;
-  height: 15.625rem;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
-  padding: 1.25rem;
-  background-color: white;
-  z-index: 1000;
-`;
+// const modalStyle = css`
+//   display: flex;
+//   flex-direction: column;
+//   position: fixed;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   width: 30rem;
+//   height: 15.625rem;
+//   border: 1px solid #ccc;
+//   border-radius: 0.5rem;
+//   padding: 1.25rem;
+//   background-color: white;
+//   z-index: 1000;
+// `;
 
-const modalTextContainer = css`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  margin-right: 2rem;
-  margin-left: 2rem;
-`;
+// const modalTextContainer = css`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   flex: 1;
+//   margin-right: 2rem;
+//   margin-left: 2rem;
+// `;
 
-const modalText1 = css`
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin-right: auto;
-  margin-left: auto;
-  margin-top: 0.625rem;
-  white-space: nowrap;
-`;
+// const modalText1 = css`
+//   font-size: 1.25rem;
+//   font-weight: bold;
+//   margin-right: auto;
+//   margin-left: auto;
+//   margin-top: 0.625rem;
+//   white-space: nowrap;
+// `;
 
-const modalText2 = css`
-  text-align: center;
-  margin-bottom: 0.625rem;
-  white-space: nowrap;
-`;
+// const modalText2 = css`
+//   text-align: center;
+//   margin-bottom: 0.625rem;
+//   white-space: nowrap;
+// `;
 
-const modalText3 = css`
-  text-align: center;
-  margin-top: 0.625rem;
-  white-space: nowrap;
-`;
+// const modalText3 = css`
+//   text-align: center;
+//   margin-top: 0.625rem;
+//   white-space: nowrap;
+// `;
 
-const modalBtn = css`
-  padding: 0.5rem 1rem;
-  background-color: ${theme.colors.blue600};
-  color: white;
-  border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  &:hover {
-    background-color: ${theme.colors.blue800};
-  }
-`;
+// const modalBtn = css`
+//   padding: 0.5rem 1rem;
+//   background-color: ${theme.colors.blue600};
+//   color: white;
+//   border: none;
+//   border-radius: 0.25rem;
+//   cursor: pointer;
+//   transition: background-color 0.3s ease;
+//   &:hover {
+//     background-color: ${theme.colors.blue800};
+//   }
+// `;
