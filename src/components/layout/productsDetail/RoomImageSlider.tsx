@@ -1,7 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
-// ProductImageSlider.jsx
 import { css } from '@emotion/react';
 import Slider from 'react-slick';
 
@@ -16,9 +15,11 @@ const RoomImageSlider = ({ images }: { images: string[] }) => {
     autoplaySpeed: 2000,
   };
 
+  const imageArray = images.length ? images : ['/noImage.png'];
+
   return (
     <Slider {...settings} css={SliderStyle}>
-      {images?.map((image, index) => (
+      {imageArray.map((image, index) => (
         <div key={index} css={SlideItem}>
           <div
             css={ProductDetailImg}
