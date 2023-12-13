@@ -18,6 +18,10 @@ const OrderedList = () => {
   // const totalRoomPrices = roomPrices.reduce((acc, cur) => acc + cur, 0);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
     }, 3000);

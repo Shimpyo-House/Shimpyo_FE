@@ -235,7 +235,7 @@ const Payment = () => {
           handlePaymentData();
         }}
       >
-        {/* {totalPrice.toLocaleString()}원 결제하기 */}
+        {totalPrice.toLocaleString()}원 결제하기
       </button>
       <div css={WarningInfo}>
         {isUserInfoValid === '' ? '* 필수 정보를 다 입력해 주세요.' : null}

@@ -5,10 +5,10 @@ import { css } from '@emotion/react';
 import theme from '../../../style/theme';
 
 const BookingUser = () => {
-  const [reserveInfo, setReserveInfo] = useState('');
-  const [userInfo, setUserInfo] = useState('');
-  const [checked, setChecked] = useState(false);
-  const [phoneNum, setPhoneNum] = useState('');
+  const [reserveInfo, setReserveInfo] = useState<string>('');
+  const [userInfo, setUserInfo] = useState<string>('');
+  const [checked, setChecked] = useState<boolean>(false);
+  const [phoneNum, setPhoneNum] = useState<string>('');
 
   useEffect(() => {
     if (checked) {
@@ -39,6 +39,9 @@ const BookingUser = () => {
     setPhoneNum(formattedNumber);
   };
 
+  const isNameValid = (name: string) => name.length >= 2;
+  const isPhoneNumberValid = (phoneNumber: string) => phoneNumber.length === 13;
+
   return (
     <div css={BookingUserInfo}>
       <div css={ReservationUser}>
@@ -46,11 +49,14 @@ const BookingUser = () => {
         <p>성명</p>
         <input
           placeholder="성명을 입력해주세요."
-          css={InputEl}
           onChange={(event) => setReserveInfo(event.target.value)}
           value={reserveInfo}
-          type="string"
+          type="text"
+          css={InputEl}
         />
+        {!isNameValid(reserveInfo) && (
+          <p style={{ color: 'red' }}>* 성명은 2자 이상 입력해야 합니다.</p>
+        )}
       </div>
 
       <div css={UsingUser}>
@@ -76,20 +82,31 @@ const BookingUser = () => {
         </p>
         <input
           placeholder="성명을 입력해주세요."
-          css={InputEl}
           value={checked ? reserveInfo : userInfo}
           onChange={(event) => setUserInfo(event.target.value)}
-          type="string"
+          type="text"
+          css={InputEl}
         />
+        {!isNameValid(userInfo) && (
+          <p style={{ color: 'red', marginBottom: '2rem' }}>
+            * 성명은 2자 이상 입력해야 합니다.
+          </p>
+        )}
+
         <p>
           휴대폰 번호 <span>*</span>
         </p>
         <input
           placeholder="휴대폰 번호를 입력해주세요."
-          css={InputEl}
           value={phoneNum}
+          css={InputEl}
           onChange={handlePhoneNum}
         />
+        {!isPhoneNumberValid(phoneNum) && (
+          <p style={{ color: 'red', marginBottom: '1rem' }}>
+            * 휴대폰 번호를 끝까지 입력해주세요.
+          </p>
+        )}
         <p>
           입력하신 번호는 안심번호로 변경되어 숙소에 전달됩니다. 단, 안심번호로
           처리가 어려운 경우에 한해 제한적으로 개인정보 제공 동의에 근거하여
