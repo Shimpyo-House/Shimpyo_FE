@@ -2,19 +2,17 @@
 /* eslint-disable react/no-array-index-key */
 import { css } from '@emotion/react';
 import OutdoorGrillIcon from '@mui/icons-material/OutdoorGrill';
-import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
-import WaterDropIcon from '@mui/icons-material/WaterDrop';
-import PedalBikeIcon from '@mui/icons-material/PedalBike';
-import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
-import HotTubIcon from '@mui/icons-material/HotTub';
-import ComputerIcon from '@mui/icons-material/Computer';
-import ShowerIcon from '@mui/icons-material/Shower';
-import Groups2Icon from '@mui/icons-material/Groups2';
-import SportsTennisIcon from '@mui/icons-material/SportsTennis';
-
-// 아이콘들을 import한 후 코드 계속됨
+// import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
+// import WaterDropIcon from '@mui/icons-material/WaterDrop';
+// import PedalBikeIcon from '@mui/icons-material/PedalBike';
+// import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
+// import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+// import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+// import HotTubIcon from '@mui/icons-material/HotTub';
+// import ComputerIcon from '@mui/icons-material/Computer';
+// import ShowerIcon from '@mui/icons-material/Shower';
+// import Groups2Icon from '@mui/icons-material/Groups2';
+// import SportsTennisIcon from '@mui/icons-material/SportsTennis';
 
 const koreanAmenities: { [key: string]: string } = {
   barbecue: '바베큐',

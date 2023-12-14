@@ -194,6 +194,12 @@ export interface ResponseCartJudgement {
 }
 
 export interface RoomData {
+  roomCode: number;
+  startDate: string;
+  endDate: string;
+}
+
+export interface DirectReserve {
   cartId: -1;
   roomCode: number;
   startDate: string;
