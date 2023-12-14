@@ -19,6 +19,7 @@
     "@typescript-eslint/no-use-before-define": "off",
     "react/react-in-jsx-scope": "off",
     "import/no-absolute-path": "off",
-    "@typescript-eslint/indent": "off"
+    "@typescript-eslint/indent": "off",
+    "no-restricted-globals": "off"
   }
 }
