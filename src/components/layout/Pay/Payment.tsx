@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import swal from 'sweetalert';
 import theme from '../../../style/theme';
 import { cartDataState } from '../../../atoms/cartAtom';
-import { AllReservationData, OrderedList } from '../../../types';
+import { AllReservationData, OrderedList, ReleaseData } from '../../../types';
 import { axiosWithAccessToken } from '../../../Axios';
 import { loadingAtom } from '../../../atoms/loading';
 import OrderListAxios from '../../../api/OrderList';
@@ -129,6 +130,46 @@ const Payment = () => {
       }
     } catch (error) {
       console.error('예약 중 에러가 발생했습니다:', error);
+    } finally {
+      setLoading({ isLoading: false, message: '' });
+    }
+  };
+
+  const handleRelease = async () => {
+    const rooms: ReleaseData[] = [];
+
+    orderCom.forEach((roomData: any) => {
+      cartData.forEach((cartItem) => {
+        const releaseProducts: ReleaseData = {
+          roomId: roomData.roomId,
+          startDate: cartItem.startDate,
+          endDate: cartItem.endDate,
+        };
+
+        rooms.push(releaseProducts);
+      });
+    });
+
+    try {
+      setLoading({ isLoading: true, message: '객실을 취소중입니다.' });
+      const response = await axiosWithAccessToken.post(
+        '/api/reservations/release',
+        {
+          rooms,
+        },
+      );
+
+      if (response.data.code === 200) {
+        console.log(response.data.message);
+        swal({
+          icon: 'success',
+          title: '객실 예약이 정상적으로 취소되었습니다.',
+        });
+      } else {
+        console.error('취소 실패:', response.statusText);
+      }
+    } catch (error) {
+      console.error('취소 중 에러가 발생했습니다:', error);
     } finally {
       setLoading({ isLoading: false, message: '' });
     }
@@ -269,6 +310,16 @@ const Payment = () => {
       <div css={WarningInfo}>
         {isUserInfoValid === '' ? '* 필수 정보를 다 입력해 주세요.' : null}
       </div>
+
+      <button
+        type="button"
+        onClick={() => {
+          navigate('/');
+          handleRelease();
+        }}
+      >
+        예약 취소하기
+      </button>
     </div>
   );
 };

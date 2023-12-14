@@ -259,3 +259,9 @@ export type SetFavoriteRes = {
   message: string;
   data: SetFavoriteData;
 };
+
+export type ReleaseData = {
+  roomId: number;
+  startDate: string;
+  endDate: string;
+};
