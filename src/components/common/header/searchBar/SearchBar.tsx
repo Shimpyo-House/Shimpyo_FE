@@ -71,6 +71,7 @@ const SearchBar = () => {
             style: {
               borderRadius: '2.75rem',
               backgroundColor: `${theme.colors.gray200}`,
+              height: '3.2rem',
             },
             autoComplete: 'off',
           }}
@@ -108,7 +109,7 @@ const InputContainer = css`
 
 const SearchBtn = css`
   position: absolute;
-  top: 0.625rem;
+  top: 0.5rem;
   right: 0.75rem;
 
   font-size: 2.2rem;
