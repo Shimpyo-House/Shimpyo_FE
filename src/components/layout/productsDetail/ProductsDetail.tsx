@@ -373,10 +373,10 @@ const NameScoreContainer = css`
 
 const ProductScore = css`
   display: flex;
-  /* margin-left: auto; */
-  font-size: 1.875rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  /* width: 6.25rem; */
+  align-items: center;
+  gap: 0.3rem;
 `;
 
 const LocationContainer = css`
@@ -390,7 +390,7 @@ const ProductName = css`
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  font-size: 2.5rem;
+  font-size: 2.3rem;
   font-weight: 600;
 `;
 const ProductsLocation = css`
@@ -409,6 +409,8 @@ const HeartBox = css`
   justify-content: center;
   align-items: center;
   gap: 0.2rem;
+  font-size: 1.35rem;
+  font-weight: 600;
 `;
 
 const ProductsIntroduce = css`
