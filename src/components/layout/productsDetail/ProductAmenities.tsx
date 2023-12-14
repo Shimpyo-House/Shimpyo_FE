@@ -156,6 +156,7 @@ const AmenityItem = css`
 
 const StrikeThrough = css`
   text-decoration: line-through;
+  text-decoration-thickness: 0.1563rem;
 `;
 
 const IconAndTextWrapper = css`
