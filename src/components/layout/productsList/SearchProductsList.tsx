@@ -41,6 +41,7 @@ const SearchProductsList = () => {
   const obsHandler = async (entries: IntersectionObserverEntry[]) => {
     const target = entries[0];
     if (target.isIntersecting && !isEnd) {
+      console.log(1);
       fetchNextPage();
     }
   };
@@ -56,12 +57,12 @@ const SearchProductsList = () => {
         {isReal && data?.pages && (
           <ColumnList data={data.pages.flat()} main={false} />
         )}
-        {!isReal && (
+        {!isReal && !data?.pages[0] && (
           <div css={FailBox}>
             <p css={FailText}>검색결과가 없습니다.</p>
           </div>
         )}
-        {!isEnd && <div ref={obsRef} />}
+        {!isEnd && data && <div ref={obsRef} />}
       </div>
     </div>
   );
