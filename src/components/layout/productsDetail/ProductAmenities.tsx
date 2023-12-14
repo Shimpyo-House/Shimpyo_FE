@@ -93,46 +93,48 @@ const ProductAmenities = ({
               : '없음'}
           </span>
         </div>
-        <div css={ProductsIntroduceTextWithIcon}>
-          <RestaurantIcon />
-          <span
-            css={
-              productOptionResponse.foodPlace === '' ||
-              productOptionResponse.foodPlace === '없음'
-                ? StrikeThrough
-                : ''
-            }
-          >
-            음식점
-            {productOptionResponse.foodPlace &&
-            productOptionResponse.foodPlace !== '없음'
-              ? `: ${productOptionResponse.foodPlace}`
-              : ''}
-          </span>
-        </div>
-        <div css={ProductsIntroduceTextWithIcon}>
-          <SoupKitchenIcon />{' '}
-          <span
-            css={productOptionResponse.cooking === false ? StrikeThrough : ''}
-          >
-            취사 {productOptionResponse.cooking}
-          </span>
-        </div>
-        <div css={ProductsIntroduceTextWithIcon}>
-          <DirectionsCarIcon />{' '}
-          <span
-            css={productOptionResponse.parking === false ? StrikeThrough : ''}
-          >
-            주차 {productOptionResponse.parking}
-          </span>
-        </div>
-        <div css={ProductsIntroduceTextWithIcon}>
-          <HailIcon />{' '}
-          <span
-            css={productOptionResponse.pickup === false ? StrikeThrough : ''}
-          >
-            픽업 {productOptionResponse.pickup}
-          </span>
+        <div css={ProductsIntroduceOptions}>
+          <div css={ProductsIntroduceTextWithIcon}>
+            <RestaurantIcon />
+            <span
+              css={
+                productOptionResponse.foodPlace === '' ||
+                productOptionResponse.foodPlace === '없음'
+                  ? StrikeThrough
+                  : ''
+              }
+            >
+              음식점
+              {productOptionResponse.foodPlace &&
+              productOptionResponse.foodPlace !== '없음'
+                ? `: ${productOptionResponse.foodPlace}`
+                : ''}
+            </span>
+          </div>
+          <div css={ProductsIntroduceTextWithIcon}>
+            <SoupKitchenIcon />{' '}
+            <span
+              css={productOptionResponse.cooking === false ? StrikeThrough : ''}
+            >
+              취사 {productOptionResponse.cooking}
+            </span>
+          </div>
+          <div css={ProductsIntroduceTextWithIcon}>
+            <DirectionsCarIcon />{' '}
+            <span
+              css={productOptionResponse.parking === false ? StrikeThrough : ''}
+            >
+              주차 {productOptionResponse.parking}
+            </span>
+          </div>
+          <div css={ProductsIntroduceTextWithIcon}>
+            <HailIcon />{' '}
+            <span
+              css={productOptionResponse.pickup === false ? StrikeThrough : ''}
+            >
+              픽업 {productOptionResponse.pickup}
+            </span>
+          </div>
         </div>
       </div>
       <div css={ProductsDetailInfo}>시설 정보</div>
@@ -211,16 +213,18 @@ const ProductsIntroduce = css`
   margin-bottom: 2rem;
 `;
 
-const ProductsIntroduceText = css`
-  font-size: 1rem;
-  margin-bottom: 1rem;
+const ProductsIntroduceOptions = css`
+  display: flex;
+  margin-top: 1.5rem;
 `;
 
 const ProductsIntroduceTextWithIcon = css`
   font-size: 1rem;
   margin-bottom: 1rem;
   display: flex;
+  flex: 1;
   align-items: center;
+  gap: 1rem;
 `;
 
 function chunkArray<T>(array: T[], size: number): T[][] {
