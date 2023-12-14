@@ -44,6 +44,12 @@ const SearchBar = () => {
     setProductLocation('x');
   };
 
+  const handleEnterKey = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter') {
+      linkToSearch();
+    }
+  };
+
   return (
     <div
       css={SearchBox}
@@ -68,7 +74,7 @@ const SearchBar = () => {
             },
             autoComplete: 'off',
           }}
-          css={TextFieldStyle}
+          onKeyDown={handleEnterKey}
         />
         <div css={SearchBtn} onClick={linkToSearch}>
           <IoMdSearch />
@@ -97,11 +103,6 @@ const InputContainer = css`
   width: 100%;
   position: relative;
   align-items: center;
-  border-radius: 50px;
-`;
-
-const TextFieldStyle = css`
-  width: 100%;
   border-radius: 50px;
 `;
 
