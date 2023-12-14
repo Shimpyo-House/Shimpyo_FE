@@ -51,6 +51,23 @@ const AllReservation = () => {
 
   const productArray = orderCom?.content ?? [];
 
+  // 박수 계산
+  const parseDate = (dateString: string) => {
+    const [year, month, day] = dateString.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  };
+
+  const calculateNightCount = (startDate: string, endDate: string): number => {
+    const start = parseDate(startDate);
+    const end = parseDate(endDate);
+
+    const timeDiff = Math.abs(end.getTime() - start.getTime());
+
+    const oneDay = 24 * 60 * 60 * 1000;
+
+    return Math.round(timeDiff / oneDay);
+  };
+
   return (
     <div>
       <StarModal isOpen={isOpen} setIsOpen={setIsOpen} modalInfo={modalInfo} />
@@ -95,7 +112,14 @@ const AllReservation = () => {
                     </div>
                     <div>결제 수단 | {product.payMethod}</div>
                     <div css={ReservationPrice}>
-                      결제 금액 | {product.price.toLocaleString()}원
+                      결제 금액 |{' '}
+                      {(
+                        calculateNightCount(
+                          product.startDate,
+                          product.endDate,
+                        ) * product.price
+                      ).toLocaleString()}
+                      원
                     </div>
                   </div>
                 </div>
