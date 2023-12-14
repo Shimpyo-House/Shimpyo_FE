@@ -36,6 +36,7 @@ const FavProduct = ({ resData }: PropsType) => {
             e.stopPropagation();
             e.preventDefault();
           }}
+          css={Heart}
         >
           <FavHeart
             productId={resData.productId}
@@ -88,6 +89,16 @@ const HeartBox = css`
   position: relative;
 
   width: 100%;
+`;
+
+const Heart = css`
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ProductImg = css`
