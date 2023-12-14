@@ -4,12 +4,12 @@ import swal from 'sweetalert';
 import { axiosWithAccessToken } from '../Axios';
 import { RoomData, PostRoomToCart } from '../types';
 import { getCookie } from '../components/layout/auth/auth.utils';
+import { UserDataType } from '../atoms/user';
 
-const accessToken = getCookie('accessToken');
-
-const cartGetAxios = async () => {
+const cartGetAxios = async (user: UserDataType) => {
+  const accessToken = getCookie('accessToken');
   try {
-    if (accessToken) {
+    if (accessToken && user) {
       const response = await axiosWithAccessToken.get('/api/carts');
       return response.data.data;
     }

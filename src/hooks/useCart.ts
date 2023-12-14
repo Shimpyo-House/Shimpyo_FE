@@ -1,10 +1,19 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useRecoilValue } from 'recoil';
 import { cartGetAxios, cartDeleteItem, cartPostAxios } from '../api/cart';
 import { PostRoomToCart } from '../types';
+import { userAtom } from '../atoms/user';
 
 const useCart = () => {
   const queryClient = useQueryClient();
-  const cartGetQuery = useQuery(['cart'], cartGetAxios, {
+  const user = useRecoilValue(userAtom);
+
+  const getCartData = async () => {
+    const data = await cartGetAxios(user);
+    return data;
+  };
+
+  const cartGetQuery = useQuery([`${user} cart`], getCartData, {
     refetchOnWindowFocus: false,
   });
 
@@ -14,7 +23,7 @@ const useCart = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('cart');
+        queryClient.invalidateQueries(`${user} cart`);
       },
     },
   );
@@ -25,12 +34,16 @@ const useCart = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('cart');
+        queryClient.invalidateQueries(`${user} cart`);
       },
     },
   );
 
-  return { cartGetQuery, cartPostMutation, deleteCartItemMutation };
+  return {
+    cartGetQuery,
+    cartPostMutation,
+    deleteCartItemMutation,
+  };
 };
 
 export default useCart;
