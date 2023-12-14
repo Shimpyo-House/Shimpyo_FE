@@ -8,7 +8,7 @@ import OrderedProduct from '../components/layout/Pay/OrderedProduct';
 import { OrderedListData } from '../types';
 
 const OrderedList = () => {
-  const [orderCom, setOrderCom] = useState('');
+  const [orderCom, setOrderCom] = useState([]);
   const [loading, setLoading] = useState(true);
   const paymentMethod = localStorage.getItem('PaymentMethod');
   const userName = localStorage.getItem('UserName');
