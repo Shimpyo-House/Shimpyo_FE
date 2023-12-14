@@ -317,6 +317,7 @@ const Payment = () => {
       </div>
 
       <button
+        css={reservationCancle}
         type="button"
         onClick={() => {
           navigate('/');
@@ -409,7 +410,7 @@ const PaymentButton = css`
   transition: 0.2s;
 
   &:hover {
-    background-color: ${theme.colors.blue800};
+    background-color: ${theme.colors.blue600};
   }
 `;
 
@@ -557,6 +558,27 @@ const AlignCheckBox = css`
 const WarningInfo = css`
   margin-top: 1rem;
   color: ${theme.colors.blue800};
+`;
+
+const reservationCancle = css`
+  margin-bottom: 1rem;
+  padding: 1rem;
+
+  width: 100%;
+
+  font-size: 1.2rem;
+
+  border-radius: 5px;
+  background-color: #e53e3e;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+
+  transition: 0.2s;
+
+  &:hover {
+    background-color: #ee5454;
+  }
 `;
 
 export default Payment;
