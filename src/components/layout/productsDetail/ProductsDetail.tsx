@@ -7,6 +7,7 @@ import { css } from '@emotion/react';
 import { SetStateAction, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { format } from 'date-fns';
 import { useSetRecoilState } from 'recoil';
 import { cartDataState } from '../../../atoms/cartAtom';
@@ -217,7 +218,10 @@ const ProductsDetail = () => {
                 {productDetail.starAvg.toFixed(1)}
               </div>
             </div>
-            <div css={ProductsLocation}>{productDetail.address.address}</div>
+            <div css={LocationContainer}>
+              <LocationOnIcon />
+              <div css={ProductsLocation}>{productDetail.address.address}</div>
+            </div>
           </div>
         </div>
         <div css={OptionSelector}>
@@ -388,11 +392,18 @@ const ProductScore = css`
   /* width: 6.25rem; */
 `;
 
+const LocationContainer = css`
+  display: flex;
+  width: 95%;
+  align-items: center;
+  gap: 0.25rem;
+`;
+
 const ProductName = css`
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 600;
 `;
 const ProductsLocation = css`

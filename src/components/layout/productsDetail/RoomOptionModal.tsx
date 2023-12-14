@@ -155,7 +155,7 @@ const ModalStyles: ReactModal.Styles = {
   },
   content: {
     width: '40rem',
-    height: '40rem',
+    height: '41rem',
     zIndex: '150',
     position: 'absolute',
     top: '50%',
