@@ -19,8 +19,6 @@ const CalendarComponent = ({
   const [endDate, setEndDate] = useState(addDays(today, 1));
   const [showCalendar, setShowCalendar] = useState(false);
 
-  // const [newNights, setNewNights] = useState();
-
   const onRangeChange = (ranges: any) => {
     const { selection } = ranges;
     setStartDate(selection.startDate);
