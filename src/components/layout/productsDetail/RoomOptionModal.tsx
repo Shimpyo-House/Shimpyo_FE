@@ -112,10 +112,12 @@ const RoomOptionModal = ({
 
   return (
     <Modal isOpen={openModal} style={ModalStyles}>
-      <IoClose css={CloseButton} onClick={closeModal} />
       {selectedRoom && (
         <div css={RoomInfoContainer}>
-          <h2 css={RoomInfoTitle}>객실 시설 및 서비스</h2>
+          <div css={RoomInfoTitleWrapper}>
+            <h2 css={RoomInfoTitle}>객실 시설 및 서비스</h2>
+            <IoClose css={CloseButton} onClick={closeModal} />
+          </div>
           {Object.entries(selectedRoom.roomOptionResponse).map(
             ([key, value]) => (
               <div key={key} css={ServiceRow}>
@@ -167,13 +169,19 @@ const ModalStyles: ReactModal.Styles = {
   },
 };
 
+const RoomInfoTitleWrapper = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
 const CloseButton = css`
   width: 2rem;
   height: 2rem;
-
-  margin-left: 94%;
-
   cursor: pointer;
+  margin-left: auto;
 `;
 
 const RoomInfoContainer = css`
@@ -184,7 +192,8 @@ const RoomInfoContainer = css`
 `;
 
 const RoomInfoTitle = css`
-  margin-bottom: 1.5rem;
+  margin-left: auto;
+  padding-left: 2rem;
 `;
 
 const ServiceRow = css`
