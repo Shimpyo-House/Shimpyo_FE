@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import theme from '../../../style/theme';
 import OrderAxios from '../../../api/OrderComplete';
 import { loadingAtom } from '../../../atoms/loading';
 import StarModal from '../../common/StarModal';
-import { cartDataState } from '../../../atoms/cartAtom';
 
 export type ModalInfoType = {
   productId: number;
@@ -22,7 +21,6 @@ const AllReservation = () => {
   });
   const setLoading = useSetRecoilState(loadingAtom);
   const [orderCom, setOrderCom] = useState<any>('');
-  const cartData = useRecoilValue(cartDataState);
 
   const handlerOnClickRegisterStar = ({
     productId,
@@ -49,45 +47,9 @@ const AllReservation = () => {
     orderedData();
   }, []);
 
+  console.log(orderCom);
+
   const productArray = orderCom?.content ?? [];
-
-  // 박수 계산
-  const parseDate = (dateString: string) => {
-    const [year, month, day] = dateString.split('-').map(Number);
-    return new Date(year, month - 1, day);
-  };
-
-  const calculateNightCount = (startDate: string, endDate: string): number => {
-    const start = parseDate(startDate);
-    const end = parseDate(endDate);
-
-    const timeDiff = Math.abs(end.getTime() - start.getTime());
-
-    const oneDay = 24 * 60 * 60 * 1000;
-
-    return Math.round(timeDiff / oneDay);
-  };
-
-  const calculateProductTotal = (cartItem: any, product: any) => {
-    const nightCount = calculateNightCount(
-      cartItem.startDate,
-      cartItem.endDate,
-    );
-    return nightCount * product.price;
-  };
-
-  const roomPrices =
-    orderCom.length > 0
-      ? orderCom.map((product: any, index: number) => {
-          const cartItem = cartData[index];
-          return calculateProductTotal(cartItem, product);
-        })
-      : [];
-
-  const totalPrice = roomPrices.reduce(
-    (acc: number, cur: number) => acc + cur,
-    0,
-  );
 
   return (
     <div>
@@ -97,7 +59,7 @@ const AllReservation = () => {
           return (
             <nav css={ReservationWrap}>
               <div css={WrapContainer}>
-                <h1>{product.startDate}</h1>
+                <h1>예약 일시 | {product.createdAt}</h1>
                 <button
                   onClick={() =>
                     handlerOnClickRegisterStar({
@@ -133,7 +95,7 @@ const AllReservation = () => {
                     </div>
                     <div>결제 수단 | {product.payMethod}</div>
                     <div css={ReservationPrice}>
-                      결제 금액 | {totalPrice.toLocaleString()}원
+                      결제 금액 | {product.price.toLocaleString()}원
                     </div>
                   </div>
                 </div>

@@ -5,7 +5,7 @@ import { css } from '@emotion/react';
 import { useRecoilValue } from 'recoil';
 import { cartDataState } from '../../../atoms/cartAtom';
 import OrderListAxios from '../../../api/OrderList';
-import { OrderedList } from '../../../types';
+import { OrderedListData } from '../../../types';
 
 const OrderedProduct = () => {
   const cartData = useRecoilValue(cartDataState);
@@ -15,7 +15,7 @@ const OrderedProduct = () => {
     .map((item) => String(item.roomId))
     .join(', ');
 
-  const RoomIds: OrderedList = {
+  const RoomIds: OrderedListData = {
     roomIds: roomIdsAsString,
   };
 

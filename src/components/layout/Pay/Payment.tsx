@@ -6,7 +6,11 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import swal from 'sweetalert';
 import theme from '../../../style/theme';
 import { cartDataState } from '../../../atoms/cartAtom';
-import { AllReservationData, OrderedList, ReleaseData } from '../../../types';
+import {
+  AllReservationData,
+  OrderedListData,
+  ReleaseData,
+} from '../../../types';
 import { axiosWithAccessToken } from '../../../Axios';
 import { loadingAtom } from '../../../atoms/loading';
 import OrderListAxios from '../../../api/OrderList';
@@ -39,7 +43,7 @@ const Payment = () => {
     .map((item) => String(item.roomId))
     .join(', ');
 
-  const RoomIds: OrderedList = {
+  const RoomIds: OrderedListData = {
     roomIds: roomIdsAsString,
   };
 
@@ -103,6 +107,7 @@ const Payment = () => {
     orderCom.forEach((roomData: any) => {
       cartData.forEach((cartItem) => {
         const reservProducts: AllReservationData = {
+          cartId: cartItem.cartId,
           roomId: roomData.roomId,
           startDate: cartItem.startDate,
           endDate: cartItem.endDate,
@@ -163,7 +168,7 @@ const Payment = () => {
         console.log(response.data.message);
         swal({
           icon: 'success',
-          title: '객실 예약이 정상적으로 취소되었습니다.',
+          title: '객실 예약이 취소되었습니다.',
         });
       } else {
         console.error('취소 실패:', response.statusText);

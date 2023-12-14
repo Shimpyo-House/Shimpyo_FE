@@ -5,7 +5,7 @@ import { css } from '@emotion/react';
 import { useRecoilValue } from 'recoil';
 import { cartDataState } from '../../../atoms/cartAtom';
 import OrderListAxios from '../../../api/OrderList';
-import { OrderedList } from '../../../types';
+import { OrderedListData } from '../../../types';
 
 const BookingInfo = () => {
   const cartData = useRecoilValue(cartDataState);
@@ -15,7 +15,7 @@ const BookingInfo = () => {
     .map((item) => String(item.roomId))
     .join(', ');
 
-  const RoomIds: OrderedList = {
+  const RoomIds: OrderedListData = {
     roomIds: roomIdsAsString,
   };
 
@@ -92,10 +92,12 @@ const BookingInfo = () => {
                       )}
                       박{' '}
                       <span>
-                        {calculateNightCount(
-                          cartItem.startDate,
-                          cartItem.endDate,
-                        ) * product.price.toLocaleString()}
+                        {(
+                          calculateNightCount(
+                            cartItem.startDate,
+                            cartItem.endDate,
+                          ) * product.price
+                        ).toLocaleString()}
                         원
                       </span>
                     </div>

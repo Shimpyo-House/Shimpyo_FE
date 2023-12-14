@@ -207,6 +207,7 @@ export interface DirectReserve {
 }
 
 export interface AllReservationData {
+  cartId: number;
   roomId: number;
   startDate: string;
   endDate: string;
@@ -233,7 +234,7 @@ export type CartItem = {
   endDate: string;
 };
 
-export type OrderedList = {
+export type OrderedListData = {
   roomIds: string;
 };
 
