@@ -13,10 +13,10 @@ import { cartDataState } from '../../../atoms/cartAtom';
 import { axiosWithAccessToken, axiosWithNoToken } from '../../../Axios';
 import theme from '../../../style/theme';
 import {
+  DirectReserve,
   PostRoomToCart,
   RequestProductDetail,
   Room,
-  RoomData,
 } from '../../../types';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
@@ -155,7 +155,7 @@ const ProductsDetail = () => {
 
   const setCartData = useSetRecoilState(cartDataState);
 
-  const reservation = async (rooms: RoomData[], roomInfo: Room) => {
+  const reservation = async (rooms: DirectReserve[], roomInfo: Room) => {
     try {
       setLoading({ isLoading: true, message: '현재 예약중입니다.' });
 
@@ -165,6 +165,7 @@ const ProductsDetail = () => {
       // setRoomId(data.roomResults[0].roomId);
 
       const requestData = {
+        cartId: -1,
         roomId: data.roomResults[0].roomId,
         startDate: defaultDate,
         endDate: defaultDatePlusDay,
@@ -285,6 +286,7 @@ const ProductsDetail = () => {
                               reservation(
                                 [
                                   {
+                                    cartId: -1,
                                     roomCode: room.roomCode,
                                     startDate: defaultDate,
                                     endDate: defaultDatePlusDay,
