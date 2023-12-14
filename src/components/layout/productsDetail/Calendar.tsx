@@ -4,6 +4,7 @@ import { css } from '@emotion/react';
 import { DateRange } from 'react-date-range';
 import { addDays, differenceInDays, format } from 'date-fns';
 import swal from 'sweetalert';
+import theme from '../../../style/theme';
 
 interface CalendarProps {
   setNights: React.Dispatch<SetStateAction<number>>;
@@ -105,7 +106,7 @@ const CalendarComponent = ({
     margin-top: 3rem;
     border-radius: 0.9375rem;
     height: 70%;
-    border: 2px solid #3d91ff;
+    border: 2px solid ${theme.colors.blue700};
     position: relative;
     display: flex;
     justify-content: center;
@@ -115,7 +116,6 @@ const CalendarComponent = ({
 
   const selectButtonStyle = css`
     padding: 0.625rem 1.25rem;
-    // background-color: #3d91ff;
     color: black;
     border: none;
     border-radius: 0.3125rem;
@@ -139,7 +139,7 @@ const CalendarComponent = ({
     margin-bottom: 1.25rem;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #3d91ff;
+    background-color: ${theme.colors.blue700};
     color: white;
     border: none;
     border-radius: 5px;
@@ -188,6 +188,7 @@ const CalendarComponent = ({
     justify-content: center;
     align-items: center;
     position: absolute;
+    font-size: 1.5rem;
     font-weight: bold;
     top: 50%;
     left: 50%;
@@ -199,7 +200,7 @@ const CalendarComponent = ({
     color: black;
     border: none;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 1.5rem;
     position: absolute;
     margin-right: 1.5rem;
     top: 50%;
