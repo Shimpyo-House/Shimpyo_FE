@@ -52,7 +52,7 @@ export default SearchProduct;
 
 const ProductBox = css`
   width: 68.75rem;
-  height: 20rem;
+  height: 17rem;
 
   display: flex;
   gap: 1.25rem;
@@ -76,8 +76,8 @@ const ProductBox = css`
 `;
 
 const ProductImgBox = css`
-  width: 20rem;
-  height: 20rem;
+  width: 17rem;
+  height: 17rem;
 
   position: relative;
 
@@ -100,8 +100,8 @@ const ProductImg = css`
 `;
 
 const ProductRank = css`
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
 
   display: flex;
   justify-content: center;
