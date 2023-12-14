@@ -3,12 +3,12 @@
 
 import { useState } from 'react';
 import { css } from '@emotion/react';
-import { Star } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import changeProductData from '../../../hooks/changeProductData';
 import { ResponseProductsData } from '../../../types';
 import theme from '../../../style/theme';
 import FavHeart from './FavHeart';
+import Star from '../../common/star';
 
 type PropsType = {
   resData: ResponseProductsData;
