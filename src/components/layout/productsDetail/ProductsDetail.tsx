@@ -165,6 +165,7 @@ const ProductsDetail = () => {
       // setRoomId(data.roomResults[0].roomId);
 
       const requestData = {
+        cartId: -1,
         roomId: data.roomResults[0].roomId,
         startDate: defaultDate,
         endDate: defaultDatePlusDay,
@@ -285,6 +286,7 @@ const ProductsDetail = () => {
                               reservation(
                                 [
                                   {
+                                    cartId: -1,
                                     roomCode: room.roomCode,
                                     startDate: defaultDate,
                                     endDate: defaultDatePlusDay,

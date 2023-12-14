@@ -194,6 +194,7 @@ export interface ResponseCartJudgement {
 }
 
 export interface RoomData {
+  cartId: -1;
   roomCode: number;
   startDate: string;
   endDate: string;
