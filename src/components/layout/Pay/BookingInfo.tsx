@@ -5,7 +5,7 @@ import { css } from '@emotion/react';
 import { useRecoilValue } from 'recoil';
 import { cartDataState } from '../../../atoms/cartAtom';
 import OrderListAxios from '../../../api/OrderList';
-import { OrderedList } from '../../../types';
+import { OrderedListData } from '../../../types';
 
 const BookingInfo = () => {
   const cartData = useRecoilValue(cartDataState);
@@ -15,7 +15,7 @@ const BookingInfo = () => {
     .map((item) => String(item.roomId))
     .join(', ');
 
-  const RoomIds: OrderedList = {
+  const RoomIds: OrderedListData = {
     roomIds: roomIdsAsString,
   };
 
@@ -34,6 +34,23 @@ const BookingInfo = () => {
   }, []);
 
   console.log(orderCom);
+
+  // 박수 계산
+  const parseDate = (dateString: string) => {
+    const [year, month, day] = dateString.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  };
+
+  const calculateNightCount = (startDate: string, endDate: string): number => {
+    const start = parseDate(startDate);
+    const end = parseDate(endDate);
+
+    const timeDiff = Math.abs(end.getTime() - start.getTime());
+
+    const oneDay = 24 * 60 * 60 * 1000;
+
+    return Math.round(timeDiff / oneDay);
+  };
 
   return (
     <div css={BookingInfoCss}>
@@ -68,7 +85,21 @@ const BookingInfo = () => {
                     </div>
 
                     <div css={BookingPrice}>
-                      숙박 / 1박 <span>{product.price.toLocaleString()}원</span>
+                      숙박 /{' '}
+                      {calculateNightCount(
+                        cartItem.startDate,
+                        cartItem.endDate,
+                      )}
+                      박{' '}
+                      <span>
+                        {(
+                          calculateNightCount(
+                            cartItem.startDate,
+                            cartItem.endDate,
+                          ) * product.price
+                        ).toLocaleString()}
+                        원
+                      </span>
                     </div>
 
                     <div css={VisitWay}>

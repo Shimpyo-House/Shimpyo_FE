@@ -1,21 +1,86 @@
 import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
-// import OrderAxios from '../api/OrderComplete';
-// import { useRecoilValue } from 'recoil';
-import OrderedProduct from '../components/layout/Pay/OrderedProduct';
+import { useRecoilValue } from 'recoil';
+import OrderListAxios from '../api/OrderList';
 import theme from '../style/theme';
-// import { cartDataState } from '../atoms/cartAtom';
+import { cartDataState } from '../atoms/cartAtom';
+import OrderedProduct from '../components/layout/Pay/OrderedProduct';
+import { OrderedListData } from '../types';
 
 const OrderedList = () => {
-  // const [orderCom, setOrderCom] = useState('');
+  const [orderCom, setOrderCom] = useState([]);
   const [loading, setLoading] = useState(true);
   const paymentMethod = localStorage.getItem('PaymentMethod');
   const userName = localStorage.getItem('UserName');
   const userPhoneNum = localStorage.getItem('UserPhoneNum');
 
-  // const cartData = useRecoilValue(cartDataState);
-  // const roomPrices = cartData.map((cartItem) => cartItem.price);
-  // const totalRoomPrices = roomPrices.reduce((acc, cur) => acc + cur, 0);
+  const cartData = useRecoilValue(cartDataState);
+
+  const roomIdsAsString = cartData
+    .map((item) => String(item.roomId))
+    .join(', ');
+
+  const RoomIds: OrderedListData = {
+    roomIds: roomIdsAsString,
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await OrderListAxios(RoomIds);
+        setOrderCom(data);
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(orderCom);
+
+  // 박수 계산
+  const parseDate = (dateString: string) => {
+    const [year, month, day] = dateString.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  };
+
+  const calculateNightCount = (startDate: string, endDate: string): number => {
+    const start = parseDate(startDate);
+    const end = parseDate(endDate);
+
+    const timeDiff = Math.abs(end.getTime() - start.getTime());
+
+    const oneDay = 24 * 60 * 60 * 1000;
+
+    return Math.round(timeDiff / oneDay);
+  };
+
+  const calculateProductTotal = (cartItem: any, product: any) => {
+    const nightCount = calculateNightCount(
+      cartItem.startDate,
+      cartItem.endDate,
+    );
+    return nightCount * product.price;
+  };
+
+  const roomPrices: number[] =
+    orderCom.length > 0
+      ? orderCom.map((product: any, index: number) => {
+          const cartItem = cartData[index];
+          return calculateProductTotal(cartItem, product);
+        })
+      : [];
+
+  const totalPrice = roomPrices.reduce(
+    (acc: number, cur: number) => acc + cur,
+    0,
+  );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -54,7 +119,7 @@ const OrderedList = () => {
             </div>
             <div css={OrderedWrapEl}>
               <h3>총 결제 금액</h3>
-              {/* <div>{totalRoomPrices.toLocaleString()}원</div> */}
+              <div>{totalPrice.toLocaleString()}원</div>
             </div>
           </div>
         </nav>
