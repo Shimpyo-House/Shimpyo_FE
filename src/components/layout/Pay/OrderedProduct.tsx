@@ -35,6 +35,44 @@ const OrderedProduct = () => {
 
   console.log(orderCom);
 
+  // 박수 계산
+  const parseDate = (dateString: string) => {
+    const [year, month, day] = dateString.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  };
+
+  const calculateNightCount = (startDate: string, endDate: string): number => {
+    const start = parseDate(startDate);
+    const end = parseDate(endDate);
+
+    const timeDiff = Math.abs(end.getTime() - start.getTime());
+
+    const oneDay = 24 * 60 * 60 * 1000;
+
+    return Math.round(timeDiff / oneDay);
+  };
+
+  const calculateProductTotal = (cartItem: any, product: any) => {
+    const nightCount = calculateNightCount(
+      cartItem.startDate,
+      cartItem.endDate,
+    );
+    return nightCount * product.price;
+  };
+
+  const roomPrices =
+    orderCom.length > 0
+      ? orderCom.map((product: any, index: number) => {
+          const cartItem = cartData[index];
+          return calculateProductTotal(cartItem, product);
+        })
+      : [];
+
+  const totalPrice = roomPrices.reduce(
+    (acc: number, cur: number) => acc + cur,
+    0,
+  );
+
   return (
     <div css={BookingInfoCss}>
       {orderCom.length > 0 ? (
@@ -69,8 +107,7 @@ const OrderedProduct = () => {
                       </div>
 
                       <div css={BookingPrice}>
-                        숙박 / 1박{' '}
-                        <span>{product.price.toLocaleString()}원</span>
+                        숙박 / 1박 <span>{totalPrice.toLocaleString()}원</span>
                       </div>
                     </div>
                   </div>
