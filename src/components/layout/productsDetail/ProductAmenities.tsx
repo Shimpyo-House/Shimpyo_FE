@@ -96,10 +96,16 @@ const ProductAmenities = ({
         <div css={ProductsIntroduceTextWithIcon}>
           <RestaurantIcon />
           <span
-            css={productOptionResponse.foodPlace !== '' ? '' : StrikeThrough}
+            css={
+              productOptionResponse.foodPlace === '' ||
+              productOptionResponse.foodPlace === '없음'
+                ? StrikeThrough
+                : ''
+            }
           >
             음식점
-            {productOptionResponse.foodPlace !== ''
+            {productOptionResponse.foodPlace &&
+            productOptionResponse.foodPlace !== '없음'
               ? `: ${productOptionResponse.foodPlace}`
               : ''}
           </span>
