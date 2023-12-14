@@ -6,6 +6,7 @@ import { TextField, css } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { IoMdSearch } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import SearchOptions from './SearchOptions';
 import theme from '../../../../style/theme';
 
@@ -37,11 +38,24 @@ const SearchBar = () => {
   };
 
   const linkToSearch = () => {
-    setIsFocus(false);
-    navigate(
-      `/search?location=${productLocation}&count=${count}&keyword=${keyword}`,
-    );
-    setProductLocation('x');
+    if (keyword !== 'x' || productLocation !== 'x') {
+      setIsFocus(false);
+      navigate(
+        `/search?location=${productLocation}&count=${count}&keyword=${keyword}`,
+      );
+      setProductLocation('x');
+      return true;
+    }
+    toast.error('검색어 또는 지역선택 중 하나를 포함해주세요!', {
+      duration: 700,
+    });
+    return false;
+  };
+
+  const handleEnterKey = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter') {
+      linkToSearch();
+    }
   };
 
   return (
@@ -65,10 +79,11 @@ const SearchBar = () => {
             style: {
               borderRadius: '2.75rem',
               backgroundColor: `${theme.colors.gray200}`,
+              height: '3.2rem',
             },
             autoComplete: 'off',
           }}
-          css={TextFieldStyle}
+          onKeyDown={handleEnterKey}
         />
         <div css={SearchBtn} onClick={linkToSearch}>
           <IoMdSearch />
@@ -100,14 +115,9 @@ const InputContainer = css`
   border-radius: 50px;
 `;
 
-const TextFieldStyle = css`
-  width: 100%;
-  border-radius: 50px;
-`;
-
 const SearchBtn = css`
   position: absolute;
-  top: 0.625rem;
+  top: 0.5rem;
   right: 0.75rem;
 
   font-size: 2.2rem;

@@ -1,7 +1,7 @@
 import { axiosWithAccessToken } from '../Axios';
-import { OrderedList } from '../types';
+import { OrderedListData } from '../types';
 
-const OrderListAxios = async (roomIds: OrderedList) => {
+const OrderListAxios = async (roomIds: OrderedListData) => {
   try {
     const response = await axiosWithAccessToken.get('/api/rooms', {
       params: roomIds,

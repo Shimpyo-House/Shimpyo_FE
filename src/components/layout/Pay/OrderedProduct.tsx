@@ -1,51 +1,127 @@
 // 주문 완료 후 결제 완료 화면
 
+import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { useRecoilValue } from 'recoil';
 import { cartDataState } from '../../../atoms/cartAtom';
+import OrderListAxios from '../../../api/OrderList';
+import { OrderedListData } from '../../../types';
 
 const OrderedProduct = () => {
   const cartData = useRecoilValue(cartDataState);
+  const [orderCom, setOrderCom] = useState<any>('');
+
+  const roomIdsAsString = cartData
+    .map((item) => String(item.roomId))
+    .join(', ');
+
+  const RoomIds: OrderedListData = {
+    roomIds: roomIdsAsString,
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await OrderListAxios(RoomIds);
+        setOrderCom(data);
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(orderCom);
+
+  // 박수 계산
+  const parseDate = (dateString: string) => {
+    const [year, month, day] = dateString.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  };
+
+  const calculateNightCount = (startDate: string, endDate: string): number => {
+    const start = parseDate(startDate);
+    const end = parseDate(endDate);
+
+    const timeDiff = Math.abs(end.getTime() - start.getTime());
+
+    const oneDay = 24 * 60 * 60 * 1000;
+
+    return Math.round(timeDiff / oneDay);
+  };
+
+  const calculateProductTotal = (cartItem: any, product: any) => {
+    const nightCount = calculateNightCount(
+      cartItem.startDate,
+      cartItem.endDate,
+    );
+    return nightCount * product.price;
+  };
+
+  const roomPrices =
+    orderCom.length > 0
+      ? orderCom.map((product: any, index: number) => {
+          const cartItem = cartData[index];
+          return calculateProductTotal(cartItem, product);
+        })
+      : [];
+
+  const totalPrice = roomPrices.reduce(
+    (acc: number, cur: number) => acc + cur,
+    0,
+  );
 
   return (
-    <div>
-      {cartData.length > 0 ? (
-        cartData.map((cartItem) => (
-          <div key={cartItem.roomId} css={OrderedContainer}>
-            <div css={BookingInfoCss}>
-              <div css={BookHeader}>
-                <span>최저가보상</span>
-                {/* <h1>{cartItem.productName}</h1>
-                <p>{cartItem.roomName}</p> */}
-              </div>
+    <div css={BookingInfoCss}>
+      {orderCom.length > 0 ? (
+        orderCom.map((product: any) => {
+          return (
+            <div key={product.productId}>
+              {cartData.length > 0 ? (
+                cartData.map((cartItem) => (
+                  <div key={cartItem.roomId} css={OrderedContainer}>
+                    <div css={BookingInfoCss}>
+                      <div css={BookHeader}>
+                        <span>최저가보상</span>
+                        <h1>{product.productName}</h1>
+                        <p>{product.roomName}</p>
+                      </div>
 
-              <div css={CheckInOut}>
-                <div>
-                  <span>체크인</span>
-                  <h3>{cartItem.startDate}</h3>
-                  {/* <p>{cartItem.checkIn}</p> */}
+                      <div css={CheckInOut}>
+                        <div>
+                          <span>체크인</span>
+                          <h3>{cartItem.startDate}</h3>
+                          <p>{product.checkIn}</p>
+                        </div>
+                        <div>
+                          <span>체크아웃</span>
+                          <h3>{cartItem.endDate}</h3>
+                          <p>{product.checkOut}</p>
+                        </div>
+                      </div>
+
+                      <div css={RefPeople}>
+                        기준 {product.standard}명 / 최대 {product.capacity}명
+                      </div>
+
+                      <div css={BookingPrice}>
+                        숙박 / 1박 <span>{totalPrice.toLocaleString()}원</span>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div css={ErrorMessage}>
+                  결제 정보를 불러올 수 없습니다. 예약 내역을 확인해주세요.
                 </div>
-                <div>
-                  <span>체크아웃</span>
-                  <h3>{cartItem.endDate}</h3>
-                  {/* <p>{cartItem.checkOut}</p> */}
-                </div>
-              </div>
-
-              <div css={RefPeople}>
-                {/* 기준 {cartItem.standard}명 / 최대 {cartItem.capacity}명 */}
-              </div>
-
-              <div css={BookingPrice}>
-                {/* 숙박 / 1박 <span>{cartItem.price.toLocaleString()}원</span> */}
-              </div>
+              )}
             </div>
-          </div>
-        ))
+          );
+        })
       ) : (
-        <div css={ErrorMessage}>
-          결제 정보를 불러올 수 없습니다. 예약 내역을 확인해주세요.
-        </div>
+        <div>예약 내역이 없습니다.</div>
       )}
     </div>
   );

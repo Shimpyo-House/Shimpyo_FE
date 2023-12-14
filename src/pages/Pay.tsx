@@ -1,9 +1,14 @@
+import { useEffect } from 'react';
 import CheckBooking from '../components/layout/Pay/CheckBooking';
 import BookingUser from '../components/layout/Pay/BookingUser';
 import Payment from '../components/layout/Pay/Payment';
 import PayMethod from '../components/layout/Pay/PayMethod';
 
 const Pay = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <CheckBooking />

@@ -1,7 +1,12 @@
+import { useEffect } from 'react';
 import { css } from '@emotion/react';
 import AllReservation from '../components/layout/Pay/AllReservation';
 
 const MyReservation = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div css={MyReservationWrap}>
       <h1 css={MyReservationTitle}>예약 내역</h1>

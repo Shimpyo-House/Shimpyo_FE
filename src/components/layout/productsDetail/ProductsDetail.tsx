@@ -204,10 +204,6 @@ const ProductsDetail = () => {
   return (
     <div>
       <div css={ProductDetailContainer}>
-        <FavHeart
-          productId={productDetail.productId}
-          favorites={productDetail.favorites}
-        />
         <ImageSlider images={productDetail.images} />
         <div css={ProductDetailBox}>
           <div css={ProductData}>
@@ -220,7 +216,16 @@ const ProductsDetail = () => {
             </div>
             <div css={LocationContainer}>
               <LocationOnIcon />
-              <div css={ProductsLocation}>{productDetail.address.address}</div>
+              <div css={ProductsLocation}>
+                {productDetail.address.address}
+                <div css={HeartBox}>
+                  찜하기
+                  <FavHeart
+                    productId={productDetail.productId}
+                    favorites={productDetail.favorites}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -409,11 +414,19 @@ const ProductName = css`
 const ProductsLocation = css`
   width: 95%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: center;
   font-size: 1.5rem;
   font-weight: 600;
   margin-top: 2rem;
   margin-bottom: 1.5rem;
+`;
+
+const HeartBox = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
 `;
 
 const ProductsIntroduce = css`

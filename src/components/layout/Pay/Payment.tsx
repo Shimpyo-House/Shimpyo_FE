@@ -3,9 +3,14 @@ import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import swal from 'sweetalert';
 import theme from '../../../style/theme';
 import { cartDataState } from '../../../atoms/cartAtom';
-import { AllReservationData, OrderedList } from '../../../types';
+import {
+  AllReservationData,
+  OrderedListData,
+  ReleaseData,
+} from '../../../types';
 import { axiosWithAccessToken } from '../../../Axios';
 import { loadingAtom } from '../../../atoms/loading';
 import OrderListAxios from '../../../api/OrderList';
@@ -38,7 +43,7 @@ const Payment = () => {
     .map((item) => String(item.roomId))
     .join(', ');
 
-  const RoomIds: OrderedList = {
+  const RoomIds: OrderedListData = {
     roomIds: roomIdsAsString,
   };
 
@@ -58,10 +63,39 @@ const Payment = () => {
 
   console.log(orderCom);
 
+  // 박수 계산
+  const parseDate = (dateString: string) => {
+    const [year, month, day] = dateString.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  };
+
+  const calculateNightCount = (startDate: string, endDate: string): number => {
+    const start = parseDate(startDate);
+    const end = parseDate(endDate);
+
+    const timeDiff = Math.abs(end.getTime() - start.getTime());
+
+    const oneDay = 24 * 60 * 60 * 1000;
+
+    return Math.round(timeDiff / oneDay);
+  };
+
+  const calculateProductTotal = (cartItem: any, product: any) => {
+    const nightCount = calculateNightCount(
+      cartItem.startDate,
+      cartItem.endDate,
+    );
+    return nightCount * product.price;
+  };
+
   const roomPrices =
     orderCom.length > 0
-      ? orderCom.map((item: { price: number }) => item.price)
+      ? orderCom.map((product: any, index: number) => {
+          const cartItem = cartData[index];
+          return calculateProductTotal(cartItem, product);
+        })
       : [];
+
   const totalPrice = roomPrices.reduce(
     (acc: number, cur: number) => acc + cur,
     0,
@@ -73,6 +107,7 @@ const Payment = () => {
     orderCom.forEach((roomData: any) => {
       cartData.forEach((cartItem) => {
         const reservProducts: AllReservationData = {
+          cartId: cartItem.cartId,
           roomId: roomData.roomId,
           startDate: cartItem.startDate,
           endDate: cartItem.endDate,
@@ -100,6 +135,46 @@ const Payment = () => {
       }
     } catch (error) {
       console.error('예약 중 에러가 발생했습니다:', error);
+    } finally {
+      setLoading({ isLoading: false, message: '' });
+    }
+  };
+
+  const handleRelease = async () => {
+    const rooms: ReleaseData[] = [];
+
+    orderCom.forEach((roomData: any) => {
+      cartData.forEach((cartItem) => {
+        const releaseProducts: ReleaseData = {
+          roomId: roomData.roomId,
+          startDate: cartItem.startDate,
+          endDate: cartItem.endDate,
+        };
+
+        rooms.push(releaseProducts);
+      });
+    });
+
+    try {
+      setLoading({ isLoading: true, message: '객실을 취소중입니다.' });
+      const response = await axiosWithAccessToken.post(
+        '/api/reservations/release',
+        {
+          rooms,
+        },
+      );
+
+      if (response.data.code === 200) {
+        console.log(response.data.message);
+        swal({
+          icon: 'success',
+          title: '객실 예약이 취소되었습니다.',
+        });
+      } else {
+        console.error('취소 실패:', response.statusText);
+      }
+    } catch (error) {
+      console.error('취소 중 에러가 발생했습니다:', error);
     } finally {
       setLoading({ isLoading: false, message: '' });
     }
@@ -235,11 +310,22 @@ const Payment = () => {
           handlePaymentData();
         }}
       >
-        {/* {totalPrice.toLocaleString()}원 결제하기 */}
+        {totalPrice.toLocaleString()}원 결제하기
       </button>
       <div css={WarningInfo}>
         {isUserInfoValid === '' ? '* 필수 정보를 다 입력해 주세요.' : null}
       </div>
+
+      <button
+        css={reservationCancle}
+        type="button"
+        onClick={() => {
+          navigate('/');
+          handleRelease();
+        }}
+      >
+        예약 취소하기
+      </button>
     </div>
   );
 };
@@ -324,7 +410,7 @@ const PaymentButton = css`
   transition: 0.2s;
 
   &:hover {
-    background-color: ${theme.colors.blue800};
+    background-color: ${theme.colors.blue600};
   }
 `;
 
@@ -472,6 +558,27 @@ const AlignCheckBox = css`
 const WarningInfo = css`
   margin-top: 1rem;
   color: ${theme.colors.blue800};
+`;
+
+const reservationCancle = css`
+  margin-bottom: 1rem;
+  padding: 1rem;
+
+  width: 100%;
+
+  font-size: 1.2rem;
+
+  border-radius: 5px;
+  background-color: #e53e3e;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+
+  transition: 0.2s;
+
+  &:hover {
+    background-color: #ee5454;
+  }
 `;
 
 export default Payment;
