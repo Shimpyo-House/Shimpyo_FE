@@ -2,8 +2,6 @@
 // 숙소 예약 완료 후 무료 취소 안내 토글
 // BookingInfo.tsx 컴포넌트가 여기서 쓰일거임
 
-// 로그인하시겠어요? 부분 주석 처리
-
 import { useState } from 'react';
 import { css } from '@emotion/react';
 import BookingInfo from './BookingInfo';
@@ -13,20 +11,6 @@ const CheckBooking = () => {
   const [toggled, setToggled] = useState(false);
   return (
     <nav>
-      {/* <div css={LoggedIn}>
-        {login ? (
-          <div css={LoggedInTo}>
-            안녕하세요, <span>소유나</span> 님
-          </div>
-        ) : (
-          <>
-            <div css={LoggedInTo}>로그인 하시겠어요? &gt;</div>
-            <div css={LoggedInDes}>
-              <span>할인</span>과 <span>적립 혜택</span>을 받을 수 있습니다
-            </div>
-          </>
-        )}
-      </div> */}
       <h1 css={OrderTitle}>주문 및 결제</h1>
       <div css={Booking}>
         <h1>숙소</h1>
@@ -57,36 +41,6 @@ const CheckBooking = () => {
     </nav>
   );
 };
-
-// const LoggedIn = css`
-//   width: 100%;
-//   padding: 2rem;
-
-//   margin-top: 1rem;
-
-//   box-shadow: 1px 1px 4px 0px #cacaca;
-//   border-radius: 5px;
-// `;
-
-// const LoggedInTo = css`
-//   color: #3a7bdf;
-//   font-weight: 900;
-
-//   &:hover {
-//     text-decoration: underline;
-//     cursor: pointer;
-//   }
-// `;
-
-// const LoggedInDes = css`
-//   margin-top: 0.7rem;
-
-//   font-size: 0.75rem;
-
-//   span {
-//     font-weight: 900;
-//   }
-// `;
 
 const OrderTitle = css`
   margin: 3rem 0 2rem;
