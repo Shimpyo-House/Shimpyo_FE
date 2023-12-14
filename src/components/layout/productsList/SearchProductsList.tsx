@@ -1,52 +1,26 @@
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable  @typescript-eslint/indent */
 import { css } from '@emotion/react';
-import { useInfiniteQuery } from 'react-query';
-import { useRef, useState } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import ColumnList from './ColumnList';
-import useObs from '../../../hooks/useObs';
 import { ResponseProductsData } from '../../../types';
 import theme from '../../../style/theme';
 import { getSearchData } from '../../../api/productsList';
 
 const SearchProductsList = () => {
-  const [isEnd, setIsEnd] = useState(false);
   const [isReal, setIsReal] = useState(true);
-  const queryLocation = useLocation();
   const [searchPrams] = useSearchParams();
-
-  const obsRef = useRef(null);
-
-  const { data, fetchNextPage } = useInfiniteQuery<
-    unknown,
-    unknown,
-    ResponseProductsData[]
-  >(
-    queryLocation.key,
-    ({ pageParam = 0 }) => {
-      return getSearchData(pageParam, setIsEnd, setIsReal, searchPrams);
-    },
-    {
-      refetchOnWindowFocus: false,
-      getNextPageParam: (pageParam, allPage) => {
-        if (!allPage) {
-          return pageParam;
-        }
-        return allPage.length;
-      },
-    },
+  const [data, setData] = useState<ResponseProductsData[] | undefined>(
+    undefined,
   );
 
-  const obsHandler = async (entries: IntersectionObserverEntry[]) => {
-    const target = entries[0];
-    if (target.isIntersecting && !isEnd) {
-      console.log(1);
-      fetchNextPage();
-    }
-  };
+  useEffect(() => {
+    getData();
+  }, [searchPrams]);
 
-  useObs(obsHandler, obsRef);
+  const getData = async () => {
+    const fetchData = await getSearchData(setIsReal, searchPrams);
+    setData(fetchData);
+  };
 
   return (
     <div css={PageBox}>
@@ -54,15 +28,12 @@ const SearchProductsList = () => {
         <div css={CategoryName}>
           <p>검색결과</p>
         </div>
-        {isReal && data?.pages && (
-          <ColumnList data={data.pages.flat()} main={false} />
-        )}
-        {!isReal && !data?.pages[0] && (
+        {isReal && data && <ColumnList data={data} main={false} />}
+        {!isReal && (
           <div css={FailBox}>
             <p css={FailText}>검색결과가 없습니다.</p>
           </div>
         )}
-        {!isEnd && data && <div ref={obsRef} />}
       </div>
     </div>
   );
@@ -73,7 +44,7 @@ export default SearchProductsList;
 const PageBox = css`
   position: relative;
 
-  min-height: calc(100vh - 70px);
+  min-height: 100vh;
 
   display: flex;
   justify-content: center;
