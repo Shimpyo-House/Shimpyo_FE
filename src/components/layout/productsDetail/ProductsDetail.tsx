@@ -235,8 +235,16 @@ const ProductsDetail = () => {
               <div css={RoomImg}>
                 <RoomImageSlider images={room.roomImages} />
               </div>
-              <div css={RoomInfo} onClick={() => handleRoomOpen(room.roomCode)}>
-                <div css={RoomName}>{room.roomName}</div>
+              <div css={RoomInfo}>
+                <div css={RoomNameContainer}>
+                  <div css={RoomName}>{room.roomName}</div>
+                  <div
+                    css={RoomDetailText}
+                    onClick={() => handleRoomOpen(room.roomCode)}
+                  >
+                    객실 상세정보
+                  </div>
+                </div>
                 <div
                   css={RoomCount}
                 >{`기준 ${room.standard}인 / 최대 ${room.capacity}인`}</div>
@@ -496,11 +504,23 @@ const RoomInfo = css`
   padding: 0.625rem;
   margin-left: 1.25rem;
   font-weight: bold;
-  cursor: pointer;
+`;
+
+const RoomNameContainer = css`
+  display: flex;
+  gap: 1rem;
 `;
 
 const RoomName = css`
-  font-size: 1.8rem;
+  font-size: 2rem;
+`;
+
+const RoomDetailText = css`
+  margin-top: auto;
+  margin-bottom: auto;
+  font-weight: 600;
+  color: ${theme.colors.gray600};
+  cursor: pointer;
 `;
 
 const RoomCount = css`
@@ -533,6 +553,7 @@ const priceStyle = css`
   align-self: flex-end;
   margin-bottom: 0.625rem;
   font-size: 1.3rem;
+  font-weight: 600;
 `;
 
 const buyBtn = css`
