@@ -2,17 +2,17 @@
 /* eslint-disable react/no-array-index-key */
 import { css } from '@emotion/react';
 import OutdoorGrillIcon from '@mui/icons-material/OutdoorGrill';
-// import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
-// import WaterDropIcon from '@mui/icons-material/WaterDrop';
-// import PedalBikeIcon from '@mui/icons-material/PedalBike';
-// import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
-// import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-// import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
-// import HotTubIcon from '@mui/icons-material/HotTub';
-// import ComputerIcon from '@mui/icons-material/Computer';
-// import ShowerIcon from '@mui/icons-material/Shower';
-// import Groups2Icon from '@mui/icons-material/Groups2';
-// import SportsTennisIcon from '@mui/icons-material/SportsTennis';
+import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
+import WaterDropIcon from '@mui/icons-material/WaterDrop';
+import PedalBikeIcon from '@mui/icons-material/PedalBike';
+import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import HotTubIcon from '@mui/icons-material/HotTub';
+import ComputerIcon from '@mui/icons-material/Computer';
+import ShowerIcon from '@mui/icons-material/Shower';
+import Groups2Icon from '@mui/icons-material/Groups2';
+import SportsTennisIcon from '@mui/icons-material/SportsTennis';
 
 const koreanAmenities: { [key: string]: string } = {
   barbecue: '바베큐',
@@ -27,6 +27,21 @@ const koreanAmenities: { [key: string]: string } = {
   sauna: '사우나',
   seminar: '세미나실',
   sports: '운동기구',
+};
+
+const iconsMap: { [key: string]: JSX.Element } = {
+  barbecue: <OutdoorGrillIcon />,
+  beauty: <FaceRetouchingNaturalIcon />,
+  beverage: <WaterDropIcon />,
+  bicycle: <PedalBikeIcon />,
+  campfire: <LocalFireDepartmentIcon />,
+  fitness: <FitnessCenterIcon />,
+  karaoke: <LibraryMusicIcon />,
+  publicBath: <HotTubIcon />,
+  publicPc: <ComputerIcon />,
+  sauna: <ShowerIcon />,
+  seminar: <Groups2Icon />,
+  sports: <SportsTennisIcon />,
 };
 
 export type ProductOption = {
@@ -55,15 +70,10 @@ const ProductAmenities = ({
 }) => {
   const { productAmenityResponse, productOptionResponse } = productDetail;
 
-  const amenityKeys = Object.keys(productAmenityResponse).map(
-    (key) => koreanAmenities[key],
-  ) as string[];
-
-  const amenityValues = Object.values(productAmenityResponse) as boolean[];
-
   const chunkSize = 4;
-  const chunkedKeys = chunkArray(amenityKeys, chunkSize);
-  const chunkedValues = chunkArray(amenityValues, chunkSize);
+  const keys = Object.keys(productAmenityResponse);
+  const chunkedKeys = chunkArray(keys, chunkSize);
+  const values = Object.values(productAmenityResponse);
 
   return (
     <>
@@ -90,14 +100,16 @@ const ProductAmenities = ({
       </div>
       <div css={ProductsDetailInfo}>시설 정보</div>
       <div css={AmenitiesContainer}>
-        {chunkedKeys.map((keys, index) => (
+        {chunkedKeys.map((keyGroup, index) => (
           <div key={index} css={AmenityGroup}>
-            {keys.map((key, i) => (
+            {keyGroup.map((key, i) => (
               <div key={i} css={AmenityItem}>
-                {chunkedValues[index][i] ? <OutdoorGrillIcon /> : '❌'}{' '}
-                <span css={chunkedValues[index][i] ? '' : StrikeThrough}>
-                  {key}
-                </span>
+                <div css={IconAndTextWrapper}>
+                  {iconsMap[key]}
+                  <span css={values[keys.indexOf(key)] ? '' : StrikeThrough}>
+                    {koreanAmenities[key]}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
@@ -144,6 +156,12 @@ const AmenityItem = css`
 
 const StrikeThrough = css`
   text-decoration: line-through;
+`;
+
+const IconAndTextWrapper = css`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 `;
 
 const ProductsIntroduce = css`
