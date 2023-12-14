@@ -107,7 +107,7 @@ export default CategoryProductsList;
 const PageBox = css`
   position: relative;
 
-  min-height: calc(100vh - 70px);
+  min-height: 100vh;
 
   display: flex;
   justify-content: center;

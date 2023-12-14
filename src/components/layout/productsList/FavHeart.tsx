@@ -23,13 +23,17 @@ const FavHeart = ({ productId, favorites }: PropsType) => {
       const fav = await deleteFavorite(productId);
       if (fav) {
         setIsFav(false);
-        toast.success('찜을 해제하였습니다.');
+        toast.error('찜을 해제하였습니다.', {
+          duration: 700,
+        });
       }
     } else {
       const fav = await setFavorite(productId);
       if (fav) {
         setIsFav(true);
-        toast.success('찜 목록에 추가하였습니다.');
+        toast.success('찜 목록에 추가하였습니다.', {
+          duration: 700,
+        });
       }
     }
   };
@@ -48,16 +52,14 @@ const FavHeart = ({ productId, favorites }: PropsType) => {
 export default FavHeart;
 
 const FavoriteBtn = css`
-  position: absolute;
-  top: 0.8rem;
-  right: 0.8rem;
+  height: 2rem;
 
   font-size: 2rem;
   color: #ff2d2d;
 
   transition: all 0.25s;
 
-  z-index: 10;
+  cursor: pointer;
 
   :hover {
     scale: 1.05;

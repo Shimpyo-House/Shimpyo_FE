@@ -112,8 +112,18 @@ const SigninForm = () => {
               type="password"
               {...register('password', {
                 required: true,
+                pattern: {
+                  value:
+                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#^()!%*?&])[A-Za-z\d@$!#^()%*?&]{8,30}$/,
+                  message: '특수문자, 문자, 숫자를 1개씩 넣어주세요(8~30자)',
+                },
               })}
             />
+            <div css={ErrorContainer}>
+              {errors?.password ? (
+                <p css={ErrorStyle}>{errors.password?.message}</p>
+              ) : null}
+            </div>
           </div>
 
           <div css={ButtonContainer}>
@@ -159,11 +169,9 @@ export const InputWithLabelContainer = css``;
 
 export const ButtonContainer = css`
   margin-top: 2rem;
-  padding: 0 2rem;
 `;
 
 const LinkStyle = css`
-  padding: 0 2rem;
   color: ${theme.colors.blue600};
 `;
 

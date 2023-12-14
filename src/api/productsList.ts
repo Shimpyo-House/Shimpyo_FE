@@ -28,13 +28,13 @@ const useSearchData = async (
   keyword: string,
   location: string,
   count: string,
-  page: number,
+  // page: number,
 ) => {
   try {
     const countNumber = parseInt(count, 10);
     if (location === 'x' && keyword !== 'x') {
       const fetchData = await axiosWithNoToken.get<ResponseProducts>(
-        `/api/products?page=${page}&size=30&productName=${keyword}&sort=starAvg,desc`,
+        `/api/products?page=0&productName=${keyword}&sort=starAvg,desc`,
       );
       const searchData = fetchData.data.data.productResponses.filter(
         (products) => products.capacity >= countNumber,
@@ -44,7 +44,7 @@ const useSearchData = async (
     }
     if (keyword === 'x' && location !== 'x') {
       const fetchData = await axiosWithNoToken.get<ResponseProducts>(
-        `/api/products?page=${page}&size=30&address=${location}&sort=starAvg,desc`,
+        `/api/products?page=0&address=${location}&sort=starAvg,desc`,
       );
       const searchData = fetchData.data.data.productResponses.filter(
         (products) => products.capacity >= countNumber,
@@ -52,18 +52,18 @@ const useSearchData = async (
 
       return searchData;
     }
-    if (keyword === 'x' && location === 'x') {
-      const fetchData = await axiosWithNoToken.get<ResponseProducts>(
-        `/api/products?page=${page}&size=30&sort=starAvg,desc`,
-      );
-      const searchData = fetchData.data.data.productResponses.filter(
-        (products) => products.capacity >= countNumber,
-      );
+    // if (keyword === 'x' && location === 'x') {
+    //   const fetchData = await axiosWithNoToken.get<ResponseProducts>(
+    //     '/api/products?page=0&sort=starAvg,desc',
+    //   );
+    //   const searchData = fetchData.data.data.productResponses.filter(
+    //     (products) => products.capacity >= countNumber,
+    //   );
 
-      return searchData;
-    }
+    //   return searchData;
+    // }
     const fetchData = await axiosWithNoToken.get<ResponseProducts>(
-      `/api/products?page=${page}&size=30&productName=${keyword}&address=${location}&sort=starAvg,desc`,
+      `/api/products?page=0&productName=${keyword}&address=${location}&sort=starAvg,desc`,
     );
     const searchData = fetchData.data.data.productResponses.filter(
       (products) => products.capacity >= countNumber,
@@ -107,8 +107,6 @@ const getQuery = (searchPrams: URLSearchParams) => {
 };
 
 const getSearchData = async (
-  pageParam: number,
-  setIsEnd: Dispatch<React.SetStateAction<boolean>>,
   setIsReal: Dispatch<React.SetStateAction<boolean>>,
   searchPrams: URLSearchParams,
 ) => {
@@ -118,12 +116,8 @@ const getSearchData = async (
       queryData.keyword,
       queryData.location,
       queryData.count,
-      pageParam,
     );
     if (fetchData) {
-      if (fetchData.length < 30) {
-        setIsEnd(true);
-      }
       if (fetchData.length === 0) {
         setIsReal(false);
         return undefined;
