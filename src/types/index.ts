@@ -199,6 +199,13 @@ export interface RoomData {
   endDate: string;
 }
 
+export interface DirectReserve {
+  cartId: -1;
+  roomCode: number;
+  startDate: string;
+  endDate: string;
+}
+
 export interface AllReservationData {
   roomId: number;
   startDate: string;
