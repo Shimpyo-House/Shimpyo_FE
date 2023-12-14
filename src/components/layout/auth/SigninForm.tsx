@@ -159,11 +159,9 @@ export const InputWithLabelContainer = css``;
 
 export const ButtonContainer = css`
   margin-top: 2rem;
-  padding: 0 2rem;
 `;
 
 const LinkStyle = css`
-  padding: 0 2rem;
   color: ${theme.colors.blue600};
 `;
 

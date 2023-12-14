@@ -23,13 +23,17 @@ const FavHeart = ({ productId, favorites }: PropsType) => {
       const fav = await deleteFavorite(productId);
       if (fav) {
         setIsFav(false);
-        toast.success('찜을 해제하였습니다.');
+        toast.success('찜을 해제하였습니다.', {
+          duration: 700,
+        });
       }
     } else {
       const fav = await setFavorite(productId);
       if (fav) {
         setIsFav(true);
-        toast.success('찜 목록에 추가하였습니다.');
+        toast.success('찜 목록에 추가하였습니다.', {
+          duration: 700,
+        });
       }
     }
   };
