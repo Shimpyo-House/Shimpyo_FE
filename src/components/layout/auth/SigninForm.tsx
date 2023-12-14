@@ -112,8 +112,18 @@ const SigninForm = () => {
               type="password"
               {...register('password', {
                 required: true,
+                pattern: {
+                  value:
+                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#^()!%*?&])[A-Za-z\d@$!#^()%*?&]{8,30}$/,
+                  message: '특수문자, 문자, 숫자를 1개씩 넣어주세요(8~30자)',
+                },
               })}
             />
+            <div css={ErrorContainer}>
+              {errors?.password ? (
+                <p css={ErrorStyle}>{errors.password?.message}</p>
+              ) : null}
+            </div>
           </div>
 
           <div css={ButtonContainer}>
