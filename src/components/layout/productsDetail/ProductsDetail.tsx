@@ -216,7 +216,6 @@ const ProductsDetail = () => {
             <div css={ProductsLocation}>
               {productDetail.address.address}
               <div css={HeartBox}>
-                찜하기
                 <FavHeart
                   productId={productDetail.productId}
                   favorites={productDetail.favorites}
@@ -415,7 +414,7 @@ const HeartBox = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.2rem;
+  /* gap: 0.2rem; */
 `;
 
 const ProductsIntroduce = css`
