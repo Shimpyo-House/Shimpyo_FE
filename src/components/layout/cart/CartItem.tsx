@@ -286,6 +286,7 @@ const RoomPerson = css`
 `;
 
 const RoomDescription = css`
+  width: 40rem;
   font-size: 0.95rem;
   color: ${theme.colors.gray700};
   white-space: pre-line;
