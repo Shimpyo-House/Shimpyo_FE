@@ -11,6 +11,23 @@ const BookingInfo = () => {
   const cartData = useRecoilValue(cartDataState);
   const [orderCom, setOrderCom] = useState<any>('');
 
+  // const mappedData =
+  //   orderCom.length > 0 && cartData.length > 0
+  //     ? cartData.map((cartItem) => {
+  //         const matchedProduct = orderCom.find(
+  //           (product: any) => product.roomId === cartItem.roomId,
+  //         );
+
+  //         return {
+  //           cartItem,
+  //           product: matchedProduct,
+  //         };
+  //       })
+  //     : [];
+
+  console.log('cartData: ', cartData);
+  console.log('orderCom: ', orderCom);
+
   const roomIdsAsString = cartData
     .map((item) => String(item.roomId))
     .join(', ');
@@ -32,7 +49,6 @@ const BookingInfo = () => {
     fetchData();
   }, []);
 
-  // 박수 계산
   const parseDate = (dateString: string) => {
     const [year, month, day] = dateString.split('-').map(Number);
     return new Date(year, month - 1, day);
@@ -52,79 +68,65 @@ const BookingInfo = () => {
   return (
     <div css={BookingInfoCss}>
       {orderCom.length > 0 ? (
-        orderCom.map((product: any) => {
+        orderCom.map((product: any, index: number) => {
+          const roomKey = `${product.productId}-${cartData[index].roomId}`;
+
           return (
-            <div key={product.productId}>
-              {cartData.length > 0 ? (
-                cartData.map((cartItem, index) => (
-                  <div key={cartItem.roomId}>
-                    <div css={BookHeader}>
-                      <span>최저가보상</span>
-                      <h1>{product.productName}</h1>
-                      <p>{product.roomName}</p>
-                    </div>
+            <div key={roomKey}>
+              <div css={BookHeader}>
+                <span>최저가보상</span>
+                <h1>{product.productName}</h1>
+                <p>{product.roomName}</p>
+              </div>
 
-                    <div css={CheckInOut}>
-                      <div>
-                        <span>체크인</span>
-                        <h3>{cartItem.startDate}</h3>
-                        <p>{product.checkIn}</p>
-                      </div>
-                      <div>
-                        <span>체크아웃</span>
-                        <h3>{cartItem.endDate}</h3>
-                        <p>{product.checkOut}</p>
-                      </div>
-                    </div>
+              <div css={CheckInOut}>
+                <div>
+                  <span>체크인</span>
+                  <h3>{cartData[index].startDate}</h3>
+                  <p>{product.checkIn}</p>
+                </div>
+                <div>
+                  <span>체크아웃</span>
+                  <h3>{cartData[index].endDate}</h3>
+                  <p>{product.checkOut}</p>
+                </div>
+              </div>
 
-                    <div css={RefPeople}>
-                      기준 {product.standard}명 / 최대 {product.capacity}명
-                    </div>
+              <div css={RefPeople}>
+                기준 {product.standard}명 / 최대 {product.capacity}명
+              </div>
 
-                    <div css={BookingPrice}>
-                      숙박 /{' '}
-                      {calculateNightCount(
-                        cartItem.startDate,
-                        cartItem.endDate,
-                      )}
-                      박{' '}
-                      <span>
-                        {(
-                          calculateNightCount(
-                            cartItem.startDate,
-                            cartItem.endDate,
-                          ) * product.price
-                        ).toLocaleString()}
-                        원
-                      </span>
-                    </div>
+              <div css={BookingPrice}>
+                숙박 /{' '}
+                {calculateNightCount(
+                  cartData[index].startDate,
+                  cartData[index].endDate,
+                )}
+                박{' '}
+                <span>
+                  {(
+                    calculateNightCount(
+                      cartData[index].startDate,
+                      cartData[index].endDate,
+                    ) * product.price
+                  ).toLocaleString()}
+                  원
+                </span>
+              </div>
 
-                    <div css={VisitWay}>
-                      <div>방문수단 선택</div>
-                      <form>
-                        <label htmlFor={`walk-${index}`}>
-                          <input
-                            id={`walk-${index}`}
-                            type="radio"
-                            name="button"
-                          />
-                          도보
-                        </label>
-                        <label htmlFor={`car-${index}`}>
-                          <input
-                            id={`car-${index}`}
-                            type="radio"
-                            name="button"
-                          />
-                          차량
-                        </label>
-                      </form>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p>장바구니가 비어있습니다.</p>
-              )}
+              <div css={VisitWay}>
+                <div>방문수단 선택</div>
+                <form>
+                  <label htmlFor={`walk-${index}`}>
+                    <input id={`walk-${index}`} type="radio" name="button" />
+                    도보
+                  </label>
+                  <label htmlFor={`car-${index}`}>
+                    <input id={`car-${index}`} type="radio" name="button" />
+                    차량
+                  </label>
+                </form>
+              </div>
             </div>
           );
         })

@@ -102,20 +102,18 @@ const Payment = () => {
   const handlePaymentData = async () => {
     const reservationProducts: AllReservationData[] = [];
 
-    orderCom.forEach((roomData: any) => {
-      cartData.forEach((cartItem) => {
-        const reservProducts: AllReservationData = {
-          cartId: cartItem.cartId,
-          roomId: roomData.roomId,
-          startDate: cartItem.startDate,
-          endDate: cartItem.endDate,
-          visitorName: userName,
-          visitorPhone: userPhoneNum,
-          price: roomData.price,
-        };
+    orderCom.forEach((roomData: any, index: number) => {
+      const reservProducts: AllReservationData = {
+        cartId: cartData[index].cartId,
+        roomId: roomData.roomId,
+        startDate: cartData[index].startDate,
+        endDate: cartData[index].endDate,
+        visitorName: userName,
+        visitorPhone: userPhoneNum,
+        price: roomData.price,
+      };
 
-        reservationProducts.push(reservProducts);
-      });
+      reservationProducts.push(reservProducts);
     });
 
     try {
@@ -141,16 +139,14 @@ const Payment = () => {
   const handleRelease = async () => {
     const rooms: ReleaseData[] = [];
 
-    orderCom.forEach((roomData: any) => {
-      cartData.forEach((cartItem) => {
-        const releaseProducts: ReleaseData = {
-          roomId: roomData.roomId,
-          startDate: cartItem.startDate,
-          endDate: cartItem.endDate,
-        };
+    orderCom.forEach((roomData: any, index: number) => {
+      const releaseProducts: ReleaseData = {
+        roomId: roomData.roomId,
+        startDate: cartData[index].startDate,
+        endDate: cartData[index].endDate,
+      };
 
-        rooms.push(releaseProducts);
-      });
+      rooms.push(releaseProducts);
     });
 
     try {
