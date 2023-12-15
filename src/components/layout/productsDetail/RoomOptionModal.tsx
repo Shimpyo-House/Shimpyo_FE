@@ -26,23 +26,6 @@ interface ModalProps {
   selectedRoomCode: number | null;
 }
 
-// interface RoomOptionResponse {
-//   bathFacility: boolean;
-//   bath: boolean;
-//   homeTheater: boolean;
-//   airCondition: boolean;
-//   tv: boolean;
-//   pc: boolean;
-//   cable: boolean;
-//   internet: boolean;
-//   refrigerator: boolean;
-//   toiletries: boolean;
-//   sofa: boolean;
-//   cooking: boolean;
-//   table: boolean;
-//   hairDryer: boolean;
-// }
-
 const getIcon = (key: string) => {
   switch (key) {
     case 'bathFacility':
@@ -108,7 +91,6 @@ const RoomOptionModal = ({
     console.log(selectedRoom?.roomOptionResponse);
     return keyKoreanName[key];
   };
-  // const serviceValue = (value: RoomOptionResponse) => (value ? '✅' : '❌');
 
   return (
     <Modal isOpen={openModal} style={ModalStyles}>
@@ -155,7 +137,7 @@ const ModalStyles: ReactModal.Styles = {
   },
   content: {
     width: '40rem',
-    height: '40rem',
+    height: '41rem',
     zIndex: '150',
     position: 'absolute',
     top: '50%',

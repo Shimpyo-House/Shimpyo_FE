@@ -7,6 +7,7 @@ import { css } from '@emotion/react';
 import { SetStateAction, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { format } from 'date-fns';
 import { useSetRecoilState } from 'recoil';
 import { cartDataState } from '../../../atoms/cartAtom';
@@ -30,7 +31,6 @@ import LocationWithCustomOverlay from './LocationWithCustomOverlay';
 import ImageSlider from './ImageSlider';
 import useCart from '../../../hooks/useCart';
 import { cartPostToJudgment } from '../../../api/cart';
-import { useLocationData } from '../../../api/productsList';
 import RoomImageSlider from './RoomImageSlider';
 import ProductAmenities from './ProductAmenities';
 import RoomOptionModal from './RoomOptionModal';
@@ -79,8 +79,6 @@ const ProductsDetail = () => {
   const [enterDate, setEnterDate] = useState('');
   const [exitDate, setExitDate] = useState('');
 
-  // const [roomId, setRoomId] = useState<number>(0);
-
   // 캘린더에서 날짜 선택했을 때 로직(입실날짜 및 퇴실날짜 설정)
   const handleEnterExitDatesChange = (enterDate: string, exitDate: string) => {
     setEnterDate(enterDate);
@@ -100,8 +98,6 @@ const ProductsDetail = () => {
     }: Pick<RequestProductDetail, 'startDate' | 'endDate'>) => {
       try {
         setLoading({ isLoading: true, message: '방 정보를 조회중입니다.' });
-        // if (!startDate || !endDate) return;
-        console.log(accessToken);
 
         if (accessToken !== undefined) {
           const response = await axiosWithAccessToken.get(
@@ -160,17 +156,13 @@ const ProductsDetail = () => {
       setLoading({ isLoading: true, message: '현재 예약중입니다.' });
 
       const data = await cartPostToJudgment(rooms);
-      console.log(data.roomResults[0].roomId);
-
-      // setRoomId(data.roomResults[0].roomId);
-
       const requestData = {
         cartId: -1,
         roomId: data.roomResults[0].roomId,
         startDate: defaultDate,
         endDate: defaultDatePlusDay,
       };
-      console.log(roomInfo); // 안썼다고 빨간줄 떠서 콘솔 찍엇어요
+      console.log(roomInfo);
 
       setCartData([requestData]);
       await cartPostToJudgment(rooms);
@@ -190,16 +182,6 @@ const ProductsDetail = () => {
     return <div>Loading...</div>;
   }
 
-  const handleShowNearbyClick = async () => {
-    try {
-      const location = productDetail.address.address.split(' ')[0];
-      const fetchData = await useLocationData(location);
-      console.log('주변 숙소 데이터:', fetchData);
-    } catch (error) {
-      console.error('주변 숙소 데이터 불러오기 에러:', error);
-    }
-  };
-
   return (
     <div>
       <div css={ProductDetailContainer}>
@@ -213,13 +195,16 @@ const ProductsDetail = () => {
                 {productDetail.starAvg.toFixed(1)}
               </div>
             </div>
-            <div css={ProductsLocation}>
-              {productDetail.address.address}
-              <div css={HeartBox}>
-                <FavHeart
-                  productId={productDetail.productId}
-                  favorites={productDetail.favorites}
-                />
+            <div css={LocationContainer}>
+              <LocationOnIcon />
+              <div css={ProductsLocation}>
+                {productDetail.address.address}
+                <div css={HeartBox}>
+                  <FavHeart
+                    productId={productDetail.productId}
+                    favorites={productDetail.favorites}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -241,8 +226,16 @@ const ProductsDetail = () => {
               <div css={RoomImg}>
                 <RoomImageSlider images={room.roomImages} />
               </div>
-              <div css={RoomInfo} onClick={() => handleRoomOpen(room.roomCode)}>
-                <div css={RoomName}>{room.roomName}</div>
+              <div css={RoomInfo}>
+                <div css={RoomNameContainer}>
+                  <div css={RoomName}>{room.roomName}</div>
+                  <div
+                    css={RoomDetailText}
+                    onClick={() => handleRoomOpen(room.roomCode)}
+                  >
+                    객실 상세정보
+                  </div>
+                </div>
                 <div
                   css={RoomCount}
                 >{`기준 ${room.standard}인 / 최대 ${room.capacity}인`}</div>
@@ -332,13 +325,6 @@ const ProductsDetail = () => {
             <div css={ProductsIntroduce}>{productDetail.description}</div>
           </div>
           <ProductAmenities productDetail={productDetail} />
-          <button
-            type="button"
-            css={ProductsDetailInfo}
-            onClick={handleShowNearbyClick}
-          >
-            주변 숙소 보기
-          </button>
         </div>
         <RoomOptionModal
           openModal={roomOptionModalOpen}
@@ -386,21 +372,28 @@ const NameScoreContainer = css`
 
 const ProductScore = css`
   display: flex;
-  /* margin-left: auto; */
-  font-size: 1.875rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  /* width: 6.25rem; */
+  align-items: center;
+  gap: 0.3rem;
+`;
+
+const LocationContainer = css`
+  display: flex;
+  width: 95%;
+  align-items: center;
+  gap: 0.25rem;
 `;
 
 const ProductName = css`
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  font-size: 3rem;
+  font-size: 2.3rem;
   font-weight: 600;
 `;
 const ProductsLocation = css`
-  width: 95%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -414,7 +407,9 @@ const HeartBox = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* gap: 0.2rem; */
+  gap: 0.2rem;
+  font-size: 1.35rem;
+  font-weight: 600;
 `;
 
 const ProductsIntroduce = css`
@@ -500,11 +495,23 @@ const RoomInfo = css`
   padding: 0.625rem;
   margin-left: 1.25rem;
   font-weight: bold;
-  cursor: pointer;
+`;
+
+const RoomNameContainer = css`
+  display: flex;
+  gap: 1rem;
 `;
 
 const RoomName = css`
-  font-size: 1.8rem;
+  font-size: 2rem;
+`;
+
+const RoomDetailText = css`
+  margin-top: auto;
+  margin-bottom: auto;
+  font-weight: 600;
+  color: ${theme.colors.gray600};
+  cursor: pointer;
 `;
 
 const RoomCount = css`
@@ -537,6 +544,7 @@ const priceStyle = css`
   align-self: flex-end;
   margin-bottom: 0.625rem;
   font-size: 1.3rem;
+  font-weight: 600;
 `;
 
 const buyBtn = css`
