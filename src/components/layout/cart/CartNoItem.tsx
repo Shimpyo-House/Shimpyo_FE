@@ -1,4 +1,3 @@
-/* eslint-disable react/button-has-type */
 import { css } from '@emotion/react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
@@ -11,7 +10,9 @@ const CartNoItem = () => {
       <h1>장바구니에 담긴 상품이 없습니다.</h1>
       <h3>원하는 상품을 담아보세요!</h3>
       <Link to="/">
-        <button css={HomeButton}>숙소 둘러보기</button>
+        <button type="button" css={HomeButton}>
+          숙소 둘러보기
+        </button>
       </Link>
     </div>
   );

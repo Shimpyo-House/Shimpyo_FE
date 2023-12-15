@@ -1,6 +1,4 @@
 /* eslint-disable prefer-template */
-/* eslint-disable @typescript-eslint/indent */
-/* eslint-disable no-unneeded-ternary */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useCallback, useMemo } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -41,11 +39,15 @@ const CartItem = () => {
   const handleAllCheckbox = useCallback(() => {
     const availableCartData = cartData.filter(
       (cart: ResponseCartData) =>
-        !soldOutData.unavailableIds.includes(cart.roomCode) && !cart.roomId,
+        !soldOutData.some((room) => room.cartId === cart.cartId),
     );
-    const allChecked = cartData.every((cart: ResponseCartData) =>
-      checkedRoomList.includes(cart),
-    );
+
+    const allChecked =
+      availableCartData &&
+      availableCartData.every((cart: ResponseCartData) =>
+        checkedRoomList.includes(cart),
+      );
+
     if (allChecked) {
       setCheckedRoomList([]);
     } else {
@@ -94,10 +96,7 @@ const CartItem = () => {
             cartData.every((cart: ResponseCartData) =>
               checkedRoomList.includes(cart),
             )
-              ? true
-              : false
           }
-          disabled={soldOutData && soldOutData.unavailableIds.length > 0}
         />
         <p css={AllSelect}>전체 선택</p>
       </label>
@@ -111,19 +110,15 @@ const CartItem = () => {
                 css={[
                   CheckBox,
                   soldOutData &&
-                    soldOutData.unavailableIds.includes(cart.roomCode),
-                  // ||
-                  // cart.reserved
-                  //   ? DisabledCheckBox
-                  //   : null,
+                  soldOutData.some((room) => room.cartId === cart.cartId)
+                    ? DisabledCheckBox
+                    : null,
                 ]}
                 onChange={() => handleCheckbox(cart)}
                 checked={checkedRoomList.includes(cart)}
                 disabled={
                   soldOutData &&
-                  soldOutData.unavailableIds.includes(cart.roomCode)
-                  //    ||
-                  // cart.reserved
+                  soldOutData.some((room) => room.cartId === cart.cartId)
                 }
               />
             </label>
@@ -155,21 +150,22 @@ const CartItem = () => {
                 css={DeleteIcon}
               />
               <div css={PriceContainer}>
-                {soldOutData && (
-                  //   soldOutData.unavailableIds.includes(cart.roomCode)) ||
-                  // cart.reserved ? (
-                  //   <span css={SoldOutText}>❎해당 상품은 현재 품절입니다.</span>
-                  // ) :
-                  <>
-                    <p css={Price}>
-                      {new Intl.NumberFormat().format(cart.price) + '원'}
-                    </p>
-                    {!soldOutData ||
-                      (!soldOutData.unavailableIds.includes(cart.roomCode) && (
-                        <p css={PriceText}>취소 및 환불 불가</p>
-                      ))}
-                  </>
-                )}
+                {soldOutData &&
+                  (soldOutData.some((room) => room.cartId === cart.cartId) ? (
+                    <span css={SoldOutText}>
+                      ❎해당 상품은 현재 품절입니다.
+                    </span>
+                  ) : (
+                    <>
+                      <p css={Price}>
+                        {new Intl.NumberFormat().format(cart.price) + '원'}
+                      </p>
+                      {!soldOutData ||
+                        (!soldOutData.some(
+                          (room) => room.cartId === cart.cartId,
+                        ) && <p css={PriceText}>취소 및 환불 불가</p>)}
+                    </>
+                  ))}
               </div>
             </div>
           </div>
@@ -248,10 +244,10 @@ const CheckBox = css`
   }
 `;
 
-// const DisabledCheckBox = css`
-//   cursor: not-allowed;
-//   opacity: 0.3;
-// `;
+const DisabledCheckBox = css`
+  cursor: not-allowed;
+  opacity: 0.3;
+`;
 
 const CartImg = css`
   width: 15rem;
@@ -329,13 +325,13 @@ const Price = css`
   font-weight: 700;
 `;
 
-// const SoldOutText = css`
-//   display: flex;
-//   justify-content: flex-end;
-//   width: 15rem;
-//   font-weight: 700;
-//   color: ${theme.colors.error};
-// `;
+const SoldOutText = css`
+  display: flex;
+  justify-content: flex-end;
+  width: 15rem;
+  font-weight: 700;
+  color: ${theme.colors.error};
+`;
 
 const PriceText = css`
   font-size: 0.8rem;
