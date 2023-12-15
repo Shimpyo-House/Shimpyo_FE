@@ -160,8 +160,6 @@ Test PW : qwe123!@#
 ![찜하기2](https://github.com/Shimpyo-House/Shimpyo_FE/assets/121215024/3a7fbc93-770b-4479-bfa6-f000dfb0cf22)
 ### 2️⃣제품 상세 페이지
 ![ez](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/2fa2f8c4-9b2c-49f9-a5e7-7aedabf4dd9d)
-![ezgif com-video-to](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/88e372e9-954f-446a-91dc-7965bb436e9a)
-![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/a2179e46-df12-43c2-a853-5675adae3d36)
 ![](docs/image/IMG_5186.GIF)
 
 ### 3️⃣장바구니
