@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 /* eslint-disable consistent-return */
 import swal from 'sweetalert';
 import { axiosWithAccessToken } from '../Axios';
@@ -17,6 +16,7 @@ const cartGetAxios = async (user: UserDataType) => {
     console.error(err);
   }
 };
+
 const cartPostAxios = async (requestData: PostRoomToCart) => {
   try {
     const response = await axiosWithAccessToken.post('/api/carts', requestData);

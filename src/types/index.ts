@@ -60,13 +60,7 @@ export type RequestOrders = {
 
 export type PostRoomToCart = {
   roomCode: number;
-  // roomName: string;
   price: number;
-  // desc: string;
-  // standard: number;
-  // checkIn: string;
-  // checkOut: string;
-  // reserved: boolean;
   startDate: string;
   endDate: string;
 };
@@ -174,7 +168,6 @@ export type ResponseCartData = {
   productId: number;
   productName: string;
   image: string;
-  roomId: number;
   roomCode: number;
   roomName: string;
   price: number;
@@ -189,6 +182,7 @@ export type ResponseCartData = {
 
 export interface ResponseCartJudgement {
   roomId: number;
+  cartId: number;
   startDate: string;
   endDate: string;
 }
@@ -197,6 +191,7 @@ export interface RoomData {
   roomCode: number;
   startDate: string;
   endDate: string;
+  cartId: number;
 }
 
 export interface DirectReserve {
