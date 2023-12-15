@@ -73,47 +73,41 @@ const OrderedProduct = () => {
   return (
     <div css={BookingInfoCss}>
       {orderCom.length > 0 ? (
-        orderCom.map((product: any) => {
+        orderCom.map((product: any, index: number) => {
+          const roomKey = `${product.productId}-${cartData[index].roomId}`;
+
           return (
-            <div key={product.productId}>
-              {cartData.length > 0 ? (
-                cartData.map((cartItem) => (
-                  <div key={cartItem.roomId} css={OrderedContainer}>
-                    <div css={BookingInfoCss}>
-                      <div css={BookHeader}>
-                        <span>최저가보상</span>
-                        <h1>{product.productName}</h1>
-                        <p>{product.roomName}</p>
-                      </div>
+            <div key={roomKey}>
+              <div css={OrderedContainer}>
+                <div css={BookingInfoCss}>
+                  <div css={BookHeader}>
+                    <span>최저가보상</span>
+                    <h1>{product.productName}</h1>
+                    <p>{product.roomName}</p>
+                  </div>
 
-                      <div css={CheckInOut}>
-                        <div>
-                          <span>체크인</span>
-                          <h3>{cartItem.startDate}</h3>
-                          <p>{product.checkIn}</p>
-                        </div>
-                        <div>
-                          <span>체크아웃</span>
-                          <h3>{cartItem.endDate}</h3>
-                          <p>{product.checkOut}</p>
-                        </div>
-                      </div>
-
-                      <div css={RefPeople}>
-                        기준 {product.standard}명 / 최대 {product.capacity}명
-                      </div>
-
-                      <div css={BookingPrice}>
-                        숙박 / 1박 <span>{totalPrice.toLocaleString()}원</span>
-                      </div>
+                  <div css={CheckInOut}>
+                    <div>
+                      <span>체크인</span>
+                      <h3>{cartData[index].startDate}</h3>
+                      <p>{product.checkIn}</p>
+                    </div>
+                    <div>
+                      <span>체크아웃</span>
+                      <h3>{cartData[index].endDate}</h3>
+                      <p>{product.checkOut}</p>
                     </div>
                   </div>
-                ))
-              ) : (
-                <div css={ErrorMessage}>
-                  결제 정보를 불러올 수 없습니다. 예약 내역을 확인해주세요.
+
+                  <div css={RefPeople}>
+                    기준 {product.standard}명 / 최대 {product.capacity}명
+                  </div>
+
+                  <div css={BookingPrice}>
+                    숙박 / 1박 <span>{totalPrice.toLocaleString()}원</span>
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
           );
         })
@@ -194,13 +188,6 @@ const BookingPrice = css`
     font-size: 1.3rem;
     font-weight: 900;
   }
-`;
-
-const ErrorMessage = css`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 10rem;
 `;
 
 export default OrderedProduct;
