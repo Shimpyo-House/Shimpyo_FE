@@ -26,7 +26,7 @@ Test PW : qwe123!@#
 |                           <img src="https://avatars.githubusercontent.com/u/98576512?v=4" width="150px" />                           |            <img src="https://github.com/KDT1-FE/Y_FE_Toy1/assets/39702832/58fb577d-9f8c-4679-bca1-8ff15ca84f6b" width="150px" />             |                           <img src="https://avatars.githubusercontent.com/u/104253583?v=4" width="150px" />                            |                                <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/93272421/9b7ea286-4768-4d55-a26e-fc0541824b71" width="150px" />                                |                <img src="https://avatars.githubusercontent.com/u/93272421?v=4" width="150px" />                |
 | :-----------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: |
 |                                                           FE: 최우혁<br/>(팀장)                                                           |                                               FE: 백상원<br/>(리팩토링 팀장)                                                |                                                              FE: 정지오                                                               |                                                                   FE: 장수빈                                                                    |                                                   FE: 소유나                                                   |
-| 개발 초기 설정 <br> CI/CD 연동<br> 로그인/회원가입<br> 회원 정보 수정<br> Axios Instance<br/> &Axios Interceptor | 숙소 리스팅<br> 무한스크롤 <br> 검색 기능 <br> 찜하기<br> 메인, 카테고리, 검색<br/>& 백그라운드 디자인 | 로그인/회원가입 페이지 및 기능<br> 유저인증 처리<br> 유저 권한에 따른 라우팅<br> 활동중 유저 목록 최신화<br> 메인페이지 - CardSection | 장바구니 조회<br> 장바구니 삭제 <br>장바구니 품절 처리 구현<br> 장바구니 관련 헤더 수량 구현<br/> 상세페이지 - 룸 상세 정보 구현 <br/>  | 결제 페이지 구현 및 api 연결<br> 결제하기 버튼 api 연결<br> 결제 페이지에서 취소하기 api 연결<br> 결제 완료 페이지 구현 및 api 연결<br> 전체 주문 내역 확인 페이지 구현 및 api 연결 |
+| 개발 초기 설정 <br> CI/CD 연동<br> 로그인/회원가입<br> 회원 정보 수정<br> Axios Instance<br/> &Axios Interceptor | 숙소 리스팅<br> 무한스크롤 <br> 검색 기능 <br> 찜하기<br> 메인, 카테고리, 검색<br/>& 백그라운드 디자인 | 숙소 상세 페이지 <br> 숙소 상세&추가 정보 api <br> 장바구니 등록 api <br> 예약하기 등록 api <br> 카카오맵 api | 장바구니 조회<br> 장바구니 삭제 <br>장바구니 품절 처리 구현<br> 장바구니 관련 헤더 수량 구현<br/> 상세페이지 - 룸 상세 정보 구현 <br/>  | 결제 페이지 구현 및 api 연결<br> 결제하기 버튼 api 연결<br> 결제 페이지에서 취소하기 api 연결<br> 결제 완료 페이지 구현 및 api 연결<br> 전체 주문 내역 확인 페이지 구현 및 api 연결 |
 
 
 
@@ -263,15 +263,71 @@ Test PW : qwe123!@#
       
 </details>
 <br/>
-<br/>
 
 <details>
-  <summary>정지오</summary>
-    - 구현 기능<br/>
-    - 에러 사항<br/>
-    - 회고<br/>
+  <summary>  정지오</summary>
+ 
+  >
+리팩토링 내용<br/>
+  >
+    카카오맵 API 추가 -> 숙소 위치 마커 렌더링
+    마커 클릭 시 커스텀 오버레이 렌더링 -> 클릭 시 길찾기 페이지 생성
+    숙소상세정보 API 변경에 따른 추가 정보 get
+    장바구니 API 변경에 따른 로직 처리
+    예약하기 API 변경에 따른 로직 처리
+  >
+
+스크린샷<br/><br/>
+![ezgif com-video-to-gif-converted (5)](https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/98ce1f9f-9c52-4524-83ac-7b1a16e3aec2)
+- 객실 이미지 슬라이더 구현
+- 이미지 없을 시 기본 이미지 렌더링
+- 숙소 소개, 추가 및 상세 정보 get
+- 숙소 상세 및 추가 정보 아이콘 처리 및 값(boolean = false)에 따라 취소선 적용
+<br/><br/>
+
+![ezgif com-video-to-gif-converted (10)](https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/0818ff3e-463d-46a5-91fb-31412d2ca617)<br/>
+![ezgif com-video-to-gif-converted (11)](https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/cd730a96-1208-4db1-a932-585ccf76899e)
+- 장바구니 API 변경에 따른 post 처리
+- 날짜마다 남은 객실 수만큼 장바구니 담기 가능
+<br/><br/>
+
+![ezgif com-video-to-gif-converted (7)](https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/21226743-5ab0-4914-986c-9d5fcec34def)
+- 객실 시설 및 서비스 정보
+- 아이콘 적용 및 값에 따라 취소선 적용
+<br/><br/>
+
+![ezgif com-video-to-gif-converted (8)](https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/c09161bd-26e2-4adb-9fe6-180322c1de42)
+- 카카오맵 API -> 숙소 위치 마커 설정
+- 커스텀 오버레이를 통한 UI 설계
+- 길찾기 아이콘 클릭 시, 해당 숙소 주소로 카카오 길찾기 실행
+<br/><br/>
+
+![ezgif com-video-to-gif-converted (4)](https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/b87ddafb-0b94-42ef-8b1b-4f46bf8425f6)
+- 예약하기 API 변경에 따른 post 처리
+<br/><br/><br/><br/>
+
+>
+
+에러 사항<br/>
+![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/ed818fb4-d01e-4f38-afd8-fba85585d326)<br/>
+  >
+    카카오맵 API를 웹앱에 처음 적용해봤는데 크기 및 높이를 설정하는 부분과 요소들을 스타일링 하는데서 많은 문제가 있었다.
+    React는 useEffect 훅을 제공해주는데 이 훅에서 카카오맵 API 코드를 작성하라해서 가이드대로 진행했는데,
+    위 사진과 같은 오류가 나왔다. React에서는 우리가 HTML의 script 태그에서 로드한 객체는 무조건 window 객체 밑에 붙게 되어있는데,
+    그래서 아래와 같이"window.kakao"라는 방식으로 사용해야 함을 알게 되었다.
+  >
+<img width="582" alt="image" src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/e1049cff-b03a-4f2e-826f-7aec98537ae6">
+  >
+<br/><br/><br/><br/>
+
+회고<br/>
+  >
+    백엔드와의 협업을 처음 해봐서 많은 어려움이 있었다. post, get하는 원리 및 방식도 잘 몰랐었고 프론트 개념이 완전히 잡혀있지 않은 상태에서 하니 어려움은 배로 느껴졌었다.
+    그래도 지속적인 회의 및 개발을 통해 최종적으로는 백엔드에서 전달해준 api를 다 잘 사용할 수 있었다. 숙소 상세 페이지를 맡아 숙소정보를 불러오고 장바구니에 담고 바로 예약하는 등
+    많은 api를 사용하는 것이 부담이 되었지만 그만큼 백엔드와의 통신을 공부할 수 있어서 많이 성장하는 계기가 되었던 것 같다. 다음 프로젝트 시에는 백엔드 지식을 좀 더 갖춰서
+    백엔드와의 소통을 더 원활하게 할 수 있는 프론트엔드 개발자가 되고싶다는 생각을 가지게 되었다.
+  >
 </details>
-<br/>
 <br/>
 
 <details>
@@ -308,7 +364,6 @@ Test PW : qwe123!@#
     백엔드와 협업 경험이 이번이 처음이었는데, 소통을 하려면 프론트에 대해서만 아는 것이 아닌 백엔드의 지식을 함께 겸비해야 한다는 것을 깨닫게 된 프로젝트였습니다. 또한 주어진 기간 안에 프론트엔드, 백엔드 일정 조율이 매우 중요하다는 것을 몸소 느끼게 되었습니다. 
   >
 </details>
-<br/>
 <br/>
 
 <details>
