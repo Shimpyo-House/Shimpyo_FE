@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { css } from '@emotion/react';
-import { MdMenu } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import theme from '../../style/theme';
+import MenuBtn from './header/MenuBtn';
 
 const AuthHeader = () => {
   return (
@@ -11,7 +11,7 @@ const AuthHeader = () => {
         <Link to="/">
           <h1 css={LogoText}>Shimpyo ,</h1>
         </Link>
-        <MdMenu css={MenuIcon} />
+        <MenuBtn />
       </nav>
     </div>
   );
@@ -47,15 +47,6 @@ const InnerContainer = css`
 const LogoText = css`
   color: ${theme.colors.blue700};
   font-size: 2rem;
-
-  cursor: pointer;
-`;
-
-const MenuIcon = css`
-  width: 1.8rem;
-  height: 1.8rem;
-
-  color: ${theme.colors.gray700};
 
   cursor: pointer;
 `;

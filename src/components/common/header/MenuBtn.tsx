@@ -54,10 +54,11 @@ const MenuBtn = () => {
   const accessToken = getCookie('accessToken');
   const naviagte = useNavigate();
 
+  const handleOutsideClick = () => {
+    setIsOpen(false);
+  };
+
   useEffect(() => {
-    const handleOutsideClick = () => {
-      setIsOpen(false);
-    };
     if (isOpen) {
       document.addEventListener('click', handleOutsideClick);
     }
@@ -108,13 +109,13 @@ const MenuBtn = () => {
       >
         {accessToken ? (
           <>
-            <li>
+            <li onClick={handleOutsideClick}>
               <Link to="/mypage">내 정보</Link>
             </li>
-            <li>
+            <li onClick={handleOutsideClick}>
               <Link to="/reservation">결제 내역</Link>
             </li>
-            <li>
+            <li onClick={handleOutsideClick}>
               <Link to="/favorite">찜한 숙소</Link>
             </li>
             <li

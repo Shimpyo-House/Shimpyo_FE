@@ -200,7 +200,6 @@ const ProductsDetail = () => {
               <div css={ProductsLocation}>
                 {productDetail.address.address}
                 <div css={HeartBox}>
-                  찜하기
                   <FavHeart
                     productId={productDetail.productId}
                     favorites={productDetail.favorites}
