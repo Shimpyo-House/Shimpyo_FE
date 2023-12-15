@@ -327,13 +327,9 @@ const Payment = () => {
         {totalPrice.toLocaleString()}원 결제하기
       </button>
       <div css={WarningInfo}>
-        {isUserInfoValid === ''
+        {!isUserNameValid || !isUserPhoneNumValid || isUserInfoValid === ''
           ? '* 필수 정보를 다 입력해 주세요.'
-          : !isUserNameValid
-            ? '* 성명을 2자 이상 입력해 주세요.'
-            : !isUserPhoneNumValid
-              ? '* 전화번호를 14자 이상 입력해 주세요.'
-              : '체크박스를 다시 눌러주세요.'}
+          : '체크박스를 다시 눌러주세요.'}
       </div>
 
       <button
