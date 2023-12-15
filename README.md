@@ -26,7 +26,7 @@ Test PW : qwe123!@#
 |                           <img src="https://avatars.githubusercontent.com/u/98576512?v=4" width="150px" />                           |            <img src="https://github.com/KDT1-FE/Y_FE_Toy1/assets/39702832/58fb577d-9f8c-4679-bca1-8ff15ca84f6b" width="150px" />             |                           <img src="https://avatars.githubusercontent.com/u/104253583?v=4" width="150px" />                            |                                <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/93272421/9b7ea286-4768-4d55-a26e-fc0541824b71" width="150px" />                                |                <img src="https://avatars.githubusercontent.com/u/93272421?v=4" width="150px" />                |
 | :-----------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: |
 |                                                           FE: 최우혁<br/>(팀장)                                                           |                                               FE: 백상원<br/>(리팩토링 팀장)                                                |                                                              FE: 정지오                                                               |                                                                   FE: 장수빈                                                                    |                                                   FE: 소유나                                                   |
-| 개발 초기 설정 <br> CI/CD 연동<br> 로그인/회원가입<br> 회원 정보 수정<br> Axios Instance<br/> &Axios Interceptor | 숙소 리스팅<br> 무한스크롤 <br> 검색 기능 <br> 찜하기<br> 메인, 카테고리, 검색<br/>& 백그라운드 디자인 | 로그인/회원가입 페이지 및 기능<br> 유저인증 처리<br> 유저 권한에 따른 라우팅<br> 활동중 유저 목록 최신화<br> 메인페이지 - CardSection | 채팅방 소켓 연결<br> 실시간 메시지 수신/송신<br> 채팅방 내 유저 접속상태 확인<br> 채팅방 나가기 기능<br> 새로운 채팅방 & 유저 초대 시 알림 기능 | 결제 페이지 구현 및 api 연결<br> 결제하기 버튼 api 연결<br> 결제 페이지에서 취소하기 api 연결<br> 결제 완료 페이지 구현 및 api 연결<br> 전체 주문 내역 확인 페이지 구현 및 api 연결 |
+| 개발 초기 설정 <br> CI/CD 연동<br> 로그인/회원가입<br> 회원 정보 수정<br> Axios Instance<br/> &Axios Interceptor | 숙소 리스팅<br> 무한스크롤 <br> 검색 기능 <br> 찜하기<br> 메인, 카테고리, 검색<br/>& 백그라운드 디자인 | 로그인/회원가입 페이지 및 기능<br> 유저인증 처리<br> 유저 권한에 따른 라우팅<br> 활동중 유저 목록 최신화<br> 메인페이지 - CardSection | 장바구니 조회<br> 장바구니 삭제 <br>장바구니 품절 처리 구현<br> 장바구니 관련 헤더 수량 구현<br/> 상세페이지 - 룸 상세 정보 구현 <br/>  | 결제 페이지 구현 및 api 연결<br> 결제하기 버튼 api 연결<br> 결제 페이지에서 취소하기 api 연결<br> 결제 완료 페이지 구현 및 api 연결<br> 전체 주문 내역 확인 페이지 구현 및 api 연결 |
 
 
 
@@ -165,12 +165,34 @@ Test PW : qwe123!@#
 ![](docs/image/IMG_5186.GIF)
 
 ### 3️⃣장바구니
-- 장바구니 삭제
-![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/60480c72-6738-45b6-aaca-ed80daa96539)  
-- 주문하기
-![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/7f5bf375-fb07-45ea-87b2-41df9d1541eb)
-- 예외처리
-![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/b1457ea1-6c20-4fa2-8f45-2fccaabf6e7c)
+- 장바구니 조회
+
+![조회](https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/f6df9e9f-363e-420b-8cae-1460bc34a27f)
+<br/>
+
+
+- 장바구니에서 아이템 주문하기 
+
+![주문](https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/511e96ef-d454-4627-ab56-2343f31aa3e1)
+<br/>
+
+- 장바구니 아이템 삭제하기
+
+![삭제](https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/db3cce35-542c-4090-a98a-1d18c39605e5)
+<br/>
+
+
+- 장바구니 3개 초과 주문 & 0개 주문시 예외 처리 
+
+![예외처리](https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/9e67c8da-b5ac-4487-b0cc-14a1b6c04b4d)
+<br/>
+
+
+- 여러명의 사용자가 같은 숙소 동시 주문 시 선점에 따른 품절 처리
+
+![품절](https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/9f7b3c3c-d9f0-4f18-852b-3585cf1d8c49)
+<br/>
+
 
 
 
@@ -253,10 +275,38 @@ Test PW : qwe123!@#
 <br/>
 
 <details>
-  <summary>장수빈</summary>
-    - 구현 기능<br/>
-    - 에러 사항<br/>
-    - 회고<br/>
+  <summary> 장수빈</summary>
+
+  >
+  1. 리팩토링 내용<br/>
+  >
+    - 객실 상세 정보 API 추가에 따른 UI 구현
+    - 장바구니 API 변경에 따른 로직 처리 
+      - 조회, 주문, 삭제, 품절 처리 
+    - 상세 페이지에서 장바구니 POST 시 헤더 수량 변경
+  > 
+
+  2. 스크린샷<br/>
+  >
+  - 객실 상세 정보 API 추가에 따른 UI 구현
+  
+    ![ezgif com-video-to-gif-converted](https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/f3df7203-616f-418d-bc50-ed5076fe3730)
+  >
+
+<br/>
+
+3. 에러 사항<br/>
+  >
+    1. 상세 페이지에서 아이템을 장바구니에 넣을 때(post), 헤더 장바구니 수량이 변하지 않았던 현상
+
+      - POST를 제외한 장바구니 관련 API를 React Query로 관리하고 있었는데 post 부분은 쿼리와 연결이 되어 있지 않아서 post 하는 부분의 API를 다른 장바구니의 API와 동일하게 쿼리로 관리한 후, mutation을 사용하여 장바구니에 아이템이 추가될 때마다 헤더 수량이 변경될 수 있도록 수정하였습니다.
+  >
+<br/>
+
+4. 회고<br/>
+  >
+    백엔드와 협업 경험이 이번이 처음이었는데, 소통을 하려면 프론트에 대해서만 아는 것이 아닌 백엔드의 지식을 함께 겸비해야 한다는 것을 깨닫게 된 프로젝트였습니다. 또한 주어진 기간 안에 프론트엔드, 백엔드 일정 조율이 매우 중요하다는 것을 몸소 느끼게 되었습니다. 
+  >
 </details>
 <br/>
 <br/>
