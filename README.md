@@ -279,7 +279,7 @@ Test PW : qwe123!@#
 ![ezgif com-video-to-gif-converted (5)](https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/98ce1f9f-9c52-4524-83ac-7b1a16e3aec2)
 - 객실 이미지 슬라이더 구현
 - 이미지 없을 시 기본 이미지 렌더링
-- 숙소 소개, 추가 및 상세 정보 get
+- 숙소 상세 정보 API 추가에 따른 추가 및 상세 정보 get 처리
 - 숙소 상세 및 추가 정보 아이콘 처리 및 값(boolean = false)에 따라 취소선 적용
 <br/><br/>
 
