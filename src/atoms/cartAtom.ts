@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { atom } from 'recoil';
 import { ResponseCartData } from '../types';
 
@@ -15,16 +14,16 @@ export const cartDataState = atom<CartDataType[]>({
 });
 
 export type CartSoldOutData = {
-  isAvailable: boolean;
-  unavailableIds: number[];
+  cartId: number;
+  roomCode: number;
+  roomId: number;
+  startDate: string;
+  endDate: string;
 };
 
-export const cartSoldOutState = atom<CartSoldOutData>({
+export const cartSoldOutState = atom<CartSoldOutData[]>({
   key: 'cartSoldOutData',
-  default: {
-    isAvailable: false,
-    unavailableIds: [],
-  },
+  default: [],
 });
 
 export type CartCheckedList = {
