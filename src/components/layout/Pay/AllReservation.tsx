@@ -47,8 +47,6 @@ const AllReservation = () => {
     orderedData();
   }, []);
 
-  console.log(orderCom);
-
   const productArray = orderCom?.content ?? [];
 
   // 박수 계산

@@ -24,7 +24,6 @@ const BookingInfo = () => {
       try {
         const data = await OrderListAxios(RoomIds);
         setOrderCom(data);
-        console.log(data);
       } catch (error) {
         console.error(error);
       }
@@ -32,8 +31,6 @@ const BookingInfo = () => {
 
     fetchData();
   }, []);
-
-  console.log(orderCom);
 
   // 박수 계산
   const parseDate = (dateString: string) => {

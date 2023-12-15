@@ -33,10 +33,6 @@ const Payment = () => {
   const isUserPhoneNumValid = userPhoneNum && userPhoneNum.length >= 13;
   const isUserInfoValid = payMethod && userName && userPhoneNum;
 
-  console.log(payMethod, userName, userPhoneNum);
-
-  console.log(isUserInfoValid === '');
-
   const navigate = useNavigate();
 
   const setLoading = useSetRecoilState(loadingAtom);
@@ -57,7 +53,6 @@ const Payment = () => {
       try {
         const data = await OrderListAxios(RoomIds);
         setOrderCom(data);
-        console.log(data);
       } catch (error) {
         console.error(error);
       }
@@ -65,8 +60,6 @@ const Payment = () => {
 
     fetchData();
   }, []);
-
-  console.log(orderCom);
 
   // 박수 계산
   const parseDate = (dateString: string) => {
@@ -170,7 +163,6 @@ const Payment = () => {
       );
 
       if (response.data.code === 200) {
-        console.log(response.data.message);
         swal({
           icon: 'success',
           title: '객실 예약이 취소되었습니다.',
@@ -208,7 +200,6 @@ const Payment = () => {
       setAllAgree(false);
     }
   };
-  console.log(payMethod);
 
   useEffect(() => {
     const newIsButtonEnabled =
