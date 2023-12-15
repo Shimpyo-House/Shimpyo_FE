@@ -72,7 +72,7 @@ const AllReservation = () => {
       {productArray.length > 0 ? (
         productArray.map((product: any) => {
           return (
-            <nav css={ReservationWrap}>
+            <nav css={ReservationWrap} key={product.roomId}>
               <div css={WrapContainer}>
                 <h1>예약 일시 | {product.createdAt}</h1>
                 <button
