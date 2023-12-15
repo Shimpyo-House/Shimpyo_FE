@@ -20,6 +20,7 @@
     "react/react-in-jsx-scope": "off",
     "import/no-absolute-path": "off",
     "@typescript-eslint/indent": "off",
-    "no-restricted-globals": "off"
+    "no-restricted-globals": "off",
+    "no-nested-ternary": "off"
   }
 }

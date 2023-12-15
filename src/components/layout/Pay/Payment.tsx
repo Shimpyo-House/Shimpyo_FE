@@ -25,12 +25,13 @@ const Payment = () => {
   const payMethod = localStorage.getItem('PaymentMethod');
   const userName = localStorage.getItem('UserName');
   const userPhoneNum = localStorage.getItem('UserPhoneNum');
+  const [isButtonEnabled, setIsButtonEnabled] = useState<boolean | '' | null>(
+    false,
+  );
 
+  const isUserNameValid = userName && userName.length >= 2;
+  const isUserPhoneNumValid = userPhoneNum && userPhoneNum.length >= 13;
   const isUserInfoValid = payMethod && userName && userPhoneNum;
-
-  console.log(payMethod, userName, userPhoneNum);
-
-  console.log(isUserInfoValid === '');
 
   const navigate = useNavigate();
 
@@ -52,7 +53,6 @@ const Payment = () => {
       try {
         const data = await OrderListAxios(RoomIds);
         setOrderCom(data);
-        console.log(data);
       } catch (error) {
         console.error(error);
       }
@@ -60,8 +60,6 @@ const Payment = () => {
 
     fetchData();
   }, []);
-
-  console.log(orderCom);
 
   // 박수 계산
   const parseDate = (dateString: string) => {
@@ -165,7 +163,6 @@ const Payment = () => {
       );
 
       if (response.data.code === 200) {
-        console.log(response.data.message);
         swal({
           icon: 'success',
           title: '객실 예약이 취소되었습니다.',
@@ -203,6 +200,16 @@ const Payment = () => {
       setAllAgree(false);
     }
   };
+
+  useEffect(() => {
+    const newIsButtonEnabled =
+      allAgree &&
+      isUserInfoValid !== '' &&
+      isUserNameValid &&
+      isUserPhoneNumValid;
+
+    setIsButtonEnabled(newIsButtonEnabled);
+  }, [allAgree, isUserInfoValid, isUserNameValid, isUserPhoneNumValid]);
 
   return (
     <div css={PaymentForm}>
@@ -299,12 +306,10 @@ const Payment = () => {
         type="button"
         css={PaymentButton}
         style={{
-          backgroundColor:
-            allAgree && isUserInfoValid !== '' ? '#3a7bdf' : 'gray',
-          cursor:
-            allAgree && isUserInfoValid !== '' ? 'pointer' : 'not-allowed',
+          backgroundColor: isButtonEnabled ? '#3a7bdf' : 'gray',
+          cursor: isButtonEnabled ? 'pointer' : 'not-allowed',
         }}
-        disabled={!allAgree || isUserInfoValid === ''}
+        disabled={!isButtonEnabled}
         onClick={() => {
           navigate('/ordered');
           handlePaymentData();
@@ -313,7 +318,9 @@ const Payment = () => {
         {totalPrice.toLocaleString()}원 결제하기
       </button>
       <div css={WarningInfo}>
-        {isUserInfoValid === '' ? '* 필수 정보를 다 입력해 주세요.' : null}
+        {!isUserNameValid || !isUserPhoneNumValid || isUserInfoValid === ''
+          ? '* 필수 정보를 다 입력해 주세요.'
+          : '체크박스를 다시 눌러주세요.'}
       </div>
 
       <button
@@ -561,6 +568,7 @@ const WarningInfo = css`
 `;
 
 const reservationCancle = css`
+  margin-top: 0.5rem;
   margin-bottom: 1rem;
   padding: 1rem;
 
