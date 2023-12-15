@@ -23,109 +23,18 @@ Test PW : qwe123!@#
 
 ## 👩‍💻팀원소개
 
-<table>
-  <tr>
-    <td align="center" width="150px">
-      <a href="https://github.com/TaePoong719" target="_blank">
-        <img src="https://avatars.githubusercontent.com/u/98576512?v=4" alt="최우혁 프로필" />
-      </a>
-    </td>
-    <td align="center" width="150px">
-      <a href="https://github.com/jiohjung98" target="_blank">
-        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/cab3f3cc-ccb0-46cc-8b36-bf645b5c4086" alt="정지오 프로필" />
-      </a>
-    </td>
-    <td align="center" width="150px">
-      <a href="https://github.com/Yamyam-code" target="_blank">
-        <img src="https://github.com/KDT1-FE/Y_FE_Toy1/assets/39702832/58fb577d-9f8c-4679-bca1-8ff15ca84f6b" alt="백상원 프로필" />
-      </a>
-    </td>
-    <td align="center" width="150px">
-      <a href="https://github.com/wkdtnqls0506" target="_blank">
-        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/93272421/9b7ea286-4768-4d55-a26e-fc0541824b71" alt="장수빈 프로필" />
-      </a>
-    </td>
-    <td align="center" width="150px">
-      <a href="https://github.com/seacrab808" target="_blank">
-        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/93272421/6b9601d2-eec9-4887-8041-f98ed2f319d2" alt="소유나 프로필" />
-      </a>
-    </td>
+|                           <img src="https://avatars.githubusercontent.com/u/98576512?v=4" width="150px" />                           |            <img src="https://github.com/KDT1-FE/Y_FE_Toy1/assets/39702832/58fb577d-9f8c-4679-bca1-8ff15ca84f6b" width="150px" />             |                           <img src="https://avatars.githubusercontent.com/u/104253583?v=4" width="150px" />                            |                                <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/93272421/9b7ea286-4768-4d55-a26e-fc0541824b71" width="150px" />                                |                <img src="https://avatars.githubusercontent.com/u/93272421?v=4" width="150px" />                |
+| :-----------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: |
+|                                                           FE: 최우혁<br/>(팀장)                                                           |                                               FE: 백상원<br/>(리팩토링 팀장)                                                |                                                              FE: 정지오                                                               |                                                                   FE: 장수빈                                                                    |                                                   FE: 소유나                                                   |
+| UI/UX 디자인 <br> 참여 가능한 그룹채팅방 리스트<br> 새로운 그룹채팅방 연결<br> 채팅방 내 초대기능<br> 로딩 및 결과 없음 상태 컴포넌트 | 사용자 리스트 페이지<br> 즐겨찾기 기능 <br> 1:1 채팅 연결<br> 마이 페이지<br> 메인페이지 - IntroSection | 로그인/회원가입 페이지 및 기능<br> 유저인증 처리<br> 유저 권한에 따른 라우팅<br> 활동중 유저 목록 최신화<br> 메인페이지 - CardSection | 채팅방 소켓 연결<br> 실시간 메시지 수신/송신<br> 채팅방 내 유저 접속상태 확인<br> 채팅방 나가기 기능<br> 새로운 채팅방 & 유저 초대 시 알림 기능 | 네비게이션바<br> 사이드바<br> 채팅방 리스트 실시간 업데이트 처리<br> 메인페이지 - HeaderSection<br> 404 페이지 |
 
-  </tr>
-  <tr>
-    <td align="center">
-      <a href="https://github.com/TaePoong719" target="_blank">
-        최우혁<br />
-        Frontend
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://github.com/jiohjung98" target="_blank">
-        정지오<br />
-        Frontend
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://github.com/Yamyam-code" target="_blank">
-        백상원<br />
-        Frontend
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://github.com/wkdtnqls0506" target="_blank">
-        장수빈<br />
-        Frontend
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://github.com/seacrab808" target="_blank">
-        소유나<br />
-        Frontend
-      </a>
-    </td>
 
-  </table>
-  <table>
-  </tr>
-    <tr>
-    <td align="center" width="150px">
-      <a href="https://github.com/JeongUijeong" target="_blank">
-        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/bc2ef8d5-a063-4473-991b-92df77fb0263" alt="정의정 프로필" />
-      </a>
-    </td>
-    <td align="center" width="150px">
-      <a href="https://github.com/wocjf0513" target="_blank">
-        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/b6cdb1b6-76dd-4136-a6c5-eecb9ca0c2ab" alt="심재철 프로필" />
-      </a>
-    </td>
-    <td align="center" width="150px">
-      <a href="https://github.com/jo0oy" target="_blank">
-        <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/29a0dfc6-8e91-4f5f-a5bd-43b7b668f4a6" alt="이주연 프로필" />
-      </a>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <a href="https://github.com/JeongUijeong" target="_blank">
-        정의정<br />
-        Backend
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://github.com/wocjf0513" target="_blank">
-        심재철<br />
-        Backend
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://github.com/jo0oy" target="_blank">
-        이주연<br />
-        Backend
-      </a>
-    </td>
-  </tr>
-</table>
-<br>
+
+<br/>
+<br/>
+<br/><br/>
+<br/>
+
 
 ## 🎁기술 스택
 
@@ -136,6 +45,7 @@ Test PW : qwe123!@#
 ![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/5e3e3667-fb3f-4862-92de-b81c5b89a9bb)
 
 <br>
+
 
 <details>
 <summary>야놀자 테크 캠프 미니프로젝트 RFP </summary>
@@ -283,30 +193,75 @@ Test PW : qwe123!@#
 ![회원정보변경](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/88c092d0-c0f1-4977-a336-0675a1e8373c)
 
 
-### API 문서
+
+## 리팩토링<br/>
+
+#### 기간: 23/12/04 ~ 23/12/15
+
+<details>
+  <summary>백상원</summary>
+    - 구현 기능<br/>
+    - 에러 사항<br/>
+    - 회고<br/>
+</details>
+<br/>
+<br/>
+
+<details>
+  <summary>정지오</summary>
+    - 구현 기능<br/>
+    - 에러 사항<br/>
+    - 회고<br/>
+</details>
+<br/>
+<br/>
+
+<details>
+  <summary>장수빈</summary>
+    - 구현 기능<br/>
+    - 에러 사항<br/>
+    - 회고<br/>
+</details>
+<br/>
+<br/>
+
+<details>
+  <summary>소유나</summary>
+    - 구현 기능<br/>
+    - 에러 사항<br/>
+    - 회고<br/>
+</details>
+<br/>
+<br/>
+<br/>
+
+
 
 ## API 문서
-
-※ Spring REST Docs로 문서화했습니다.
-
-> `index`
-> ![](docs/image/index-docs.png)
->
-> `Member API Docs`
-> ![](docs/image/member-docs.png)
->
-> `Product API Docs`
-> ![](docs/image/product-docs.png)
->
-> `Cart API Docs`
-> ![](docs/image/cart-docs.png)
->
-> `Reservation API Docs`
-> ![](docs/image/reservation-docs.png)
->
-> `Reservation Product API Docs`
-> ![](docs/image/reservation-product-docs.png)
->
-> `Star API Docs`
-> ![](docs/image/star-docs.png)
->  
+<details>
+  <summary>API 문서</summary>
+  <br/>
+  ※ Spring REST Docs로 문서화했습니다.
+  
+  > `index`
+  > ![](docs/image/index-docs.png)
+  >
+  > `Member API Docs`
+  > ![](docs/image/member-docs.png)
+  >
+  > `Product API Docs`
+  > ![](docs/image/product-docs.png)
+  >
+  > `Cart API Docs`
+  > ![](docs/image/cart-docs.png)
+  >
+  > `Reservation API Docs`
+  > ![](docs/image/reservation-docs.png)
+  >
+  > `Reservation Product API Docs`
+  > ![](docs/image/reservation-product-docs.png)
+  >
+  > `Star API Docs`
+  > ![](docs/image/star-docs.png)
+  >  
+  </details>
