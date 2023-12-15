@@ -15,18 +15,22 @@ const CartOrder = () => {
   const navigate = useNavigate();
   const setCartData = useSetRecoilState(cartDataState);
   const [soldOutData, setSoldOutData] = useRecoilState(cartSoldOutState);
+
   const [checkedRoomList, setCheckedRoomList] = useRecoilState(
     cartCheckedRoomListState,
   );
 
   const handleOrderButton = async () => {
     const updateCheckboxAvailability = () => {
-      const unavailableRoomIds = soldOutData?.unavailableIds || [];
-      const updatedCheckedRoomList =
-        checkedRoomList.map((room) => ({
+      const updatedCheckedRoomList = checkedRoomList.map((room) => {
+        const isSoldOut = soldOutData.some(
+          (soldOutRoom) => soldOutRoom.cartId === room.cartId,
+        );
+        return {
           ...room,
-          disabled: unavailableRoomIds.includes(room.roomId),
-        })) || [];
+          disabled: isSoldOut,
+        };
+      });
       setCheckedRoomList(updatedCheckedRoomList);
     };
     try {
@@ -47,18 +51,23 @@ const CartOrder = () => {
         return;
       }
 
-      const rooms = checkedRoomList.map(({ roomCode, startDate, endDate }) => ({
-        roomCode,
-        startDate,
-        endDate,
-      }));
+      const rooms = checkedRoomList.map(
+        ({ roomCode, startDate, endDate, cartId }) => ({
+          roomCode,
+          startDate,
+          endDate,
+          cartId,
+        }),
+      );
 
       const response = await cartPostToJudgment(rooms);
+
       const requestData = response.roomResults.map(
         (result: ResponseCartJudgement) => ({
           roomId: result.roomId,
           startDate: result.startDate,
           endDate: result.endDate,
+          cartId: result.cartId,
         }),
       );
 
@@ -72,24 +81,18 @@ const CartOrder = () => {
         setCartData(requestData);
         setCheckedRoomList([]);
       } else {
-        setSoldOutData(
-          response.roomResults.map(
+        setSoldOutData((prev) => [
+          ...prev,
+          ...response.roomResults.filter(
             (room: ResponseCartJudgement) => room.roomId === -1,
           ),
-        );
+        ]);
+
         updateCheckboxAvailability();
 
-        const soldOutRoomNames = checkedRoomList
-          .filter(
-            (room) =>
-              response.unavailableIds &&
-              response.unavailableIds.includes(room.roomId),
-          )
-          .map((room) => room.productName)
-          .join(', ');
         swal({
           title: '상품 품절',
-          text: `[${soldOutRoomNames}] 상품이 품절되었습니다. 주문할 수 없습니다.`,
+          text: '품절된 상품이 존재합니다. 확인해주세요.',
           icon: 'error',
         });
         setCheckedRoomList([]);
@@ -110,7 +113,6 @@ const CartOrder = () => {
     </button>
   );
 };
-
 export default CartOrder;
 
 const OrderButton = css`
