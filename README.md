@@ -144,75 +144,121 @@ Test PW : qwe123!@#
 <br/>
 
 ## 🧑🏻‍💻 주요 기능 구현
-### 숙소 리스팅
+### 1. 인증
 
-![메인페이지](https://github.com/Shimpyo-House/Shimpyo_FE/assets/121215024/ddcd5b8a-60df-41d8-8c76-1c01638cecb0)
-![카테고리 페이지](https://github.com/Shimpyo-House/Shimpyo_FE/assets/121215024/eb49f5d4-32cb-451d-8471-2049e8978aa1)
-### 무한 스크롤
+- 로그인 및 회원가입
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/1a34daf2-6c7d-434d-a4a9-152230c4439f" alt="메인 페이지에서의 숙소 리스팅" width="800" />
 
-![무한스크롤](https://github.com/Shimpyo-House/Shimpyo_FE/assets/121215024/58f20c18-d4e7-4980-8ac9-62540e265770)
-### 검색 기능
+<br/>
 
-![검색](https://github.com/Shimpyo-House/Shimpyo_FE/assets/121215024/f0af2054-860f-4d46-b468-a6c80457b972)
-### 찜하기
 
-![찜하기1](https://github.com/Shimpyo-House/Shimpyo_FE/assets/121215024/3e7255e2-0816-422d-82f8-80a1fb566722)
-![찜하기2](https://github.com/Shimpyo-House/Shimpyo_FE/assets/121215024/3a7fbc93-770b-4479-bfa6-f000dfb0cf22)
-### 2️⃣제품 상세 페이지
-![ez](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/2fa2f8c4-9b2c-49f9-a5e7-7aedabf4dd9d)
-![](docs/image/IMG_5186.GIF)
+- 로그아웃
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/8fda596c-784a-448c-89e1-2fd69cfda8e1" alt="메인 페이지에서의 숙소 리스팅" width="800" />
 
-### 3️⃣장바구니
-- 장바구니 조회
+<br/>
 
-![조회](https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/f6df9e9f-363e-420b-8cae-1460bc34a27f)
+
+- 자동 리프레시
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/9231108e-cbb2-4af8-9781-2b9d83812e4e" alt="메인 페이지에서의 숙소 리스팅" width="800" />
+
+<br/>
+
+### 2. 회원 정보 변경
+- 상단 헤더에서 내 정보 수정 가능
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/88c092d0-c0f1-4977-a336-0675a1e8373c" alt="메인 페이지에서의 숙소 리스팅" width="800" />
+
+<br/>
+
+
+### 3. 숙소 리스팅
+
+- 메인 페이지에서의 숙소 리스팅
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/eeb14731-c8cf-45cd-a363-ba5819690a68" alt="메인 페이지에서의 숙소 리스팅" width="800" />
+
+<br/>
+
+- 카테고리 페이지에서의 숙소 리스팅 - 무한 스크롤 적용
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/0f5ae6d7-1e3d-4f54-aee9-7912e4c51e34" alt="카테고리에서의 숙소 리스팅" width="800" />
+
+<br/>
+
+
+
+### 4. 검색 기능
+
+- 헤더에서 검색 기능 구현
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/121215024/f0af2054-860f-4d46-b468-a6c80457b972" alt="메인 페이지에서의 숙소 리스팅" width="800" />
+
+<br/>
+
+### 5. 찜하기
+
+- 숙소 상세 페이지에서 찜하기 가능 
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/121215024/3e7255e2-0816-422d-82f8-80a1fb566722" alt="메인 페이지에서의 숙소 리스팅" width="800" />
+
+<br/>
+
+- 찜하기 페이지에서 찜한 숙소 확인 가능
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/121215024/3a7fbc93-770b-4479-bfa6-f000dfb0cf22" alt="메인 페이지에서의 숙소 리스팅" width="800" />
+
+<br/>
+
+### 6. 제품 상세 페이지
+
+- 제품 상세 페이지에서 날짜 선택, 인원 선택 가능
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/2fa2f8c4-9b2c-49f9-a5e7-7aedabf4dd9d" alt="메인 페이지에서의 숙소 리스팅" width="800" />
+
+<br/>
+
+- 제품 상세 페이지에서 장바구니 담기
+<img src="docs/image/IMG_5186.GIF" alt="메인 페이지에서의 숙소 리스팅" width="800" />
+
+
+<br/>
+
+### 7. 장바구니
+
+- 상세 페이지에서 추가한 아이템들을 장바구니 페이지에서 조회
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/f6df9e9f-363e-420b-8cae-1460bc34a27f" alt="장바구니 조회" width="800" /> 
+
 <br/>
 
 
 - 장바구니에서 아이템 주문하기 
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/511e96ef-d454-4627-ab56-2343f31aa3e1" alt="장바구니에서 아이템 주문" width="800"> 
 
-![주문](https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/511e96ef-d454-4627-ab56-2343f31aa3e1)
 <br/>
 
 - 장바구니 아이템 삭제하기
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/db3cce35-542c-4090-a98a-1d18c39605e5" alt="장바구니에서 아이템 삭제" width="800"> 
 
-![삭제](https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/db3cce35-542c-4090-a98a-1d18c39605e5)
 <br/>
 
 
 - 장바구니 3개 초과 주문 & 0개 주문시 예외 처리 
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/9e67c8da-b5ac-4487-b0cc-14a1b6c04b4d" alt="장바구니 3개 초과 주문 & 0개 주문시 예외 처리" width="800"> 
 
-![예외처리](https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/9e67c8da-b5ac-4487-b0cc-14a1b6c04b4d)
 <br/>
 
 
 - 여러명의 사용자가 같은 숙소 동시 주문 시 선점에 따른 품절 처리
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/9f7b3c3c-d9f0-4f18-852b-3585cf1d8c49" alt="여러명의 사용자가 같은 숙소 동시 주문 시 선점에 따른 품절 처리" width="800"> 
 
-![품절](https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/9f7b3c3c-d9f0-4f18-852b-3585cf1d8c49)
 <br/>
 
 
 
 
-### 4️⃣예약 및 결제
-![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/21a85cd3-cf1a-468e-b121-d20d38612c85)
-![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/10dab2f8-215f-4bc3-a9e5-1ea0a6e85766)
+### 8. 예약 및 결제
+- 주문 및 결제 가능한 페이지
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/19ede0c9-e434-4f6a-a5e7-3e63add5dc3c" alt="여러명의 사용자가 같은 숙소 동시 주문 시 선점에 따른 품절 처리" width="800"> 
 
-### 5️⃣인증
-- 로그인, 회원가입
+<br/>
 
-![로그인및회원가입](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/1a34daf2-6c7d-434d-a4a9-152230c4439f)
+- 전체 예약 내역 조회 
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/83440978/52c938f5-2e21-4c16-aa3b-681834626886" alt="여러명의 사용자가 같은 숙소 동시 주문 시 선점에 따른 품절 처리" width="800"> 
 
-- 로그아웃
-
-![로그아웃](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/8fda596c-784a-448c-89e1-2fd69cfda8e1)
-
-- 자동 리프레시
-
-![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/9231108e-cbb2-4af8-9781-2b9d83812e4e)
-
-### 6️⃣회원 정보 변경
-![회원정보변경](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/88c092d0-c0f1-4977-a336-0675a1e8373c)
+<br/>
 
 
 
@@ -366,13 +412,30 @@ Test PW : qwe123!@#
 
 <details>
   <summary>소유나</summary>
-    - 구현 기능<br/>
-    : 결제 페이지 구현 및 api 연결(장바구니/예약 페이지에서 넘어오는 data get), 결제하기 버튼 api 연결, 결제 페이지에서 취소하기 api 연결, 결제 완료 페이지 구현 및 api 연결, 전체 주문 내역 확인 페이지 구현 및 api 연결<br/>
-    - 에러 사항<br/>
-    : 결제 페이지에서 체크박스를 먼저 누르고 필수 입력 사항을 입력하면 바로 결제하기 버튼 활성화 안 되는 문제가 있다<br/>
-    - 회고<br/>
-    : 처음으로 백엔드와 협업해서 작업했는데 api를 연결해서 데이터를 받아오고 사용하고 백엔드에 데이터를 보내는 방법을 잘 터득한 것 같다. 이번 협업을 통해서 백엔드 지식도 꼭 필요하겠구나를 느꼈고 부족한 부분과 앞으로 더 공부해야할 부분을 알게된 것 같다.<br/>
+
+    1. 구현 기능
+      
+      - 결제 페이지 구현 및 api 연결(장바구니/예약 페이지에서 넘어오는 data get)
+
+      - 결제하기 버튼 api 연결 
+
+      - 결제 페이지에서 취소하기 api 연결
+      
+      - 결제 완료 페이지 구현 및 api 연결
+
+      - 전체 주문 내역 확인 페이지 구현 및 api 연결
+   
+    
+    2. 에러 사항
+
+      - 결제 페이지에서 체크박스를 먼저 누르고 필수 입력 사항을 입력하면 바로 결제하기 버튼 활성화 안 되는 문제가 있다
+
+
+    3. 회고
+      
+      - 처음으로 백엔드와 협업해서 작업했는데 api를 연결해서 데이터를 받아오고 사용하고 백엔드에 데이터를 보내는 방법을 잘 터득한 것 같다. 이번 협업을 통해서 백엔드 지식도 꼭 필요하겠구나를 느꼈고 부족한 부분과 앞으로 더 공부해야할 부분을 알게된 것 같다.
 </details>
+ 
 <br/>
 <br/>
 <br/>
