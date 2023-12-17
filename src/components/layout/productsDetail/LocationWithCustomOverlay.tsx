@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { css } from '@emotion/react';
 import { useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';

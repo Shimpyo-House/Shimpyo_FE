@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/indent */
-
 import { css } from '@emotion/react';
 import RowProduct from './RowProduct';
 import { ResponseProductsData } from '../../../types';

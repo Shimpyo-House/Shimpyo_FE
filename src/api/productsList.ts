@@ -28,7 +28,6 @@ const useSearchData = async (
   keyword: string,
   location: string,
   count: string,
-  // page: number,
 ) => {
   try {
     const countNumber = parseInt(count, 10);
@@ -52,23 +51,13 @@ const useSearchData = async (
 
       return searchData;
     }
-    // if (keyword === 'x' && location === 'x') {
-    //   const fetchData = await axiosWithNoToken.get<ResponseProducts>(
-    //     '/api/products?page=0&sort=starAvg,desc',
-    //   );
-    //   const searchData = fetchData.data.data.productResponses.filter(
-    //     (products) => products.capacity >= countNumber,
-    //   );
 
-    //   return searchData;
-    // }
     const fetchData = await axiosWithNoToken.get<ResponseProducts>(
       `/api/products?page=0&productName=${keyword}&address=${location}&sort=starAvg,desc`,
     );
     const searchData = fetchData.data.data.productResponses.filter(
       (products) => products.capacity >= countNumber,
     );
-
     return searchData;
   } catch (error) {
     console.log(error);
@@ -85,10 +74,6 @@ const useLocationData = async (location: string) => {
         )}&page=0&size=100`,
       );
       const filteredProperties = fetchData.data.data;
-
-      console.log(location);
-      console.log(filteredProperties);
-
       return filteredProperties;
     }
   } catch (error) {

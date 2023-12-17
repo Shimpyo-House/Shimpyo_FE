@@ -5,7 +5,6 @@ export type LoadingDataType = {
   message: string;
 };
 
-/* eslint-disable import/prefer-default-export */
 export const loadingAtom = atom<LoadingDataType>({
   key: 'loadingAtom',
   default: { isLoading: false, message: '' },

@@ -7,7 +7,6 @@ import { css } from '@emotion/react';
 import BookingInfo from './BookingInfo';
 
 const CheckBooking = () => {
-  // const [login] = useState(false);
   const [toggled, setToggled] = useState(false);
   return (
     <nav>

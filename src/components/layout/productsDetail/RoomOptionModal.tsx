@@ -87,8 +87,6 @@ const RoomOptionModal = ({
       table: '식탁',
       hairDryer: '헤어 드라이기',
     };
-
-    console.log(selectedRoom?.roomOptionResponse);
     return keyKoreanName[key];
   };
 

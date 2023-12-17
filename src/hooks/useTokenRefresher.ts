@@ -1,8 +1,5 @@
-/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-else-return */
-/* eslint-disable no-alert */
-
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
@@ -37,7 +34,7 @@ const useTokenRefresher = () => {
           accessToken: prevAccessToken,
           refreshToken: prevRefreshToken,
         });
-        
+
         const { accessToken, accessTokenExpiresIn, refreshToken } =
           res.data.data.token;
 
