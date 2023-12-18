@@ -8,7 +8,12 @@ const useCart = () => {
   const queryClient = useQueryClient();
   const user = useRecoilValue(userAtom);
 
-  const cartGetQuery = useQuery([`${user} cart`], cartGetAxios, {
+  const getCartData = async () => {
+    const data = await cartGetAxios(user);
+    return data;
+  };
+
+  const cartGetQuery = useQuery([`${user} cart`], getCartData, {
     refetchOnWindowFocus: false,
   });
 
