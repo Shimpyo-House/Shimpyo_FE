@@ -165,6 +165,7 @@ Test PW : qwe123!@#
 
 <br/>
 
+
 ### 2. 회원 정보 변경
 - 상단 헤더에서 내 정보 수정 가능
 <img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/88c092d0-c0f1-4977-a336-0675a1e8373c" alt="메인 페이지에서의 숙소 리스팅" width="800" />
