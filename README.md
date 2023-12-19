@@ -41,11 +41,13 @@ Test PW : qwe123!@#
 
 ![기술스택](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/37ca06f0-7d59-4f49-95ec-bf21d65b1d98)
 
+<br/>
+
 ## 📐디자인 설계
 
 ![image](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/5e3e3667-fb3f-4862-92de-b81c5b89a9bb)
 
-<br>
+<br/>
 
 
 <details>
@@ -205,14 +207,20 @@ Test PW : qwe123!@#
 
 ### 6. 제품 상세 페이지
 
-- 제품 상세 페이지에서 날짜 선택, 인원 선택 가능
-<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/2fa2f8c4-9b2c-49f9-a5e7-7aedabf4dd9d" alt="메인 페이지에서의 숙소 리스팅" width="800" />
+- 숙소 상세 정보 및 장바구니 post
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/ad979f6a-bb8e-44ec-a74c-2b562b926386" alt="장바구니 조회" width="800" /> 
 
 <br/>
 
-- 제품 상세 페이지에서 장바구니 담기
-<img src="docs/image/IMG_5186.GIF" alt="메인 페이지에서의 숙소 리스팅" width="800" />
+- 받아온 인원 count에 따라 장바구니 담기&예약하기 가능 여부 처리 및 예약하기 post
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/daa16688-889b-4999-bdcc-571e205f4b1d" alt="장바구니 조회" width="800" /> 
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/1c24f1c2-88be-4f1b-8cf1-781dab75472a" alt="장바구니 조회" width="800" /> 
 
+<br/>
+
+- 날짜에 따른 장바구니 담기 가능 여부 처리
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/c627e98b-2168-4d90-aa62-f5d0dadb5cfe" alt="장바구니 조회" width="800" /> 
+<img src="https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/3bb3de39-3524-4360-bbfc-98b3c2852ca7" alt="장바구니 조회" width="800" /> 
 
 <br/>
 
