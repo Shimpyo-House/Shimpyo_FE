@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/indent */
-
 import { useQuery } from 'react-query';
 import { useSetRecoilState } from 'recoil';
 import MainProductsList from '../components/layout/productsList/MainProductsList';

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/indent */
-
 import { Dispatch, useEffect } from 'react';
 import { ResponseProductsData } from '../types';
 

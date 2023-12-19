@@ -7,7 +7,6 @@ export type UserDataType = {
   photoUrl: string;
 } | null;
 
-/* eslint-disable import/prefer-default-export */
 export const userAtom = atom<UserDataType>({
   key: 'userAtom',
   default: null,

@@ -6,8 +6,6 @@ const getFavorite = async (page: number) => {
     const fetchData = await axiosWithAccessToken.get<FavoriteResponseProducts>(
       `/api/favorites?page=${page}&size=20`,
     );
-    console.log(fetchData.data.data.products);
-
     return fetchData.data.data.products;
   } catch (error) {
     console.log(error);

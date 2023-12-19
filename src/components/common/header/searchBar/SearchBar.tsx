@@ -1,7 +1,5 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable no-restricted-globals */
 import { TextField, css } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { IoMdSearch } from 'react-icons/io';

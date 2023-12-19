@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-
 import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';

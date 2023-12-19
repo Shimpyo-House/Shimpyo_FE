@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import { SetStateAction, useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { DateRange } from 'react-date-range';
@@ -100,8 +99,6 @@ const CalendarComponent = ({
 
   const modalContentStyle = css`
     background-color: white;
-    // padding-right: 10rem;
-    // padding-left: 10rem;
     padding-bottom: 1rem;
     margin-top: 3rem;
     border-radius: 0.9375rem;

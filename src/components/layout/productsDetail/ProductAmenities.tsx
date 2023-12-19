@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/no-array-index-key */
 import { css } from '@emotion/react';
 import OutdoorGrillIcon from '@mui/icons-material/OutdoorGrill';

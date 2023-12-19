@@ -1,7 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable no-alert */
-/* eslint-disable @typescript-eslint/indent */
-
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import axios from 'axios';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -348,10 +345,6 @@ const InputContainer = css`
   align-items: center;
 `;
 const InputLabelStyle = css`
-  /* flex: 1 0 7rem;
-
-  margin-right: 0.5rem; */
-
   text-align: center;
   font-weight: bold;
 `;

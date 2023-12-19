@@ -1,5 +1,4 @@
 /* eslint-disable react/no-array-index-key */
-/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
 import { css } from '@emotion/react';
 import Slider from 'react-slick';

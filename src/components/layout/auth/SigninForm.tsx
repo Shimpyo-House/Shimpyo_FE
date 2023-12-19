@@ -1,6 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/jsx-props-no-spreading */
-
 import { useCallback } from 'react';
 import { Button, InputLabel, css, TextField } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -46,7 +44,6 @@ const SigninForm = () => {
         const option = {
           secure: true,
           maxAge: 60 * 24 * 7,
-          // httpOnly: true,
         };
 
         /* 쿠키 => Access, Refresh */

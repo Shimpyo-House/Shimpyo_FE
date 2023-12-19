@@ -11,23 +11,6 @@ const BookingInfo = () => {
   const cartData = useRecoilValue(cartDataState);
   const [orderCom, setOrderCom] = useState<any>('');
 
-  // const mappedData =
-  //   orderCom.length > 0 && cartData.length > 0
-  //     ? cartData.map((cartItem) => {
-  //         const matchedProduct = orderCom.find(
-  //           (product: any) => product.roomId === cartItem.roomId,
-  //         );
-
-  //         return {
-  //           cartItem,
-  //           product: matchedProduct,
-  //         };
-  //       })
-  //     : [];
-
-  console.log('cartData: ', cartData);
-  console.log('orderCom: ', orderCom);
-
   const roomIdsAsString = cartData
     .map((item) => String(item.roomId))
     .join(', ');
@@ -70,7 +53,6 @@ const BookingInfo = () => {
       {orderCom.length > 0 ? (
         orderCom.map((product: any, index: number) => {
           const roomKey = `${product.productId}-${cartData[index].roomId}`;
-
           return (
             <div key={roomKey}>
               <div css={BookHeader}>
