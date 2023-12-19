@@ -159,8 +159,19 @@ Test PW : qwe123!@#
 ![찜하기1](https://github.com/Shimpyo-House/Shimpyo_FE/assets/121215024/3e7255e2-0816-422d-82f8-80a1fb566722)
 ![찜하기2](https://github.com/Shimpyo-House/Shimpyo_FE/assets/121215024/3a7fbc93-770b-4479-bfa6-f000dfb0cf22)
 ### 2️⃣제품 상세 페이지
-![ez](https://github.com/Shimpyo-House/Shimpyo_FE/assets/98576512/2fa2f8c4-9b2c-49f9-a5e7-7aedabf4dd9d)
-![](docs/image/IMG_5186.GIF)
+- 숙소 상세 정보 및 장바구니 post
+![ezgif com-video-to-gif-converted (12)](https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/ad979f6a-bb8e-44ec-a74c-2b562b926386)<br/><br/>
+
+- 받아온 인원 count에 따라 장바구니 담기&예약하기 가능 여부 처리 및 예약하기 post
+![ezgif com-video-to-gif-converted (17)](https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/daa16688-889b-4999-bdcc-571e205f4b1d)
+![ezgif com-video-to-gif-converted (16)](https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/1c24f1c2-88be-4f1b-8cf1-781dab75472a)<br/><br/>
+
+- 날짜에 따른 장바구니 담기 가능 여부 처리
+![날짜에 따른 장바구니 담기](https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/c627e98b-2168-4d90-aa62-f5d0dadb5cfe)
+![날짜에 따른 장바구니 담기2](https://github.com/Shimpyo-House/Shimpyo_FE/assets/104253583/3bb3de39-3524-4360-bbfc-98b3c2852ca7)
+
+
+
 
 ### 3️⃣장바구니
 - 장바구니 조회
